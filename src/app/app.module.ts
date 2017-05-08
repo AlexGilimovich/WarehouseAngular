@@ -15,7 +15,8 @@ import { bookServiceInjectables } from "./components/book/book-service-injectabl
 import { BookModule, routes as bookRoutes } from "./components/book/book.module";
 import { BookContainerComponent } from './components/book/book-container/book-container.component';
 import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.service";
-import { LoginComponent } from './components/login/login.component';
+import {IndexComponent} from "./components/index/index.component";
+/*import { LoginComponent } from './components/login/login.component';*/
 
 const routes: Routes = [
   {
@@ -37,9 +38,9 @@ const routes: Routes = [
     "path": "about",
     "component": AboutComponent
   }, {
-    "path": "login",
-    "component": LoginComponent
-  }
+    "path": "index",
+    "component": IndexComponent
+  }/**/
 ];
 
 @NgModule({
@@ -52,7 +53,8 @@ const routes: Routes = [
     ShoppingCartComponent,
     CartFormComponent,
     BookContainerComponent,
-    LoginComponent
+    IndexComponent/*,
+    LoginComponent*/
   ],
   imports: [
     BrowserModule,
