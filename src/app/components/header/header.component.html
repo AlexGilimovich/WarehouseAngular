@@ -2,18 +2,13 @@
 
   <ul class="navigation-bar">
     <li>
-      <a [routerLink]="['/home']" [routerLinkActive]="['active']">
+      <a [routerLink]="['./home']" [routerLinkActive]="['active']">
         Home
       </a>
     </li>
     <li>
-      <a [routerLink]="['/book']" [routerLinkActive]="['active']">
+      <a [routerLink]="['./book']" [routerLinkActive]="['active']">
         Book List
-      </a>
-    </li>
-    <li>
-      <a [routerLink]="['/login']" [routerLinkActive]="['active']">
-        Login
       </a>
     </li>
   </ul>
@@ -24,12 +19,12 @@
 
   <ul class="navigation-bar">
     <li>
-      <a [routerLink]="['/cart']" [routerLinkActive]="['active']">
+      <a [routerLink]="['./cart']" [routerLinkActive]="['active']">
         Shopping Cart {{cartItems}}
       </a>
     </li>
     <li>
-      <a [routerLink]="['/about']" [routerLinkActive]="['active']">
+      <a [routerLink]="['./about']" [routerLinkActive]="['active']">
         About
       </a>
     </li>

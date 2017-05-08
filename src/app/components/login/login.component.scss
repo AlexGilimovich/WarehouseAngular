@@ -1,0 +1,35 @@
+.input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  height: 25px;
+}
+
+.indented {
+  margin: 7px 10px;
+}
+
+.btn {
+  margin: 30px auto;
+  width: 100%;
+  background-color: #4ca6cf;
+  color: white;
+  height: 35px;
+  font-size: 1.1em;
+
+}
+.login-form-container{
+  position: absolute;
+  width:20%;
+  height: 40%;
+  top: 20%;
+  left: 40%;
+  padding: 15px;
+  text-align: center;
+  border: solid 1px;
+  background-color: white;
+}
+body{
+  background-color: #F7F7F7;
+  font-family: Arial;
+}

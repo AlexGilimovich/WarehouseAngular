@@ -16,35 +16,51 @@ import { BookModule, routes as bookRoutes } from "./components/book/book.module"
 import { BookContainerComponent } from './components/book/book-container/book-container.component';
 import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.service";
 import { LoginComponent } from './components/login/login.component';
+import { DesktopComponent } from './components/desktop/desktop.component';
 
-const routes: Routes = [
+const desktopRoutes:Routes = [
   {
     "path": "",
     "redirectTo": "home",
     "pathMatch": "full"
   }, {
     "path": "home",
-    "component": HomeComponent
+    "component": HomeComponent,
   }, {
     "path": "book",
     "component": BookContainerComponent,
-    "children": bookRoutes
+    "children": bookRoutes,
   },
   {
     "path": "cart",
-    "component": ShoppingCartComponent
+    "component": ShoppingCartComponent,
   }, {
     "path": "about",
-    "component": AboutComponent
+    "component": AboutComponent,
+  }
+];
+
+const globalRoutes:Routes = [
+  {
+    "path": "",
+    "redirectTo": "login",
+    "pathMatch": "full"
+  }, {
+    "path": "desktop",
+    "component": DesktopComponent,
+    "children": desktopRoutes
   }, {
     "path": "login",
     "component": LoginComponent
   }
 ];
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    DesktopComponent,
     HomeComponent,
     AboutComponent,
     HeaderComponent,
@@ -52,14 +68,15 @@ const routes: Routes = [
     ShoppingCartComponent,
     CartFormComponent,
     BookContainerComponent,
-    LoginComponent
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(globalRoutes),
+    //RouterModule.forChild(globalRoutes),
     BookModule
   ],
   providers: [
@@ -71,4 +88,5 @@ const routes: Routes = [
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+}
