@@ -1,10 +1,10 @@
-import { WarehousePage } from './app.po';
+import { BookDiscounterPage } from './app.po';
 
-describe('warehouse App', () => {
-  let page: WarehousePage;
+describe('book-discounter App', () => {
+  let page: BookDiscounterPage;
 
   beforeEach(() => {
-    page = new WarehousePage();
+    page = new BookDiscounterPage();
   });
 
   it('should display message saying app works', () => {

@@ -1,0 +1,33 @@
+<header>
+
+  <ul class="navigation-bar">
+    <li>
+      <a [routerLink]="['/home']" [routerLinkActive]="['active']">
+        Home
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/book']" [routerLinkActive]="['active']">
+        Book List
+      </a>
+    </li>
+  </ul>
+
+  <div id="logo">
+    <img src="src/images/logo.jpg" alt="logo">
+  </div>
+
+  <ul class="navigation-bar">
+    <li>
+      <a [routerLink]="['/cart']" [routerLinkActive]="['active']">
+        Shopping Cart {{cartItems}}
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/about']" [routerLinkActive]="['active']">
+        About
+      </a>
+    </li>
+  </ul>
+
+</header>

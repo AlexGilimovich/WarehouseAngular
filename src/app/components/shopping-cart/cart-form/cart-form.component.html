@@ -1,0 +1,19 @@
+<form [formGroup]="cartForm"
+      (ngSubmit)="onSubmit(cartForm.value)">
+
+  <div class="field"
+       [class.error]="!cartForm.get('cardNo').valid && cartForm.get('cardNo').touched">
+    <label for="cardNoInput">Card Number</label>
+    <input type="text"
+           id="cardNoInput"
+           placeholder="Card Number"
+           [formControl]="cartForm.controls['cardNo']">
+    <div *ngIf="!cartForm.controls['cardNo'].valid"
+         class="ui error message">Card Number is invalid
+    </div>
+    <div *ngIf="cartForm.controls['cardNo'].hasError('required')"
+         class="ui error message">Card Number is required
+    </div>
+  </div>
+
+</form>
