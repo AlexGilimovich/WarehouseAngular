@@ -1,0 +1,222 @@
+<div>
+  <!--<button class="close-button" aria-label="Close alert" type="button" (click)="cancel()">-->
+  <button class="close-button" aria-label="Close alert" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <div class="form-container">
+
+    <form class="form" novalidate>
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="last-name" class="right">Фамилия:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="last-name" type="text" [(ngModel)]="currentUser.lastName"/>-->
+              <input id="last-name" type="text"/>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="first-name" class="right">Имя:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="first-name" type="text" [(ngModel)]="currentUser.firstName"/>-->
+              <input id="first-name" type="text"/>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="patronymic" class="right">Отчество:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id=patronymic type="text" [(ngModel)]="currentUser.patronymic"/>-->
+              <input id=patronymic type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="date-of-birth" class="right">Дата рождения:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="date-of-birth" type="text" placeholder="ДД-ММ-ГГГГ" [(ngModel)]="currentUser.dateOfBirth | date:'dd-MM-yyyy'"/>-->
+              <input id="date-of-birth" type="text" placeholder="ДД-ММ-ГГГГ"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="email" class="right">Email:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="email" type="email"[(ngModel)]="currentUser.email"/>-->
+              <input id="email" type="email"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="login" class="right">Логин:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="login" type="text" [(ngModel)]="currentUser.login"/>-->
+              <input id="login" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="password" class="right">Пароль:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="password" type="text" [(ngModel)]="currentUser.password"/>-->
+              <input id="password" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row head">
+        <div class="large-6 columns">
+          <div class="large-9 large-offset-3 small-9 small-offset-3 columns">
+            <h4>Адрес проживания:</h4>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="city" class="right">Город:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="city" type="text" [(ngModel)]="currentUser.city"/>-->
+              <input id="city" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="street" class="right">Улица:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="street" type="text" [(ngModel)]="currentUser.street"/>-->
+              <input id="street" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="house" class="right">Дом:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="house" type="text" [(ngModel)]="currentUser.house"/>-->
+              <input id="house" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="apartment" class="right">Квартира:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<input id="apartment" type="text" [(ngModel)]="currentUser.apartment"/>-->
+              <input id="apartment" type="text"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <hr>
+      <div class="row head">
+        <div class="large-6 columns">
+          <div class="large-9 large-offset-3 small-9 small-offset-3 columns">
+            <h4>Рабочие данные:</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="warehouse" class="right">Склад:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <select id="warehouse" name="warehouse-selector">
+                <!--<option **ngFor="let warehouse of warehouseList" value="warehouse.idWarehouse"></option>-->
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="warehouse" class="right">Должность:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <div *ngFor="let role of roles; let i = index;">
+                <input type="checkbox" value="{{role.id}}"> <label>{{role.name}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+    <div class="row">
+      <div class="large-3 large-offset-9 columns button-right">
+        <!--<a href="" class="button" (click)="save(user)">Сохранить</a>-->
+        <a class="button">Сохранить</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+

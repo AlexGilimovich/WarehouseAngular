@@ -18,6 +18,10 @@ import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.serv
 import { LoginComponent } from './components/login/login.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
+import {UserModule, userRoutes } from "./components/user/user.module";
+import {UserService} from "./components/user/user-service.service";
+import {UserListComponent} from "./components/user/user-list/user-list.component";
+import {UserContainerComponent} from "./components/user/user-container/user-container.component";
 
 const desktopRoutes:Routes = [
   {
@@ -53,11 +57,16 @@ const globalRoutes:Routes = [
   }, {
     "path": "login",
     "component": LoginComponent
-  }
-  , {
+  }, {
     "path": "index",
     "component": IndexComponent
-  }/**/
+  }
+  //, {
+  //  //todo delete
+  //  "path": "test",
+  //  "component": UserContainerComponent,
+  //  "children": userRoutes
+  //}
 ];
 
 
@@ -82,14 +91,15 @@ const globalRoutes:Routes = [
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(globalRoutes),
-    //RouterModule.forChild(globalRoutes),
-    BookModule
+    BookModule,
+    UserModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
     {"provide": LocationStrategy, "useClass": HashLocationStrategy},
     bookServiceInjectables,
-    ShoppingCartService
+    ShoppingCartService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
