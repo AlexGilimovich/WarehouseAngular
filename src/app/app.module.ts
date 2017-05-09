@@ -17,6 +17,7 @@ import { BookContainerComponent } from './components/book/book-container/book-co
 import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.service";
 import { LoginComponent } from './components/login/login.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
+import {IndexComponent} from "./components/index/index.component";
 
 const desktopRoutes:Routes = [
   {
@@ -43,7 +44,7 @@ const desktopRoutes:Routes = [
 const globalRoutes:Routes = [
   {
     "path": "",
-    "redirectTo": "login",
+    "redirectTo": "index",
     "pathMatch": "full"
   }, {
     "path": "desktop",
@@ -53,6 +54,10 @@ const globalRoutes:Routes = [
     "path": "login",
     "component": LoginComponent
   }
+  , {
+    "path": "index",
+    "component": IndexComponent
+  }/**/
 ];
 
 
@@ -68,6 +73,7 @@ const globalRoutes:Routes = [
     ShoppingCartComponent,
     CartFormComponent,
     BookContainerComponent,
+    IndexComponent
 
   ],
   imports: [
