@@ -16,7 +16,7 @@ export class BookService {
 
   constructor(private http: Http,
               @Inject(LIST_URL) private listUrl: string,
-              @Inject(GET_URL) private getUrl: string,) {
+              @Inject(GET_URL) private getUrl: string) {
   }
 
   list(): Observable<Book[]> {

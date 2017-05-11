@@ -1,6 +1,6 @@
-<div class="callout" data-closable>
+<div>
   <!--<button class="close-button" aria-label="Close alert" type="button" (click)="cancel()">-->
-  <button class="close-button" aria-label="Close alert" type="button" data-close>
+  <button class="close-button" aria-label="Close alert" type="button">
     <span aria-hidden="true">&times;</span>
   </button>
 
@@ -202,7 +202,7 @@
             </div>
             <div class="large-9 small-9 columns">
               <div *ngFor="let role of roles; let i = index;">
-                <input type="checkbox" value="{{role.id}}" > <label>{{role.name}}</label>
+                <input type="checkbox" value="{{role.id}}"> <label>{{role.name}}</label>
               </div>
             </div>
           </div>

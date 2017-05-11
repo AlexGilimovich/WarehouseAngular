@@ -5,8 +5,11 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserContainerComponent } from './user-container/user-container.component';
 import {Role} from "./role";
+import { UserCreateComponent } from './user-create/user-create.component';
+import {UserService} from "./user-service.service";
+import {HttpService} from "../../http.service";
 
-export const roles:Role[]=[
+export const roles:Role[] = [
   new Role("1", "Администратор системы"),
   new Role("2", "Администратор склада"),
   new Role("3", "Диспетчер склада"),
@@ -14,6 +17,10 @@ export const roles:Role[]=[
   new Role("5", "Контролёр"),
   new Role("6", "Владелец склада")
 ]
+
+
+
+
 
 export const userRoutes:Routes = [
   {
@@ -26,6 +33,9 @@ export const userRoutes:Routes = [
   }, {
     "path": "list",
     "component": UserListComponent
+  }  , {
+    "path": "create",
+    "component": UserCreateComponent
   }
 ];
 
@@ -33,9 +43,10 @@ export const userRoutes:Routes = [
 @NgModule({
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
   ],
-  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent]
+  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent],
+  providers:[UserService]
 })
 export class UserModule {
 }
