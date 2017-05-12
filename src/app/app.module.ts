@@ -22,6 +22,9 @@ import {UserContainerComponent} from "./components/user/user-container/user-cont
 import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
+import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
+import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 
@@ -49,11 +52,12 @@ const desktopRoutes:Routes = [
 ];
 
 const globalRoutes:Routes = [
+  // {
+  //   "path": "",
+  //   "redirectTo": "index",
+  //   "pathMatch": "full"
+  // },
   {
-    "path": "",
-    "redirectTo": "index",
-    "pathMatch": "full"
-  }, {
     "path": "desktop",
     "component": DesktopComponent,
     "children": desktopRoutes
@@ -63,6 +67,9 @@ const globalRoutes:Routes = [
   }, {
     "path": "index",
     "component": IndexComponent
+  }, {
+    path: 'tr-company',
+    children: transportCompanyRoutes
   }, {
     "path": "dispatcher",
     "component": DispatcherComponent,
@@ -85,6 +92,8 @@ const globalRoutes:Routes = [
     CartFormComponent,
     BookContainerComponent,
     IndexComponent,
+    TransportCompanyListComponent,
+    TransportCompanyCreateComponent
 
   ],
   imports: [

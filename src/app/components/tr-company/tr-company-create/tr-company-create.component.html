@@ -1,0 +1,27 @@
+<div>
+  <form (ngSubmit)="onSubmit(company)">
+    <label>
+      Доверенный
+      <input type="checkbox" name="trusted" [(ngModel)]="company.isTrusted">
+    </label>
+
+    <label>
+      Имя
+      <input type="text" name="name" [(ngModel)]="company.name" required>
+    </label>
+
+    <div *ngIf="company.isTrusted">
+      <label>
+        Логин
+        <input type="text" name="login">
+      </label>
+
+      <label>
+        Пароль
+        <input type="password">
+      </label>
+    </div>
+
+    <input type="submit">
+  </form>
+</div>
