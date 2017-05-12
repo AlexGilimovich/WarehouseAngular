@@ -26,6 +26,7 @@ import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
+import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
 
 const desktopRoutes:Routes = [
   {
@@ -91,8 +92,8 @@ const globalRoutes:Routes = [
     CartFormComponent,
     BookContainerComponent,
     IndexComponent,
-    TransportCompanyListComponent
-
+    TransportCompanyListComponent,
+    TransportCompanyCreateComponent
   ],
   imports: [
     BrowserModule,

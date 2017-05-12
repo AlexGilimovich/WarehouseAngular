@@ -3,7 +3,6 @@ import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import {HttpAuthService} from '../login/httpAuth.service';
 import {Observable} from 'rxjs/Observable';
 import {TransportCompany} from './tr-company';
-import {noUndefined} from "@angular/compiler/src/util";
 
 @Injectable()
 export class TransportCompanyService {
@@ -34,6 +33,23 @@ export class TransportCompanyService {
         // todo warehousecompanyId
         return company;
       });
+    });
+  }
+
+  save(company: TransportCompany) {
+    const url = 'http://localhost:8080/web/tr-company/';
+    const body = JSON.stringify(company);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+    console.log(body);
+
+    return this.httpAuthService.post(url, body, options).map((response: Response) => {
+      if (response.text()){
+        return (response.json());
+      }
     });
   }
 
