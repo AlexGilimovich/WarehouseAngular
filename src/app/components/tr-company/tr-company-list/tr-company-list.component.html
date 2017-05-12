@@ -1,0 +1,19 @@
+<div>
+  <table class="hover">
+    <tr>
+      <th>Доверенный перевозчик</th>
+      <th>Название</th>
+    </tr>
+    <tr *ngFor="let company of companies">
+      <td>
+        <input type="checkbox" name="isTrusted" [(ngModel)]="company.isTrusted" />
+      </td>
+      <td>{{company.name}}</td>
+    </tr>
+  </table>
+
+  <!-- todo create pagination -->
+
+  <!-- todo create button -->
+
+</div>

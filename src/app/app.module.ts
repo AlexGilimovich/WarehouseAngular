@@ -24,6 +24,8 @@ import {UserContainerComponent} from "./components/user/user-container/user-cont
 import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
+import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 
 const desktopRoutes:Routes = [
   {
@@ -48,11 +50,12 @@ const desktopRoutes:Routes = [
 ];
 
 const globalRoutes:Routes = [
+  // {
+  //   "path": "",
+  //   "redirectTo": "index",
+  //   "pathMatch": "full"
+  // },
   {
-    "path": "",
-    "redirectTo": "index",
-    "pathMatch": "full"
-  }, {
     "path": "desktop",
     "component": DesktopComponent,
     "children": desktopRoutes
@@ -62,6 +65,9 @@ const globalRoutes:Routes = [
   }, {
     "path": "index",
     "component": IndexComponent
+  }, {
+    path: 'tr-company',
+    children: transportCompanyRoutes
   }
   //, {
   //  //todo delete
@@ -84,7 +90,8 @@ const globalRoutes:Routes = [
     ShoppingCartComponent,
     CartFormComponent,
     BookContainerComponent,
-    IndexComponent
+    IndexComponent,
+    TransportCompanyListComponent
 
   ],
   imports: [
@@ -103,8 +110,6 @@ const globalRoutes:Routes = [
     ShoppingCartService,
     LoginService,
     HttpAuthService
-
-
   ],
   bootstrap: [AppComponent]
 })
