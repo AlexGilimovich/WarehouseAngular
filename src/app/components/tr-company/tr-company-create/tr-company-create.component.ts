@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
-import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-tr-company-create',
