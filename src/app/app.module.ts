@@ -18,12 +18,13 @@ import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.serv
 import { LoginComponent } from './components/login/login.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
-import {UserModule, userRoutes } from "./components/user/user.module";
-import {UserListComponent} from "./components/user/user-list/user-list.component";
 import {UserContainerComponent} from "./components/user/user-container/user-container.component";
 import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
+import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
+import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
+
 
 const desktopRoutes:Routes = [
   {
@@ -62,13 +63,12 @@ const globalRoutes:Routes = [
   }, {
     "path": "index",
     "component": IndexComponent
+  }, {
+    "path": "dispatcher",
+    "component": DispatcherComponent,
+    "children": dispatcherRoutes
   }
-  //, {
-  //  //todo delete
-  //  "path": "test",
-  //  "component": UserContainerComponent,
-  //  "children": userRoutes
-  //}
+
 ];
 
 
@@ -84,7 +84,7 @@ const globalRoutes:Routes = [
     ShoppingCartComponent,
     CartFormComponent,
     BookContainerComponent,
-    IndexComponent
+    IndexComponent,
 
   ],
   imports: [
@@ -94,7 +94,7 @@ const globalRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(globalRoutes),
     BookModule,
-    UserModule
+    DispatcherModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
@@ -102,7 +102,7 @@ const globalRoutes:Routes = [
     bookServiceInjectables,
     ShoppingCartService,
     LoginService,
-    HttpAuthService
+    HttpAuthService,
 
 
   ],
