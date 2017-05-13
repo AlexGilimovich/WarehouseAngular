@@ -52,11 +52,11 @@ const desktopRoutes:Routes = [
 ];
 
 const globalRoutes:Routes = [
-  // {
-  //   "path": "",
-  //   "redirectTo": "index",
-  //   "pathMatch": "full"
-  // },
+   {
+     "path": "",
+     "redirectTo": "index",
+     "pathMatch": "full"
+   },
   {
     "path": "desktop",
     "component": DesktopComponent,

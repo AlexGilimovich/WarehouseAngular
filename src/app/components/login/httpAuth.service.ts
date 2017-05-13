@@ -44,12 +44,12 @@ export class HttpAuthService {
   private _request(method:RequestMethod, url:string, body?:string, options?:RequestOptions):Observable<Response> {
     options.method = method;
     options.url = url;
-    options.body = body;
+    options.body = JSON.stringify(body);
     if (!options.headers) {
       options.headers = new Headers();
-
     }
     options.headers.append("Authorization", this._buildAuthHeader(this.loginService.getLoggedUser()));
+    options.headers.append("Content-type", "application/json");
     return this._http.request(new Request(options));
   }
 

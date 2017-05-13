@@ -9,6 +9,7 @@ import {Role} from "./role";
 import { UserCreateComponent } from './user-create/user-create.component';
 import {UserService} from "./user-service.service";
 import {HttpService} from "../../http.service";
+import { UserListContainerComponent } from './user-list-container/user-list-container.component';
 
 export const roles:Role[] = [
   new Role("ROLE_ADMIN", "Администратор системы"),
@@ -39,7 +40,7 @@ export const userRoutes:Routes = [
     "component": UserDetailsComponent
   }, {
     "path": "list",
-    "component": UserListComponent
+    "component": UserListContainerComponent
   }, {
     "path": "create",
     "component": UserCreateComponent
@@ -54,7 +55,7 @@ export const userRoutes:Routes = [
     FormsModule
 
   ],
-  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent],
+  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent, UserListContainerComponent],
   providers: [UserService]
 })
 export class UserModule {

@@ -22,6 +22,8 @@ export class UserListComponent implements OnInit {
   private totalPageCount;
   private displayedPageCount = 7;//constant: number of pages in pagination
 
+  private selectedUsers:User[] = [];
+
   constructor(private userService:UserService,
               private router:Router,
               private route:ActivatedRoute) {
@@ -75,5 +77,20 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['../details', id], {relativeTo: this.route});
   }
 
+  private addToSelected(e, user:User) {
+    if (e.target.checked)
+      this.selectedUsers.push(user);
+
+  }
+
+  private addAllToSelected(e) {
+    if (e.target.checked)
+
+      this.selectedUsers.concat(this.users);
+  }
+
+  private isSelected(user:User) {
+    return this.selectedUsers.includes(user);
+  }
 
 }

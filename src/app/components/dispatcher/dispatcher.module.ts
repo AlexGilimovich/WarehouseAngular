@@ -1,20 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
-import {UserModule, userRoutes} from "../user/user.module";
-import {UserContainerComponent} from "../user/user-container/user-container.component";
 import {DispatcherComponent} from "./dispatcher.component";
 import {AppModule} from "../../app.module";
+import { DispatcherDesktopComponent } from './dispatcher-desktop/dispatcher-desktop.component';
+import {UserContainerComponent} from "../user/user-container/user-container.component";
+import {GoodsContainerComponent} from "../goods/goods-container/goods-container.component";
+import {ActContainerComponent} from "../act/act-container/act-container.component";
+import {GoodsModule, goodsRoutes} from "../goods/goods.module";
+import {ActModule, actRoutes} from "../act/act.module";
+import {UserModule, userRoutes} from "../user/user.module";
 
 export const dispatcherRoutes:Routes = [
   {
     "path": "",
-    "redirectTo": 'users',
+    "redirectTo": 'user',
     "pathMatch": 'full'
   }, {
-    "path": "users",
+    "path": "goods",
+    "component": GoodsContainerComponent,
+    "children": goodsRoutes
+  }, {
+    "path": "user",
     "component": UserContainerComponent,
     "children": userRoutes
+  }, {
+    "path": "act",
+    "component": ActContainerComponent,
+    "children": actRoutes
   }
 ];
 
@@ -22,9 +35,11 @@ export const dispatcherRoutes:Routes = [
   imports: [
     CommonModule,
     UserModule,
-    RouterModule
+    RouterModule,
+    ActModule,
+    GoodsModule
   ],
-  declarations: [DispatcherComponent]
+  declarations: [DispatcherComponent, DispatcherDesktopComponent]
 })
 
 

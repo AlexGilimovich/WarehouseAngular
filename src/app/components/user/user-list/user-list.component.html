@@ -2,20 +2,26 @@
   <ul>
     <table class="hover" *ngFor="let user of users">
       <tr>
+        <th>
+          <input type="checkbox" (change)="addAllToSelected($event)">
+        </th>
         <th>Фамилия</th>
         <th>Имя</th>
         <th>Отчество</th>
         <th>Склад</th>
         <th>Должность (роль)</th>
       </tr>
-      <tr (click)="goToDetails(user.id)">
+      <tr >
         <td>
+          <input type="checkbox"  ([ngModel])="user.selected">
+        </td>
+        <td (click)="goToDetails(user.id)">
           {{user.lastName}}
         </td>
-        <td>
+        <td (click)="goToDetails(user.id)">
           {{user.firstName}}
         </td>
-        <td>
+        <td (click)="goToDetails(user.id)">
           {{user.patronymic}}
         </td>
         <td>

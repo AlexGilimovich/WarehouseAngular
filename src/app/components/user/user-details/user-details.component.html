@@ -1,11 +1,11 @@
 <div class="callout" data-closable>
-  <button class="close-button" aria-label="Close alert" type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
+  <button class="close-button"  type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
     <span aria-hidden="true">&times;</span>
   </button>
   <div class="form-container">
     <form class="form" #f="ngForm" (ngSubmit)="save()">
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="lastName" class="right">Фамилия:</label>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="firstName" class="right">Имя:</label>
@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="patronymic" class="right">Отчество:</label>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="dateOfBirth" class="right">Дата рождения:</label>
@@ -65,7 +65,7 @@
       </div>
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="email" class="right">Email:</label>
@@ -78,7 +78,7 @@
       </div>
       <hr>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="login" class="right">Логин:</label>
@@ -92,7 +92,7 @@
 
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="password" class="right">Пароль:</label>
@@ -106,14 +106,14 @@
       </div>
       <hr>
       <div class="row head">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="large-9 large-offset-3 small-9 small-offset-3 columns">
             <h4>Адрес проживания:</h4>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="city" class="right">Город:</label>
@@ -125,7 +125,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="street" class="right">Улица:</label>
@@ -139,7 +139,7 @@
       </div>
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="house" class="right">Дом:</label>
@@ -152,7 +152,7 @@
       </div>
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="apartment" class="right">Квартира:</label>
@@ -168,7 +168,7 @@
 
       <hr>
       <div class="row head">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="large-9 large-offset-3 small-9 small-offset-3 columns">
             <h4>Рабочие данные:</h4>
           </div>
@@ -176,7 +176,7 @@
       </div>
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="warehouse" class="right">Склад:</label>
@@ -194,7 +194,7 @@
       </div>
 
       <div class="row">
-        <div class="large-6 small-6 columns">
+        <div class="large-6 small-8 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label>Должность:</label>
@@ -212,7 +212,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="large-3 large-offset-9 columns button-right">
+        <div class="large-3 large-offset-9 small-3 small-offset-9 columns button-right">
           <!--<a href="" class="button" (click)="save(user)">Сохранить</a>-->
           <input class="button" type="submit" [disabled]="!f.form.valid" value="Сохранить">
         </div>
