@@ -1,7 +1,8 @@
 import {Warehouse} from "../../entity/warehouse";
+import {Role} from "./role";
 export class User {
-  constructor(public id:string,
-              public lastName:string,
+  constructor(public id?:string,
+              public lastName?:string,
               public login?:string,
               public password?:string,
               public firstName?:string,
@@ -12,8 +13,12 @@ export class User {
               public street?:string,
               public house?:string,
               public apartment?:string,
-              public roles?:Set<string>,
+              public roles?:Set<Role>,
               public warehouse?:Warehouse) {
 
+  }
+
+  public hasRole(role:Role):boolean{
+    return this.roles.has(role);
   }
 }

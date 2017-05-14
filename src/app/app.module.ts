@@ -28,8 +28,13 @@ import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {customerRoutes} from "./components/customer/customer.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
+import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
+import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
+import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
+
 
 const desktopRoutes:Routes = [
   {
@@ -54,11 +59,12 @@ const desktopRoutes:Routes = [
 ];
 
 const globalRoutes:Routes = [
+   {
+     "path": "",
+     "redirectTo": "index",
+     "pathMatch": "full"
+   },
   {
-    "path": "",
-    "redirectTo": "index",
-    "pathMatch": "full"
-  }, {
     "path": "desktop",
     "component": DesktopComponent,
     "children": desktopRoutes
@@ -71,13 +77,17 @@ const globalRoutes:Routes = [
   }, {
     path: 'tr-company',
     children: transportCompanyRoutes
+  },
+  {
+    path: 'customer',
+    children: customerRoutes
+  },
+  {
+    "path": "dispatcher",
+    "component": DispatcherComponent,
+    "children": dispatcherRoutes
   }
-  //, {
-  //  //todo delete
-  //  "path": "test",
-  //  "component": UserContainerComponent,
-  //  "children": userRoutes
-  //}
+
 ];
 
 
@@ -95,7 +105,9 @@ const globalRoutes:Routes = [
     BookContainerComponent,
     IndexComponent,
     TransportCompanyListComponent,
-    TransportCompanyCreateComponent
+    TransportCompanyCreateComponent,
+    CustomerCreateComponent
+
   ],
   imports: [
     BrowserModule,
@@ -104,7 +116,7 @@ const globalRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(globalRoutes),
     BookModule,
-    UserModule
+    DispatcherModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
@@ -112,7 +124,9 @@ const globalRoutes:Routes = [
     bookServiceInjectables,
     ShoppingCartService,
     LoginService,
-    HttpAuthService
+    HttpAuthService,
+
+
   ],
   bootstrap: [AppComponent]
 })

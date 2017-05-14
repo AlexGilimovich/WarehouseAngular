@@ -47,9 +47,9 @@ export class HttpAuthService {
     options.body = body;
     if (!options.headers) {
       options.headers = new Headers();
-
     }
     options.headers.append("Authorization", this._buildAuthHeader(this.loginService.getLoggedUser()));
+    options.headers.append("Content-type", "application/json");
     return this._http.request(new Request(options));
   }
 

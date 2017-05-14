@@ -1,57 +1,52 @@
 <div>
   <ul>
-    <!--<table class="hover" *ngFor="let user of users; let i = index;">-->
-    <table class="hover">
+    <table class="hover" *ngFor="let user of users">
       <tr>
+        <th>
+          <input type="checkbox" (change)="addAllToSelected($event)">
+        </th>
         <th>Фамилия</th>
         <th>Имя</th>
         <th>Отчество</th>
         <th>Склад</th>
         <th>Должность (роль)</th>
       </tr>
-      <tr (click)="click()">
+      <tr >
         <td>
-          <!--{{user.lastName}}-->
-          Иванов
+          <input type="checkbox"  ([ngModel])="user.selected">
+        </td>
+        <td (click)="goToDetails(user.id)">
+          {{user.lastName}}
+        </td>
+        <td (click)="goToDetails(user.id)">
+          {{user.firstName}}
+        </td>
+        <td (click)="goToDetails(user.id)">
+          {{user.patronymic}}
         </td>
         <td>
-          <!--{{user.firstName}}-->
-          Иван
+          {{user.warehouse}}
         </td>
         <td>
-          <!--{{user.patronymic}}-->
-          Иванович
-        </td>
-        <td>
-          <!--{{user.dateOfBirth}}-->
-          Склад №1
-        </td>
-        <td>
-          <!--<div *ngFor="let role of user.roles">-->
-          <!--{{user.role}}-->
-          <!--</div>-->
-          <div>Контроллёр</div>
-          <div>Диспетчер</div>
+          <div *ngFor="let role of user.roles">
+            <span>{{rolesMap.get(role.role).name}}</span>
+          </div>
         </td>
       </tr>
     </table>
   </ul>
 
-  <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-    <li class="pagination-previous disabled"></li>
-    <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-    <li><a href="#" aria-label="Page 2">2</a></li>
-    <li><a href="#" aria-label="Page 3">3</a></li>
-    <li><a href="#" aria-label="Page 4">4</a></li>
-    <li class="ellipsis"></li>
-    <li><a href="#" aria-label="Page 12">12</a></li>
-    <li><a href="#" aria-label="Page 13">13</a></li>
-    <li class="pagination-next"><a href="#" aria-label="Следующая страница"></a></li>
 
+
+  <ul class="pagination text-center" *ngIf="pageArray?.length>1">
+    <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
+    <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
+      <a (click)="getPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount}"><span [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
     <div class="item-counter">
-      <select name="" id="">
-        <option value="">10</option>
-        <option value="">20</option>
+      <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
+        <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
       </select>
     </div>
 

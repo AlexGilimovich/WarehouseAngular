@@ -4,7 +4,10 @@ import {WarehouseCompany} from "../warehouse-company/warehouse-company";
  */
 
 export class Warehouse {
-  idWarehouse: number;
-  name: string;
-  warehouseCompany: WarehouseCompany;
+
+  constructor(public idWarehouse:number,
+              public name?:string,
+              public warehouseCompany?:WarehouseCompany) {
+
+  }
 }

@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {roles} from "../user.module"
+import {rolesMap} from "../user.module";
 
 @Component({
   selector: 'app-user-details',
@@ -13,14 +14,22 @@ import {roles} from "../user.module"
 export class UserDetailsComponent implements OnInit {
   private currentUser:User;
   private id:number;
-  private warehouseList:Warehouse[] = [];
+
+  //todo mock warehouses:
+  private warehouseList:Warehouse[] = [
+    new Warehouse(1,"ALPHA"),
+    new Warehouse(2,"BETA"),
+    new Warehouse(3,"GAMMA"),
+    new Warehouse(10,"LAMBDA")
+  ];
   private roles = roles;
+  private rolesMap = rolesMap;
 
   constructor(//private warehouseService: WarehouseService,
               private userService:UserService,
               private router:Router,
               private route:ActivatedRoute) {
-    //route.params.subscribe(params => { this.id = params['id']; });
+    route.params.subscribe(params => { this.id = params['id']; });
 
   }
 
@@ -34,26 +43,26 @@ export class UserDetailsComponent implements OnInit {
     //  }
     //);
 
-    //this.userService.get(this.id).subscribe(
-    //  (currentUser: User) => {
-    //    console.log(currentUser);
-    //    this.currentUser = currentUser;
-    //  },
-    //  (err: any) => {
-    //    console.log(err);
-    //  }
-    //);
+    this.userService.get(this.id).subscribe(
+      (currentUser: User) => {
+        this.currentUser = currentUser;
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
 
   }
 
-  private save(user:User) {
-    this.userService.save(user);
+  private save() {
+    this.userService.save(this.currentUser);
     this.router.navigate(['./']);
   }
 
   private cancel() {
     this.router.navigate(['./']);
   }
+
 
 
 }

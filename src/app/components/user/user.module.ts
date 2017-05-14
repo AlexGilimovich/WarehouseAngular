@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
 import { UserDetailsComponent } from './user-details/user-details.component';
@@ -8,18 +9,25 @@ import {Role} from "./role";
 import { UserCreateComponent } from './user-create/user-create.component';
 import {UserService} from "./user-service.service";
 import {HttpService} from "../../http.service";
+import { UserListContainerComponent } from './user-list-container/user-list-container.component';
 
 export const roles:Role[] = [
-  new Role("1", "Администратор системы"),
-  new Role("2", "Администратор склада"),
-  new Role("3", "Диспетчер склада"),
-  new Role("4", "Менеджер по складу"),
-  new Role("5", "Контролёр"),
-  new Role("6", "Владелец склада")
+  new Role("ROLE_ADMIN", "Администратор системы"),
+  new Role("ROLE_SUPERVISOR", "Администратор склада"),
+  new Role("ROLE_DISPATCHER", "Диспетчер склада"),
+  new Role("ROLE_MANAGER", "Менеджер по складу"),
+  new Role("ROLE_CONTROLLER", "Контролёр"),
+  new Role("ROLE_OWNER", "Владелец склада")
 ]
 
-
-
+export const rolesMap:Map<string, Role> = new Map([
+  ["ROLE_ADMIN", roles[0]],
+  ["ROLE_SUPERVISOR", roles[1]],
+  ["ROLE_DISPATCHER", roles[2]],
+  ["ROLE_MANAGER", roles[3]],
+  ["ROLE_CONTROLLER", roles[4]],
+  ["ROLE_OWNER", roles[5]]
+]);
 
 
 export const userRoutes:Routes = [
@@ -28,12 +36,12 @@ export const userRoutes:Routes = [
     "redirectTo": 'list',
     "pathMatch": 'full'
   }, {
-    "path": "details",
+    "path": "details/:id",
     "component": UserDetailsComponent
   }, {
     "path": "list",
-    "component": UserListComponent
-  }  , {
+    "component": UserListContainerComponent
+  }, {
     "path": "create",
     "component": UserCreateComponent
   }
@@ -44,9 +52,11 @@ export const userRoutes:Routes = [
   imports: [
     RouterModule,
     CommonModule,
+    FormsModule
+
   ],
-  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent],
-  providers:[UserService]
+  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent, UserListContainerComponent],
+  providers: [UserService]
 })
 export class UserModule {
 }

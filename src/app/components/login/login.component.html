@@ -1,10 +1,12 @@
 <div class="login-form-container">
+  <div class="message">
   <h3>Пожалуйста, введите логин и пароль</h3>
+  </div>
   <form action="" method="post">
     <label for="login">Логин:</label>
     <input type="text" id="login" name="login" required class="input">
     <label for="password">Пароль:</label>
     <input type="password" id="password" name="password" required class="input">
-    <input type="button" class="btn indented" value="Войти" (click)="goToDesktop()">
+    <input type="button" class="btn indented" value="Войти" [routerLink]="['../dispatcher']" [routerLinkActive]="['active']">
   </form>
 </div>
