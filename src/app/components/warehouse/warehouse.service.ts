@@ -25,7 +25,7 @@ export class WarehouseService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const warehouse: Warehouse = new Warehouse(0, '0');
+        const warehouse: Warehouse = new Warehouse();
         warehouse.idWarehouse = item.idWarehouse;
         warehouse.name = item.name;
         warehouse.warehouseCompany = item.warehouseCompany;
