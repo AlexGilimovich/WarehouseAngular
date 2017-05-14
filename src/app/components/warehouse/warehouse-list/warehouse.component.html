@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Склады компании</title>
+</head>
+<body>
+<h1>Склады:</h1>
+<ul>
+  <li *ngFor="let company of warehouse">
+    <p>Номер склада: {{company?.idWarehouse}}</p>
+    <p>Наименование: <a [routerLink]="['../warehouse-scheme']" [routerLinkActive]="['active']" (click)="findSpace(company.idWarehouse)">{{company?.name}}</a></p>
+
+  </li>
+</ul>
+</body>
+</html>
