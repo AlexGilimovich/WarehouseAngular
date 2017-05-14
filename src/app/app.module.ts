@@ -18,13 +18,7 @@ import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.serv
 import { LoginComponent } from './components/login/login.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
-import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
-import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
-import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
-import {UserModule, userRoutes } from "./components/user/user.module";
-import {UserListComponent} from "./components/user/user-list/user-list.component";
-import {UserContainerComponent} from "./components/user/user-container/user-container.component";
-import {UserService} from "./components/user/user-service.service";
+
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
@@ -34,6 +28,12 @@ import {TransportCompanyCreateComponent} from "./components/tr-company/tr-compan
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
+import {warehouseCompanyRoutes} from "./components/warehouse-company/warehouse-company.module";
+import {warehouseRoutes} from "./components/warehouse/warehouse.module";
+import {warehouseSchemeRoutes} from "./components/warehouse-scheme/warehouse-scheme.module";
+import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
+import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
+import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 
 
 const desktopRoutes:Routes = [
@@ -79,6 +79,18 @@ const globalRoutes:Routes = [
     children: transportCompanyRoutes
   },
   {
+    path: 'warehousecompany',
+    children: warehouseCompanyRoutes
+  },
+  {
+    path: 'warehouse/:id',
+    children: warehouseRoutes
+  },
+  {
+    path: 'warehouse-scheme/:id',
+    children: warehouseSchemeRoutes
+  },
+  {
     path: 'customer',
     children: customerRoutes
   },
@@ -106,6 +118,9 @@ const globalRoutes:Routes = [
     IndexComponent,
     TransportCompanyListComponent,
     TransportCompanyCreateComponent,
+    WarehouseCompanyComponent,
+    WarehouseComponent,
+    WarehouseSchemeInfoComponent,
     CustomerCreateComponent
 
   ],
