@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Компании пользователя</title>
+</head>
+<body>
+<h1>Компании:</h1>
+<ul>
+  <li *ngFor="let company of warehouseCompany">
+    <p>Номер компании: {{company?.idWarehouseCompany}}</p>
+    <p>Наименование: <a [routerLink]="['../warehouse']" [routerLinkActive]="['active']" (click)="findWarehouse(company.idWarehouseCompany)">{{company?.name}}</a></p>
+    <p>Статус: {{company?.status == true ? 'активен' : 'отключён'}}</p>
+  </li>
+
+</ul>
+</body>
+</html>

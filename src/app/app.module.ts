@@ -18,14 +18,19 @@ import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.serv
 import { LoginComponent } from './components/login/login.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
+import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
+import {UserModule, userRoutes } from "./components/user/user.module";
+import {UserListComponent} from "./components/user/user-list/user-list.component";
 import {UserContainerComponent} from "./components/user/user-container/user-container.component";
 import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
-import {customerRoutes} from "./components/customer/customer.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
+import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
+import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
+import {customerRoutes} from "./components/customer/customer.module";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
@@ -56,12 +61,11 @@ const desktopRoutes:Routes = [
 ];
 
 const globalRoutes:Routes = [
-   {
-     "path": "",
-     "redirectTo": "index",
-     "pathMatch": "full"
-   },
   {
+    "path": "",
+    "redirectTo": "index",
+    "pathMatch": "full"
+  }, {
     "path": "desktop",
     "component": DesktopComponent,
     "children": desktopRoutes
@@ -127,8 +131,6 @@ const globalRoutes:Routes = [
     ShoppingCartService,
     LoginService,
     HttpAuthService,
-
-
   ],
   bootstrap: [AppComponent]
 })
