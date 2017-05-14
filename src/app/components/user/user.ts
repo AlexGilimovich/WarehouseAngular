@@ -1,5 +1,6 @@
-import {Warehouse} from "../../entity/warehouse";
+
 import {Role} from "./role";
+import {Warehouse} from "../warehouse/warehouse";
 export class User {
   constructor(public id?:string,
               public lastName?:string,

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {roles} from "../user.module";
-import {Warehouse} from "../../../entity/warehouse";
 import { Router, ActivatedRoute } from "@angular/router";
 import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Warehouse} from "../../warehouse/warehouse";
 
 @Component({
   selector: 'app-user-create',

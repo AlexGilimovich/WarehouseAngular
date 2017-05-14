@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Warehouse} from "../../../entity/warehouse";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {roles} from "../user.module"
 import {rolesMap} from "../user.module";
+import {Warehouse} from "../../warehouse/warehouse";
 
 @Component({
   selector: 'app-user-details',

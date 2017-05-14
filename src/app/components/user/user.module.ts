@@ -8,7 +8,6 @@ import { UserContainerComponent } from './user-container/user-container.componen
 import {Role} from "./role";
 import { UserCreateComponent } from './user-create/user-create.component';
 import {UserService} from "./user-service.service";
-import {HttpService} from "../../http.service";
 import { UserListContainerComponent } from './user-list-container/user-list-container.component';
 
 export const roles:Role[] = [

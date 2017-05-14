@@ -7,8 +7,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {HttpAuthService} from "../login/httpAuth.service";
 import {RequestOptionsArgs} from "../../../../node_modules/@angular/http/src/interfaces";
-import {Warehouse} from "../../entity/warehouse";
+
 import {rolesMap} from "./user.module";
+import {Warehouse} from "../warehouse/warehouse";
 
 const LIST_URL:string = "http://localhost:8080/web/web/user";
 const GET_URL:string = "http://localhost:8080/web/web/user/";
