@@ -44,7 +44,7 @@ export class HttpAuthService {
   private _request(method:RequestMethod, url:string, body?:string, options?:RequestOptions):Observable<Response> {
     options.method = method;
     options.url = url;
-    options.body = JSON.stringify(body);
+    options.body = body;
     if (!options.headers) {
       options.headers = new Headers();
     }

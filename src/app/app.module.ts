@@ -23,10 +23,12 @@ import {UserService} from "./components/user/user-service.service";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {customerRoutes} from "./components/customer/customer.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
+import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
 
 
 const desktopRoutes:Routes = [
@@ -70,7 +72,12 @@ const globalRoutes:Routes = [
   }, {
     path: 'tr-company',
     children: transportCompanyRoutes
-  }, {
+  },
+  {
+    path: 'customer',
+    children: customerRoutes
+  },
+  {
     "path": "dispatcher",
     "component": DispatcherComponent,
     "children": dispatcherRoutes
@@ -93,7 +100,8 @@ const globalRoutes:Routes = [
     BookContainerComponent,
     IndexComponent,
     TransportCompanyListComponent,
-    TransportCompanyCreateComponent
+    TransportCompanyCreateComponent,
+    CustomerCreateComponent
 
   ],
   imports: [
