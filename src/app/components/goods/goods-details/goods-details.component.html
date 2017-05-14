@@ -1,3 +1,144 @@
-<p>
-  goods-details works!
-</p>
+<div class="callout" data-closable>
+  <button class="close-button"  type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="form-container">
+    <form class="form" #f="ngForm" (ngSubmit)="save()">
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="name" class="right">Наименование:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="name" name="name" type="text" (ngModel)="currentGoods.name"
+                     [ngModel]="currentGoods?.name" required/>
+
+              <div data-alert [hidden]="currentGoods?.name.valid || currentGoods?.name.pristine"
+                   class="alert-box info radius">
+                Поле "Наименование" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="quantity" class="right">Количество:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="quantity" name="quantity" type="text" (ngModel)="currentGoods.quantity"
+                     [ngModel]="currentGoods?.quantity"/>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="quantityUnit" class="right">Ед. изм:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="quantityUnit" name="quantityUnit" type="text" (ngModel)="currentGoods.quantityUnit"
+                     [ngModel]="currentGoods?.quantityUnit"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="price" class="right">Цена:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="price" name="price" type="text" [ngModel]="currentGoods?.price" (ngModel)="currentGoods.price"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="priceUnit" class="right">Ед. изм.:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="priceUnit" name="priceUnit" type="text" (ngModel)="currentGoods.priceUnit" [ngModel]="currentGoods?.priceUnit"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="weight" class="right">Вес:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="weight" name="weight" type="text" (ngModel)="currentGoods.weight" [ngModel]="currentGoods?.weight"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="weightUnit" class="right">Ед. изм.:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="weightUnit" name="weightUnit" type="weightUnit" (ngModel)="currentGoods.weightUnit"
+                     [ngModel]="currentGoods?.weightUnit"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="storageType" class="right">Тип хранения:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="storageType" storageType="city" type="text" (ngModel)="currentGoods.storageType" [ngModel]="currentGoods?.storageType"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 small-8 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="storagePlace" class="right">Место хранения:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="storagePlace" name="storagePlace" type="text" (ngModel)="currentGoods.storagePlace"
+                     [ngModel]="currentGoods?.storagePlace"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="large-3 large-offset-9 small-3 small-offset-9 columns button-right">
+          <!--<a href="" class="button" (click)="save(user)">Сохранить</a>-->
+          <input class="button" type="submit" [disabled]="!f.form.valid" value="Сохранить">
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+

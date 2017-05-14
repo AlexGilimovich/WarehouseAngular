@@ -1,3 +1,52 @@
-<p>
-  act-list works!
-</p>
+<div>
+  <ul>
+    <table class="hover" *ngFor="let act of acts">
+      <tr>
+        <th>
+          <input type="checkbox" (change)="addAllToSelected($event)">
+        </th>
+        <th>Тип</th>
+        <th>Дата</th>
+        <th>Ответственное лицо</th>
+        <th>Перечень товаров</th>
+      </tr>
+      <tr>
+        <td>
+          <input type="checkbox" ([ngModel])="act.selected">
+        </td>
+        <td (click)="goToDetails(goods.id)">
+          {{act.actType}}
+        </td>
+        <td>
+          {{act.date}}
+        </td>
+        <td>
+          {{act.user}}
+        </td>
+        <td>
+          <div *ngFor="let goodsItem of act.goods">
+            <span>{{act.goods}}</span>
+          </div>
+
+        </td>
+      </tr>
+    </table>
+  </ul>
+
+  <ul class="pagination text-center" *ngIf="pageArray?.length>1">
+    <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span
+      [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
+    <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
+      <a (click)="getPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount}"><span
+      [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
+    <div class="item-counter">
+      <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
+        <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+      </select>
+    </div>
+  </ul>
+
+
+</div>

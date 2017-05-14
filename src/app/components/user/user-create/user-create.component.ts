@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {roles} from "../user.module";
+import {Warehouse} from "../../warehouse/warehouse";
 import { Router, ActivatedRoute } from "@angular/router";
 import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Warehouse} from "../../warehouse/warehouse";
+import {Role} from "../role";
+import {rolesMessages} from "../user.module";
 
 @Component({
   selector: 'app-user-create',
@@ -12,8 +13,10 @@ import {Warehouse} from "../../warehouse/warehouse";
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements OnInit {
-  private roles = roles;
+  private roles: Role[];
   private user = new User();
+  private rolesMessages = rolesMessages;
+
   //todo mock warehouses:
   private warehouseList:Warehouse[] = [
     new Warehouse(1, "ALPHA"),
@@ -28,6 +31,14 @@ export class UserCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getRoles().subscribe(
+      (res) => {
+        this.roles = res;
+      },
+      (err)=> {
+        console.error(err);
+      }
+    )
   }
 
   private save() {

@@ -7,12 +7,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {HttpAuthService} from "../login/httpAuth.service";
 import {RequestOptionsArgs} from "../../../../node_modules/@angular/http/src/interfaces";
-
-import {rolesMap} from "./user.module";
 import {Warehouse} from "../warehouse/warehouse";
+import {rolesMessages} from "./user.module";
+import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 const LIST_URL:string = "http://localhost:8080/web/web/user";
 const GET_URL:string = "http://localhost:8080/web/web/user/";
+const GET_ROLES_URL:string = "http://localhost:8080/web/web/user/roles";
 const SAVE_URL:string = "http://localhost:8080/web/web/user/save";
 
 @Injectable()
@@ -71,21 +72,39 @@ export class UserService {
         item.street,
         item.house,
         item.apartment,
-        new Set<Role>(item.roles.map(item=> {
-          return rolesMap.get(item.role);
-        })),
-        new Warehouse(item.warehouse.idWarehouse)
+        item.roles.map(item=> {
+          return new Role(item.role);
+          //return rolesMap.get(item.role);
+        }),
+
+        new Warehouse(item.warehouse.idWarehouse, item.warehouse.name)
       );
+    })
+  }
+
+  getRoles():Observable<Role[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_ROLES_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          return new Role(item.role)
+        }
+      )
     })
   }
 
   save(user:User) {
     let url = SAVE_URL;
-    if (user.id != undefined)
-      url = `${SAVE_URL}${user.id}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    this.httpAuthService.post(url, user.toString(), options).subscribe(resp=>console.debug(resp));
+    if (user.id != undefined) {
+      url = `${SAVE_URL}${"/"}${user.id}`;
+      this.httpAuthService.put(url, JSON.stringify(user), options).subscribe(resp=>console.debug(resp));
+    } else {
+      this.httpAuthService.post(url, JSON.stringify(user), options).subscribe(resp=>console.debug(resp));
+    }
+
   }
 
 

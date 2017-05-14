@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="large-2 small-2 columns">
+    <label for="status">Статус:</label>
+    <select id="status" name="status" [(ngModel)]="statuses.pop().status">
+      <option *ngFor="let status of statuses" [ngValue]="status"
+              [selected]="status.id==goods?.status.id">
+        {{status.name}}
+      </option>
+    </select>
+  </div>
+  <div class="large-2 small-2 columns">
+    <label for="date">Дата:</label>
+    <input type="text" id="date" name="date" [ngModel]="statuses.pop().date">
+  </div>
+  <div class="large-2 small-2 columns">
+    <label for="lastName">Фамилия ответственного лица:</label>
+    <input type="text" id="lastName" name="lastName" [ngModel]="statuses.pop().lastName">
+  </div>
+  <div class="large-2 small-2 columns">
+    <label for="firstName">Имя ответственного лица:</label>
+    <input type="text" id="firstName" name="firstName" [ngModel]="statuses.pop().firstName">
+  </div>
+  <div class="large-2 small-2 columns">
+    <label for="patronymic">Отчество ответственного лица:</label>
+    <input type="text" id="patronymic" name="patronymic" [ngModel]="statuses.pop().patronymic">
+  </div>
+</div>

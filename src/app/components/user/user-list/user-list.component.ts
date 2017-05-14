@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user-service.service";
-import {rolesMap} from "../user.module";
+import {rolesMessages} from "../user.module";
 import { Router, ActivatedRoute } from "@angular/router";
+import {Role} from "../role";
 
 
 @Component({
@@ -12,7 +13,10 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 export class UserListComponent implements OnInit {
   private users:User[];
-  private rolesMap = rolesMap;
+  private rolesMessages = rolesMessages;
+  private roles: Role[];
+
+
   //pagination
   private itemsOnPageArray = [10, 20];
   private currentPage:number = 1;
@@ -49,6 +53,14 @@ export class UserListComponent implements OnInit {
         console.error(err);
       }
     );
+    this.userService.getRoles().subscribe(
+      (res) => {
+        this.roles = res;
+      },
+      (err)=> {
+        console.error(err);
+      }
+    )
   }
 
   private getPage(page:number) {

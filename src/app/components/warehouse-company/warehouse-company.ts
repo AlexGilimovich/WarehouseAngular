@@ -3,7 +3,13 @@
  */
 
 export class WarehouseCompany {
-  idWarehouseCompany: number;
-  name: string;
-  status: boolean;
+
+
+  constructor(public idWarehouseCompany?:number,
+              public name?:string,
+              public status?:boolean){
+
+  }
+
 }
+

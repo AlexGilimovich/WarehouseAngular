@@ -9,23 +9,33 @@ import {Role} from "./role";
 import { UserCreateComponent } from './user-create/user-create.component';
 import {UserService} from "./user-service.service";
 import { UserListContainerComponent } from './user-list-container/user-list-container.component';
+import { UserValidationComponent } from './user-validation/user-validation.component';
 
-export const roles:Role[] = [
-  new Role("ROLE_ADMIN", "Администратор системы"),
-  new Role("ROLE_SUPERVISOR", "Администратор склада"),
-  new Role("ROLE_DISPATCHER", "Диспетчер склада"),
-  new Role("ROLE_MANAGER", "Менеджер по складу"),
-  new Role("ROLE_CONTROLLER", "Контролёр"),
-  new Role("ROLE_OWNER", "Владелец склада")
-]
+//export const roles:Role[] = [
+//  new Role("ROLE_ADMIN", "Администратор системы"),
+//  new Role("ROLE_SUPERVISOR", "Администратор склада"),
+//  new Role("ROLE_DISPATCHER", "Диспетчер склада"),
+//  new Role("ROLE_MANAGER", "Менеджер по складу"),
+//  new Role("ROLE_CONTROLLER", "Контролёр"),
+//  new Role("ROLE_OWNER", "Владелец склада")
+//]
+//
+//export const rolesMap:Map<string, Role> = new Map([
+//  ["ROLE_ADMIN", roles[0]],
+//  ["ROLE_SUPERVISOR", roles[1]],
+//  ["ROLE_DISPATCHER", roles[2]],
+//  ["ROLE_MANAGER", roles[3]],
+//  ["ROLE_CONTROLLER", roles[4]],
+//  ["ROLE_OWNER", roles[5]]
+//]);
 
-export const rolesMap:Map<string, Role> = new Map([
-  ["ROLE_ADMIN", roles[0]],
-  ["ROLE_SUPERVISOR", roles[1]],
-  ["ROLE_DISPATCHER", roles[2]],
-  ["ROLE_MANAGER", roles[3]],
-  ["ROLE_CONTROLLER", roles[4]],
-  ["ROLE_OWNER", roles[5]]
+export const rolesMessages:Map<string, string> = new Map([
+  ["ROLE_ADMIN", "Администратор системы"],
+  ["ROLE_SUPERVISOR", "Администратор склада"],
+  ["ROLE_DISPATCHER", "Диспетчер склада"],
+  ["ROLE_MANAGER", "Менеджер по складу"],
+  ["ROLE_CONTROLLER", "Контролёр"],
+  ["ROLE_OWNER", "Владелец склада"]
 ]);
 
 
@@ -54,7 +64,7 @@ export const userRoutes:Routes = [
     FormsModule
 
   ],
-  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent, UserListContainerComponent],
+  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent, UserListContainerComponent, UserValidationComponent],
   providers: [UserService]
 })
 export class UserModule {

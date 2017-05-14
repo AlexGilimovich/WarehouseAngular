@@ -1,4 +1,3 @@
-
 import {Role} from "./role";
 import {Warehouse} from "../warehouse/warehouse";
 export class User {
@@ -14,12 +13,28 @@ export class User {
               public street?:string,
               public house?:string,
               public apartment?:string,
-              public roles?:Set<Role>,
+              public roles?:Role[],
               public warehouse?:Warehouse) {
 
   }
 
-  public hasRole(role:Role):boolean{
-    return this.roles.has(role);
+  public hasRole(role:Role):boolean {
+    for (let r of this.roles)
+      if (r.role === role.role) return true;
+    return false;
+    //return this.roles.includes(role);
   }
+
+  public addRole(role:Role) {
+    if (!this.hasRole(role))
+      this.roles.push(role);
+  }
+
+  public removeRole(role:Role) {
+    for (let i = 0; i < this.roles.length; i++)
+      if (this.roles[i].role === role.role)
+        this.roles.splice(i, 1);
+  }
+
+
 }

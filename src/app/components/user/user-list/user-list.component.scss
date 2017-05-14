@@ -8,10 +8,16 @@
   }
 }
 
-.page-current{
+.page-current {
   background-color: #1779ba;
-  a:hover{
+  a:hover {
     background-color: #1779ba;
   }
 }
 
+table {
+  cursor: default;
+  .clickable {
+    cursor: pointer;
+  }
+}

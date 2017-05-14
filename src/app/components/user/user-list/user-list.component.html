@@ -15,13 +15,13 @@
         <td>
           <input type="checkbox"  ([ngModel])="user.selected">
         </td>
-        <td (click)="goToDetails(user.id)">
+        <td class="clickable" (click)="goToDetails(user.id)">
           {{user.lastName}}
         </td>
-        <td (click)="goToDetails(user.id)">
+        <td class="clickable" (click)="goToDetails(user.id)">
           {{user.firstName}}
         </td>
-        <td (click)="goToDetails(user.id)">
+        <td class="clickable" (click)="goToDetails(user.id)">
           {{user.patronymic}}
         </td>
         <td>
@@ -29,13 +29,12 @@
         </td>
         <td>
           <div *ngFor="let role of user.roles">
-            <span>{{rolesMap.get(role.role).name}}</span>
+            <span>{{rolesMessages.get(role.role)}}</span>
           </div>
         </td>
       </tr>
     </table>
   </ul>
-
 
 
   <ul class="pagination text-center" *ngIf="pageArray?.length>1">
@@ -49,7 +48,6 @@
         <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
       </select>
     </div>
-
   </ul>
 
 

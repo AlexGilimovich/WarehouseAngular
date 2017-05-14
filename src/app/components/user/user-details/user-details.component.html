@@ -1,8 +1,8 @@
 <div class="callout" data-closable>
-  <button class="close-button"  type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
+  <button class="close-button" type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
     <span aria-hidden="true">&times;</span>
   </button>
-  <div class="form-container">
+  <div class="form-container" *ngIf="currentUser">
     <form class="form" #f="ngForm" (ngSubmit)="save()">
       <div class="row">
         <div class="large-6 small-8 columns">
@@ -10,14 +10,12 @@
             <div class="large-3 small-3 columns">
               <label for="lastName" class="right">Фамилия:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="lastName" name="lastName" type="text" (ngModel)="currentUser.lastName"
-                     [ngModel]="currentUser?.lastName" required/>
-
-              <div data-alert [hidden]="currentUser?.lastName.valid || currentUser?.lastName.pristine"
-                   class="alert-box info radius">
-                Поле "Фамилия" не может быть пустым
-
+            <div class="large-9 small-9 columns" >
+              <input id="lastName" name="lastName" type="text" [(ngModel)]="currentUser.lastName" required #name="ngModel"/>
+              <div class="callout alert" *ngIf="name.errors && (name.dirty || name.touched)">
+                <div [hidden]="!currentUser.lastName.errors.required">
+                  Поле "Фамилия" не может быть пустым
+                </div>
               </div>
             </div>
           </div>
@@ -30,8 +28,7 @@
               <label for="firstName" class="right">Имя:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="firstName" name="firstName" type="text" (ngModel)="currentUser.firstName"
-                     [ngModel]="currentUser?.firstName"/>
+              <input id="firstName" name="firstName" type="text" [(ngModel)]="currentUser.firstName"/>
 
             </div>
           </div>
@@ -44,8 +41,7 @@
               <label for="patronymic" class="right">Отчество:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="patronymic" name="patronymic" type="text" (ngModel)="currentUser.patronymic"
-                     [ngModel]="currentUser?.patronymic"/>
+              <input id="patronymic" name="patronymic" type="text" [(ngModel)]="currentUser.patronymic"/>
             </div>
           </div>
         </div>
@@ -58,8 +54,11 @@
             </div>
             <div class="large-9 small-9 columns">
               <input id="dateOfBirth" name="dateOfBirth" type="text" placeholder="ДД-ММ-ГГГГ"
-                     [ngModel]="currentUser?.dateOfBirth | date:'dd.MM.yyyy'" (ngModel)="currentUser.dateOfBirth"/>
+                     [ngModel]="currentUser.dateOfBirth| date:'dd.MM.yyyy'"
+                     (ngModelChange)="currentUser.dateOfBirth=$event.value"/>
             </div>
+
+
           </div>
         </div>
       </div>
@@ -71,7 +70,7 @@
               <label for="email" class="right">Email:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="email" name="email" type="email" (ngModel)="currentUser.email" [ngModel]="currentUser?.email"/>
+              <input id="email" name="email" type="email" [(ngModel)]="currentUser.email"/>
             </div>
           </div>
         </div>
@@ -84,7 +83,7 @@
               <label for="login" class="right">Логин:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="login" name="login" type="text" (ngModel)="currentUser.login" [ngModel]="currentUser?.login"/>
+              <input id="login" name="login" type="text" [(ngModel)]="currentUser.login"/>
             </div>
           </div>
         </div>
@@ -98,8 +97,7 @@
               <label for="password" class="right">Пароль:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="password" name="password" type="password" (ngModel)="currentUser.password"
-                     [ngModel]="currentUser?.password"/>
+              <input id="password" name="password" type="password" [(ngModel)]="currentUser.password"/>
             </div>
           </div>
         </div>
@@ -119,7 +117,7 @@
               <label for="city" class="right">Город:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="city" name="city" type="text" (ngModel)="currentUser.city" [ngModel]="currentUser?.city"/>
+              <input id="city" name="city" type="text" [(ngModel)]="currentUser.city"/>
             </div>
           </div>
         </div>
@@ -131,8 +129,7 @@
               <label for="street" class="right">Улица:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="street" name="street" type="text" (ngModel)="currentUser.street"
-                     [ngModel]="currentUser?.street"/>
+              <input id="street" name="street" type="text" [(ngModel)]="currentUser.street"/>
             </div>
           </div>
         </div>
@@ -145,7 +142,7 @@
               <label for="house" class="right">Дом:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="house" name="house" type="text" (ngModel)="currentUser.house" [ngModel]="currentUser?.house"/>
+              <input id="house" name="house" type="text" [(ngModel)]="currentUser.house"/>
             </div>
           </div>
         </div>
@@ -158,8 +155,7 @@
               <label for="apartment" class="right">Квартира:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="apartment" name="apartment" type="text" (ngModel)="currentUser.apartment"
-                     [ngModel]="currentUser?.apartment"/>
+              <input id="apartment" name="apartment" type="text" [(ngModel)]="currentUser.apartment"/>
             </div>
           </div>
         </div>
@@ -181,13 +177,20 @@
             <div class="large-3 small-3 columns">
               <label for="warehouse" class="right">Склад:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <select id="warehouse" name="warehouse" (ngModel)="currentUser.warehouse">
-                <option *ngFor="let warehouse of warehouseList" [ngValue]="warehouse"
-                        [selected]="warehouse.idWarehouse==currentUser?.warehouse.idWarehouse">
+            <div class="large-9 small-9 columns" *ngIf="currentUser">
+              <!--<select id="warehouse" name="warehouse" ([ngModel])="currentUser.warehouse" (change)="changeWarehouse($event)">-->
+              <!--<option *ngFor="let warehouse of warehouseList" [value]="warehouse"-->
+              <!--[selected]="warehouse.idWarehouse==currentUser?.warehouse.idWarehouse">-->
+              <!--{{warehouse.name}}-->
+              <!--</option>-->
+              <!--</select>-->
+
+              <select id="warehouse" ([ngModel])="currentUser.warehouse">
+                <option *ngFor="let warehouse of warehouseList" [value]="warehouse">
                   {{warehouse.name}}
                 </option>
               </select>
+
             </div>
           </div>
         </div>
@@ -201,12 +204,10 @@
             </div>
             <div class="large-9 small-9 columns">
               <div *ngFor="let role of roles; let i = index;">
-                <input type="checkbox" (ngModel)="role.description" [checked]="currentUser?.hasRole(role)"> <label>{{role.name}}</label>
+                <input type="checkbox" name="roles" (change)="updateRole(role, $event)" value="{{role.role.role}}"
+                       [checked]="role.checked"> <label>{{rolesMessages.get(role.role.role)}}</label>
               </div>
 
-              <!--<div *ngFor="let role of currentUser.roles">-->
-              <!--<input id="role" name="role" type="checkbox">{{rolesMap.get(role.role).name}}-->
-              <!--</div>-->
             </div>
           </div>
         </div>

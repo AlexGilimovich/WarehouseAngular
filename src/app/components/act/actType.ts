@@ -1,0 +1,12 @@
+import {User} from "../user/user";
+import {Act} from "./act";
+import {ActTypeName} from "./actTypeName";
+import {Goods} from "../goods/goods";
+export class ActType {
+  constructor(public id?:string,
+              public date?:string,
+              public user?:User,
+              public actType?:ActTypeName,
+              public goods?:Goods[]) {
+  }
+}

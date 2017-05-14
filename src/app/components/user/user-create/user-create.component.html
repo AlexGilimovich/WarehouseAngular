@@ -10,14 +10,21 @@
             <div class="large-3 small-3 columns">
               <label for="lastName" class="right">Фамилия:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="lastName" name="lastName" type="text" [(ngModel)]="user.lastName" required/>
+            <div class="large-9 small-9 columns" *ngIf="user">
+              <input id="lastName" name="lastName" type="text"
+                     ([ngModel])="user?.lastName"  required minlength="4" maxlength="24"/>
 
-              <!--<div data-alert [hidden]="user?.lastName?.valid || user?.lastName?.pristine"-->
-                   <!--class="alert-box info radius">-->
-                <!--Поле "Фамилия" не может быть пустым-->
-              <!--</div>-->
-
+              <div *ngIf="lastName?.errors && (lastName?.dirty || lastName?.touched)">
+                <div [hidden]="!lastName.errors.required">
+                  Name is required
+                </div>
+                <div [hidden]="!lastName.errors.minlength">
+                  Name must be at least 4 characters long.
+                </div>
+                <div [hidden]="!lastName.errors.maxlength">
+                  Name cannot be more than 24 characters long.
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -28,7 +35,7 @@
             <div class="large-3 small-3 columns">
               <label for="firstName" class="right">Имя:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="firstName" name="firstName" type="text" [(ngModel)]="user.firstName"/>
 
             </div>
@@ -41,7 +48,7 @@
             <div class="large-3 small-3 columns">
               <label for="patronymic" class="right">Отчество:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="patronymic" name="patronymic" type="text" [(ngModel)]="user.patronymic"/>
             </div>
           </div>
@@ -53,7 +60,7 @@
             <div class="large-3 small-3 columns">
               <label for="dateOfBirth" class="right">Дата рождения:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="dateOfBirth" name="dateOfBirth" type="text" placeholder="ДД-ММ-ГГГГ"
                      [(ngModel)]="user.dateOfBirth"/>
             </div>
@@ -67,7 +74,7 @@
             <div class="large-3 small-3 columns">
               <label for="email" class="right">Email:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="email" name="email" type="email" [(ngModel)]="user.email"/>
             </div>
           </div>
@@ -80,8 +87,8 @@
             <div class="large-3 small-3 columns">
               <label for="login" class="right">Логин:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="login" name="login" type="text" [(ngModel)]="user.login"required/>
+            <div class="large-9 small-9 columns" *ngIf="user">
+              <input id="login" name="login" type="text" [(ngModel)]="user.login" required/>
             </div>
           </div>
         </div>
@@ -94,7 +101,7 @@
             <div class="large-3 small-3 columns">
               <label for="password" class="right">Пароль:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="password" name="password" type="password" [(ngModel)]="user.password" required/>
             </div>
           </div>
@@ -111,10 +118,10 @@
       <div class="row">
         <div class="large-6 small-6 columns">
           <div class="row">
-            <div class="large-3 small-3 columns">
+            <div class="large-3 small-3 columns" *ngIf="user">
               <label for="city" class="right">Город:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="city" name="city" type="text" [(ngModel)]="user.city"/>
             </div>
           </div>
@@ -126,7 +133,7 @@
             <div class="large-3 small-3 columns">
               <label for="street" class="right">Улица:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="street" name="street" type="text" [(ngModel)]="user.street"/>
             </div>
           </div>
@@ -139,7 +146,7 @@
             <div class="large-3 small-3 columns">
               <label for="house" class="right">Дом:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="house" name="house" type="text" [(ngModel)]="user.house"/>
             </div>
           </div>
@@ -152,7 +159,7 @@
             <div class="large-3 small-3 columns">
               <label for="apartment" class="right">Квартира:</label>
             </div>
-            <div class="large-9 small-9 columns">
+            <div class="large-9 small-9 columns" *ngIf="user">
               <input id="apartment" name="apartment" type="text" [(ngModel)]="user.apartment"/>
             </div>
           </div>
@@ -175,8 +182,8 @@
             <div class="large-3 small-3 columns">
               <label for="warehouse" class="right">Склад:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <select id="warehouse" name="warehouse" [(ngModel)]="user.warehouse" required>
+            <div class="large-9 small-9 columns" *ngIf="user">
+              <select id="warehouse" name="warehouse" ([ngModel])="user.warehouse" required>
                 <option *ngFor="let warehouse of warehouseList" [ngValue]="warehouse">
                   {{warehouse.name}}
                 </option>
@@ -194,7 +201,7 @@
             </div>
             <div class="large-9 small-9 columns">
               <div *ngFor="let role of roles; let i = index;">
-                <input type="checkbox" (ngModel)="role.description"> <label>{{role.name}}</label>
+                <input id="role.role.idRole" type="checkbox" value="{{role.role}}" (ngModel)="role.role"> <label>{{rolesMessages.get(role.role.role)}}</label>
               </div>
 
               <!--<div *ngFor="let role of currentUser.roles">-->
@@ -207,7 +214,7 @@
       <div class="row">
         <div class="large-3 large-offset-9 small-3 small-offset-9 columns button-right">
           <!--<a href="" class="button" (click)="save(user)">Сохранить</a>-->
-          <input class="button" type="submit" [disabled]="!f.form.valid" value="Сохранить">
+          <input class="button" type="submit" value="Сохранить">
         </div>
       </div>
     </form>
