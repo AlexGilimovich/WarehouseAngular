@@ -10,5 +10,5 @@ export class Warehouse {
               public warehouseCompany?:WarehouseCompany) {
 
   }
- 
+
 }
