@@ -1,10 +1,12 @@
+import {TransportCompany} from "../../tr-company/tr-company";
+import {WarehouseCustomerCompany} from "../../customer/customer";
 export class IncomingInvoice {
   id?: number;
   number: string;
   // todo issueDate
   issueDate: string;
-  supplierCompany: string;
-  transportCompany: string;
+  supplierCompany: WarehouseCustomerCompany;
+  transportCompany: TransportCompany;
   transportNumber: string;
   transportName: string;
   driver: string;

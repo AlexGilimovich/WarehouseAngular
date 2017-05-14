@@ -4,6 +4,9 @@ import {IncomingInvoice} from "./incoming-invoice/incoming-invoice";
 import {RequestOptions, Response, Headers} from "@angular/http";
 import {LoginService} from "../login/login.service";
 import {User} from "../user/user";
+import {Host} from "../../util/host";
+
+const path = Host.getURL() + 'invoice';
 
 @Injectable()
 export class InvoiceService {
@@ -13,12 +16,11 @@ export class InvoiceService {
 
   getLoggedUser(){
     const dispatcher = this.loginService.getLoggedUser();
-    console.log(dispatcher);
     return this.buildFullName(dispatcher);
   }
 
   saveIncomingInvoice(invoice: IncomingInvoice) {
-    const url = 'http://localhost:8080/web/invoice/incoming/';
+    const url = path + '/incoming/';
     const body = JSON.stringify(invoice);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');

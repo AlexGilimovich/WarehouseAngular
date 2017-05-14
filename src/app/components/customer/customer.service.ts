@@ -3,6 +3,9 @@ import {HttpAuthService} from "../login/httpAuth.service";
 import {Observable} from "rxjs/Observable";
 import {WarehouseCustomerCompany} from "./customer";
 import {Headers, RequestOptions, Response} from "@angular/http";
+import {Host} from "../../util/host";
+
+const path = Host.getURL() + 'customer';
 
 @Injectable()
 export class WarehouseCustomerCompanyService {
@@ -10,7 +13,7 @@ export class WarehouseCustomerCompanyService {
   constructor(private httpAuthService: HttpAuthService) { }
 
   getAll(page?: number, count?: number): Observable<WarehouseCustomerCompany[]> {
-    const url = 'http://localhost:8080/web/customer/';
+    const url = path + '/';
     const headers = new Headers();
     const params = new URLSearchParams();
     if (page != null) {
@@ -35,7 +38,7 @@ export class WarehouseCustomerCompanyService {
   }
 
   save(customer: WarehouseCustomerCompany) {
-    const url = 'http://localhost:8080/web/customer/';
+    const url = path + '/';
     const body = JSON.stringify(customer);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');

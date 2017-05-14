@@ -29,6 +29,9 @@ export class IncomingInvoiceCreateComponent implements OnInit {
       this.supplierCompanies = data;
     });
     this.invoice.dispatcher = this.invoiceService.getLoggedUser();
+    // todo remove mock transport company
+    this.invoice.transportCompany = new TransportCompany;
+    this.invoice.transportCompany.id = 5;
   }
 
   onSubmit(invoice: IncomingInvoice){

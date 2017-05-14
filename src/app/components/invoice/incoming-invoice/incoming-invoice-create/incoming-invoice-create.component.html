@@ -10,12 +10,12 @@
       <input type="date" name="issueDate" [(ngModel)]="invoice.issueDate">
     </label>
 
-    <!-- trasnportCompany is chosen on separate view -->
+    <!-- transportCompany is chosen on separate view -->
 
     <label>
       Отправитель
       <select name="supplierCompany" [(ngModel)]="invoice.supplierCompany">
-        <option *ngFor="let company of supplierCompanies" [value]="company.name">
+        <option *ngFor="let company of supplierCompanies" [value]="company.id">
           {{company.name}}
         </option>
       </select>
