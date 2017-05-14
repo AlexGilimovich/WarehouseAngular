@@ -5,7 +5,7 @@ import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 export class Warehouse {
 
-  constructor(public idWarehouse:number,
+  constructor(public idWarehouse?:number,
               public name?:string,
               public warehouseCompany?:WarehouseCompany) {
 
