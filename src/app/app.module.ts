@@ -29,6 +29,8 @@ import {TransportCompanyCreateComponent} from "./components/tr-company/tr-compan
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
+import {invoiceRoutes} from "./components/invoice/invoice.module";
+import {IncomingInvoiceCreateComponent} from "./components/invoice/incoming-invoice/incoming-invoice-create/incoming-invoice-create.component";
 
 
 const desktopRoutes:Routes = [
@@ -78,6 +80,10 @@ const globalRoutes:Routes = [
     children: customerRoutes
   },
   {
+    path: 'invoice',
+    children: invoiceRoutes
+  },
+  {
     "path": "dispatcher",
     "component": DispatcherComponent,
     "children": dispatcherRoutes
@@ -101,7 +107,8 @@ const globalRoutes:Routes = [
     IndexComponent,
     TransportCompanyListComponent,
     TransportCompanyCreateComponent,
-    CustomerCreateComponent
+    CustomerCreateComponent,
+    IncomingInvoiceCreateComponent
 
   ],
   imports: [

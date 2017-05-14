@@ -9,6 +9,31 @@ export class WarehouseCustomerCompanyService {
 
   constructor(private httpAuthService: HttpAuthService) { }
 
+  getAll(page?: number, count?: number): Observable<WarehouseCustomerCompany[]> {
+    const url = 'http://localhost:8080/web/customer/';
+    const headers = new Headers();
+    const params = new URLSearchParams();
+    if (page != null) {
+      params.set('page', page.toString());
+    }
+    if (count != null) {
+      params.set('count', count.toString());
+    }
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        const customer = new WarehouseCustomerCompany();
+        customer.id = item.id;
+        customer.name = item.name;
+        return customer;
+      });
+    });
+  }
+
   save(customer: WarehouseCustomerCompany) {
     const url = 'http://localhost:8080/web/customer/';
     const body = JSON.stringify(customer);

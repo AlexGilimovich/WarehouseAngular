@@ -1,0 +1,64 @@
+<div>
+  <form (ngSubmit)="onSubmit(invoice)">
+    <label>
+      Номер ТТН
+      <input type="text" name="number" [(ngModel)]="invoice.number">
+    </label>
+
+    <label>
+      Дата выписки ТТН
+      <input type="date" name="issueDate" [(ngModel)]="invoice.issueDate">
+    </label>
+
+    <!-- trasnportCompany is chosen on separate view -->
+
+    <label>
+      Отправитель
+      <select name="supplierCompany" [(ngModel)]="invoice.supplierCompany">
+        <option *ngFor="let company of supplierCompanies" [value]="company.name">
+          {{company.name}}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Номер транспортного средства
+      <input type="text" name="transportNumber" [(ngModel)]="invoice.transportNumber">
+    </label>
+
+    <label>
+      Название транспортного средства
+      <input type="text" name="transportName" [(ngModel)]="invoice.transportName">
+    </label>
+
+    <!-- todo driver if transport == auto -->
+
+    <label>
+      Описание
+      <textarea name="description" [(ngModel)]="invoice.description"></textarea>
+    </label>
+
+    <label>
+      Сумма товаров по ТТН
+      <input type="number" name="goodsEntryCount" [(ngModel)]="invoice.goodsEntryCount">
+
+      <input type="text" name="goodsEntryCountUnit" [(ngModel)]="invoice.goodsEntryCountUnit">
+    </label>
+
+    <label>
+      Количество наименований товаров по ТТН
+      <input type="number" name="goodsQuantity" [(ngModel)]="invoice.goodsQuantity">
+
+      <input type="text" name="goodsQuantityUnit" [(ngModel)]="invoice.goodsQuantityUnit">
+    </label>
+
+    <label>
+      Диспетчер
+      <input readonly type="text" name="dispatcher" [(ngModel)]="invoice.dispatcher">
+    </label>
+
+    <!-- todo goods -->
+
+    <input type="submit">
+  </form>
+</div>
