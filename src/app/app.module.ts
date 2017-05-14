@@ -121,7 +121,7 @@ const globalRoutes:Routes = [
     WarehouseComponent,
     WarehouseSchemeInfoComponent,
     CustomerCreateComponent,
-    IncomingInvoiceCreateComponent
+    IncomingInvoiceCreateComponent,
 
   ],
   imports: [
