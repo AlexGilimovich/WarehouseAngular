@@ -12,9 +12,9 @@ import {Role} from "../role";
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  private users:User[];
+  private users:any[] = [];
   private rolesMessages = rolesMessages;
-  private roles: Role[];
+  private roles:Role[];
 
 
   //pagination
@@ -26,7 +26,6 @@ export class UserListComponent implements OnInit {
   private totalPageCount;
   private displayedPageCount = 7;//constant: number of pages in pagination
 
-  private selectedUsers:User[] = [];
 
   constructor(private userService:UserService,
               private router:Router,
@@ -36,7 +35,11 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.userService.list(this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
-        this.users = res.users;
+        res.users.forEach(
+          user=> {
+            this.users.push({"user": user, "selected": false});
+          }
+        );
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
         let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
@@ -64,19 +67,25 @@ export class UserListComponent implements OnInit {
   }
 
   private getPage(page:number) {
+    this.users = [];
+    this.currentPage = page;
     this.userService.list(page, this.itemsOnPage).subscribe(
       (res) => {
-        this.users = res.users;
+        res.users.forEach(
+          user=> {
+            this.users.push({"user": user, "selected": false});
+          }
+        );
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        this.displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(this.displayedPageCount / 2) + 1) {
+        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(displayedPageCount / 2) + 1) {
             return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(this.displayedPageCount / 2))
-            return e - Math.floor(this.displayedPageCount / 2) + i;
+          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+            return e - Math.floor(displayedPageCount / 2) + i;
           else
-            return this.totalPageCount - (this.displayedPageCount - 1) + i;
+            return this.totalPageCount - (displayedPageCount - 1) + i;
         }).filter(val=>val > 0);
       },
       (err:any) => {
@@ -89,20 +98,30 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['../details', id], {relativeTo: this.route});
   }
 
-  private addToSelected(e, user:User) {
-    if (e.target.checked)
-      this.selectedUsers.push(user);
-
+  public removeSelected(){
+    this.userService.remove(this.users.filter(item=>{return item.selected}).map(
+      item=>{
+        return item.user;
+      }
+    ));
   }
 
-  private addAllToSelected(e) {
-    if (e.target.checked)
-
-      this.selectedUsers.concat(this.users);
+  private selectAllEvent(e) {
+    if (e.target.checked) {
+      this.users.forEach(
+        user=> {
+          user.selected = true;
+        }
+      )
+    }
+    else {
+      this.users.forEach(
+        user=> {
+          user.selected = false;
+        }
+      )
+    }
   }
 
-  private isSelected(user:User) {
-    return this.selectedUsers.includes(user);
-  }
 
 }

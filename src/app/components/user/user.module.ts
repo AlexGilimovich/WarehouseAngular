@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { NgModule,  } from '@angular/core';
+import {FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import { CommonModule, DatePipe  } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserContainerComponent } from './user-container/user-container.component';
 import {Role} from "./role";
-import { UserCreateComponent } from './user-create/user-create.component';
 import {UserService} from "./user-service.service";
 import { UserListContainerComponent } from './user-list-container/user-list-container.component';
-import { UserValidationComponent } from './user-validation/user-validation.component';
+import {WarehouseModule} from "../warehouse/warehouse.module";
+import {User} from "./user";
 
 //export const roles:Role[] = [
 //  new Role("ROLE_ADMIN", "Администратор системы"),
@@ -52,7 +52,7 @@ export const userRoutes:Routes = [
     "component": UserListContainerComponent
   }, {
     "path": "create",
-    "component": UserCreateComponent
+    "component": UserDetailsComponent
   }
 ];
 
@@ -61,11 +61,12 @@ export const userRoutes:Routes = [
   imports: [
     RouterModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
 
   ],
-  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserCreateComponent, UserListContainerComponent, UserValidationComponent],
-  providers: [UserService]
+  declarations: [UserDetailsComponent, UserListComponent, UserContainerComponent, UserListContainerComponent],
+  providers: [UserService, DatePipe]
 })
 export class UserModule {
 }

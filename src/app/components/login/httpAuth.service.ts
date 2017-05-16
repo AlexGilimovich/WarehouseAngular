@@ -41,13 +41,17 @@ export class HttpAuthService {
     return this._request(RequestMethod.Head, url, null, options);
   }
 
-  private _request(method:RequestMethod, url:string, body?:string, options?:RequestOptions):Observable<Response> {
+  private _request(method:RequestMethod, url:string, body?:string, _options?:RequestOptions):Observable<Response> {
+    let options = _options;
+    if (!options)
+      options = new RequestOptions(new Headers());
     options.method = method;
     options.url = url;
     options.body = body;
     if (!options.headers) {
       options.headers = new Headers();
     }
+
     options.headers.append("Authorization", this._buildAuthHeader(this.loginService.getLoggedUser()));
     options.headers.append("Content-type", "application/json");
     return this._http.request(new Request(options));
