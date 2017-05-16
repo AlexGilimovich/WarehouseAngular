@@ -22,7 +22,6 @@ import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
-import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 import {customerRoutes} from "./components/customer/customer.module";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
@@ -35,6 +34,8 @@ import {warehouseRoutes} from "./components/warehouse/warehouse.module";
 import {warehouseSchemeRoutes} from "./components/warehouse-scheme/warehouse-scheme.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
+import {WarehouseModule} from "./components/warehouse/warehouse.module";
+import {User} from "./components/user/user";
 
 const desktopRoutes:Routes = [
   {
@@ -123,7 +124,6 @@ const globalRoutes:Routes = [
     TransportCompanyListComponent,
     TransportCompanyCreateComponent,
     WarehouseCompanyComponent,
-    WarehouseComponent,
     WarehouseSchemeInfoComponent,
     CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
@@ -136,7 +136,8 @@ const globalRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(globalRoutes),
     BookModule,
-    DispatcherModule
+    DispatcherModule,
+    WarehouseModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
@@ -145,6 +146,7 @@ const globalRoutes:Routes = [
     ShoppingCartService,
     LoginService,
     HttpAuthService,
+    User
   ],
   bootstrap: [AppComponent]
 })

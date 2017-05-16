@@ -1,6 +1,6 @@
 <div>
   <ul>
-    <table class="hover" *ngFor="let user of users">
+    <table class="hover" >
       <tr>
         <th>
           <input type="checkbox" (change)="selectAllEvent($event)">
@@ -11,7 +11,7 @@
         <th>Склад</th>
         <th>Должность (роль)</th>
       </tr>
-      <tr >
+      <tr *ngFor="let user of users">
         <td>
           <input type="checkbox" [(ngModel)]="user.selected"  value="{{user.user.id}}">
         </td>
