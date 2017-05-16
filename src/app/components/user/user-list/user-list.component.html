@@ -3,7 +3,7 @@
     <table class="hover" *ngFor="let user of users">
       <tr>
         <th>
-          <input type="checkbox" (change)="addAllToSelected($event)">
+          <input type="checkbox" (change)="selectAllEvent($event)">
         </th>
         <th>Фамилия</th>
         <th>Имя</th>
@@ -13,22 +13,22 @@
       </tr>
       <tr >
         <td>
-          <input type="checkbox"  ([ngModel])="user.selected">
+          <input type="checkbox" [(ngModel)]="user.selected"  value="{{user.user.id}}">
         </td>
-        <td class="clickable" (click)="goToDetails(user.id)">
-          {{user.lastName}}
+        <td class="clickable" (click)="goToDetails(user.user.id)">
+          {{user.user.lastName}}
         </td>
-        <td class="clickable" (click)="goToDetails(user.id)">
-          {{user.firstName}}
+        <td class="clickable" (click)="goToDetails(user.user.id)">
+          {{user.user.firstName}}
         </td>
-        <td class="clickable" (click)="goToDetails(user.id)">
-          {{user.patronymic}}
-        </td>
-        <td>
-          {{user.warehouse}}
+        <td class="clickable" (click)="goToDetails(user.user.id)">
+          {{user.user.patronymic}}
         </td>
         <td>
-          <div *ngFor="let role of user.roles">
+          {{user.user.warehouse?.name}}
+        </td>
+        <td>
+          <div *ngFor="let role of user.user.roles">
             <span>{{rolesMessages.get(role.role)}}</span>
           </div>
         </td>
@@ -37,12 +37,12 @@
   </ul>
 
 
-  <ul class="pagination text-center" *ngIf="pageArray?.length>1">
+  <ul class="pagination text-center">
     <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
     <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
       <a (click)="getPage(page)">{{page}}</a>
     </li>
-    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount}"><span [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
+    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount||totalPageCount==1}"><span [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
     <div class="item-counter">
       <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
         <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
