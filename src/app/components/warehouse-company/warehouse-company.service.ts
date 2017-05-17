@@ -15,7 +15,7 @@ export class WarehouseCompanyService {
   constructor(private http: Http, private httpAuthService: HttpAuthService) {}
 
   getCompany(): Observable<WarehouseCompany[]> {
-    const url = Host.URL+'company/';
+    const url = Host.URL+'customer/';
     const headers = new Headers();
     const params = new URLSearchParams();
 
@@ -35,9 +35,9 @@ export class WarehouseCompanyService {
     });
   }
 
-/*  save(company: WarehouseCompany) {
+/*  save(customer: WarehouseCompany) {
     const url = 'http://localhost:8080/web/tr-company/';
-    const body = JSON.stringify(company);
+    const body = JSON.stringify(customer);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
     const options = new RequestOptions({

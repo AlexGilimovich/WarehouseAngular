@@ -22,7 +22,7 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   ngOnInit(){
-    console.log("open method get data warehouse company");
+    console.log("open method get data warehouse customer");
     this.service.getStorageSpace(this.id).subscribe(data => {
       this.storageSpace = data;
     });

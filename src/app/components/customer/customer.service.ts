@@ -54,4 +54,33 @@ export class WarehouseCustomerCompanyService {
     });
   }
 
+  update(customer: WarehouseCustomerCompany) {
+
+  }
+
+  delete(id: number) {
+    if (id != null) {
+      const url = path + '/' + id.toString();
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json;charset=utf-8');
+      const options = new RequestOptions({
+        headers: headers
+      });
+
+      return this.httpAuthService.delete(url, options).map((response: Response) => {
+        if (response.text()){
+          return (response.json());
+        }
+      });
+    }
+  }
+
+  removeCustomerFromArray(customers: WarehouseCustomerCompany[], customer: WarehouseCustomerCompany) {
+    const index = customers.indexOf(customer, 0);
+    if (index > -1) {
+      customers.splice(index, 1);
+    }
+    return customers;
+  }
+
 }

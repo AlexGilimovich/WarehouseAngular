@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-customer-create',
@@ -11,15 +12,17 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
 export class CustomerCreateComponent implements OnInit {
   customer = new WarehouseCustomerCompany;
 
-  constructor(private customerService: WarehouseCustomerCompanyService) {
+  constructor(private customerService: WarehouseCustomerCompanyService,
+              private router: Router) {
   }
 
   ngOnInit() {
   }
 
   onSubmit(customer: WarehouseCustomerCompany) {
-    this.customerService.save(customer).subscribe(data => {
-      console.log(data);
+    this.customerService.save(customer).subscribe(success => {
+      const redirectUrl = 'customer';
+      this.router.navigateByUrl(redirectUrl);
     });
   }
 
