@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user-service.service";
 import {rolesMessages} from "../user.module";
-import { Router, ActivatedRoute } from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../role";
 
 
@@ -16,6 +16,7 @@ export class UserListComponent implements OnInit {
   private rolesMessages = rolesMessages;
   private roles:Role[];
   @Output() onSelected = new EventEmitter<boolean>();
+  private sortingDirection = "UP";
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -130,7 +131,7 @@ export class UserListComponent implements OnInit {
         }
       )
       if (this.users.length > 0)
-      this.onSelected.emit(false);
+        this.onSelected.emit(false);
     }
   }
 
@@ -140,12 +141,65 @@ export class UserListComponent implements OnInit {
 
   private sort(fieldName:string) {
     switch (fieldName) {
-      //todo sorting
-      case "lasName":
+      case "lastName":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.lastName).toLowerCase().localeCompare((<string>next.user.lastName).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.lastName).toLowerCase().localeCompare((<string>current.user.lastName).toLowerCase());
+          });
         break;
+      case "firstName":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.firstName).toLowerCase().localeCompare((<string>next.user.firstName).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.firstName).toLowerCase().localeCompare((<string>current.user.firstName).toLowerCase());
+          });
+        break;
+      case "patronymic":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.patronymic).toLowerCase().localeCompare((<string>next.user.patronymic).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.patronymic).toLowerCase().localeCompare((<string>current.user.patronymic).toLowerCase());
+          });
+        break;
+      case "warehouse":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (current.user.warehouse?current.user.warehouse.name:'').toLowerCase().localeCompare((next.user.warehouse?next.user.warehouse.name:'').toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (next.user.warehouse?next.user.warehouse.name:'').toLowerCase().localeCompare((current.user.warehouse?current.user.warehouse.name:'').toLowerCase());
+          });
+        break;
+
+      case "role":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.roles[0].role).toLowerCase().localeCompare((<string>next.user.roles[0].role).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.roles[0].role).toLowerCase().localeCompare((<string>current.user.roles[0].role).toLowerCase());
+          });
+        break;
+
       default:
         break;
     }
+
+    if (this.sortingDirection=="UP")
+      this.sortingDirection="DOWN"
+    else this.sortingDirection="UP"
   }
 
 

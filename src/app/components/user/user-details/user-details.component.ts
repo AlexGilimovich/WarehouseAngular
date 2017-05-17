@@ -102,7 +102,7 @@ export class UserDetailsComponent implements OnInit {
         }
       );
     } else {
-      this.userForm.controls['login'].setValidators([Validators.compose([Validators.required]), Validators.pattern(/^[a-zA-Zа-я0-9]*$/)]);
+      this.userForm.controls['login'].setValidators([Validators.compose([Validators.required]), Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(5)])]);
       this.warehouseService.getWarehouse(this.user.warehouse.warehouseCompany.idWarehouseCompany).subscribe(
         (warehouseList:Warehouse[]) => {
