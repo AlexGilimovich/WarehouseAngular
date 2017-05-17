@@ -101,28 +101,42 @@ export class UserService {
     })
   }
 
-  save(user:User):void {
+  save(user:User):Observable<any> {
     let url = SAVE_URL;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     if (user.id != undefined) {
       url = `${SAVE_URL}${"/"}${user.id}`;
-      this.httpAuthService.put(url, JSON.stringify(user), options).subscribe(resp=>console.debug(resp));
+      return this.httpAuthService.put(url, JSON.stringify(user), options);
     } else {
-      this.httpAuthService.post(url, JSON.stringify(user), options).subscribe(resp=>console.debug(resp));
+      return this.httpAuthService.post(url, JSON.stringify(user), options);
     }
   }
 
-  remove(users:User[]):void {
-    users.forEach(
-      user=> {
-        let url = `${DELETE_URL}${"/"}${user.id}`;
-        this.httpAuthService.delete(url).subscribe(resp=>console.debug(resp))
+  remove(users:User[]):Observable<any> {
+    return Observable.create(observer=> {
+        let promise = new Promise((resolve, reject)=> {
+            let counter = 0;
+            users.forEach(user=> {
+              this.removeUser(user).map(res=> {
+              }).subscribe(res=> {
+                if (++counter == users.length) {
+                  resolve();
+                }
+              });
+            })
+
+          }
+        );
+        promise.then(res=>observer.next());
       }
-    )
+    );
 
+  }
 
-
+  private removeUser(user:User):Observable<any> {
+    let url = `${DELETE_URL}${"/"}${user.id}`;
+    return this.httpAuthService.delete(url);
   }
 
 

@@ -183,11 +183,14 @@ export class UserDetailsComponent implements OnInit {
       }
     );
     user.warehouse = this.findWarehouseById(userForm.controls['warehouse'].value);
-    this.userService.save(user);
-    if (this.id != undefined)
-      this.router.navigate(['../../list'], {relativeTo: this.route});//todo refresh page
-    else
-      this.router.navigate(['../list'], {relativeTo: this.route});
+    this.userService.save(user).subscribe(res=>{
+        if (this.id != undefined)
+          this.router.navigate(['../../list'], {relativeTo: this.route});//todo refresh page
+        else
+          this.router.navigate(['../list'], {relativeTo: this.route});
+    }
+    )
+
   }
 
   private close():void {

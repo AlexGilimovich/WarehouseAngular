@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {UserListComponent} from "../user-list/user-list.component";
 import {User} from "../user";
 
@@ -10,6 +10,8 @@ import {User} from "../user";
 export class UserListContainerComponent implements OnInit {
   @ViewChild(UserListComponent)
   private userList:UserListComponent;
+  private hasSelected:boolean = false;
+
 
   constructor() {
   }
@@ -19,6 +21,11 @@ export class UserListContainerComponent implements OnInit {
 
   private remove():void {
     this.userList.removeSelected();
+  }
+
+  private onSelected(event) {
+    this.hasSelected = event;
+
   }
 
 }

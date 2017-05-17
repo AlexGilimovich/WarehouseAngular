@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user-service.service";
 import {rolesMessages} from "../user.module";
@@ -15,7 +15,7 @@ export class UserListComponent implements OnInit {
   private users:any[] = [];
   private rolesMessages = rolesMessages;
   private roles:Role[];
-
+  @Output() onSelected = new EventEmitter<boolean>();
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -98,12 +98,19 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['../details', id], {relativeTo: this.route});
   }
 
-  public removeSelected(){
-    this.userService.remove(this.users.filter(item=>{return item.selected}).map(
-      item=>{
+  public removeSelected() {
+    this.userService.remove(this.users.filter(item=> {
+      return item.selected
+    }).map(
+      item=> {
         return item.user;
       }
-    ));
+    )).subscribe(
+      res=> {
+        this.getPage(this.currentPage);
+      }
+    )
+
   }
 
   private selectAllEvent(e) {
@@ -113,6 +120,8 @@ export class UserListComponent implements OnInit {
           user.selected = true;
         }
       )
+      if (this.users.length > 0)
+        this.onSelected.emit(true);
     }
     else {
       this.users.forEach(
@@ -120,6 +129,22 @@ export class UserListComponent implements OnInit {
           user.selected = false;
         }
       )
+      if (this.users.length > 0)
+      this.onSelected.emit(false);
+    }
+  }
+
+  private selectOneEvent(e) {
+    this.onSelected.emit(e.target.checked);
+  }
+
+  private sort(fieldName:string) {
+    switch (fieldName) {
+      //todo sorting
+      case "lasName":
+        break;
+      default:
+        break;
     }
   }
 
