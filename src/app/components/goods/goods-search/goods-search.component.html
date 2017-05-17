@@ -1,94 +1,104 @@
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="name" class="right">Наименование:</label>
-      </div>
-      <div class="large-10 small-10 columns">
-        <input type="text" id="name" name="name" [ngModel]="searchDTO.name">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
 
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="minQuantity" class="right">От</label>
+      <div class="row">
+        <div class="large-8 small-8 columns">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="name" class="right">Наименование:</label>
+            </div>
+            <div class="large-10 small-10 columns">
+              <input type="text" id="name" name="name" [ngModel]="searchDTO?.name">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minQuantity" name="minQuantity" [ngModel]="searchDTO.minQuantity">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxQuantity" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxQuantity" name="minQuantity" [ngModel]="searchDTO.maxQuantity">
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="row">
+        <div class="large-8 small-8 columns">
+          <label>Количество:</label>
 
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="minQuantity" class="right">От</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="minQuantity" name="minQuantity" [ngModel]="searchDTO?.minQuantity">
+            </div>
+            <div class="large-2 small-2 columns">
+              <label for="maxQuantity" class="right">до</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="maxQuantity" name="minQuantity" [ngModel]="searchDTO?.maxQuantity">
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="minPrice" class="right">От</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minPrice" name="minPrice" [ngModel]="searchDTO.minPrice">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxPrice" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxPrice" name="maxPrice" [ngModel]="searchDTO.maxPrice">
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="row">
+        <div class="large-8 small-8 columns">
+          <label>Количество:</label>
 
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="minPrice" class="right">От</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="minPrice" name="minPrice" [ngModel]="searchDTO?.minPrice">
+            </div>
+            <div class="large-2 small-2 columns">
+              <label for="maxPrice" class="right">до</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="maxPrice" name="maxPrice" [ngModel]="searchDTO?.maxPrice">
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="minWeight" class="right">От</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minWeight" name="minWeight" [ngModel]="searchDTO.minWeight">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxWeight" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxWeight" name="maxWeight" [ngModel]="searchDTO.maxWeight">
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="row">
+        <div class="large-8 small-8 columns">
+          <label>Количество:</label>
 
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="status" class="right">Текущий статус:</label>
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="minWeight" class="right">От</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="minWeight" name="minWeight" [ngModel]="searchDTO?.minWeight">
+            </div>
+            <div class="large-2 small-2 columns">
+              <label for="maxWeight" class="right">до</label>
+            </div>
+            <div class="large-4 small-4 columns">
+              <input type="text" id="maxWeight" name="maxWeight" [ngModel]="searchDTO?.maxWeight">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="large-10 small-10 columns">
-        <input type="text" id="status" name="status" [ngModel]="searchDTO.status">
+
+      <div class="row">
+        <div class="large-8 small-8 columns">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="status" class="right">Текущий статус:</label>
+            </div>
+            <div class="large-10 small-10 columns">
+              <input type="text" id="status" name="status" [ngModel]="searchDTO?.status">
+            </div>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </div>
 
-</div>
+      <div class="row">
+        <input class="button" type="button" value="Добавить статус" (click)="addStatus()">
+      </div>
 
-<div class="row">
-  <input class="button" type="button" value="Добавить статус" (click)="addStatus()">
-</div>
+      <!--dynamic status search component-->
 
-<!--dynamic status search component-->
+
+
+
+
+
+
+
+

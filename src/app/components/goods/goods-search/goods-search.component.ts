@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $:any;
 
 @Component({
   selector: 'app-goods-search',
@@ -10,6 +11,7 @@ export class GoodsSearchComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $("body").foundation();
   }
 
 }

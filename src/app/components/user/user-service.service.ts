@@ -1,14 +1,12 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {User} from "./user";
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Role} from "./role";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {HttpAuthService} from "../login/httpAuth.service";
-import {RequestOptionsArgs} from "../../../../node_modules/@angular/http/src/interfaces";
 import {Warehouse} from "../warehouse/warehouse";
-import {rolesMessages} from "./user.module";
 import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 const LIST_URL:string = "http://localhost:8080/web/web/user";
@@ -123,7 +121,13 @@ export class UserService {
                 if (++counter == users.length) {
                   resolve();
                 }
-              });
+              },
+                error=>{
+                  if (++counter == users.length) {
+                    resolve();
+                  }
+                }
+              );
             })
 
           }

@@ -1,14 +1,26 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from "@angular/core";
 import {HttpAuthService} from "../login/httpAuth.service";
-import {Observable, Subscription} from 'rxjs';
-import {Http, Response, Headers, RequestOptions} from '@angular/http';
-
+import {Observable} from "rxjs";
+import {Response, Headers, RequestOptions} from "@angular/http";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 import {Goods} from "./goods";
+import {GoodsStatusName} from "./goodsStatusName";
+import {Unit} from "./unit";
+import {StorageSpaceType} from "../warehouse-scheme/storage-space-type";
+import {StorageType} from "./storageType";
+import {StorageCell} from "../warehouse-scheme/storage-cell";
+import {GoodsStatus} from "./goodsStatus";
+import {observable} from "rxjs/symbol/observable";
 
 
 const LIST_URL:string = "http://localhost:8080/web/web/goods";
 const GET_URL:string = "http://localhost:8080/web/web/goods/";
 const SAVE_URL:string = "http://localhost:8080/web/web/goods/save";
+const GET_STATUS_NAMES_URL:string = "http://localhost:8080/web/web/goods/statuses";
+const GET_UNITS_URL:string = "http://localhost:8080/web/web/goods/units";
+const GET_STORAGE_SPACE_TYPES_URL:string = "http://localhost:8080/web/web/goods/storageTypes";
+const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 
 @Injectable()
 export class GoodsService {
@@ -16,34 +28,55 @@ export class GoodsService {
   constructor(private httpAuthService:HttpAuthService) {
   }
 
-  list(page:number, count:number):Observable<any> {
-    const url:string = `${LIST_URL}${"?page="}${page}${"&count="}${count}`;
+  list(id:string, page:number, count:number):Observable<any> {
+    const url:string = `${LIST_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
       return {
-        users: (<any>response.json()).map(item=> {
-          return new Goods(
-            item.id,
-            item.name,
-            item.quantity,
-            item.weight,
-            item.price,
-            item.storageType,
-            item.quantityUnit,
-            item.weightUnit,
-            item.priceUnit,
-            item.storageSpace,
-            item.storageCell
-          );
-        }),
+        goods: (<any>response.json()).map(
+          item=> {
+            return new Goods(
+              item.id,
+              item.name,
+              item.quantity,
+              item.weight,
+              item.price,
+              new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+              new Unit(item.quantityUnit.id, item.quantityUnit.name),
+              new Unit(item.quantityUnit.id, item.weightUnit.name),
+              new Unit(item.quantityUnit.id, item.priceUnit.name),
+              item.cells.map(
+                item=> {
+                  let storageCell = new StorageCell();
+                  storageCell.number = item.number;
+                  storageCell.idStorageCell = item.idStorageCell;
+                  return storageCell;
+                }
+              ),
+              // item.cells.map(
+              //   item=> {
+              //     let storageSpace = new StorageSpace();
+              //     storageSpace.idStorageSpace = item.idStorageSpace;
+              //     return storageSpace;
+              //   }
+              // ),
+              null,
+              item.status ?
+                new GoodsStatus(
+                  item.status.id,
+                  item.status.date,
+                  item.status.goodsStatusName.name,
+                  item.status.note
+                ) : null
+            )
+          }),
         count: count
       }
     });
 
   }
-
 
   get(id:number):Observable<Goods> {
     const url = `${GET_URL}${id}`;
@@ -57,18 +90,111 @@ export class GoodsService {
         item.quantity,
         item.weight,
         item.price,
-        item.storageType,
-        item.quantityUnit,
-        item.weightUnit,
-        item.priceUnit,
-        item.storageSpace,
-        item.storageCell
-      );
+        new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+        new Unit(item.quantityUnit.id, item.quantityUnit.name),
+        new Unit(item.quantityUnit.id, item.weightUnit.name),
+        new Unit(item.quantityUnit.id, item.priceUnit.name),
+        item.cells.map(
+          item=> {
+            let storageCell = new StorageCell();
+            storageCell.number = item.number;
+            storageCell.idStorageCell = item.idStorageCell;
+            return storageCell;
+          }
+        ),
+        // item.cells.map(
+        //   item=> {
+        //     let storageSpace = new StorageSpace();
+        //     storageSpace.idStorageSpace = item.idStorageSpace;
+        //     return storageSpace;
+        //   }
+        // ),
+        null,
+        item.status ?
+          new GoodsStatus(
+            item.status.id,
+            item.status.date,
+            item.status.goodsStatusName.name,
+            item.status.note
+          ) : null
+      )
     })
   }
 
-  save(goods:Goods) {
+  save(goods:Goods):Observable<any> {
+    let url = SAVE_URL;
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    if (goods.id != undefined) {
+      url = `${SAVE_URL}${"/"}${goods.id}`;
+      return this.httpAuthService.put(url, JSON.stringify(goods), options);
+    } else {
+      return this.httpAuthService.post(url, JSON.stringify(goods), options);
+    }
+  }
 
+  getStatusNames():Observable<GoodsStatusName[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_STATUS_NAMES_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          return new GoodsStatusName(item.id, item.name);
+        }
+      )
+    })
+  }
+
+  updateStatuses(goods):Observable<void> {
+    let counter:number = goods.length;
+    return Observable.create(
+      observer=>{
+      goods.forEach(
+        item=> {
+          const url:string = `${UPDATE_STATUS_URL}${item.goods.id}`;
+          let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus);
+          this.httpAuthService.post(url,JSON.stringify(status)).subscribe(
+            resp=>{
+              if (--counter==0)
+                observer.next();
+            },
+            error=>{
+              if (--counter==0)
+                observer.next();
+            }
+          )
+        }
+      );
+      }
+    )
+
+  }
+
+  getUnits():Observable<Unit[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_UNITS_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          return new Unit(item.id, item.name);
+        }
+      )
+    })
+  }
+
+  getStorageSpaceTypes():Observable<StorageSpaceType[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_UNITS_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          let type = new StorageSpaceType();
+          type.idStorageSpaceType = item.idStorageSpaceType;
+          type.name = item.name;
+          return type;
+        }
+      )
+    })
   }
 
 }
