@@ -20,10 +20,6 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  edit(id: number) {
-
-  }
-
   delete(customer: WarehouseCustomerCompany) {
     this.customerService.delete(customer.id).subscribe(success => {
       this.customers = this.customerService.removeCustomerFromArray(this.customers, customer);

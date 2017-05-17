@@ -13,7 +13,8 @@
         </a>
       </td>
       <td>
-        <a (click)="edit(customer.id)">
+        <!-- todo -->
+        <a [routerLink]="['/customer', customer.id]" >
           Изменить
         </a>
       </td>

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { CustomerCreateComponent } from './customer-create/customer-create.component';
 import {RouterModule, Routes} from "@angular/router";
 import { CustomerListComponent } from './customer-list/customer-list.component';
+import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+
+export const customerRedirectUrl = 'customer';
 
 export const customerRoutes: Routes = [
   {
@@ -12,6 +15,10 @@ export const customerRoutes: Routes = [
   {
     path: 'new',
     component: CustomerCreateComponent
+  },
+  {
+    path: ':id',
+    component: CustomerDetailsComponent
   }
 ];
 
@@ -20,6 +27,6 @@ export const customerRoutes: Routes = [
     RouterModule,
     CommonModule
   ],
-  declarations: [CustomerCreateComponent, CustomerListComponent]
+  declarations: [CustomerCreateComponent, CustomerListComponent, CustomerDetailsComponent]
 })
 export class WarehouseCustomerCompanyModule { }

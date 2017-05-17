@@ -35,6 +35,7 @@ import {warehouseSchemeRoutes} from "./components/warehouse-scheme/warehouse-sch
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
 import {CustomerListComponent} from "./components/customer/customer-list/customer-list.component";
+import {CustomerDetailsComponent} from "./components/customer/customer-details/customer-details.component";
 import {WarehouseModule} from "./components/warehouse/warehouse.module";
 import {User} from "./components/user/user";
 
@@ -128,7 +129,8 @@ const globalRoutes:Routes = [
     WarehouseSchemeInfoComponent,
     CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
-    CustomerListComponent
+    CustomerListComponent,
+    CustomerDetailsComponent
   ],
   imports: [
     BrowserModule,

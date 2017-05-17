@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router} from '@angular/router';
+import {customerRedirectUrl} from "../customer.module";
 
 @Component({
   selector: 'app-customer-create',
@@ -21,8 +22,7 @@ export class CustomerCreateComponent implements OnInit {
 
   onSubmit(customer: WarehouseCustomerCompany) {
     this.customerService.save(customer).subscribe(success => {
-      const redirectUrl = 'customer';
-      this.router.navigateByUrl(redirectUrl);
+      this.router.navigateByUrl(customerRedirectUrl);
     });
   }
 
