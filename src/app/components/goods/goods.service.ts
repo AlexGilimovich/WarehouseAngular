@@ -152,7 +152,7 @@ export class GoodsService {
       goods.forEach(
         item=> {
           const url:string = `${UPDATE_STATUS_URL}${item.goods.id}`;
-          let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus);
+          let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
           this.httpAuthService.post(url,JSON.stringify(status)).subscribe(
             resp=>{
               if (--counter==0)

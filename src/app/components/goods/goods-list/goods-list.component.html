@@ -1,7 +1,7 @@
 <table class="hover">
   <tr>
     <th>
-      <input type="checkbox" (change)="selectAllEvent($event)">
+      <input type="checkbox" id="selectAll" (change)="selectAllEvent($event)">
     </th>
     <th (click)="sort('name')">Наименование</th>
     <th (click)="sort('storageType')">Тип хранения</th>
@@ -17,7 +17,7 @@
   </tr>
   <tr *ngFor="let goods of goodsList">
     <td>
-      <input type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
+      <input  type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
              (change)="selectOneEvent($event)">
     </td>
     <td class="clickable" (click)="goToDetails(goods.goods.id)">
@@ -46,7 +46,7 @@
     </td>
     <td>
       <select id="statusName" name="statusName" [ngModel]="goods.goods.status?.name"
-              (ngModel)="goods.goods.status.name" (change)="statusChanged($event, goods)">
+              (ngModel)="goods.goods.status.name" (change)="statusChangedEvent($event, goods)">
         <option *ngFor="let statusName of statusNames" [value]="statusName.name">
           {{statusMessages.get(statusName.name)}}
         </option>
@@ -77,35 +77,18 @@
   </div>
 </ul>
 
-
-
-<div class="reveal" id="storageModal" data-reveal>
-  Тип хранения:
-  <select id="storageType" name="storageType" (ngModel)="goods.goods.storageType.name">
-    <option *ngFor="let type of storageTypes" [value]="type.name"
-            [selected]="goods.goods.status?.name == statusName.name">
-      {{storageTypeMessages.get(statusName.name)}}
-    </option>
-  </select>
-  Выбрать помещение:
-
-
-</div>
-
-
-
 <!--SET STATUS TO SELECTED MODAL-->
 <div class="reveal" id="statusModal" data-reveal data-close-on-click="false">
   <button class="close-button" type="button" data-close (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
-  <label for="status">Статус:</label>
-  <select id="status" name="status" (ngModel)="selectedGoods.goods.status.name">
-    <option *ngFor="let statusName of statusNames" [value]="statusName.name"
-            [selected]="selectedGoods.goods.status?.name==statusName.name">
+  <label for="statusAll">Статус:</label>
+  <select id="statusAll" name="statusAll" [(ngModel)]="batchStatus.name">
+    <option *ngFor="let statusName of statusNames" [value]="statusName.name">
       {{statusMessages.get(statusName.name)}}
     </option>
   </select>
   <label for="note">Примечание:</label>
-  <textarea name="note" id="note" cols="30" rows="10" (ngModel)="selectedGoods.goods.status.note"></textarea>
+  <textarea name="note" id="note" cols="30" rows="10" (ngModel)="batchStatus.note"></textarea>
+  <input type="button" value="Сохранить" (click)="setStatusOfSelected()">
 </div>

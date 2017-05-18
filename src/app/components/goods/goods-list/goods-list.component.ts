@@ -1,8 +1,12 @@
-import {Component, OnInit, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {GoodsService} from "../goods.service";
-import {statusMessages} from "../goods.module";
 import {GoodsStatusName} from "../goodsStatusName";
+import {WarehouseService} from "../../warehouse/warehouse.service";
+import {StorageCell} from "../../warehouse-scheme/storage-cell";
+import {Subscription} from "rxjs";
+import {statusMessages} from "../goods.module";
+
 declare var $:any;
 
 @Component({
@@ -13,17 +17,17 @@ declare var $:any;
 export class GoodsListComponent implements OnInit {
   private warehouseId;
   private goodsList:any[] = [];
-  private statusNames:GoodsStatusName[];
-  private statusMessages = statusMessages;
-  @Output() onChanged = new EventEmitter<boolean>();
-  @Output() onSelected = new EventEmitter<boolean>();
+  @Input() private statusNames:GoodsStatusName[];
+  @Output() private onChanged = new EventEmitter<boolean>();
+  @Output() private onSelected = new EventEmitter<boolean>();
+  private statusMessages= statusMessages;
+  private batchStatus = {name: '', note: ''};
   // private units:Unit[];
   // private storageTypes:StorageType[];
   // private unitTypeMessages= unitTypeMessages;
   // private storageTypeMessages=storageTypeMessages;
 
   private sortingDirection = "UP";
-  private selectedGoods;
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -35,6 +39,7 @@ export class GoodsListComponent implements OnInit {
   private displayedPageCount = 7;//constant: number of pages in pagination
 
   constructor(private goodsService:GoodsService,
+              private warehouseService: WarehouseService,
               private router:Router,
               private route:ActivatedRoute) {
     // route.params.subscribe(params => {
@@ -49,7 +54,7 @@ export class GoodsListComponent implements OnInit {
       (res) => {
         res.goods.forEach(
           goods => {
-            this.goodsList.push({"goods": goods, "selected": false, "changed": false});
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
         );
         this.totalItemsCount = res.count;
@@ -68,14 +73,7 @@ export class GoodsListComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getStatusNames().subscribe(
-      (res) => {
-        this.statusNames = res;
-      },
-      (err)=> {
-        console.error(err);
-      }
-    );
+
   }
 
   private getPage(page:number) {
@@ -83,9 +81,9 @@ export class GoodsListComponent implements OnInit {
     this.currentPage = page;
     this.goodsService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
       (res) => {
-        res.users.forEach(
+        res.goods.forEach(
           goods=> {
-            this.goodsList.push({goods: goods, selected: false, changed: false});
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
         );
         this.totalItemsCount = res.count;
@@ -111,25 +109,28 @@ export class GoodsListComponent implements OnInit {
   }
 
 
-  private statusChanged(e, goods) {
+  private statusChangedEvent(e, goods) {
     if (!goods.goods.status && e.target.value) {
       goods.changed = true;
-      goods.newStatus = e.target.value;
+      goods.newStatus.name = e.target.value;
+      goods.newStatus.note = '';
       this.onChanged.emit(true);
     }
     if (e.target.value == goods.goods.status.name) {
       goods.changed = false;
-      goods.newStatus = '';
+      goods.newStatus.name = '';
+      goods.newStatus.note = '';
     }
     else {
       goods.changed = true;
-      goods.newStatus = e.target.value;
+      goods.newStatus.name = e.target.value;
+      goods.newStatus.note = '';
     }
-    this.onChanged.emit(this.hasChanges());
+    this.onChanged.emit(this.checkChanges());
   }
 
 
-  private hasChanges():boolean {
+  private checkChanges():boolean {
     let hasChanged:boolean = false;
     this.goodsList.forEach(
       item => {
@@ -140,15 +141,6 @@ export class GoodsListComponent implements OnInit {
     return hasChanged;
   }
 
-  // private openStatusDetails(goods) {
-  //   this.selectedGoods = goods;
-  //   $('#statusModal').foundation('toggle');
-  // }
-
-  private openStorageDetails(goods) {
-    this.selectedGoods = goods;
-    $('#storageModal').foundation('toggle');
-  }
 
   private selectAllEvent(e) {
     if (e.target.checked) {
@@ -176,39 +168,70 @@ export class GoodsListComponent implements OnInit {
   }
 
 
-  public update() {
-    //todo update storage cell
+  public doUpdate() {
     this.goodsService.updateStatuses(this.goodsList.filter(
       item => {
         return item.changed;
       }
-    )).subscribe();
+    )).subscribe(
+      res=> {
+        this.onChanged.emit(false);
+        this.getPage(this.currentPage);
+      }
+    );
   }
 
-  private putInStorage() {
+
+
+  public setStatusOfSelected() {
+    this.goodsList.forEach(
+      item=> {
+        if (item.selected) {
+          item.newStatus.name = this.batchStatus.name;
+          item.newStatus.note = this.batchStatus.note;
+          item.changed = true;
+        }
+      }
+    )
+    this.doUpdate();
+    $('#statusModal').foundation('close');
+    $('#selectAll').prop('checked', false);
+  }
+
+  private putInStorage(goods) {
+    // this.router.navigate(['../../warehouse'], {relativeTo: this.route, queryParams:{ storageTypeId: goods.goods.storageType.id, warehouseId: this.warehouseId }});
+    // subscription: Subscription = this.warehouseService.selectedCells$.subscribe(
+    //   cells => {
+    //     cells.forEach(
+    //       cell=>{
+    //         let c = new StorageCell();
+    //         c.idStorageCell = cell.idStorageCell;
+    //         c.number = cell.number;
+    //         goods.goods.StorageCell.push(c);
+    //         goods.changed = true;
+    //       }
+    //     );
+    //   });
     //todo
     // this.goodsService.putInStorage();
   }
 
-  private hasCell(goods, cell) {
-    let hasCell:boolean = false;
-    goods.goods.storageCell.forEach(
-      item=> {
-        if (item.idStorageCell == cell.idStorageCell)
-          hasCell = true;
-      }
-    )
-    return hasCell;
-  }
+  // private hasCell(goods, cell) {
+  //   let hasCell:boolean = false;
+  //   goods.goods.storageCell.forEach(
+  //     item=> {
+  //       if (item.idStorageCell == cell.idStorageCell)
+  //         hasCell = true;
+  //     }
+  //   )
+  //   return hasCell;
+  // }
 
   public openStatusModal() {
     $('#statusModal').foundation('open');
-    ///todo
   }
 
   public closeStatusModal() {
     $('#statusModal').foundation('close');
-    ///todo
-
   }
 }

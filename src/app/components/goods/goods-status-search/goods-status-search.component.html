@@ -1,27 +1,56 @@
+
 <div class="row">
-  <div class="large-2 small-2 columns">
-    <label for="status">Статус:</label>
-    <select id="status" name="status" [(ngModel)]="statuses.pop().status">
-      <option *ngFor="let status of statuses" [ngValue]="status"
-              [selected]="status.id==goods?.status.id">
-        {{status.name}}
+  <div class="large-4 small-4 columns">
+    <label for="status" class="right">Статус:</label>
+  </div>
+  <div class="large-8 small-8 columns">
+    <select name="status" id="status" [(ngModel)]="status.name">
+      <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+        {{statusMessages.get(statusName.name)}}
       </option>
     </select>
   </div>
-  <div class="large-2 small-2 columns">
-    <label for="date">Дата:</label>
-    <input type="text" id="date" name="date" [ngModel]="statuses.pop().date">
+</div>
+<div class="row">
+  <div class="large-4 small-4 columns">
+    <label for="status" class="right">Дата:</label>
   </div>
-  <div class="large-2 small-2 columns">
-    <label for="lastName">Фамилия ответственного лица:</label>
-    <input type="text" id="lastName" name="lastName" [ngModel]="statuses.pop().lastName">
+  <div class="large-1 small-1 columns">
+    <label for="fromDate" class="right">c</label>
   </div>
-  <div class="large-2 small-2 columns">
-    <label for="firstName">Имя ответственного лица:</label>
-    <input type="text" id="firstName" name="firstName" [ngModel]="statuses.pop().firstName">
+  <div class="large-3 small-3 columns">
+    <input type="text" id="fromDate" name="fromDate" [(ngModel)]="status.fromDate" placeholder="ДД.ММ.ГГГГ">
   </div>
-  <div class="large-2 small-2 columns">
-    <label for="patronymic">Отчество ответственного лица:</label>
-    <input type="text" id="patronymic" name="patronymic" [ngModel]="statuses.pop().patronymic">
+  <div class="large-1 small-1 columns">
+    <label for="fromDate" class="right">по</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="toDate" name="toDate" [(ngModel)]="status.toDate" placeholder="ДД.ММ.ГГГГ">
+  </div>
+
+</div>
+<div class="row">
+  <div class="large-4 small-4 columns">
+    <label for="status" class="right">Фамилия ответственного лица:</label>
+  </div>
+  <div class="large-8 small-8 columns">
+    <input type="text" id="lastName" name="lastName" [(ngModel)]="status.userLastName">
   </div>
 </div>
+<div class="row">
+  <div class="large-4 small-4 columns">
+    <label for="status" class="right">Имя ответственного лица:</label>
+  </div>
+  <div class="large-8 small-8 columns">
+    <input type="text" id="firstName" name="firstName" [(ngModel)]="status.userFirstName">
+  </div>
+</div>
+<div class="row">
+  <div class="large-4 small-4 columns">
+    <label for="status" class="right">Отчество ответственного лица:</label>
+  </div>
+  <div class="large-8 small-8 columns">
+    <input type="text" id="patronymic" name="patronymic" [(ngModel)]="status.userPatronymic">
+  </div>
+</div>
+
