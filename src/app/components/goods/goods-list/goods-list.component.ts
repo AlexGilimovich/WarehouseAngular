@@ -173,6 +173,7 @@ export class GoodsListComponent implements OnInit {
     )).subscribe(
       res=> {
         this.onChanged.emit(false);
+        this.onSelected.emit(false);
         this.getPage(this.currentPage);
       }
     );
@@ -180,12 +181,11 @@ export class GoodsListComponent implements OnInit {
 
   public cancelChanges() {
     this.goodsList.forEach(
-      item=>{
+      (item,index)=>{
         item.changed = false;
         item.newStatus.name = '';
         item.newStatus.note = '';
-        //todo reset value
-        $(`${'#statusName option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
+        $(`${'#statusName_'}${index}${' option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
       }
     )
     this.onChanged.emit(false);

@@ -15,7 +15,7 @@
     <th (click)="sort('storageCell')">Ячейка</th>
     <!--<th (click)="sort('storageCell')">Место</th>-->
   </tr>
-  <tr *ngFor="let goods of goodsList">
+  <tr *ngFor="let goods of goodsList;let i=index;">
     <td>
       <input  type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
              (change)="selectOneEvent($event)">
@@ -45,7 +45,7 @@
       {{goods.goods.weightUnit.name}}
     </td>
     <td>
-      <select id="statusName" name="statusName" [ngModel]="goods.goods.status?.name"
+      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.status?.name"
               (ngModel)="goods.goods.status.name" (change)="statusChangedEvent($event, goods)">
         <option *ngFor="let statusName of statusNames" [value]="statusName.name">
           {{statusMessages.get(statusName.name)}}
