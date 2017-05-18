@@ -4,19 +4,14 @@
       <th></th>
       <th>Название</th>
       <th></th>
-      <th></th>
     </tr>
     <tr *ngFor="let customer of customers">
       <td>
-        <a routerLink='${customer.id}'>
+        <a [routerLink]="['/customer', customer.id]" >
           {{customer.name}}
         </a>
       </td>
       <td>
-        <!-- todo -->
-        <a [routerLink]="['/customer', customer.id]" >
-          Изменить
-        </a>
       </td>
       <td>
         <button (click)="delete(customer)">

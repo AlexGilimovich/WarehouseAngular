@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router, ActivatedRoute, Params } from "@angular/router";
 import {WarehouseCustomerCompany} from "../customer";
-import {customerRedirectUrl} from "../customer.module";
 
 @Component({
   selector: 'app-customer-details',
@@ -29,7 +28,7 @@ export class CustomerDetailsComponent implements OnInit {
 
   onSubmit(customer: WarehouseCustomerCompany) {
     this.customerService.update(customer).subscribe(success => {
-      this.router.navigateByUrl(customerRedirectUrl);
+      this.router.navigateByUrl('customer');
     });
   }
 

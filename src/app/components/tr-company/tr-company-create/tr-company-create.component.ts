@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tr-company-create',
@@ -11,7 +12,7 @@ import {TransportCompanyService} from "../tr-company.service";
 export class TransportCompanyCreateComponent implements OnInit {
   company = new TransportCompany;
 
-  constructor(private transportService: TransportCompanyService) {
+  constructor(private transportService: TransportCompanyService,private router: Router) {
     this.company.isTrusted = false;
   }
 
@@ -20,7 +21,7 @@ export class TransportCompanyCreateComponent implements OnInit {
 
   onSubmit(company: TransportCompany) {
     this.transportService.save(company).subscribe(data => {
-      console.log(data);
+      this.router.navigateByUrl('tr-company');
     });
   }
 

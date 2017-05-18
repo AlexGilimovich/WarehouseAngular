@@ -56,4 +56,29 @@ export class TransportCompanyService {
     });
   }
 
+  delete(id: number) {
+    if (id != null) {
+      const url = path + '/' + id.toString();
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json;charset=utf-8');
+      const options = new RequestOptions({
+        headers: headers
+      });
+
+      return this.httpAuthService.delete(url, options).map((response: Response) => {
+        if (response.text()) {
+          return (response.json());
+        }
+      });
+    }
+  }
+
+  removeCompanyFromArray(companies: TransportCompany[], company: TransportCompany) {
+    const index = companies.indexOf(company, 0);
+    if (index > -1) {
+      companies.splice(index, 1);
+    }
+    return companies;
+  }
+
 }

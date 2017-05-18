@@ -5,8 +5,6 @@ import {RouterModule, Routes} from "@angular/router";
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 
-export const customerRedirectUrl = 'customer';
-
 export const customerRoutes: Routes = [
   {
     path: '',
