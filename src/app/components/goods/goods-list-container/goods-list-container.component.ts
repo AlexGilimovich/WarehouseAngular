@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {GoodsListComponent} from "../goods-list/goods-list.component";
-import {statusMessages} from "../goods.module";
 import {GoodsService} from "../goods.service";
 import {GoodsStatusName} from "../goodsStatusName";
+import {Unit} from "../unit";
+import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
 
 declare var $:any;
 
@@ -17,10 +17,10 @@ export class GoodsListContainerComponent implements OnInit {
   private goodsListComponent:GoodsListComponent;
   private hasChanged:boolean = false;
   private hasSelected:boolean = false;
-  private searchDTO:GoodsSearchDTO;
-  private statusMessages = statusMessages;
-  private statusNames: GoodsStatusName[];
 
+  private statusNames:GoodsStatusName[];
+  private units:Unit[];
+  private storageTypes:StorageSpaceType[];
 
   constructor(private goodsService:GoodsService) {
   }
@@ -35,15 +35,34 @@ export class GoodsListContainerComponent implements OnInit {
         console.error(err);
       }
     );
+    this.goodsService.getStorageSpaceTypes().subscribe(
+      (res) => {
+        this.storageTypes = res;
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getUnits().subscribe(
+      (res) => {
+        this.units = res;
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+
   }
 
   private saveChanges() {
     this.goodsListComponent.doUpdate();
   }
 
-  private doSearch() {
-
+  private cancelChanges(){
+    //todo reset changes
+    this.goodsListComponent.cancelChanges();
   }
+
 
   private onChanged(event) {
     this.hasChanged = event;

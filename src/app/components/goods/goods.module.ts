@@ -91,7 +91,7 @@ export const statusMessages:Map<string, string> = new Map([
 // ]);
 
 
-export const unitTypeMessages:Map<string, string> = new Map([
+export const unitMessages:Map<string, string> = new Map([
   ["UNIT_KILOGRAM", "кг"],
   ["UNIT_LITER", "л"],
   ["UNIT_METER", "м"],

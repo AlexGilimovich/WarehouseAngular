@@ -9,13 +9,17 @@ import {statusMessages} from "../goods.module";
   styleUrls: ['./goods-status-search.component.scss']
 })
 export class GoodsStatusSearchComponent implements OnInit {
-  private status:GoodsStatusSearchDTO = new GoodsStatusSearchDTO();
-  private statusMessages = statusMessages;
+  @Input() private status:GoodsStatusSearchDTO;
   @Input() private statusNames:GoodsStatusName[];
+  private statusMessages = statusMessages;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  private removeStatus(){
+    //todo emit event to remove this.status
   }
 
 

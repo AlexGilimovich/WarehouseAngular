@@ -22,10 +22,7 @@ export class GoodsListComponent implements OnInit {
   @Output() private onSelected = new EventEmitter<boolean>();
   private statusMessages= statusMessages;
   private batchStatus = {name: '', note: ''};
-  // private units:Unit[];
-  // private storageTypes:StorageType[];
-  // private unitTypeMessages= unitTypeMessages;
-  // private storageTypeMessages=storageTypeMessages;
+
 
   private sortingDirection = "UP";
 
@@ -181,6 +178,19 @@ export class GoodsListComponent implements OnInit {
     );
   }
 
+  public cancelChanges() {
+    this.goodsList.forEach(
+      item=>{
+        item.changed = false;
+        item.newStatus.name = '';
+        item.newStatus.note = '';
+        //todo reset value
+        $(`${'#statusName option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
+      }
+    )
+    this.onChanged.emit(false);
+
+  }
 
 
   public setStatusOfSelected() {
@@ -199,7 +209,7 @@ export class GoodsListComponent implements OnInit {
   }
 
   private putInStorage(goods) {
-    // this.router.navigate(['../../warehouse'], {relativeTo: this.route, queryParams:{ storageTypeId: goods.goods.storageType.id, warehouseId: this.warehouseId }});
+    // this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', goods.goods.storageType.id, this.warehouseId], {relativeTo: this.route, queryParams:{ storageTypeId: goods.goods.storageType.id, warehouseId: this.warehouseId }});
     // subscription: Subscription = this.warehouseService.selectedCells$.subscribe(
     //   cells => {
     //     cells.forEach(

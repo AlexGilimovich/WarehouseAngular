@@ -79,7 +79,7 @@
 
 <!--SET STATUS TO SELECTED MODAL-->
 <div class="reveal" id="statusModal" data-reveal data-close-on-click="false">
-  <button class="close-button" type="button" data-close (click)="close()">
+  <button class="close-button" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button>
   <label for="statusAll">Статус:</label>
@@ -90,5 +90,5 @@
   </select>
   <label for="note">Примечание:</label>
   <textarea name="note" id="note" cols="30" rows="10" (ngModel)="batchStatus.note"></textarea>
-  <input type="button" value="Сохранить" (click)="setStatusOfSelected()">
+  <input type="button" class="button" value="Сохранить" (click)="setStatusOfSelected()">
 </div>

@@ -1,22 +1,31 @@
 <div class="content">
-  <ul class="accordion" data-accordion data-allow-all-closed="true">
-    <li class="accordion-item" data-accordion-item>
-      <!-- Accordion tab title -->
-      <a class="accordion-title">Параметры поиска</a>
-      <div class="accordion-content" data-tab-content>
-        <app-goods-search [statusNames]="statusNames"></app-goods-search>
-      </div>
-    </li>
-  </ul>
-
-  <app-goods-list [statusNames]="statusNames" (onChanged)="onChanged($event)" (onSelected)="onSelected($event)"></app-goods-list>
+  <div class="row">
+    <div class="large-8 small-8 columns">
+      <ul class="accordion" data-accordion data-allow-all-closed="true">
+        <li class="accordion-item" data-accordion-item>
+          <!-- Accordion tab title -->
+          <a class="accordion-title">Параметры поиска</a>
+          <div class="accordion-content" data-tab-content>
+            <app-goods-search [statusNames]="statusNames" [storageTypes]="storageTypes"
+                              [units]="units"></app-goods-search>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <app-goods-list [statusNames]="statusNames" (onChanged)="onChanged($event)"
+                  (onSelected)="onSelected($event)"></app-goods-list>
 
   <div class="large-5 large-offset-7 small-6 small-offset-6 columns button-right">
 
     <input class="button" type="button" [disabled]="!hasSelected" (click)="batchStatusUpdate()"
            value="Обновить статус выбранным">
-    <input class="button" type="button" [disabled]="!hasChanged" (click)="saveChanges()" value="Сохранить изменения">
+    <input class="button" type="button" [disabled]="!hasChanged" (click)="saveChanges()"
+           value="Сохранить изменения">
+    <input class="button" type="button" [disabled]="!hasChanged" (click)="cancelChanges()"
+           value="Отменить изменения">
   </div>
+
 </div>
 
 

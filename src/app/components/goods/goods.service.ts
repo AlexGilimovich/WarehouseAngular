@@ -185,7 +185,7 @@ export class GoodsService {
   getStorageSpaceTypes():Observable<StorageSpaceType[]> {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(GET_UNITS_URL, options).map((response:Response) => {
+    return this.httpAuthService.get(GET_STORAGE_SPACE_TYPES_URL, options).map((response:Response) => {
       return response.json().map(
         item => {
           let type = new StorageSpaceType();
