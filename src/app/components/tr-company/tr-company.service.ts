@@ -4,6 +4,7 @@ import {HttpAuthService} from '../login/httpAuth.service';
 import {Observable} from 'rxjs/Observable';
 import {TransportCompany} from './tr-company';
 import {Host} from "../../util/host";
+import {FormGroup} from "@angular/forms";
 
 const path = Host.getURL() + 'tr-company';
 
@@ -71,6 +72,13 @@ export class TransportCompanyService {
         }
       });
     }
+  }
+
+  mapCustomerFromForm(form: FormGroup): TransportCompany {
+    const company = new TransportCompany();
+    company.name = form.controls['name'].value;
+    company.isTrusted = form.controls['isTrusted'].value;
+    return company;
   }
 
   removeCompanyFromArray(companies: TransportCompany[], company: TransportCompany) {

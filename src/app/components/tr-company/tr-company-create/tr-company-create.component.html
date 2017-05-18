@@ -1,26 +1,30 @@
 <div>
-  <form (ngSubmit)="onSubmit(company)">
+  <form [formGroup]="companyForm"
+        (ngSubmit)="onSubmit(companyForm)">
     <label>
       Доверенный
-      <input type="checkbox" name="trusted" [(ngModel)]="company.isTrusted">
+      <input type="checkbox"
+             [formControl]="companyForm.controls['isTrusted']">
     </label>
 
     <label>
       Имя
-      <input type="text" name="name" [(ngModel)]="company.name" required>
+      <input type="text"
+             [formControl]="companyForm.controls['name']">
     </label>
 
-    <div *ngIf="company.isTrusted">
-      <label>
-        Логин
-        <input type="text" name="login">
-      </label>
+    <!-- todo do we even need it -->
+    <!--<div *ngIf="company.isTrusted">-->
+      <!--<label>-->
+        <!--Логин-->
+        <!--<input type="text" name="login">-->
+      <!--</label>-->
 
-      <label>
-        Пароль
-        <input type="password">
-      </label>
-    </div>
+      <!--<label>-->
+        <!--Пароль-->
+        <!--<input type="password">-->
+      <!--</label>-->
+    <!--</div>-->
 
     <input type="submit">
   </form>

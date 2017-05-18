@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {WarehouseCustomerCompany} from "./customer";
 import {Headers, RequestOptions, Response} from "@angular/http";
 import {Host} from "../../util/host";
+import {FormGroup} from "@angular/forms";
 
 const path = Host.getURL() + 'customer';
 
@@ -115,6 +116,12 @@ export class WarehouseCustomerCompanyService {
       customers.splice(index, 1);
     }
     return customers;
+  }
+
+  mapCustomerFromForm(form: FormGroup): WarehouseCustomerCompany {
+    const customer = new WarehouseCustomerCompany();
+    customer.name = form.controls['name'].value;
+    return customer;
   }
 
 }

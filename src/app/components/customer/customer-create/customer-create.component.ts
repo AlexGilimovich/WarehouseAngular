@@ -12,7 +12,6 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 })
 export class CustomerCreateComponent implements OnInit {
   customerForm: FormGroup;
-  customer = new WarehouseCustomerCompany;
 
   constructor(private customerService: WarehouseCustomerCompanyService,
               private router: Router,
@@ -26,17 +25,11 @@ export class CustomerCreateComponent implements OnInit {
   }
 
   onSubmit(form: FormGroup) {
-    const customer = this.mapCustomerFromForm(form);
+    const customer = this.customerService.mapCustomerFromForm(form);
     console.log(customer);
     this.customerService.save(customer).subscribe(success => {
       this.router.navigateByUrl('customer');
     });
-  }
-
-  private mapCustomerFromForm(form: FormGroup): WarehouseCustomerCompany {
-    const customer = new WarehouseCustomerCompany();
-    customer.name = form.controls['name'].value;
-    return customer;
   }
 
 }
