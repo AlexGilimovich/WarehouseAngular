@@ -13,6 +13,8 @@ import {GoodsService} from "./goods.service";
 import {GoodsStatusSearchComponent} from './goods-status-search/goods-status-search.component';
 import {GoodsSearchComponent} from './goods-search/goods-search.component';
 import {SearchService} from "./goods-search/search.service";
+import { StatusHistoryComponent } from './status-history/status-history.component';
+import { GoodsActsComponent } from './goods-acts/goods-acts.component';
 
 // export const statuses:GoodsStatusName[] = [
 //   new GoodsStatusName("REGISTERED", "Зарегистрирован"),
@@ -152,9 +154,9 @@ export const goodsRoutes:Routes = [
 ];
 @NgModule({
   imports: [
-    CommonModule, RouterModule, FormsModule
+    CommonModule, RouterModule, FormsModule,  ReactiveFormsModule
   ],
-  declarations: [GoodsContainerComponent, GoodsDetailsComponent, GoodsListComponent, GoodsCreateComponent, GoodsListContainerComponent, GoodsStatusSearchComponent, GoodsSearchComponent],
+  declarations: [GoodsContainerComponent, GoodsDetailsComponent, GoodsListComponent, GoodsCreateComponent, GoodsListContainerComponent, GoodsStatusSearchComponent, GoodsSearchComponent, StatusHistoryComponent, GoodsActsComponent],
   providers: [GoodsService, SearchService]
 })
 export class GoodsModule {

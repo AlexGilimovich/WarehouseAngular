@@ -3,10 +3,13 @@ import {HttpAuthService} from "../login/httpAuth.service";
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable, Subscription} from 'rxjs';
 import {Act} from "./act";
+import {User} from "../user/user";
+import {ActType} from "./actType";
 
 const LIST_URL:string = "http://localhost:8080/web/web/act";
 const GET_URL:string = "http://localhost:8080/web/web/act/";
 const SAVE_URL:string = "http://localhost:8080/web/web/act/save";
+const GET_ACTS_FOR_GOODS_URL:string ="http://localhost:8080/web/web/act/acts";
 
 @Injectable()
 export class ActService {
@@ -56,6 +59,27 @@ export class ActService {
 
   save(act:Act) {
 
+  }
+
+  public getActsForGoods(goodsId):Observable<Act[]> {
+    const url:string = `${GET_ACTS_FOR_GOODS_URL}${"/"}${goodsId}`;
+    return this.httpAuthService.get(url).map((response:Response) => {
+      return response.json().map(
+        item => {
+          let act = new Act();
+          act.id = item.id;
+          act.date = item.date;
+          let user = new User();
+          user.id = item.id;
+          user.lastName = item.lastName;
+          user.firstName = item.firstName;
+          user.patronymic = item.patronymic;
+          act.user = user;
+          act.actType = new ActType(item.actType.id, item.actType.name)
+          return act;
+        }
+      )
+    })
   }
 
 }

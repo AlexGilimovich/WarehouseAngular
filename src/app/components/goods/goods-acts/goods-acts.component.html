@@ -1,0 +1,32 @@
+<table class="hover">
+  <tr>
+    <th (click)="sort('type')">Тип</th>
+    <th (click)="sort('date')">Дата</th>
+    <th (click)="sort('lastName')">Фамилия</th>
+    <th (click)="sort('firstName')">Имя</th>
+    <th (click)="sort('patronymic')">Отчество</th>
+    <th (click)="sort('note')">Примечание</th>
+  </tr>
+  <tr *ngFor="let act of acts; let i=index;">
+    <td>
+      {{actTypeMessages.get(act.actType.name)}}
+    </td>
+    <td>
+      {{act.date| date:'dd.MM.yyyy HH:mm:ss'}}
+    </td>
+    <td>
+      {{act.user.lastName}}
+    </td>
+    <td>
+      {{act.user.firstName}}
+    </td>
+    <td>
+      {{act.user.patronymic}}
+    </td>
+    <td>
+      {{act.note}}
+    </td>
+  </tr>
+
+
+</table>

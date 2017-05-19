@@ -5,7 +5,7 @@ import {GoodsStatusName} from "../goodsStatusName";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 import {StorageCell} from "../../warehouse-scheme/storage-cell";
 import {Subscription} from "rxjs";
-import {statusMessages, unitMessages} from "../goods.module";
+import {statusMessages} from "../goods.module";
 import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
 

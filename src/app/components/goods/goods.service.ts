@@ -13,6 +13,7 @@ import {StorageCell} from "../warehouse-scheme/storage-cell";
 import {GoodsStatus} from "./goodsStatus";
 import {observable} from "rxjs/symbol/observable";
 import {GoodsSearchDTO} from "./goodsSearchDTO";
+import {User} from "../user/user";
 
 
 const LIST_URL:string = "http://localhost:8080/web/web/goods";
@@ -23,6 +24,8 @@ const GET_UNITS_URL:string = "http://localhost:8080/web/web/goods/units";
 const GET_STORAGE_SPACE_TYPES_URL:string = "http://localhost:8080/web/web/goods/storageTypes";
 const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
+const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
+
 
 @Injectable()
 export class GoodsService {
@@ -31,7 +34,7 @@ export class GoodsService {
   }
 
   list(id:string, page:number, count:number):Observable<any> {
-    const url:string = `${LIST_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
+    const url:string = `${LIST_URL}${"/"}${id}${"/list"}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
@@ -202,7 +205,7 @@ export class GoodsService {
 
   search(dto:GoodsSearchDTO, id:string, page:number, count:number):Observable<any> {
     const url:string = `${SEARCH_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
-    return this.httpAuthService.post(url,JSON.stringify(dto)).map((response:Response)=> {
+    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
       return {
         goods: (<any>response.json()).map(
@@ -247,5 +250,32 @@ export class GoodsService {
     });
 
   }
+
+
+  public getStatusesForGoods(goodsId):Observable<GoodsStatus[]> {
+    const url:string = `${GET_STATUSES_URL}${"/"}${goodsId}`;
+    return this.httpAuthService.get(url).map((response:Response) => {
+      return response.json().map(
+        item => {
+          let status = new GoodsStatus();
+          status.id = item.id;
+          status.date = item.date;
+          status.name = item.goodsStatusName.name;
+          status.note = item.note;
+          let user = new User();
+          user.id = item.id;
+          user.lastName = item.lastName;
+          user.firstName = item.firstName;
+          user.patronymic = item.patronymic;
+          status.user = user;
+          return status;
+        }
+      )
+    })
+
+  }
+
+
+
 
 }

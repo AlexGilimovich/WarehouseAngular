@@ -64,7 +64,6 @@ export class GoodsListContainerComponent implements OnInit {
   }
 
   private cancelChanges() {
-    //todo reset changes
     this.goodsListComponent.cancelChanges();
   }
 

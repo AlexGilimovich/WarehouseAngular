@@ -1,139 +1,182 @@
 <div class="callout" data-closable>
-  <button class="close-button"  type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
+  <button class="close-button" type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
     <span aria-hidden="true">&times;</span>
   </button>
   <div class="form-container">
-    <form class="form" #f="ngForm" (ngSubmit)="save()">
+    <form class="form" [formGroup]="goodsForm" (ngSubmit)="save(goodsForm)">
       <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="name" class="right">Наименование:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="name" name="name" type="text" (ngModel)="currentGoods.name"
-                     [ngModel]="currentGoods?.name" required/>
-
-              <div data-alert [hidden]="currentGoods?.name.valid || currentGoods?.name.pristine"
-                   class="alert-box info radius">
-                Поле "Наименование" не может быть пустым
-              </div>
+              <input id="name" name="name" type="text" [formControl]="goodsForm.controls['name']" required/>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="quantity" class="right">Количество:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="quantity" name="quantity" type="text" (ngModel)="currentGoods.quantity"
-                     [ngModel]="currentGoods?.quantity"/>
-
+            <div class="large-6 small-6 columns">
+              <input id="quantity" name="quantity" type="text" [formControl]="goodsForm.controls['quantity']" required/>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-6 small-8 columns">
-          <div class="row">
             <div class="large-3 small-3 columns">
-              <label for="quantityUnit" class="right">Ед. изм:</label>
-            </div>
-            <div class="large-9 small-9 columns">
-              <input id="quantityUnit" name="quantityUnit" type="text" (ngModel)="currentGoods.quantityUnit"
-                     [ngModel]="currentGoods?.quantityUnit"/>
+              <select name="quantityUnit" id="quantityUnit" [formControl]="goodsForm.controls['quantityUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
       </div>
+
       <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="price" class="right">Цена:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="price" name="price" type="text" [ngModel]="currentGoods?.price" (ngModel)="currentGoods.price"/>
+            <div class="large-6 small-6 columns">
+              <input id="price" name="price" type="text" [formControl]="goodsForm.controls['price']" required/>
+            </div>
+            <div class="large-3 small-3 columns">
+              <select name="priceUnit" id="priceUnit" [formControl]="goodsForm.controls['priceUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
       </div>
 
+
       <div class="row">
-        <div class="large-6 small-8 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="priceUnit" class="right">Ед. изм.:</label>
-            </div>
-            <div class="large-9 small-9 columns">
-              <input id="priceUnit" name="priceUnit" type="text" (ngModel)="currentGoods.priceUnit" [ngModel]="currentGoods?.priceUnit"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="weight" class="right">Вес:</label>
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="weight" name="weight" type="text" (ngModel)="currentGoods.weight" [ngModel]="currentGoods?.weight"/>
+            <div class="large-6 small-6 columns">
+              <input id="weight" name="weight" type="text" [formControl]="goodsForm.controls['weight']" required/>
+            </div>
+            <div class="large-3 small-3 columns">
+              <select name="weightUnit" id="weightUnit" [formControl]="goodsForm.controls['weightUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
+
             </div>
           </div>
         </div>
       </div>
 
+
       <div class="row">
-        <div class="large-6 small-8 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="weightUnit" class="right">Ед. изм.:</label>
-            </div>
-            <div class="large-9 small-9 columns">
-              <input id="weightUnit" name="weightUnit" type="weightUnit" (ngModel)="currentGoods.weightUnit"
-                     [ngModel]="currentGoods?.weightUnit"/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
               <label for="storageType" class="right">Тип хранения:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="storageType" storageType="city" type="text" (ngModel)="currentGoods.storageType" [ngModel]="currentGoods?.storageType"/>
+              <select name="storageType" id="storageType" [formControl]="goodsForm.controls['storageType']" required>
+                <option *ngFor="let type of storageTypes" [value]="type.name">
+                  {{type.name}}
+                </option>
+              </select>
             </div>
           </div>
         </div>
       </div>
-
       <div class="row">
-        <div class="large-6 small-8 columns">
+        <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
-              <label for="storagePlace" class="right">Место хранения:</label>
+              <label for="statusName" class="right">Текущий статус:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <input id="storagePlace" name="storagePlace" type="text" (ngModel)="currentGoods.storagePlace"
-                     [ngModel]="currentGoods?.storagePlace"/>
+              <select id="statusName" name="statusName" [formControl]="goodsForm.controls['currentStatus']" required>
+                <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+                  {{statusMessages.get(statusName.name)}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label class="right">Место хранения:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <!--<div *ngFor="let cell of goods?.storageCell">-->
+                <!--{{cell.idStorageCell}}-->
+              <!--</div>-->
+
+              <ul class="menu simple" *ngFor="let cell of goods?.storageCell">
+                <li><a>{{cell.idStorageCell}}</a></li>
+              </ul>
+              <button class="hollow button" type="button">
+                <span aria-hidden="true">
+                  Переместить
+                  <!--<i class="fi-plus"></i>-->
+                </span>
+              </button>
+
+            </div>
+            <!--<div class="large-3 small-3 columns">-->
+              <!--<button class="hollow button" type="button">-->
+                <!--<span aria-hidden="true">-->
+                  <!--Переместить-->
+                  <!--&lt;!&ndash;<i class="fi-plus"></i>&ndash;&gt;-->
+                <!--</span>-->
+              <!--</button>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label class="right">История:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <app-status-history [statuses]="statuses"></app-status-history>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label class="right">Связанные акты:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <app-goods-acts [acts]="acts"></app-goods-acts>
             </div>
           </div>
         </div>
       </div>
 
 
-
-
       <div class="row">
-        <div class="large-3 large-offset-9 small-3 small-offset-9 columns button-right">
-          <!--<a href="" class="button" (click)="save(user)">Сохранить</a>-->
-          <input class="button" type="submit" [disabled]="!f.form.valid" value="Сохранить">
+        <div class="large-9 small-9 columns button-right">
+          <input class="button" type="submit" [disabled]="!goodsForm.valid || !hasRights" value="Сохранить">
         </div>
       </div>
     </form>
