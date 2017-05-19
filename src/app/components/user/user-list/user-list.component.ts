@@ -1,10 +1,8 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {User} from "../user";
 import {UserService} from "../user-service.service";
 import {rolesMessages} from "../user.module";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../role";
-
 
 @Component({
   selector: 'app-user-list',
@@ -174,11 +172,11 @@ export class UserListComponent implements OnInit {
       case "warehouse":
         if (this.sortingDirection == "UP")
           this.users.sort((current, next)=> {
-            return (current.user.warehouse?current.user.warehouse.name:'').toLowerCase().localeCompare((next.user.warehouse?next.user.warehouse.name:'').toLowerCase());
+            return (current.user.warehouse ? current.user.warehouse.name : '').toLowerCase().localeCompare((next.user.warehouse ? next.user.warehouse.name : '').toLowerCase());
           });
         else
           this.users.sort((current, next)=> {
-            return (next.user.warehouse?next.user.warehouse.name:'').toLowerCase().localeCompare((current.user.warehouse?current.user.warehouse.name:'').toLowerCase());
+            return (next.user.warehouse ? next.user.warehouse.name : '').toLowerCase().localeCompare((current.user.warehouse ? current.user.warehouse.name : '').toLowerCase());
           });
         break;
 
@@ -197,9 +195,9 @@ export class UserListComponent implements OnInit {
         break;
     }
 
-    if (this.sortingDirection=="UP")
-      this.sortingDirection="DOWN"
-    else this.sortingDirection="UP"
+    if (this.sortingDirection == "UP")
+      this.sortingDirection = "DOWN"
+    else this.sortingDirection = "UP"
   }
 
 

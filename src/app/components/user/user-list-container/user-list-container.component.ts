@@ -25,7 +25,6 @@ export class UserListContainerComponent implements OnInit {
 
   private onSelected(event) {
     this.hasSelected = event;
-
   }
 
 }

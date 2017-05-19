@@ -8,14 +8,10 @@ import {
   Validators,
   FormControl,
   FormArray,
-  FormArrayName,
-  AbstractControl
 } from '@angular/forms';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {rolesMessages} from "../user.module";
-import {Role} from "../role";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 
 @Component({

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
+import {GoodsStatusName} from "../goodsStatusName";
+import {statusMessages} from "../goods.module";
+import {SearchService} from "../goods-search/search.service";
 
 @Component({
   selector: 'app-goods-status-search',
@@ -7,16 +10,19 @@ import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
   styleUrls: ['./goods-status-search.component.scss']
 })
 export class GoodsStatusSearchComponent implements OnInit {
-  private statuses:GoodsStatusSearchDTO[];
+  @Input() private status:GoodsStatusSearchDTO;
+  @Input() private statusNames:GoodsStatusName[];
+  private statusMessages = statusMessages;
 
-  constructor() { }
+  constructor(private searchService:SearchService) { }
 
   ngOnInit() {
   }
 
-  private newStatus() {
-    let status:GoodsStatusSearchDTO = new GoodsStatusSearchDTO();
-    this.statuses.push(status);
+  private removeStatus(){
+    this.searchService.removeGoodsSearchStatus(this.status);
   }
+
+
 
 }

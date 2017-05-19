@@ -1,5 +1,5 @@
 <div class="callout" data-closable>
-  <button class="close-button" type="button" data-close  (click)="close()">
+  <button class="close-button" type="button" data-close (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
   <div class="form-container">
@@ -23,7 +23,9 @@
               </div>
 
             </div>
-            <div class="large-3 small-3 columns"><small><i>обязательное поле</i></small></div>
+            <div class="large-3 small-3 columns">
+              <small><i>обязательное поле</i></small>
+            </div>
           </div>
         </div>
       </div>
@@ -71,13 +73,13 @@
               <input id="dateOfBirth" name="dateOfBirth" type="text" placeholder="ДД.ММ.ГГГГ"
                      [formControl]="userForm.controls['dateOfBirth']"/>
 
-                <div class="callout alert"
-                     *ngIf="userForm.controls['dateOfBirth'].hasError('invalidFormat') && userForm.get('dateOfBirth').touched">
-                  Некорректно введена дата рождения. Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
-                </div>
-                <div class="callout alert"
-                     *ngIf="userForm.controls['dateOfBirth'].hasError('inFuture') && userForm.controls['dateOfBirth'].touched">
-                  Дата рождения не может быть в будущем
+              <div class="callout alert"
+                   *ngIf="userForm.controls['dateOfBirth'].hasError('invalidFormat') && userForm.get('dateOfBirth').touched">
+                Некорректно введена дата рождения. Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
+              </div>
+              <div class="callout alert"
+                   *ngIf="userForm.controls['dateOfBirth'].hasError('inFuture') && userForm.controls['dateOfBirth'].touched">
+                Дата рождения не может быть в будущем
               </div>
             </div>
 
@@ -121,7 +123,9 @@
                 Поле "Логин" не может быть пустым
               </div>
             </div>
-            <div class="large-3 small-3 columns" *ngIf="id==undefined"><small><i>обязательное поле</i></small></div>
+            <div class="large-3 small-3 columns" *ngIf="id==undefined">
+              <small><i>обязательное поле</i></small>
+            </div>
           </div>
         </div>
       </div>
@@ -145,7 +149,9 @@
                 Поле "Пароль" не может быть пустым
               </div>
             </div>
-            <div class="large-3 small-3 columns" *ngIf="id==undefined"><small><i>обязательное поле</i></small></div>
+            <div class="large-3 small-3 columns" *ngIf="id==undefined">
+              <small><i>обязательное поле</i></small>
+            </div>
 
           </div>
         </div>
@@ -226,7 +232,7 @@
               <label for="warehouse" class="right">Склад:</label>
             </div>
             <div class="large-6 small-6 columns">
-                 <select id="warehouse" [formControl]="userForm.controls['warehouse']">
+              <select id="warehouse" [formControl]="userForm.controls['warehouse']">
                 <option *ngFor="let warehouse of warehouseList" [value]="warehouse.idWarehouse">
                   {{warehouse.name}}
                 </option>
@@ -245,9 +251,10 @@
             </div>
             <div class="large-6 small-6 columns" formArrayName="roles">
 
-              <div *ngFor="let role of roles; let i = index;" >
+              <div *ngFor="let role of roles; let i = index;">
                 <input type="checkbox" name="roles" (change)="updateRole(role, $event)"
-                       [checked]="role.checked" formControlName='{{i}}'><label>{{rolesMessages.get(role.role.role)}}</label>
+                       [checked]="role.checked"
+                       formControlName='{{i}}'><label>{{rolesMessages.get(role.role.role)}}</label>
               </div>
 
               <div class="callout alert"
@@ -255,7 +262,9 @@
                 Как минимум одна роль должна быть выбрана
               </div>
             </div>
-            <div class="large-3 small-3 columns"><small><i>Как минимум одна роль должна быть выбрана</i></small></div>
+            <div class="large-3 small-3 columns">
+              <small><i>Как минимум одна роль должна быть выбрана</i></small>
+            </div>
           </div>
         </div>
       </div>

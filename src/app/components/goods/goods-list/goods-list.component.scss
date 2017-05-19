@@ -1,0 +1,23 @@
+.item-counter {
+  display: inline-block;
+  float: right;
+  margin-right: 25px;
+  select {
+    font-size: 0.875em;
+    height: 32px;
+  }
+}
+
+.page-current {
+  background-color: #1779ba;
+  a:hover {
+    background-color: #1779ba;
+  }
+}
+
+table {
+  cursor: default;
+  .clickable {
+    cursor: pointer;
+  }
+}

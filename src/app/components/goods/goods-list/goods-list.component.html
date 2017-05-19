@@ -1,86 +1,94 @@
-<div>
-  <ul>
-    <table class="hover" *ngFor="let goods of goodsList">
-      <tr>
-        <th>
-          <input type="checkbox" (change)="addAllToSelected($event)">
-        </th>
-        <th>Наименование</th>
-        <th>Тип хранения</th>
-        <th>Количество</th>
-        <th>Ед.изм.</th>
-        <th>Цена</th>
-        <th>Ед.изм.</th>
-        <th>Вес</th>
-        <th>Ед.изм.</th>
-        <th>Помещение</th>
-        <th>Место</th>
-      </tr>
-      <tr >
-        <td>
-          <input type="checkbox"  ([ngModel])="act.selected">
-        </td>
-        <td (click)="goToDetails(goods.id)">
-          {{goods.name}}
-        </td>
-        <td>
-          {{goods.storageType.name}}
-        </td>
-        <td>
-          {{goods.quantity}}
-        </td>
-        <td>
-          {{goods.quantityUnit}}
-        </td>
-        <td>
-          {{goods.price}}
-        </td>
-        <td>
-          {{goods.priceUnit}}
-        </td>
-        <td>
-          {{goods.weight}}
-        </td>
-        <td>
-          {{goods.weightUnit}}
-        </td>
-
-        <td>
-          <select id="status" name="status" (ngModel)="goods.status">
-            <option *ngFor="let status of statuses" [ngValue]="status"
-                    [selected]="status.id==goods?.status.id">
-              {{status.name}}
-            </option>
-          </select>
-        </td>
-
-        <td>
-          <div *ngFor="let space of goods.storageSpace">
-            <span>{{storageSpace}}</span>
-            <div *ngFor="let cell of space.storageCells">
-              <span>{{cell}}</span>
-            </div>
-          </div>
-        </td>
-        <td>
-          <input class="button" type="button"  value="Положить в ячейку">
-        </td>
-      </tr>
-    </table>
-  </ul>
-
-  <ul class="pagination text-center" *ngIf="pageArray?.length>1">
-    <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
-    <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
-      <a (click)="getPage(page)">{{page}}</a>
-    </li>
-    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount}"><span [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
-    <div class="item-counter">
-      <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
-        <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+<table class="hover">
+  <tr>
+    <th>
+      <input type="checkbox" id="selectAll" (change)="selectAllEvent($event)">
+    </th>
+    <th (click)="sort('name')">Наименование</th>
+    <th (click)="sort('storageType')">Тип хранения</th>
+    <th (click)="sort('quantity')">Количество</th>
+    <th (click)="sort('quantityUnit')">Ед.изм.</th>
+    <th (click)="sort('price')">Цена</th>
+    <th (click)="sort('priceUnit')">Ед.изм.</th>
+    <th (click)="sort('weight')">Вес</th>
+    <th (click)="sort('weightUnit')">Ед.изм.</th>
+    <th (click)="sort('status')">Статус</th>
+    <th (click)="sort('storageCell')">Ячейка</th>
+    <!--<th (click)="sort('storageCell')">Место</th>-->
+  </tr>
+  <tr *ngFor="let goods of goodsList;let i=index;">
+    <td>
+      <input  type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
+             (change)="selectOneEvent($event)">
+    </td>
+    <td class="clickable" (click)="goToDetails(goods.goods.id)">
+      {{goods.goods.name}}
+    </td>
+    <td>
+      {{goods.goods.storageType.name}}
+    </td>
+    <td>
+      {{goods.goods.quantity}}
+    </td>
+    <td>
+      {{goods.goods.quantityUnit.name}}
+    </td>
+    <td>
+      {{goods.goods.price}}
+    </td>
+    <td>
+      {{goods.goods.priceUnit.name}}
+    </td>
+    <td>
+      {{goods.goods.weight}}
+    </td>
+    <td>
+      {{goods.goods.weightUnit.name}}
+    </td>
+    <td>
+      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.status?.name"
+              (ngModel)="goods.goods.status.name" (change)="statusChangedEvent($event, goods)">
+        <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+          {{statusMessages.get(statusName.name)}}
+        </option>
       </select>
-    </div>
-  </ul>
+    </td>
 
+    <td (click)="putInStorage(goods)">
+      <div *ngFor="let cell of goods.goods?.storageCell">
+        {{cell.idStorageCell}}
+      </div>
+    </td>
 
+  </tr>
+</table>
+
+<ul class="pagination text-center">
+  <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}" *ngIf="totalPageCount<=1"><span
+    [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
+  <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
+    <a (click)="getPage(page)">{{page}}</a>
+  </li>
+  <li [ngClass]="{'pagination-next':true, 'disabled': (currentPage==totalPageCount)}" *ngIf="totalPageCount<=1"><span
+    [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
+  <div class="item-counter">
+    <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
+      <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+    </select>
+  </div>
+</ul>
+
+<!--SET STATUS TO SELECTED MODAL-->
+<div class="reveal" id="statusModal" data-reveal data-close-on-click="false">
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <label for="statusAll">Статус:</label>
+  <select id="statusAll" name="statusAll" [(ngModel)]="batchStatus.name">
+    <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+      {{statusMessages.get(statusName.name)}}
+    </option>
+  </select>
+  <label for="note">Примечание:</label>
+  <textarea name="note" id="note" cols="30" rows="10" (ngModel)="batchStatus.note"></textarea>
+  <input type="button" class="button" value="Сохранить" (click)="setStatusOfSelected()">
 </div>
