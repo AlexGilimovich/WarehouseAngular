@@ -7,6 +7,7 @@ import {statusMessages, unitMessages, storageTypeMessages} from "../goods.module
 import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
 import {GoodsListComponent} from "../goods-list/goods-list.component";
 import {SearchService} from "./search.service";
+import {Subscription} from "rxjs";
 
 declare var $:any;
 
@@ -23,10 +24,17 @@ export class GoodsSearchComponent implements OnInit {
   private unitMessages = unitMessages;
   private storageTypeMessages = storageTypeMessages;
   private searchDTO:GoodsSearchDTO;
+  private subscription:Subscription;
 
   constructor(private searchService:SearchService) {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
+    this.subscription = searchService.removeStatusEvent$.subscribe(
+      status => {
+        this.removeStatus(status);
+      });
+
+
   }
 
   ngOnInit() {
@@ -37,9 +45,16 @@ export class GoodsSearchComponent implements OnInit {
     this.searchDTO.statuses.push(new GoodsStatusSearchDTO())
   }
 
-  private onRemoveStatusEvent(status:GoodsStatusSearchDTO) {
+  private removeStatus(status:GoodsStatusSearchDTO) {
     //todo
-    // this.searchDTO.statuses.slice
+
+    this.searchDTO.statuses.splice( this.searchDTO.statuses.findIndex(
+      predicate=>{
+        return predicate == status;
+      }
+    ), 1);
+
+
   }
 
   private search() {
@@ -49,5 +64,6 @@ export class GoodsSearchComponent implements OnInit {
   private clear() {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
+    this.searchService.doSearch(this.searchDTO);
   }
 }

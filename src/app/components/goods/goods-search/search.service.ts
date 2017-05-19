@@ -1,17 +1,26 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {Subject} from "rxjs";
+import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
 
 @Injectable()
 export class SearchService {
-
   private searchSource = new Subject<GoodsSearchDTO>();
   searchDTO$ = this.searchSource.asObservable();
 
-  constructor() { }
+  private removeStatusSource = new Subject<GoodsStatusSearchDTO>();
+  removeStatusEvent$ = this.removeStatusSource.asObservable();
 
-  public doSearch(searchDTO:GoodsSearchDTO): void {
+  constructor() {
+  }
+
+  public doSearch(searchDTO:GoodsSearchDTO):void {
     this.searchSource.next(searchDTO);
   }
+
+  public removeGoodsSearchStatus(status:GoodsStatusSearchDTO) {
+    this.removeStatusSource.next(status);
+  }
+
 
 }

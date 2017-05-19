@@ -30,6 +30,7 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsService.getStatusNames().subscribe(
       (res) => {
         this.statusNames = res;
+        this.statusNames.push(new GoodsStatusName(null, ''));
       },
       (err)=> {
         console.error(err);
@@ -38,6 +39,9 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
         this.storageTypes = res;
+        let emptyType = new StorageSpaceType();
+        emptyType.name = '';
+        this.storageTypes.push(emptyType);
       },
       (err)=> {
         console.error(err);
@@ -46,6 +50,7 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsService.getUnits().subscribe(
       (res) => {
         this.units = res;
+        this.units.push(new Unit(null, ''));
       },
       (err)=> {
         console.error(err);
@@ -58,7 +63,7 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsListComponent.doUpdate();
   }
 
-  private cancelChanges(){
+  private cancelChanges() {
     //todo reset changes
     this.goodsListComponent.cancelChanges();
   }
