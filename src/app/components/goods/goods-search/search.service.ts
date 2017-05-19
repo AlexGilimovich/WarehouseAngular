@@ -11,6 +11,9 @@ export class SearchService {
   private removeStatusSource = new Subject<GoodsStatusSearchDTO>();
   removeStatusEvent$ = this.removeStatusSource.asObservable();
 
+  private dateValiditySource = new Subject<boolean>();
+  dateValidationEvent$ = this.dateValiditySource.asObservable();
+
   constructor() {
   }
 
@@ -20,6 +23,10 @@ export class SearchService {
 
   public removeGoodsSearchStatus(status:GoodsStatusSearchDTO) {
     this.removeStatusSource.next(status);
+  }
+
+  public dateValidationEvent(validity:boolean){
+    this.dateValiditySource.next(validity);
   }
 
 

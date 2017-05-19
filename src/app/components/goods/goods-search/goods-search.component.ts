@@ -25,6 +25,8 @@ export class GoodsSearchComponent implements OnInit {
   private storageTypeMessages = storageTypeMessages;
   private searchDTO:GoodsSearchDTO;
   private subscription:Subscription;
+  private subscriptionValidation:Subscription;
+  private isValid: boolean = true;
 
   constructor(private searchService:SearchService) {
     this.searchDTO = new GoodsSearchDTO();
@@ -32,6 +34,11 @@ export class GoodsSearchComponent implements OnInit {
     this.subscription = searchService.removeStatusEvent$.subscribe(
       status => {
         this.removeStatus(status);
+      });
+
+    this.subscriptionValidation = searchService.dateValidationEvent$.subscribe(
+      (validity:boolean) => {
+        this.isValid = validity;
       });
 
 
@@ -48,8 +55,8 @@ export class GoodsSearchComponent implements OnInit {
   private removeStatus(status:GoodsStatusSearchDTO) {
     //todo
 
-    this.searchDTO.statuses.splice( this.searchDTO.statuses.findIndex(
-      predicate=>{
+    this.searchDTO.statuses.splice(this.searchDTO.statuses.findIndex(
+      predicate=> {
         return predicate == status;
       }
     ), 1);
