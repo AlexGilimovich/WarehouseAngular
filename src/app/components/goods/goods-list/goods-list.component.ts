@@ -5,7 +5,9 @@ import {GoodsStatusName} from "../goodsStatusName";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 import {StorageCell} from "../../warehouse-scheme/storage-cell";
 import {Subscription} from "rxjs";
-import {statusMessages} from "../goods.module";
+import {statusMessages, unitMessages} from "../goods.module";
+import {GoodsSearchDTO} from "../goodsSearchDTO";
+import {SearchService} from "../goods-search/search.service";
 
 declare var $:any;
 
@@ -20,9 +22,12 @@ export class GoodsListComponent implements OnInit {
   @Input() private statusNames:GoodsStatusName[];
   @Output() private onChanged = new EventEmitter<boolean>();
   @Output() private onSelected = new EventEmitter<boolean>();
-  private statusMessages= statusMessages;
+  private statusMessages = statusMessages;
+  //status which set to all selected goods
   private batchStatus = {name: '', note: ''};
 
+  private searchDTO:GoodsSearchDTO;
+  private subscription:Subscription;
 
   private sortingDirection = "UP";
 
@@ -36,9 +41,15 @@ export class GoodsListComponent implements OnInit {
   private displayedPageCount = 7;//constant: number of pages in pagination
 
   constructor(private goodsService:GoodsService,
-              private warehouseService: WarehouseService,
+              private warehouseService:WarehouseService,
               private router:Router,
-              private route:ActivatedRoute) {
+              private route:ActivatedRoute,
+              private searchService:SearchService) {
+    this.subscription = searchService.searchDTO$.subscribe(
+      searchDTO => {
+        this.searchDTO = searchDTO;
+        this.getPage(1, searchDTO);
+      });
     // route.params.subscribe(params => {
     //   this.warehouseId = params['id'];
     // });
@@ -73,10 +84,47 @@ export class GoodsListComponent implements OnInit {
 
   }
 
-  private getPage(page:number) {
+  public getPage(page:number, searchDTO?:GoodsSearchDTO) {
     this.goodsList = [];
     this.currentPage = page;
+    if (!searchDTO) {
+      if (!this.searchDTO)
+        this.getGoods(page);
+      else this.search(this.searchDTO, page);
+    } else {
+      this.searchDTO = searchDTO;
+      this.search(this.searchDTO, page);
+    }
+  }
+
+  private getGoods(page) {
     this.goodsService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
+      (res) => {
+        res.goods.forEach(
+          goods=> {
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
+          }
+        );
+        this.totalItemsCount = res.count;
+        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(displayedPageCount / 2) + 1) {
+            return i + 1;
+          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+            return e - Math.floor(displayedPageCount / 2) + i;
+          else
+            return this.totalPageCount - (displayedPageCount - 1) + i;
+        }).filter(val=>val > 0);
+      },
+      (err:any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private search(searchDTO:GoodsSearchDTO, page) {
+    this.goodsService.search(searchDTO, this.warehouseId, page, this.itemsOnPage).subscribe(
       (res) => {
         res.goods.forEach(
           goods=> {
@@ -181,7 +229,7 @@ export class GoodsListComponent implements OnInit {
 
   public cancelChanges() {
     this.goodsList.forEach(
-      (item,index)=>{
+      (item, index)=> {
         item.changed = false;
         item.newStatus.name = '';
         item.newStatus.note = '';
@@ -237,11 +285,136 @@ export class GoodsListComponent implements OnInit {
   //   return hasCell;
   // }
 
-  public openStatusModal() {
+  public openStatusModal():void  {
     $('#statusModal').foundation('open');
   }
 
-  public closeStatusModal() {
+  public closeStatusModal():void  {
     $('#statusModal').foundation('close');
   }
+
+  private sort(fieldName:string):void {
+    switch (fieldName) {
+      case "name":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (<string>current.goods.name).toLowerCase().localeCompare((<string>next.goods.name).toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (<string>next.goods.name).toLowerCase().localeCompare((<string>current.goods.name).toLowerCase());
+          });
+        break;
+
+      case "storageType":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (<string>current.goods.storageType.name).toLowerCase().localeCompare((<string>next.goods.storageType.name).toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (<string>next.goods.storageType.name).toLowerCase().localeCompare((<string>current.goods.storageType.name).toLowerCase());
+          });
+        break;
+
+      case "quantity":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return current.goods.quantity - next.goods.quantity;
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return next.goods.quantity - current.goods.quantity;
+          });
+        break;
+
+      case "quantityUnit":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (<string>current.goods.quantityUnit.name).toLowerCase().localeCompare((<string>next.goods.quantityUnit.name).toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (<string>next.goods.quantityUnit.name).toLowerCase().localeCompare((<string>current.goods.quantityUnit.name).toLowerCase());
+          });
+        break;
+
+      case "price":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return current.goods.price - next.goods.price;
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return next.goods.price - current.goods.price;
+          });
+        break;
+
+      case "priceUnit":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (<string>current.goods.priceUnit.name).toLowerCase().localeCompare((<string>next.goods.priceUnit.name).toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (<string>next.goods.priceUnit.name).toLowerCase().localeCompare((<string>current.goods.priceUnit.name).toLowerCase());
+          });
+        break;
+
+      case "weight":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return current.goods.weight - next.goods.weight;
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return next.goods.weight - current.goods.weight;
+          });
+        break;
+
+      case "weightUnit":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (<string>current.goods.weightUnit.name).toLowerCase().localeCompare((<string>next.goods.weightUnit.name).toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (<string>next.goods.weightUnit.name).toLowerCase().localeCompare((<string>current.goods.weightUnit.name).toLowerCase());
+          });
+        break;
+
+      case "status":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (current.goods.status?statusMessages.get(current.goods.status.name):'').toLowerCase().localeCompare((next.goods.status?statusMessages.get(next.goods.status.name):'').toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (next.goods.status?statusMessages.get(next.goods.status.name):'').toLowerCase().localeCompare((current.goods.status?statusMessages.get(current.goods.status.name):'').toLowerCase());
+          });
+        break;
+
+      case "storageCell":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (current.goods.storageCell[0]?current.goods.storageCell[0].number:'').toLowerCase().localeCompare((next.goods.storageCell[0]?next.goods.storageCell[0].number:'').toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (next.goods.storageCell[0]?next.goods.storageCell[0].number:'').toLowerCase().localeCompare((current.goods.storageCell[0]?current.goods.storageCell[0].number:'').toLowerCase());
+          });
+        break;
+
+      default:
+        break;
+    }
+
+    if (this.sortingDirection == "UP")
+      this.sortingDirection = "DOWN"
+    else this.sortingDirection = "UP"
+  }
+
+
+
+
 }

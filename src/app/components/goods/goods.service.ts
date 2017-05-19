@@ -12,6 +12,7 @@ import {StorageType} from "./storageType";
 import {StorageCell} from "../warehouse-scheme/storage-cell";
 import {GoodsStatus} from "./goodsStatus";
 import {observable} from "rxjs/symbol/observable";
+import {GoodsSearchDTO} from "./goodsSearchDTO";
 
 
 const LIST_URL:string = "http://localhost:8080/web/web/goods";
@@ -21,6 +22,7 @@ const GET_STATUS_NAMES_URL:string = "http://localhost:8080/web/web/goods/statuse
 const GET_UNITS_URL:string = "http://localhost:8080/web/web/goods/units";
 const GET_STORAGE_SPACE_TYPES_URL:string = "http://localhost:8080/web/web/goods/storageTypes";
 const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
+const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
 
 @Injectable()
 export class GoodsService {
@@ -148,23 +150,23 @@ export class GoodsService {
   updateStatuses(goods):Observable<void> {
     let counter:number = goods.length;
     return Observable.create(
-      observer=>{
-      goods.forEach(
-        item=> {
-          const url:string = `${UPDATE_STATUS_URL}${item.goods.id}`;
-          let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
-          this.httpAuthService.post(url,JSON.stringify(status)).subscribe(
-            resp=>{
-              if (--counter==0)
-                observer.next();
-            },
-            error=>{
-              if (--counter==0)
-                observer.next();
-            }
-          )
-        }
-      );
+      observer=> {
+        goods.forEach(
+          item=> {
+            const url:string = `${UPDATE_STATUS_URL}${item.goods.id}`;
+            let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
+            this.httpAuthService.post(url, JSON.stringify(status)).subscribe(
+              resp=> {
+                if (--counter == 0)
+                  observer.next();
+              },
+              error=> {
+                if (--counter == 0)
+                  observer.next();
+              }
+            )
+          }
+        );
       }
     )
 
@@ -195,6 +197,55 @@ export class GoodsService {
         }
       )
     })
+  }
+
+
+  search(dto:GoodsSearchDTO, id:string, page:number, count:number):Observable<any> {
+    const url:string = `${SEARCH_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
+    return this.httpAuthService.post(url,JSON.stringify(dto)).map((response:Response)=> {
+      let count:string = response.headers.get("x-total-count");
+      return {
+        goods: (<any>response.json()).map(
+          item=> {
+            return new Goods(
+              item.id,
+              item.name,
+              item.quantity,
+              item.weight,
+              item.price,
+              new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+              new Unit(item.quantityUnit.id, item.quantityUnit.name),
+              new Unit(item.quantityUnit.id, item.weightUnit.name),
+              new Unit(item.quantityUnit.id, item.priceUnit.name),
+              item.cells.map(
+                item=> {
+                  let storageCell = new StorageCell();
+                  storageCell.number = item.number;
+                  storageCell.idStorageCell = item.idStorageCell;
+                  return storageCell;
+                }
+              ),
+              // item.cells.map(
+              //   item=> {
+              //     let storageSpace = new StorageSpace();
+              //     storageSpace.idStorageSpace = item.idStorageSpace;
+              //     return storageSpace;
+              //   }
+              // ),
+              null,
+              item.status ?
+                new GoodsStatus(
+                  item.status.id,
+                  item.status.date,
+                  item.status.goodsStatusName.name,
+                  item.status.note
+                ) : null
+            )
+          }),
+        count: count
+      }
+    });
+
   }
 
 }

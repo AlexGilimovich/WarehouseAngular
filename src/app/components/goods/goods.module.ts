@@ -12,6 +12,7 @@ import {Unit} from "./unit";
 import {GoodsService} from "./goods.service";
 import {GoodsStatusSearchComponent} from './goods-status-search/goods-status-search.component';
 import {GoodsSearchComponent} from './goods-search/goods-search.component';
+import {SearchService} from "./goods-search/search.service";
 
 // export const statuses:GoodsStatusName[] = [
 //   new GoodsStatusName("REGISTERED", "Зарегистрирован"),
@@ -154,7 +155,7 @@ export const goodsRoutes:Routes = [
     CommonModule, RouterModule, FormsModule
   ],
   declarations: [GoodsContainerComponent, GoodsDetailsComponent, GoodsListComponent, GoodsCreateComponent, GoodsListContainerComponent, GoodsStatusSearchComponent, GoodsSearchComponent],
-  providers: [GoodsService]
+  providers: [GoodsService, SearchService]
 })
 export class GoodsModule {
 }

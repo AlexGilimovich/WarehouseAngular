@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ViewChild} from '@angular/core';
 import {GoodsStatusName} from "../goodsStatusName";
 import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {Unit} from "../unit";
 import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
 import {statusMessages, unitMessages, storageTypeMessages} from "../goods.module";
 import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
-import {GoodsService} from "../goods.service";
+import {GoodsListComponent} from "../goods-list/goods-list.component";
+import {SearchService} from "./search.service";
 
 declare var $:any;
 
@@ -23,7 +24,7 @@ export class GoodsSearchComponent implements OnInit {
   private storageTypeMessages = storageTypeMessages;
   private searchDTO:GoodsSearchDTO;
 
-  constructor(private goodsService: GoodsService) {
+  constructor(private searchService:SearchService) {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
   }
@@ -36,15 +37,16 @@ export class GoodsSearchComponent implements OnInit {
     this.searchDTO.statuses.push(new GoodsStatusSearchDTO())
   }
 
-  private onRemoveStatusEvent(status:GoodsStatusSearchDTO){
+  private onRemoveStatusEvent(status:GoodsStatusSearchDTO) {
     //todo
     // this.searchDTO.statuses.slice
   }
 
-  private search(){
-    // this.goodsService.search(this.searchDTO);
+  private search() {
+    this.searchService.doSearch(this.searchDTO);
   }
-  private clear(){
+
+  private clear() {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
   }
