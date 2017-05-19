@@ -71,11 +71,11 @@ export class ActService {
           act.date = item.date;
           let user = new User();
           user.id = item.id;
-          user.lastName = item.lastName;
-          user.firstName = item.firstName;
-          user.patronymic = item.patronymic;
+          user.lastName = item.user.lastName;
+          user.firstName = item.user.firstName;
+          user.patronymic = item.user.patronymic;
           act.user = user;
-          act.actType = new ActType(item.actType.id, item.actType.name)
+          act.actType = new ActType(null, item.type)
           return act;
         }
       )

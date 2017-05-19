@@ -23,7 +23,7 @@
               <label for="quantity" class="right">Количество:</label>
             </div>
             <div class="large-6 small-6 columns">
-              <input id="quantity" name="quantity" type="text" [formControl]="goodsForm.controls['quantity']" required/>
+              <input id="quantity" name="quantity" type="number" [formControl]="goodsForm.controls['quantity']" required/>
             </div>
             <div class="large-3 small-3 columns">
               <select name="quantityUnit" id="quantityUnit" [formControl]="goodsForm.controls['quantityUnit']" required>
@@ -43,7 +43,7 @@
               <label for="price" class="right">Цена:</label>
             </div>
             <div class="large-6 small-6 columns">
-              <input id="price" name="price" type="text" [formControl]="goodsForm.controls['price']" required/>
+              <input id="price" name="price" type="number" [formControl]="goodsForm.controls['price']" required/>
             </div>
             <div class="large-3 small-3 columns">
               <select name="priceUnit" id="priceUnit" [formControl]="goodsForm.controls['priceUnit']" required>
@@ -64,7 +64,7 @@
               <label for="weight" class="right">Вес:</label>
             </div>
             <div class="large-6 small-6 columns">
-              <input id="weight" name="weight" type="text" [formControl]="goodsForm.controls['weight']" required/>
+              <input id="weight" name="weight" type="number" [formControl]="goodsForm.controls['weight']" required/>
             </div>
             <div class="large-3 small-3 columns">
               <select name="weightUnit" id="weightUnit" [formControl]="goodsForm.controls['weightUnit']" required>

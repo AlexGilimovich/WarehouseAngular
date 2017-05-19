@@ -260,13 +260,13 @@ export class GoodsService {
           let status = new GoodsStatus();
           status.id = item.id;
           status.date = item.date;
-          status.name = item.goodsStatusName.name;
+          status.name = item.name;
           status.note = item.note;
           let user = new User();
           user.id = item.id;
-          user.lastName = item.lastName;
-          user.firstName = item.firstName;
-          user.patronymic = item.patronymic;
+          user.lastName = item.user.lastName;
+          user.firstName = item.user.firstName;
+          user.patronymic = item.user.patronymic;
           status.user = user;
           return status;
         }
