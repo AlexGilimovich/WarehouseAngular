@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpAuthService} from "../login/httpAuth.service";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Response, Headers, RequestOptions} from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -11,7 +11,6 @@ import {StorageSpaceType} from "../warehouse-scheme/storage-space-type";
 import {StorageType} from "./storageType";
 import {StorageCell} from "../warehouse-scheme/storage-cell";
 import {GoodsStatus} from "./goodsStatus";
-import {observable} from "rxjs/symbol/observable";
 import {GoodsSearchDTO} from "./goodsSearchDTO";
 import {User} from "../user/user";
 
@@ -28,8 +27,15 @@ const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
 
 @Injectable()
 export class GoodsService {
+  private goodsSource = new Subject<Goods>();
+  goodsCreated$ = this.goodsSource.asObservable();
 
   constructor(private httpAuthService:HttpAuthService) {
+  }
+
+  //Event emitted when user finished creating goods
+  public goodsCreatedEvent(goods:Goods){
+    this.goodsSource.next(goods);
   }
 
   list(id:string, page:number, count:number):Observable<any> {

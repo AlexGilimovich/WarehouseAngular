@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {statusMessages} from "../goods.module";
 import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
+import {Goods} from "../goods";
 
 declare var $:any;
 
@@ -83,6 +84,18 @@ export class GoodsListComponent implements OnInit {
     );
 
   }
+
+  //todo delete
+  // public createGoods() {
+  //   let goods:Goods;
+  //   this.router.navigate(['../create'], {relativeTo: this.route});
+  //   this.goodsService.goodsCreated$.subscribe(
+  //     res=> {
+  //       goods = res;
+  //     }
+  //   );
+  // }
+
 
   public getPage(page:number, searchDTO?:GoodsSearchDTO) {
     this.goodsList = [];
