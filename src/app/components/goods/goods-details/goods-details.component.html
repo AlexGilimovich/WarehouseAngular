@@ -1,9 +1,9 @@
-<div class="callout" data-closable>
-  <button class="close-button" type="button" data-close [routerLink]="['../../list']" [routerLinkActive]="['active']">
+<div class="callout">
+  <button class="close-button" type="button" (click)="close()">
     <span aria-hidden="true">&times;</span>
   </button>
   <div class="form-container">
-    <form class="form" [formGroup]="goodsForm" (ngSubmit)="save(goodsForm)">
+    <form class="form" [formGroup]="goodsForm" (ngSubmit)="save()">
       <div class="row">
         <div class="large-9 small-9 columns">
           <div class="row">
@@ -12,6 +12,14 @@
             </div>
             <div class="large-9 small-9 columns">
               <input id="name" name="name" type="text" [formControl]="goodsForm.controls['name']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['name'].hasError('required') && goodsForm.get('name').touched">
+                Поле "Наименование" не может быть пустым
+              </div>
+              <div class="callout alert"
+                   *ngIf="!goodsForm.controls['name'].valid && !goodsForm.controls['name'].hasError('required') && goodsForm.get('name').touched">
+                Наименование может содержать только буквы, цифры и пробелы
+              </div>
             </div>
           </div>
         </div>
@@ -23,7 +31,12 @@
               <label for="quantity" class="right">Количество:</label>
             </div>
             <div class="large-6 small-6 columns">
-              <input id="quantity" name="quantity" type="number" [formControl]="goodsForm.controls['quantity']" required/>
+              <input id="quantity" name="quantity" type="number" [formControl]="goodsForm.controls['quantity']"
+                     required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['quantity'].hasError('required') && goodsForm.get('quantity').touched">
+                Поле "Количество" не может быть пустым
+              </div>
             </div>
             <div class="large-3 small-3 columns">
               <select name="quantityUnit" id="quantityUnit" [formControl]="goodsForm.controls['quantityUnit']" required>
@@ -31,6 +44,10 @@
                   {{unit.name}}
                 </option>
               </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['quantityUnit'].hasError('required') && goodsForm.get('quantityUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
             </div>
           </div>
         </div>
@@ -44,6 +61,10 @@
             </div>
             <div class="large-6 small-6 columns">
               <input id="price" name="price" type="number" [formControl]="goodsForm.controls['price']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['price'].hasError('required') && goodsForm.get('price').touched">
+                Поле "Цена" не может быть пустым
+              </div>
             </div>
             <div class="large-3 small-3 columns">
               <select name="priceUnit" id="priceUnit" [formControl]="goodsForm.controls['priceUnit']" required>
@@ -51,6 +72,10 @@
                   {{unit.name}}
                 </option>
               </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['priceUnit'].hasError('required') && goodsForm.get('priceUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
             </div>
           </div>
         </div>
@@ -65,6 +90,10 @@
             </div>
             <div class="large-6 small-6 columns">
               <input id="weight" name="weight" type="number" [formControl]="goodsForm.controls['weight']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['weight'].hasError('required') && goodsForm.get('weight').touched">
+                Поле "Вес" не может быть пустым
+              </div>
             </div>
             <div class="large-3 small-3 columns">
               <select name="weightUnit" id="weightUnit" [formControl]="goodsForm.controls['weightUnit']" required>
@@ -72,7 +101,10 @@
                   {{unit.name}}
                 </option>
               </select>
-
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['weightUnit'].hasError('required') && goodsForm.get('weightUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
             </div>
           </div>
         </div>
@@ -91,6 +123,10 @@
                   {{type.name}}
                 </option>
               </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['storageType'].hasError('required') && goodsForm.get('storageType').touched">
+                Поле "Тип хранения" не может быть пустым
+              </div>
             </div>
           </div>
         </div>
@@ -119,11 +155,11 @@
               <label class="right">Место хранения:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <!--<div *ngFor="let cell of goods?.storageCell">-->
-                <!--{{cell.idStorageCell}}-->
+              <!--<div *ngFor="let cell of goods?.cells">-->
+              <!--{{cell.idStorageCell}}-->
               <!--</div>-->
 
-              <ul class="menu simple" *ngFor="let cell of goods?.storageCell">
+              <ul class="menu simple" *ngFor="let cell of goods?.cells">
                 <li><a>{{cell.idStorageCell}}</a></li>
               </ul>
               <button class="hollow button" type="button">
@@ -135,12 +171,12 @@
 
             </div>
             <!--<div class="large-3 small-3 columns">-->
-              <!--<button class="hollow button" type="button">-->
-                <!--<span aria-hidden="true">-->
-                  <!--Переместить-->
-                  <!--&lt;!&ndash;<i class="fi-plus"></i>&ndash;&gt;-->
-                <!--</span>-->
-              <!--</button>-->
+            <!--<button class="hollow button" type="button">-->
+            <!--<span aria-hidden="true">-->
+            <!--Переместить-->
+            <!--&lt;!&ndash;<i class="fi-plus"></i>&ndash;&gt;-->
+            <!--</span>-->
+            <!--</button>-->
             <!--</div>-->
           </div>
         </div>

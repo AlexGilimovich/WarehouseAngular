@@ -13,7 +13,7 @@
     <th (click)="sort('weightUnit')">Ед.изм.</th>
     <th (click)="sort('status')">Статус</th>
     <th (click)="sort('storageCell')">Ячейка</th>
-    <!--<th (click)="sort('storageCell')">Место</th>-->
+    <!--<th (click)="sort('cells')">Место</th>-->
   </tr>
   <tr *ngFor="let goods of goodsList;let i=index;">
     <td>
@@ -54,7 +54,7 @@
     </td>
 
     <td (click)="putInStorage(goods)">
-      <div *ngFor="let cell of goods.goods?.storageCell">
+      <div *ngFor="let cell of goods.goods?.cells">
         {{cell.idStorageCell}}
       </div>
     </td>

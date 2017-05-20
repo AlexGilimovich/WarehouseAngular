@@ -9,22 +9,22 @@
   </tr>
   <tr *ngFor="let status of statuses;let i=index;">
     <td>
-      {{statusMessages.get(status.name)}}
+      {{statusMessages.get(status?.name)}}
     </td>
     <td >
-      {{status.date| date:'dd.MM.yyyy HH:mm:ss'}}
+      {{status?.date| date:'dd.MM.yyyy HH:mm:ss'}}
     </td>
     <td>
-      {{status.user.lastName}}
+      {{status?.user.lastName}}
     </td>
     <td>
-      {{status.user.firstName}}
+      {{status?.user.firstName}}
     </td>
     <td>
-      {{status.user.patronymic}}
+      {{status?.user.patronymic}}
     </td>
     <td>
-      {{status.note}}
+      {{status?.note}}
     </td>
   </tr>
 

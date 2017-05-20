@@ -13,7 +13,7 @@ export class Goods {
               public quantityUnit?:Unit,
               public weightUnit?:Unit,
               public priceUnit?:Unit,
-              public storageCell?:StorageCell[],
+              public cells?:StorageCell[],
               public storageSpace?:StorageSpace[],
               public status?:GoodsStatus) {
   }

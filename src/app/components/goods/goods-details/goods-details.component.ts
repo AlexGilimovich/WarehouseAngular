@@ -10,6 +10,9 @@ import {statusMessages} from "../goods.module";
 import {GoodsStatus} from "../goodsStatus";
 import {Act} from "../../act/act";
 import {ActService} from "../../act/act.service";
+import {StorageType} from "../storageType";
+import {StorageCell} from "../../warehouse-scheme/storage-cell";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-goods-details',
@@ -28,9 +31,12 @@ export class GoodsDetailsComponent implements OnInit {
   private hasRights:boolean = true;//todo check
   private statusMessages = statusMessages;
 
+  private cells:StorageCell[] = [];
+
   constructor(private goodsService:GoodsService,
               private actService:ActService,
               private router:Router,
+              private location:Location,
               private fb:FormBuilder,
               private route:ActivatedRoute) {
     route.params.subscribe(params => {
@@ -41,15 +47,15 @@ export class GoodsDetailsComponent implements OnInit {
       "name": [{
         value: '',
         disabled: !this.hasRights
-      }, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s]*$/)])],
-      "quantity": [{value: '', disabled: !this.hasRights}, ],
-      "quantityUnit": [{value: '', disabled: !this.hasRights}],
-      "weight": [{value: '', disabled: !this.hasRights},],
-      "weightUnit": [{value: '', disabled: !this.hasRights}],
-      "price": [{value: '', disabled: !this.hasRights},],
-      "priceUnit": [{value: '', disabled: !this.hasRights},],
-      "storageType": [{value: '', disabled: !this.hasRights},],
-      "currentStatus": [{value: '', disabled: !this.hasRights},],
+      }, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
+      "quantity": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "quantityUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "weight": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "weightUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "price": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "priceUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "storageType": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      "currentStatus": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
     });
 
 
@@ -59,10 +65,14 @@ export class GoodsDetailsComponent implements OnInit {
     this.goodsService.get(this.id).subscribe(
       (goods:Goods) => {
         this.goods = goods;
+        this.cells = goods.cells;
         this.fillForm();
         this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
           (statuses) => {
-            this.statuses = statuses;
+            this.statuses = statuses.sort((current, next)=> {
+              return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+            });
+
           },
           (err)=> {
             console.error(err);
@@ -70,7 +80,9 @@ export class GoodsDetailsComponent implements OnInit {
         );
         this.actService.getActsForGoods(this.goods.id).subscribe(
           (acts) => {
-            this.acts = acts;
+            this.acts = acts.sort((current, next)=> {
+              return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+            });
           },
           (err)=> {
             console.error(err);
@@ -110,9 +122,8 @@ export class GoodsDetailsComponent implements OnInit {
         console.error(err);
       }
     );
-
-
   }
+
 
   private fillForm():void {
     this.goodsForm.controls['name'].setValue(this.goods.name);
@@ -123,8 +134,46 @@ export class GoodsDetailsComponent implements OnInit {
     this.goodsForm.controls['price'].setValue(this.goods.price);
     this.goodsForm.controls['priceUnit'].setValue(this.goods.priceUnit.name);
     this.goodsForm.controls['storageType'].setValue(this.goods.storageType.name);
-    this.goodsForm.controls['currentStatus'].setValue(this.goods.status.name);
+    this.goodsForm.controls['currentStatus'].setValue(this.goods.status ? this.goods.status.name : null);
 
   }
+
+  private close() {
+    if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
+      this.router.navigate(['../../list'], {relativeTo: this.route});
+  }
+
+  private save():void {
+    let goods:Goods = new Goods();
+    goods.id = this.goods.id;
+    goods.name = this.goodsForm.controls['name'].value;
+    goods.quantity = this.goodsForm.controls['quantity'].value;
+    goods.weight = this.goodsForm.controls['weight'].value;
+    goods.price = this.goodsForm.controls['price'].value;
+
+    goods.storageType = new StorageType(null, this.goodsForm.controls['storageType'].value);
+    goods.status = new GoodsStatus();
+    if (this.goods.status)
+      goods.status.name = this.goodsForm.controls['currentStatus'].value == this.goods.status.name ? '' : this.goodsForm.controls['currentStatus'].value;
+    else goods.status.name = this.goodsForm.controls['currentStatus'].value;
+    goods.quantityUnit = new Unit(null, this.goodsForm.controls['quantityUnit'].value);
+    goods.weightUnit = new Unit(null, this.goodsForm.controls['weightUnit'].value);
+    goods.priceUnit = new Unit(null, this.goodsForm.controls['priceUnit'].value);
+    goods.cells = this.cells.map(
+      item => {
+        let storageCell = new StorageCell();
+        storageCell.number = item.number;
+        storageCell.idStorageCell = item.idStorageCell;
+        return storageCell;
+      }
+    );
+    this.goodsService.save(goods).subscribe(
+      res=> {
+        this.router.navigate(['../../list'], {relativeTo: this.route});
+      }
+    )
+  }
+
+
 
 }

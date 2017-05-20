@@ -160,16 +160,17 @@ export class GoodsListComponent implements OnInit {
       goods.newStatus.name = e.target.value;
       goods.newStatus.note = '';
       this.onChanged.emit(true);
-    }
-    if (e.target.value == goods.goods.status.name) {
-      goods.changed = false;
-      goods.newStatus.name = '';
-      goods.newStatus.note = '';
-    }
-    else {
-      goods.changed = true;
-      goods.newStatus.name = e.target.value;
-      goods.newStatus.note = '';
+    } else {
+      if (e.target.value == goods.goods.status.name) {
+        goods.changed = false;
+        goods.newStatus.name = '';
+        goods.newStatus.note = '';
+      }
+      else {
+        goods.changed = true;
+        goods.newStatus.name = e.target.value;
+        goods.newStatus.note = '';
+      }
     }
     this.onChanged.emit(this.checkChanges());
   }
@@ -233,7 +234,10 @@ export class GoodsListComponent implements OnInit {
         item.changed = false;
         item.newStatus.name = '';
         item.newStatus.note = '';
-        $(`${'#statusName_'}${index}${' option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
+        if (item.goods.status)
+          $(`${'#statusName_'}${index}${' option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
+        else
+          $(`${'#statusName_'}${index}${' option[value=""]'}`).prop('selected', true);
       }
     )
     this.onChanged.emit(false);
@@ -276,7 +280,7 @@ export class GoodsListComponent implements OnInit {
 
   // private hasCell(goods, cell) {
   //   let hasCell:boolean = false;
-  //   goods.goods.storageCell.forEach(
+  //   goods.goods.cells.forEach(
   //     item=> {
   //       if (item.idStorageCell == cell.idStorageCell)
   //         hasCell = true;
@@ -285,11 +289,11 @@ export class GoodsListComponent implements OnInit {
   //   return hasCell;
   // }
 
-  public openStatusModal():void  {
+  public openStatusModal():void {
     $('#statusModal').foundation('open');
   }
 
-  public closeStatusModal():void  {
+  public closeStatusModal():void {
     $('#statusModal').foundation('close');
   }
 
@@ -386,22 +390,22 @@ export class GoodsListComponent implements OnInit {
       case "status":
         if (this.sortingDirection == "UP")
           this.goodsList.sort((current, next)=> {
-            return (current.goods.status?statusMessages.get(current.goods.status.name):'').toLowerCase().localeCompare((next.goods.status?statusMessages.get(next.goods.status.name):'').toLowerCase());
+            return (current.goods.status ? statusMessages.get(current.goods.status.name) : '').toLowerCase().localeCompare((next.goods.status ? statusMessages.get(next.goods.status.name) : '').toLowerCase());
           });
         else
           this.goodsList.sort((current, next)=> {
-            return (next.goods.status?statusMessages.get(next.goods.status.name):'').toLowerCase().localeCompare((current.goods.status?statusMessages.get(current.goods.status.name):'').toLowerCase());
+            return (next.goods.status ? statusMessages.get(next.goods.status.name) : '').toLowerCase().localeCompare((current.goods.status ? statusMessages.get(current.goods.status.name) : '').toLowerCase());
           });
         break;
 
       case "storageCell":
         if (this.sortingDirection == "UP")
           this.goodsList.sort((current, next)=> {
-            return (current.goods.storageCell[0]?current.goods.storageCell[0].number:'').toLowerCase().localeCompare((next.goods.storageCell[0]?next.goods.storageCell[0].number:'').toLowerCase());
+            return (current.goods.cells[0] ? current.goods.cells[0].number : '').toLowerCase().localeCompare((next.goods.cells[0] ? next.goods.cells[0].number : '').toLowerCase());
           });
         else
           this.goodsList.sort((current, next)=> {
-            return (next.goods.storageCell[0]?next.goods.storageCell[0].number:'').toLowerCase().localeCompare((current.goods.storageCell[0]?current.goods.storageCell[0].number:'').toLowerCase());
+            return (next.goods.cells[0] ? next.goods.cells[0].number : '').toLowerCase().localeCompare((current.goods.cells[0] ? current.goods.cells[0].number : '').toLowerCase());
           });
         break;
 
@@ -413,8 +417,6 @@ export class GoodsListComponent implements OnInit {
       this.sortingDirection = "DOWN"
     else this.sortingDirection = "UP"
   }
-
-
 
 
 }

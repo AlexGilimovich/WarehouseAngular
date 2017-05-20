@@ -26,7 +26,6 @@ const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
 const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
 
-
 @Injectable()
 export class GoodsService {
 
@@ -50,8 +49,8 @@ export class GoodsService {
               item.price,
               new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
               new Unit(item.quantityUnit.id, item.quantityUnit.name),
-              new Unit(item.quantityUnit.id, item.weightUnit.name),
-              new Unit(item.quantityUnit.id, item.priceUnit.name),
+              new Unit(item.weightUnit.id, item.weightUnit.name),
+              new Unit(item.priceUnit.id, item.priceUnit.name),
               item.cells.map(
                 item=> {
                   let storageCell = new StorageCell();
@@ -72,7 +71,7 @@ export class GoodsService {
                 new GoodsStatus(
                   item.status.id,
                   item.status.date,
-                  item.status.goodsStatusName.name,
+                  item.status.name,
                   item.status.note
                 ) : null
             )
@@ -97,8 +96,8 @@ export class GoodsService {
         item.price,
         new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
         new Unit(item.quantityUnit.id, item.quantityUnit.name),
-        new Unit(item.quantityUnit.id, item.weightUnit.name),
-        new Unit(item.quantityUnit.id, item.priceUnit.name),
+        new Unit(item.weightUnit.id, item.weightUnit.name),
+        new Unit(item.priceUnit.id, item.priceUnit.name),
         item.cells.map(
           item=> {
             let storageCell = new StorageCell();
@@ -119,18 +118,20 @@ export class GoodsService {
           new GoodsStatus(
             item.status.id,
             item.status.date,
-            item.status.goodsStatusName.name,
+            item.status.name,
             item.status.note
           ) : null
       )
     })
   }
 
+
+
   save(goods:Goods):Observable<any> {
     let url = SAVE_URL;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    if (goods.id != undefined) {
+    if (goods.id) {
       url = `${SAVE_URL}${"/"}${goods.id}`;
       return this.httpAuthService.put(url, JSON.stringify(goods), options);
     } else {
@@ -218,8 +219,8 @@ export class GoodsService {
               item.price,
               new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
               new Unit(item.quantityUnit.id, item.quantityUnit.name),
-              new Unit(item.quantityUnit.id, item.weightUnit.name),
-              new Unit(item.quantityUnit.id, item.priceUnit.name),
+              new Unit(item.weightUnit.id, item.weightUnit.name),
+              new Unit(item.priceUnit.id, item.priceUnit.name),
               item.cells.map(
                 item=> {
                   let storageCell = new StorageCell();
@@ -240,9 +241,10 @@ export class GoodsService {
                 new GoodsStatus(
                   item.status.id,
                   item.status.date,
-                  item.status.goodsStatusName.name,
+                  item.status.name,
                   item.status.note
                 ) : null
+
             )
           }),
         count: count

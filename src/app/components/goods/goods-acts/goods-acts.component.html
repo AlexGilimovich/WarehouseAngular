@@ -7,7 +7,7 @@
     <th (click)="sort('patronymic')">Отчество</th>
     <th (click)="sort('note')">Примечание</th>
   </tr>
-  <tr *ngFor="let act of acts; let i=index;">
+  <tr class="clickable" *ngFor="let act of acts; let i=index;" (click)="goToActDetails(act)">
     <td>
       {{actTypeMessages.get(act.actType.name)}}
     </td>

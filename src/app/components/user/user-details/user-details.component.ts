@@ -54,7 +54,7 @@ export class UserDetailsComponent implements OnInit {
       "street": [''],
       "house": [''],
       "apartment": [''],
-      "warehouse": [''],//todo remove controls from here in further blocks
+      "warehouse": [''],
       "roles":new FormArray([],Validators.compose([rolesValidator]))
     });
 
