@@ -17,16 +17,17 @@ export class TransportCompanyCreateComponent implements OnInit {
               private router: Router,
               private formBuilder: FormBuilder) {
     this.companyForm = formBuilder.group({
-      'isTrusted': [false],
+      'isTrusted': '',
       'name': ['']
     });
+    this.companyForm.controls['isTrusted'].setValue(false);
   }
 
   ngOnInit() {
   }
 
   onSubmit(form: FormGroup) {
-    const company = this.transportService.mapCustomerFromForm(form);
+    const company = this.transportService.mapCompanyFromForm(form);
     console.log(company);
     this.transportService.save(company).subscribe(data => {
       this.router.navigateByUrl('tr-company');

@@ -4,6 +4,7 @@ import { CustomerCreateComponent } from './customer-create/customer-create.compo
 import {RouterModule, Routes} from "@angular/router";
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 export const customerRoutes: Routes = [
   {
@@ -23,7 +24,9 @@ export const customerRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [CustomerCreateComponent, CustomerListComponent, CustomerDetailsComponent]
 })

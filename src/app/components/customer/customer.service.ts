@@ -5,6 +5,7 @@ import {WarehouseCustomerCompany} from "./customer";
 import {Headers, RequestOptions, Response} from "@angular/http";
 import {Host} from "../../util/host";
 import {FormGroup} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 const path = Host.getURL() + 'customer';
 
@@ -31,10 +32,7 @@ export class WarehouseCustomerCompanyService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const customer = new WarehouseCustomerCompany();
-        customer.id = item.id;
-        customer.name = item.name;
-        return customer;
+        return this.mapCustomerFromItem(item);
       });
     });
   }
@@ -49,10 +47,7 @@ export class WarehouseCustomerCompanyService {
 
       return this.httpAuthService.get(url, options).map((response: Response) => {
         const item = response.json();
-        const customer = new WarehouseCustomerCompany();
-        customer.id = item.id;
-        customer.name = item.name;
-        return customer;
+        return this.mapCustomerFromItem(item);
       });
     }
   }
@@ -75,22 +70,20 @@ export class WarehouseCustomerCompanyService {
   }
 
   update(customer: WarehouseCustomerCompany) {
-    if (customer.id != null) {
-      const url = path + '/' + customer.id;
-      const body = JSON.stringify(customer);
-      const headers = new Headers();
-      headers.set('Content-Type', 'application/json;charset=utf-8');
-      const options = new RequestOptions({
-        headers: headers
-      });
-      console.log(body);
+    const url = path + '/' + customer.id;
+    const body = JSON.stringify(customer);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+    console.log(body);
 
-      return this.httpAuthService.put(url, body, options).map((response: Response) => {
-        if (response.text()) {
-          return (response.json());
-        }
-      });
-    }
+    return this.httpAuthService.put(url, body, options).map((response: Response) => {
+      if (response.text()) {
+        return (response.json());
+      }
+    });
   }
 
   delete(id: number) {
@@ -118,9 +111,27 @@ export class WarehouseCustomerCompanyService {
     return customers;
   }
 
-  mapCustomerFromForm(form: FormGroup): WarehouseCustomerCompany {
+  mapCustomerFromForm(form: FormGroup, id?: number): WarehouseCustomerCompany {
     const customer = new WarehouseCustomerCompany();
+    if (id != null) {
+      customer.id = id;
+    }
     customer.name = form.controls['name'].value;
+    return customer;
+  }
+
+  parseIdParam(route: ActivatedRoute) {
+    let id;
+    route.params.subscribe(params => {
+      id = params['id'];
+    });
+    return id;
+  }
+
+  private mapCustomerFromItem(item: any) {
+    const customer = new WarehouseCustomerCompany();
+    customer.id = item.id;
+    customer.name = item.name;
     return customer;
   }
 

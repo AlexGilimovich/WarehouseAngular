@@ -1,0 +1,18 @@
+<div>
+  <form [formGroup]="companyForm"
+        (ngSubmit)="onSubmit(companyForm)">
+    <label>
+      Доверенный
+      <input type="checkbox"
+             [formControl]="companyForm.controls['isTrusted']">
+    </label>
+
+    <label>
+      Имя
+      <input type="text"
+             [formControl]="companyForm.controls['name']">
+    </label>
+
+    <input type="submit">
+  </form>
+</div>
