@@ -15,6 +15,7 @@ import {GoodsSearchDTO} from "./goodsSearchDTO";
 import {User} from "../user/user";
 
 
+const BASE_URL:string = "http://localhost:8080/web/web/goods";
 const LIST_URL:string = "http://localhost:8080/web/web/goods";
 const GET_URL:string = "http://localhost:8080/web/web/goods/";
 const SAVE_URL:string = "http://localhost:8080/web/web/goods/save";
@@ -283,6 +284,28 @@ export class GoodsService {
 
   }
 
+  public putInStorage(goods):Observable<any>{
+    let counter:number = goods.length;
+    return Observable.create(
+      observer=> {
+        goods.forEach(
+          item => {
+            const url:string = `${BASE_URL}${"/"}${item.goods.id}${"/put"}`;
+            this.httpAuthService.put(url, JSON.stringify(item)).subscribe(
+              resp=> {
+                if (--counter == 0)
+                  observer.next();
+              },
+              error=> {
+                if (--counter == 0)
+                  observer.next();
+              }
+            )
+          }
+        );
+      }
+    )
+  }
 
 
 

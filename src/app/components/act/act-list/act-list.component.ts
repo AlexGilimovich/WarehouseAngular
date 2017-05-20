@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from "@angular/router";
+import {Component, OnInit, Input} from "@angular/core";
+import {Router, ActivatedRoute} from "@angular/router";
 import {ActService} from "../act.service";
 import {Act} from "../act";
+import {actTypeMessages} from "../act.module";
+import {ActSearchDTO} from "../actSearchDTO";
+import {Subscription} from "rxjs";
+import {User} from "../../user/user";
+import {ActSearchService} from "../act-search/act-search.service";
+
+declare var $;
 
 @Component({
   selector: 'app-act-list',
@@ -10,6 +17,12 @@ import {Act} from "../act";
 })
 export class ActListComponent implements OnInit {
   private acts:Act[];
+  private actTypeMessages = actTypeMessages;
+  @Input() private actTypeNames;
+  private searchDTO:ActSearchDTO;
+  private searchSubscription:Subscription;
+
+
   //pagination
   private itemsOnPageArray = [10, 20];
   private currentPage:number = 1;
@@ -22,13 +35,25 @@ export class ActListComponent implements OnInit {
   private selectedActs:Act[] = [];
 
   constructor(private actService:ActService,
+              private actSearchService:ActSearchService,
               private router:Router,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private user:User) {
+    this.searchSubscription = actSearchService.searchDTO$.subscribe(
+      searchDTO => {
+        this.searchDTO = searchDTO;
+        this.getPage(1, searchDTO);
+      });
+  }
+
 
   ngOnInit() {
+    $("body").foundation();
     this.actService.list(this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
-        this.acts = res.acts;
+        this.acts = res.acts.sort((current, next)=> {
+          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+        });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
         let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
@@ -45,22 +70,39 @@ export class ActListComponent implements OnInit {
         console.error(err);
       }
     );
+
   }
 
-  private getPage(page:number) {
+
+  public getPage(page:number, searchDTO?:ActSearchDTO) {
+    this.acts = [];
+    this.currentPage = page;
+    if (!searchDTO) {
+      if (!this.searchDTO)
+        this.getActs(page);
+      else this.search(this.searchDTO, page);
+    } else {
+      this.searchDTO = searchDTO;
+      this.search(this.searchDTO, page);
+    }
+  }
+
+  private getActs(page) {
     this.actService.list(page, this.itemsOnPage).subscribe(
       (res) => {
-        this.acts = res.acts;
+        this.acts = res.acts.sort((current, next)=> {
+          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+        });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        this.displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(this.displayedPageCount / 2) + 1) {
+        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(displayedPageCount / 2) + 1) {
             return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(this.displayedPageCount / 2))
-            return e - Math.floor(this.displayedPageCount / 2) + i;
+          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+            return e - Math.floor(displayedPageCount / 2) + i;
           else
-            return this.totalPageCount - (this.displayedPageCount - 1) + i;
+            return this.totalPageCount - (displayedPageCount - 1) + i;
         }).filter(val=>val > 0);
       },
       (err:any) => {
@@ -69,8 +111,30 @@ export class ActListComponent implements OnInit {
     );
   }
 
-  private goToDetails(id:string):void {
-    this.router.navigate(['../details', id], {relativeTo: this.route});
+  private search(searchDTO:ActSearchDTO, page) {
+    this.actService.search(searchDTO, page, this.itemsOnPage).subscribe(
+      (res) => {
+        this.acts = res.acts;
+        this.totalItemsCount = res.count;
+        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(displayedPageCount / 2) + 1) {
+            return i + 1;
+          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+            return e - Math.floor(displayedPageCount / 2) + i;
+          else
+            return this.totalPageCount - (displayedPageCount - 1) + i;
+        }).filter(val=>val > 0);
+      },
+      (err:any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private goToDetails(act: Act):void {
+    this.router.navigate(['../details', act.id], {relativeTo: this.route});
   }
 
   private addToSelected(e, act:Act) {

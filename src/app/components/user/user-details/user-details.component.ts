@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import {Warehouse} from "../../warehouse/warehouse";
 import {ActivatedRoute, Router} from "@angular/router";
 import {
@@ -33,6 +33,7 @@ export class UserDetailsComponent implements OnInit {
               private route:ActivatedRoute,
               private fb:FormBuilder,
               private datePipe:DatePipe,
+              private location:Location,
               private user:User) {
     route.params.subscribe(params => {
       this.id = params['id'];
@@ -190,10 +191,11 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private close():void {
-    if (this.id != undefined)
-      this.router.navigate(['../../list'], {relativeTo: this.route});
-    else
-      this.router.navigate(['../list'], {relativeTo: this.route});
+    this.location.back();
+    // if (this.id != undefined)
+    //   this.router.navigate(['../../list'], {relativeTo: this.route});
+    // else
+    //   this.router.navigate(['../list'], {relativeTo: this.route});
   }
 
   //find warehouse in loaded warehouseList by id

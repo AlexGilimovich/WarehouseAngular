@@ -8,22 +8,9 @@ import {ActCreateComponent} from "./act-create/act-create.component";
 import {Routes, RouterModule} from "@angular/router";
 import {ActListContainerComponent} from "./act-list-container/act-list-container.component";
 import {ActService} from "./act.service";
+import { ActSearchComponent } from './act-search/act-search.component';
+import {ActSearchService} from "./act-search/act-search.service";
 
-
-// export const types:ActTypeName[] = [
-//   new ActTypeName("MISMATCH_ACT", "Акт несоответствия"),
-//   new ActTypeName("ACT_OF_LOSS", "Акт утери"),
-//   new ActTypeName("ACT_OF_THEFT", "Акт кражи"),
-//   new ActTypeName("WRITE_OFF_ACT", "Акт списания"),
-//
-// ]
-//
-// export const typeMap:Map<string, ActTypeName> = new Map([
-//   ["MISMATCH_ACT", types[0]],
-//   ["ACT_OF_LOSS", types[1]],
-//   ["ACT_OF_THEFT", types[2]],
-//   ["WRITE_OFF_ACT", types[3]],
-// ]);
 
 
 export const actTypeMessages:Map<string, string> = new Map([
@@ -55,8 +42,8 @@ export const actRoutes:Routes = [
   imports: [
     CommonModule, RouterModule, FormsModule
   ],
-  declarations: [ActContainerComponent, ActDetailsComponent, ActListComponent, ActCreateComponent, ActListContainerComponent],
-  providers: [ActService]
+  declarations: [ActContainerComponent, ActDetailsComponent, ActListComponent, ActCreateComponent, ActListContainerComponent, ActSearchComponent],
+  providers: [ActService, ActSearchService]
 })
 export class ActModule {
 }

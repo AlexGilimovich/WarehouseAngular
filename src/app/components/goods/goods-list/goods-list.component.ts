@@ -273,34 +273,33 @@ export class GoodsListComponent implements OnInit {
     $('#selectAll').prop('checked', false);
   }
 
-  private putInStorage(goods) {
-    // this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', goods.goods.storageType.id, this.warehouseId], {relativeTo: this.route, queryParams:{ storageTypeId: goods.goods.storageType.id, warehouseId: this.warehouseId }});
-    // subscription: Subscription = this.warehouseService.selectedCells$.subscribe(
+  private goToStorageView(goods) {
+    this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', goods.goods.storageType.id, this.warehouseId], {relativeTo: this.route});
+    // this.warehouseService.selectCells$.subscribe(
     //   cells => {
     //     cells.forEach(
-    //       cell=>{
+    //       cell=> {
     //         let c = new StorageCell();
     //         c.idStorageCell = cell.idStorageCell;
     //         c.number = cell.number;
-    //         goods.goods.StorageCell.push(c);
-    //         goods.changed = true;
+    //         goods.goods.cells = [];
+    //         goods.goods.cells.push(c);
+    //         goods.moved = true;
     //       }
     //     );
-    //   });
-    //todo
-    // this.goodsService.putInStorage();
+    //   }
+    // )
+    this.putInStorage(goods);
   }
 
-  // private hasCell(goods, cell) {
-  //   let hasCell:boolean = false;
-  //   goods.goods.cells.forEach(
-  //     item=> {
-  //       if (item.idStorageCell == cell.idStorageCell)
-  //         hasCell = true;
-  //     }
-  //   )
-  //   return hasCell;
-  // }
+  private putInStorage(goods) {
+    this.goodsService.putInStorage(this.goodsList.filter(
+      item=> {
+        return item.moved;
+      }
+    ));
+  }
+
 
   public openStatusModal():void {
     $('#statusModal').foundation('open');

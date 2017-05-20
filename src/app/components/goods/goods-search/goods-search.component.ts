@@ -53,8 +53,6 @@ export class GoodsSearchComponent implements OnInit {
   }
 
   private removeStatus(status:GoodsStatusSearchDTO) {
-    //todo
-
     this.searchDTO.statuses.splice(this.searchDTO.statuses.findIndex(
       predicate=> {
         return predicate == status;

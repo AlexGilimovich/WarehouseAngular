@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Goods} from "../goods";
 import {GoodsService} from "../goods.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router"; 
 import {GoodsStatusName} from "../goodsStatusName";
 import {Unit} from "../unit";
 import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
@@ -13,6 +13,7 @@ import {ActService} from "../../act/act.service";
 import {StorageType} from "../storageType";
 import {StorageCell} from "../../warehouse-scheme/storage-cell";
 import {Location} from '@angular/common';
+import {WarehouseService} from "../../warehouse/warehouse.service";
 
 @Component({
   selector: 'app-goods-details',
@@ -38,6 +39,7 @@ export class GoodsDetailsComponent implements OnInit {
               private router:Router,
               private location:Location,
               private fb:FormBuilder,
+              private warehouseService:WarehouseService,
               private route:ActivatedRoute) {
     route.params.subscribe(params => {
       this.id = params['id'];
@@ -124,6 +126,27 @@ export class GoodsDetailsComponent implements OnInit {
     );
   }
 
+  // private goToStorageView() {
+  //   this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', this.goods.storageType.id, this.warehouseId], {relativeTo: this.route});
+  //   this.warehouseService.selectCells$.subscribe(
+  //     cells => {
+  //       cells.forEach(
+  //         cell=> {
+  //           let c = new StorageCell();
+  //           c.idStorageCell = cell.idStorageCell;
+  //           c.number = cell.number;
+  //           this.goods.cells = [];
+  //           this.goods.cells.push(c);
+  //         }
+  //       );
+  //     }
+  //   )
+  //   this.putInStorage();
+  // }
+  //
+  // private putInStorage() {
+  //   this.goodsService.putInStorage(this.goods);
+  // }
 
   private fillForm():void {
     this.goodsForm.controls['name'].setValue(this.goods.name);
@@ -173,7 +196,6 @@ export class GoodsDetailsComponent implements OnInit {
       }
     )
   }
-
 
 
 }
