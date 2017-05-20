@@ -1,7 +1,6 @@
 <div>
   <table class="hover">
     <tr>
-      <th></th>
       <th>Название</th>
       <th></th>
     </tr>
@@ -10,8 +9,6 @@
         <a [routerLink]="['/customer', customer.id]" >
           {{customer.name}}
         </a>
-      </td>
-      <td>
       </td>
       <td>
         <button (click)="delete(customer)">

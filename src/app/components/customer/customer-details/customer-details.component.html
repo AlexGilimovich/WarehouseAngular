@@ -1,10 +1,9 @@
 <div>
-  <form (ngSubmit)="onSubmit(customer)">
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit(customerForm)">
     <label>
       Название
 
-      <!-- todo bind input with model -->
-      <input type="text" name="name" (ngModel)="customer.name" [ngModel]="customer?.name">
+      <input type="text" [formControl]="customerForm.controls['name']">
     </label>
 
     <input type="submit">

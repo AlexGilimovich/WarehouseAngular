@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {TransportCompany} from './tr-company';
 import {Host} from "../../util/host";
 import {FormGroup} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
 
 const path = Host.getURL() + 'tr-company';
 
@@ -30,14 +31,24 @@ export class TransportCompanyService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const company: TransportCompany = new TransportCompany();
-        company.id = item.id;
-        company.name = item.name;
-        company.isTrusted = item.trusted;
-        // todo warehousecompanyId
-        return company;
+        return this.mapCompanyFromItem(item);
       });
     });
+  }
+
+  getById(id: number): Observable<TransportCompany> {
+    if (id != null) {
+      const url = path + '/' + id;
+      const headers = new Headers();
+      const options = new RequestOptions({
+        headers: headers,
+      });
+
+      return this.httpAuthService.get(url, options).map((response: Response) => {
+        const item = response.json();
+        return this.mapCompanyFromItem(item);
+      });
+    }
   }
 
   save(company: TransportCompany) {
@@ -52,6 +63,23 @@ export class TransportCompanyService {
 
     return this.httpAuthService.post(url, body, options).map((response: Response) => {
       if (response.text()){
+        return (response.json());
+      }
+    });
+  }
+
+  update(company: TransportCompany) {
+    const url = path + '/' + company.id;
+    const body = JSON.stringify(company);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+    console.log(body);
+
+    return this.httpAuthService.put(url, body, options).map((response: Response) => {
+      if (response.text()) {
         return (response.json());
       }
     });
@@ -74,13 +102,6 @@ export class TransportCompanyService {
     }
   }
 
-  mapCustomerFromForm(form: FormGroup): TransportCompany {
-    const company = new TransportCompany();
-    company.name = form.controls['name'].value;
-    company.isTrusted = form.controls['isTrusted'].value;
-    return company;
-  }
-
   removeCompanyFromArray(companies: TransportCompany[], company: TransportCompany) {
     const index = companies.indexOf(company, 0);
     if (index > -1) {
@@ -89,4 +110,29 @@ export class TransportCompanyService {
     return companies;
   }
 
+  mapCompanyFromForm(form: FormGroup, id?: number): TransportCompany {
+    const company = new TransportCompany();
+    if (id != null) {
+      company.id = id;
+    }
+    company.isTrusted = form.controls['isTrusted'].value;
+    company.name = form.controls['name'].value;
+    return company;
+  }
+
+  parseIdParam(route: ActivatedRoute) {
+    let id;
+    route.params.subscribe(params => {
+      id = params['id'];
+    });
+    return id;
+  }
+
+  private mapCompanyFromItem(item: any) {
+    const company = new TransportCompany();
+    company.id = item.id;
+    company.isTrusted = item.trusted;
+    company.name = item.name;
+    return company;
+  }
 }

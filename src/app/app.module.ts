@@ -20,10 +20,10 @@ import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
-import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {TransportCompanyModule, transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
 import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
-import {customerRoutes} from "./components/customer/customer.module";
+import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/customer/customer.module";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
@@ -123,14 +123,9 @@ const globalRoutes:Routes = [
     CartFormComponent,
     BookContainerComponent,
     IndexComponent,
-    TransportCompanyListComponent,
-    TransportCompanyCreateComponent,
     WarehouseCompanyComponent,
     WarehouseSchemeInfoComponent,
-    CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
-    CustomerListComponent,
-    CustomerDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +135,9 @@ const globalRoutes:Routes = [
     RouterModule.forRoot(globalRoutes),
     BookModule,
     DispatcherModule,
-    WarehouseModule
+    WarehouseModule,
+    TransportCompanyModule,
+    WarehouseCustomerCompanyModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
