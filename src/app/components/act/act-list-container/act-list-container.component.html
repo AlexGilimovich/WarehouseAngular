@@ -1,6 +1,23 @@
-<app-act-list></app-act-list>
+<div class="content">
+  <div class="row">
+    <div class="large-8 small-8 columns">
+      <ul class="accordion" data-accordion data-allow-all-closed="true">
+        <li class="accordion-item" data-accordion-item>
+          <!-- Accordion tab title -->
+          <a class="accordion-title">Параметры поиска</a>
+          <div class="accordion-content" data-tab-content>
+            <app-act-search [actTypeNames]="actTypeNames"></app-act-search>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <app-act-list [actTypeNames]="actTypeNames"></app-act-list>
 
-<div class="large-3 large-offset-9 small-6 small-offset-6 columns button-right">
-  <input class="button" type="button" [routerLink]="['../create']" [routerLinkActive]="['active']" value="Создать">
-  <input class="button" type="button"  value="Удалить">
+  <div class="large-12 small-12 columns button-right">
+
+    <input class="button button-right" type="button"  (click)="goToCreate()"
+           value="Создать">
+  </div>
+
 </div>

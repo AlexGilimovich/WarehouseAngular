@@ -1,94 +1,167 @@
+<form #searchForm="ngForm" (ngSubmit)="search()">
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="name" class="right">Наименование:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <input type="text" id="name" name="name" [(ngModel)]="searchDTO.name">
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="row">
-  <div class="large-8 small-8 columns">
+  <div class="large-2 small-2 columns">
+    <label>Количество:</label>
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="minQuantity" class="right">от</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="minQuantity" name="minQuantity" [(ngModel)]="searchDTO.minQuantity">
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="maxQuantity" class="right">до</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="maxQuantity" name="maxQuantity" [(ngModel)]="searchDTO.maxQuantity">
+  </div>
+  <div class="large-2 small-2 columns">
+    <select name="quantityUnit" id="quantityUnit" [(ngModel)]="searchDTO.quantityUnit">
+      <option *ngFor="let unit of units" [value]="unit.name">
+        {{unit.name}}
+      </option>
+    </select>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="large-2 small-2 columns">
+    <label>Цена:</label>
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="minPrice" class="right">от</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="minPrice" name="minPrice" [(ngModel)]="searchDTO.minPrice">
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="maxPrice" class="right">до</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="maxPrice" name="maxPrice" [(ngModel)]="searchDTO.maxPrice">
+  </div>
+  <div class="large-2 small-2 columns">
+    <select name="priceUnit" id="priceUnit" [(ngModel)]="searchDTO.priceUnit">
+      <option *ngFor="let unit of units" [value]="unit.name">
+        {{unit.name}}
+      </option>
+    </select>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-2 small-2 columns">
+    <label>Вес:</label>
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="minWeight" class="right">от</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="minWeight" name="minWeight" [(ngModel)]="searchDTO.minWeight">
+  </div>
+  <div class="large-1 small-1 columns">
+    <label for="maxWeight" class="right">до</label>
+  </div>
+  <div class="large-3 small-3 columns">
+    <input type="text" id="maxWeight" name="maxWeight" [(ngModel)]="searchDTO.maxWeight">
+  </div>
+  <div class="large-2 small-2 columns">
+    <select name="weightUnit" id="weightUnit" [(ngModel)]="searchDTO.weightUnit">
+      <option *ngFor="let unit of units" [value]="unit.name">
+        {{unit.name}}
+      </option>
+    </select>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="large-12 small-12 columns">
     <div class="row">
       <div class="large-2 small-2 columns">
-        <label for="name" class="right">Наименование:</label>
+        <label for="currentStatus" class="right">Текущий статус:</label>
       </div>
       <div class="large-10 small-10 columns">
-        <input type="text" id="name" name="name" [ngModel]="searchDTO.name">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
-
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="minQuantity" class="right">От</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minQuantity" name="minQuantity" [ngModel]="searchDTO.minQuantity">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxQuantity" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxQuantity" name="minQuantity" [ngModel]="searchDTO.maxQuantity">
+        <select name="currentStatus" id="currentStatus" [(ngModel)]="searchDTO.currentStatus">
+          <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+            {{statusMessages.get(statusName.name)}}
+          </option>
+        </select>
       </div>
     </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
-
+  <div class="large-12 small-12 columns">
     <div class="row">
       <div class="large-2 small-2 columns">
-        <label for="minPrice" class="right">От</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minPrice" name="minPrice" [ngModel]="searchDTO.minPrice">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxPrice" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxPrice" name="maxPrice" [ngModel]="searchDTO.maxPrice">
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <label>Количество:</label>
-
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="minWeight" class="right">От</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="minWeight" name="minWeight" [ngModel]="searchDTO.minWeight">
-      </div>
-      <div class="large-2 small-2 columns">
-        <label for="maxWeight" class="right">до</label>
-      </div>
-      <div class="large-4 small-4 columns">
-        <input type="text" id="maxWeight" name="maxWeight" [ngModel]="searchDTO.maxWeight">
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="large-8 small-8 columns">
-    <div class="row">
-      <div class="large-2 small-2 columns">
-        <label for="status" class="right">Текущий статус:</label>
+        <label for="storageType" class="right">Тип хранения:</label>
       </div>
       <div class="large-10 small-10 columns">
-        <input type="text" id="status" name="status" [ngModel]="searchDTO.status">
+        <select name="storageType" id="storageType" [(ngModel)]="searchDTO.storageType">
+          <option *ngFor="let type of storageTypes" [value]="type.name">
+            {{type.name}}
+          </option>
+        </select>
       </div>
     </div>
   </div>
+</div>
 
+<div *ngFor="let status of searchDTO.statuses">
+  <app-goods-status-search [statusNames]="statusNames" [status]="status"></app-goods-status-search>
+</div>
+<div class="row">
+  <div class="large-12  small-12 columns">
+    <div class="add-status">
+
+      <button class="hollow button" type="button" (click)="addStatus()">
+        <span aria-hidden="true">
+          Статус
+          <i class="fi-plus"></i>
+        </span>
+      </button>
+
+    </div>
+  </div>
 </div>
 
 <div class="row">
-  <input class="button" type="button" value="Добавить статус" (click)="addStatus()">
-</div>
+  <div class="large-12  small-12 columns button-right">
+    <input class="button" type="button" (click)="clear()" value="Очистить">
 
-<!--dynamic status search component-->
+
+    <button class="button" type="submit" [disabled]="!isValid">
+        <span aria-hidden="true">
+          <i class="fi-magnifying-glass"></i> Поиск
+        </span>
+    </button>
+  </div>
+</div>
+</form>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+<div>
+  <table class="hover">
+    <tr>
+      <th>Название</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let customer of customers">
+      <td>
+        <a [routerLink]="['/customer', customer.id]" >
+          {{customer.name}}
+        </a>
+      </td>
+      <td>
+        <button (click)="delete(customer)">
+          Удалить
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- todo create pagination -->
+
+  <a routerLink='new'>Создать</a>
+
+</div>

@@ -8,7 +8,8 @@ $topbar-background: #E6E6E6;
 
 $global-font-size: 80%;
 
-$form-spacing: 0.8rem;
+//$form-spacing: 0.8rem;
+$topbar-padding: 0.5rem;
 
 $input-font-size: 1rem;
 
@@ -16,4 +17,7 @@ $menu-border: blue;
 
 $form-label-font-size: 1rem;
 
+$global-width: rem-calc(1200);
+
+$menu-margin: 10;
 

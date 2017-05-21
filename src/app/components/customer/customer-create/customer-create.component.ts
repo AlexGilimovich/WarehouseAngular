@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
+import {Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-customer-create',
@@ -9,17 +11,24 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
   providers: [WarehouseCustomerCompanyService]
 })
 export class CustomerCreateComponent implements OnInit {
-  customer = new WarehouseCustomerCompany;
+  customerForm: FormGroup;
 
-  constructor(private customerService: WarehouseCustomerCompanyService) {
+  constructor(private customerService: WarehouseCustomerCompanyService,
+              private router: Router,
+              private formBuiler: FormBuilder) {
+    this.customerForm = formBuiler.group({
+      'name': ['']
+    });
   }
 
   ngOnInit() {
   }
 
-  onSubmit(customer: WarehouseCustomerCompany) {
-    this.customerService.save(customer).subscribe(data => {
-      console.log(data);
+  onSubmit(form: FormGroup) {
+    const customer = this.customerService.mapCustomerFromForm(form);
+    console.log(customer);
+    this.customerService.save(customer).subscribe(success => {
+      this.router.navigateByUrl('customer');
     });
   }
 

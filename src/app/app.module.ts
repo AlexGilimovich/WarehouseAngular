@@ -20,11 +20,10 @@ import { DesktopComponent } from './components/desktop/desktop.component';
 import {IndexComponent} from "./components/index/index.component";
 import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
-import {transportCompanyRoutes} from "./components/tr-company/tr-company.module";
+import {TransportCompanyModule, transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
-import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
-import {customerRoutes} from "./components/customer/customer.module";
+import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/customer/customer.module";
 import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
 import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
@@ -39,6 +38,11 @@ import {WarehouseCompanyCreateComponent} from "./components/warehouse-company/wa
 import {WarehouseCreateComponent} from "./components/warehouse/warehouse-create/warehouse.create.component";
 import {WarehouseSpaceComponent} from "./components/warehouse-scheme/warehouse-scheme-create/space/warehouse.space.component";
 import {WarehouseCellComponent} from "./components/warehouse-scheme/warehouse-scheme-create/cell/warehouse.cell.component";
+import {CustomerListComponent} from "./components/customer/customer-list/customer-list.component";
+import {CustomerDetailsComponent} from "./components/customer/customer-details/customer-details.component";
+import {WarehouseModule} from "./components/warehouse/warehouse.module";
+import {User} from "./components/user/user";
+import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 
 const desktopRoutes:Routes = [
   {
@@ -124,8 +128,6 @@ const globalRoutes:Routes = [
     CartFormComponent,
     BookContainerComponent,
     IndexComponent,
-    TransportCompanyListComponent,
-    TransportCompanyCreateComponent,
     WarehouseCompanyComponent,
     WarehouseCompanyCreateComponent,
     WarehouseComponent,
@@ -135,7 +137,6 @@ const globalRoutes:Routes = [
     WarehouseCellComponent,
     CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -144,7 +145,10 @@ const globalRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(globalRoutes),
     BookModule,
-    DispatcherModule
+    DispatcherModule,
+    WarehouseModule,
+    TransportCompanyModule,
+    WarehouseCustomerCompanyModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
@@ -153,6 +157,7 @@ const globalRoutes:Routes = [
     ShoppingCartService,
     LoginService,
     HttpAuthService,
+    User
   ],
   bootstrap: [AppComponent]
 })

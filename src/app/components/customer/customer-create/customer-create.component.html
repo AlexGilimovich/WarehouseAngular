@@ -1,8 +1,10 @@
 <div>
-  <form (ngSubmit)="onSubmit(customer)">
+  <form [formGroup]="customerForm"
+        (ngSubmit)="onSubmit(customerForm)">
     <label>
       Название
-      <input type="text" name="name" [(ngModel)]="customer.name">
+      <input type="text"
+             [formControl]="customerForm.controls['name']">
     </label>
 
     <input type="submit">

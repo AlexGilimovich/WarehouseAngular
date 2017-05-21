@@ -19,4 +19,10 @@ export class TransportCompanyListComponent implements OnInit {
     });
   }
 
+  delete(company: TransportCompany) {
+    this.transportService.delete(company.id).subscribe(success => {
+      this.companies = this.transportService.removeCompanyFromArray(this.companies, company);
+    });
+  }
+
 }

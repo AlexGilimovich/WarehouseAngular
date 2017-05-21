@@ -1,7 +1,7 @@
-
-<app-user-list></app-user-list>
+<app-user-list (onSelected)="onSelected($event)">
+</app-user-list>
 
 <div class="large-3 large-offset-9 small-6 small-offset-6 columns button-right">
   <input class="button" type="button" [routerLink]="['../create']" [routerLinkActive]="['active']" value="Создать">
-  <input class="button" type="button"  value="Удалить">
+  <input class="button" type="button" (click)="remove()" [disabled]="!hasSelected" value="Удалить">
 </div>

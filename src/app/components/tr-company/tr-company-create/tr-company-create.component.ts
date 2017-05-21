@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
+import {Router} from "@angular/router";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-tr-company-create',
@@ -9,18 +11,26 @@ import {TransportCompanyService} from "../tr-company.service";
   providers: [TransportCompanyService]
 })
 export class TransportCompanyCreateComponent implements OnInit {
-  company = new TransportCompany;
+  companyForm: FormGroup;
 
-  constructor(private transportService: TransportCompanyService) {
-    this.company.isTrusted = false;
+  constructor(private transportService: TransportCompanyService,
+              private router: Router,
+              private formBuilder: FormBuilder) {
+    this.companyForm = formBuilder.group({
+      'isTrusted': '',
+      'name': ['']
+    });
+    this.companyForm.controls['isTrusted'].setValue(false);
   }
 
   ngOnInit() {
   }
 
-  onSubmit(company: TransportCompany) {
+  onSubmit(form: FormGroup) {
+    const company = this.transportService.mapCompanyFromForm(form);
+    console.log(company);
     this.transportService.save(company).subscribe(data => {
-      console.log(data);
+      this.router.navigateByUrl('tr-company');
     });
   }
 

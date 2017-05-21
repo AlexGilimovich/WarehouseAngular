@@ -4,14 +4,22 @@ import {HttpAuthService} from "./httpAuth.service";
 import {Http, Headers, RequestOptions, RequestMethod, Request} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import {Warehouse} from "../warehouse/warehouse";
+import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 const URL:string = "localhost:8080/web/web/user/";
 
 @Injectable()
 export class LoginService {
-  private authenticatedUser:User = new User("1", "Иванов", "root", "root");//todo delete mocking user
+ //todo delete mocking user
 
-  constructor(private http:Http) {
+
+  constructor(private http:Http,
+              private authenticatedUser: User) {
+    this.authenticatedUser.login = "root";
+    this.authenticatedUser.password = "root";
+    this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
+
   }
 
   public getLoggedUser() {
@@ -24,22 +32,22 @@ export class LoginService {
     let requestOptions:RequestOptions = new RequestOptions(headers);
     this.http.get(URL, requestOptions).map(res=> {
       let str = res.json();
-      return new User(
-        str.id,
-        str.lastName,
-        str.firstName,
-        str.patronymic,
-        str.dateOfBirth,
-        str.email,
-        str.city,
-        str.street,
-        str.house,
-        str.apartment,
-        str.roles,
-        str.warehouse,
-        str.login,
-        str.password
-      )
+      let user = new User();
+      user.id = str.id;
+      user.id = str.lastName;
+      user.id = str.firstName;
+      user.id = str.patronymic;
+      user.id = str.dateOfBirth;
+      user.id = str.email;
+      user.id = str.city;
+      user.id = str.street;
+      user.id = str.house;
+      user.id = str.apartment;
+      user.id = str.roles;
+      user.id = str.warehouse;
+      user.id = str.login;
+      user.id = str.password;
+      return user;
     }).subscribe(user=> {
       this.authenticatedUser = user;
     });

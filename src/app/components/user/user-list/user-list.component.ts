@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {User} from "../user";
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {UserService} from "../user-service.service";
 import {rolesMessages} from "../user.module";
-import { Router, ActivatedRoute } from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../role";
-
 
 @Component({
   selector: 'app-user-list',
@@ -12,10 +10,11 @@ import {Role} from "../role";
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  private users:User[];
+  private users:any[] = [];
   private rolesMessages = rolesMessages;
-  private roles: Role[];
-
+  private roles:Role[];
+  @Output() onSelected = new EventEmitter<boolean>();
+  private sortingDirection = "UP";
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -26,7 +25,6 @@ export class UserListComponent implements OnInit {
   private totalPageCount;
   private displayedPageCount = 7;//constant: number of pages in pagination
 
-  private selectedUsers:User[] = [];
 
   constructor(private userService:UserService,
               private router:Router,
@@ -36,7 +34,11 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.userService.list(this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
-        this.users = res.users;
+        res.users.forEach(
+          user=> {
+            this.users.push({"user": user, "selected": false});
+          }
+        );
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
         let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
@@ -64,19 +66,25 @@ export class UserListComponent implements OnInit {
   }
 
   private getPage(page:number) {
+    this.users = [];
+    this.currentPage = page;
     this.userService.list(page, this.itemsOnPage).subscribe(
       (res) => {
-        this.users = res.users;
+        res.users.forEach(
+          user=> {
+            this.users.push({"user": user, "selected": false});
+          }
+        );
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        this.displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(this.displayedPageCount / 2) + 1) {
+        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(displayedPageCount / 2) + 1) {
             return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(this.displayedPageCount / 2))
-            return e - Math.floor(this.displayedPageCount / 2) + i;
+          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+            return e - Math.floor(displayedPageCount / 2) + i;
           else
-            return this.totalPageCount - (this.displayedPageCount - 1) + i;
+            return this.totalPageCount - (displayedPageCount - 1) + i;
         }).filter(val=>val > 0);
       },
       (err:any) => {
@@ -89,20 +97,108 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['../details', id], {relativeTo: this.route});
   }
 
-  private addToSelected(e, user:User) {
-    if (e.target.checked)
-      this.selectedUsers.push(user);
+  public removeSelected() {
+    this.userService.remove(this.users.filter(item=> {
+      return item.selected
+    }).map(
+      item=> {
+        return item.user;
+      }
+    )).subscribe(
+      res=> {
+        this.getPage(this.currentPage);
+      }
+    )
 
   }
 
-  private addAllToSelected(e) {
-    if (e.target.checked)
-
-      this.selectedUsers.concat(this.users);
+  private selectAllEvent(e) {
+    if (e.target.checked) {
+      this.users.forEach(
+        user=> {
+          user.selected = true;
+        }
+      )
+      if (this.users.length > 0)
+        this.onSelected.emit(true);
+    }
+    else {
+      this.users.forEach(
+        user=> {
+          user.selected = false;
+        }
+      )
+      if (this.users.length > 0)
+        this.onSelected.emit(false);
+    }
   }
 
-  private isSelected(user:User) {
-    return this.selectedUsers.includes(user);
+  private selectOneEvent(e) {
+    this.onSelected.emit(e.target.checked);
   }
+
+  private sort(fieldName:string) {
+    switch (fieldName) {
+      case "lastName":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.lastName).toLowerCase().localeCompare((<string>next.user.lastName).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.lastName).toLowerCase().localeCompare((<string>current.user.lastName).toLowerCase());
+          });
+        break;
+      case "firstName":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.firstName).toLowerCase().localeCompare((<string>next.user.firstName).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.firstName).toLowerCase().localeCompare((<string>current.user.firstName).toLowerCase());
+          });
+        break;
+      case "patronymic":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.patronymic).toLowerCase().localeCompare((<string>next.user.patronymic).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.patronymic).toLowerCase().localeCompare((<string>current.user.patronymic).toLowerCase());
+          });
+        break;
+      case "warehouse":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (current.user.warehouse ? current.user.warehouse.name : '').toLowerCase().localeCompare((next.user.warehouse ? next.user.warehouse.name : '').toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (next.user.warehouse ? next.user.warehouse.name : '').toLowerCase().localeCompare((current.user.warehouse ? current.user.warehouse.name : '').toLowerCase());
+          });
+        break;
+
+      case "role":
+        if (this.sortingDirection == "UP")
+          this.users.sort((current, next)=> {
+            return (<string>current.user.roles[0].role).toLowerCase().localeCompare((<string>next.user.roles[0].role).toLowerCase());
+          });
+        else
+          this.users.sort((current, next)=> {
+            return (<string>next.user.roles[0].role).toLowerCase().localeCompare((<string>current.user.roles[0].role).toLowerCase());
+          });
+        break;
+
+      default:
+        break;
+    }
+
+    if (this.sortingDirection == "UP")
+      this.sortingDirection = "DOWN"
+    else this.sortingDirection = "UP"
+  }
+
 
 }

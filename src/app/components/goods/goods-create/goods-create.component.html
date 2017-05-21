@@ -1,3 +1,144 @@
-<p>
-  goods-create works!
-</p>
+<div class="callout">
+  <button class="close-button" type="button" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="form-container">
+    <form class="form" [formGroup]="goodsForm" (ngSubmit)="save()">
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="name" class="right">Наименование:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="name" name="name" type="text" [formControl]="goodsForm.controls['name']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['name'].hasError('required') && goodsForm.get('name').touched">
+                Поле "Наименование" не может быть пустым
+              </div>
+              <div class="callout alert"
+                   *ngIf="!goodsForm.controls['name'].valid && !goodsForm.controls['name'].hasError('required') && goodsForm.get('name').touched">
+                Наименование может содержать только буквы, цифры и пробелы
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="quantity" class="right">Количество:</label>
+            </div>
+            <div class="large-6 small-6 columns">
+              <input id="quantity" name="quantity" type="number" [formControl]="goodsForm.controls['quantity']"
+                     required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['quantity'].hasError('required') && goodsForm.get('quantity').touched">
+                Поле "Количество" не может быть пустым
+              </div>
+            </div>
+            <div class="large-3 small-3 columns">
+              <select name="quantityUnit" id="quantityUnit" [formControl]="goodsForm.controls['quantityUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['quantityUnit'].hasError('required') && goodsForm.get('quantityUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="price" class="right">Цена:</label>
+            </div>
+            <div class="large-6 small-6 columns">
+              <input id="price" name="price" type="number" [formControl]="goodsForm.controls['price']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['price'].hasError('required') && goodsForm.get('price').touched">
+                Поле "Цена" не может быть пустым
+              </div>
+            </div>
+            <div class="large-3 small-3 columns">
+              <select name="priceUnit" id="priceUnit" [formControl]="goodsForm.controls['priceUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['priceUnit'].hasError('required') && goodsForm.get('priceUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="weight" class="right">Вес:</label>
+            </div>
+            <div class="large-6 small-6 columns">
+              <input id="weight" name="weight" type="number" [formControl]="goodsForm.controls['weight']" required/>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['weight'].hasError('required') && goodsForm.get('weight').touched">
+                Поле "Вес" не может быть пустым
+              </div>
+            </div>
+            <div class="large-3 small-3 columns">
+              <select name="weightUnit" id="weightUnit" [formControl]="goodsForm.controls['weightUnit']" required>
+                <option *ngFor="let unit of units" [value]="unit.name">
+                  {{unit.name}}
+                </option>
+              </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['weightUnit'].hasError('required') && goodsForm.get('weightUnit').touched">
+                Поле "Ед.изм." не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="storageType" class="right">Тип хранения:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <select name="storageType" id="storageType" [formControl]="goodsForm.controls['storageType']" required>
+                <option *ngFor="let type of storageTypes" [value]="type.name">
+                  {{type.name}}
+                </option>
+              </select>
+              <div class="callout alert"
+                   *ngIf="goodsForm.controls['storageType'].hasError('required') && goodsForm.get('storageType').touched">
+                Поле "Тип хранения" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-9 small-9 columns button-right">
+          <input class="button" type="submit" [disabled]="!goodsForm.valid" value="Сохранить">
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+

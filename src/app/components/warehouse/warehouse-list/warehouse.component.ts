@@ -26,7 +26,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   ngOnInit(){
-    console.log("open method get data warehouse company");
+    console.log("open method get data warehouse customer");
     this.warehouseService.getWarehouse(this.id).subscribe(data => {
       this.warehouse = data;
     });

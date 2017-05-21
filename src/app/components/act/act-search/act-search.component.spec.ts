@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserValidationComponent } from './user-validation.component';
+import { ActSearchComponent } from './act-search.component';
 
-describe('UserValidationComponent', () => {
-  let component: UserValidationComponent;
-  let fixture: ComponentFixture<UserValidationComponent>;
+describe('ActSearchComponent', () => {
+  let component: ActSearchComponent;
+  let fixture: ComponentFixture<ActSearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserValidationComponent ]
+      declarations: [ ActSearchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserValidationComponent);
+    fixture = TestBed.createComponent(ActSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
