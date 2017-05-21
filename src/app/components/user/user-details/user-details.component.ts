@@ -26,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
   private roles:any[];
   private userForm:FormGroup;
   private warehouseList:Warehouse[];
+  private hasRights = true//todo
 
   constructor(private warehouseService:WarehouseService,
               private userService:UserService,
@@ -44,18 +45,18 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.fb.group({
-      "lastName": ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "login": ['', Validators.compose([Validators.pattern(/^[a-zA-Zа-я0-9]*$/)])],
-      "password": ['', Validators.compose([Validators.minLength(5)])],
-      "firstName": ['', Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "patronymic": ['', Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "dateOfBirth": ['', Validators.compose([dateValidator])],
-      "email": ['', Validators.compose([emailValidator])],
-      "city": [''],
-      "street": [''],
-      "house": [''],
-      "apartment": [''],
-      "warehouse": [''],
+      "lastName": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      "login": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.pattern(/^[a-zA-Zа-я0-9]*$/)])],
+      "password": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.minLength(5)])],
+      "firstName": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      "patronymic": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      "dateOfBirth": [{value: '', disabled: !this.hasRights}, Validators.compose([dateValidator])],
+      "email": [{value: '', disabled: !this.hasRights}, Validators.compose([emailValidator])],
+      "city": [{value: '', disabled: !this.hasRights},],
+      "street": [{value: '', disabled: !this.hasRights},],
+      "house": [{value: '', disabled: !this.hasRights},],
+      "apartment": [{value: '', disabled: !this.hasRights},],
+      "warehouse": [{value: '', disabled: !this.hasRights},],
       "roles":new FormArray([],Validators.compose([rolesValidator]))
     });
 
