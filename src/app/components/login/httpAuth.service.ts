@@ -25,7 +25,7 @@ export class HttpAuthService {
     return this._request(RequestMethod.Post, url, body, options);
   }
 
-  public put(url:string, body:string, options?:RequestOptions):Observable<Response> {
+  public put(url:string, body?:string, options?:RequestOptions):Observable<Response> {
     return this._request(RequestMethod.Put, url, body, options);
   }
 
