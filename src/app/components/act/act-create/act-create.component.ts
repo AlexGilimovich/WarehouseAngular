@@ -1,11 +1,10 @@
-import {Component, OnInit,} from '@angular/core';
-import {Location} from '@angular/common';
+import {Component, OnInit} from "@angular/core";
+import {Location} from "@angular/common";
 import {FormBuilder, FormGroup, Validators, FormArray} from "@angular/forms";
 import {ActService} from "../act.service";
 import {ActTypeName} from "../actTypeName";
-import {Act} from "../act";
-import {ActType} from "../actType";
 import {actTypeMessages} from "../act.module";
+import {ActDTO} from "../ActDTO";
 
 @Component({
   selector: 'app-act-create',
@@ -13,8 +12,8 @@ import {actTypeMessages} from "../act.module";
   styleUrls: ['./act-create.component.scss']
 })
 export class ActCreateComponent implements OnInit {
-  // private act:Act;
   private actTypeNames:ActTypeName[];
+  private goodsIdList;//todo
   private actTypeMessages = actTypeMessages;
   private actForm:FormGroup;
 
@@ -25,7 +24,8 @@ export class ActCreateComponent implements OnInit {
     // this.act.actType = new ActType();
     this.actForm = this.fb.group({
       "actType": ['', Validators.compose([Validators.required])],
-      "roles": new FormArray([], Validators.compose([goodsValidator]))
+      "goods": new FormArray([], Validators.compose([goodsValidator]))
+
     });
   }
 
@@ -44,6 +44,21 @@ export class ActCreateComponent implements OnInit {
   private close() {
     this.location.back();
   }
+
+  private save() {
+    let act:ActDTO = new ActDTO();
+    act.type = this.actForm.controls['actType'].value;
+    act.goodsList = this.actForm.controls['goods'].value;
+    this.actService.save(act).subscribe(
+      res=> {
+        this.location.back();
+      },
+      error=>{
+        this.location.back();
+      }
+    )
+  }
+
 
 }
 function goodsValidator(array:FormArray) {

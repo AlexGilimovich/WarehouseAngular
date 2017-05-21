@@ -10,6 +10,7 @@ import {ActSearchDTO} from "./actSearchDTO";
 import {Unit} from "../goods/unit";
 import {StorageType} from "../goods/storageType";
 import {Goods} from "../goods/goods";
+import {ActDTO} from "./ActDTO";
 
 const LIST_URL:string = "http://localhost:8080/web/web/act";
 const GET_URL:string = "http://localhost:8080/web/web/act/";
@@ -91,8 +92,8 @@ export class ActService {
     })
   }
 
-  save(act:Act) {
-
+  save(act:ActDTO):Observable<any> {
+    return this.httpAuthService.post(SAVE_URL, JSON.stringify(act));
   }
 
   public getActsForGoods(goodsId):Observable<Act[]> {

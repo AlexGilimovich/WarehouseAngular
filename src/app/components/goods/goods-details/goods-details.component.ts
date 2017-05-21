@@ -134,7 +134,7 @@ export class GoodsDetailsComponent implements OnInit {
   }
 
   private goToStorageView() {
-    this.router.navigate(['../../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
     //   this.warehouseService.selectCells$.subscribe(
     //     cells => {
     //       cells.forEach(
