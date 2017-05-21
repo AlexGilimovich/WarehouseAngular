@@ -7,6 +7,9 @@ import {User} from "../user/user";
 import {ActType} from "./actType";
 import {ActTypeName} from "./actTypeName";
 import {ActSearchDTO} from "./actSearchDTO";
+import {Unit} from "../goods/unit";
+import {StorageType} from "../goods/storageType";
+import {Goods} from "../goods/goods";
 
 const LIST_URL:string = "http://localhost:8080/web/web/act";
 const GET_URL:string = "http://localhost:8080/web/web/act/";
@@ -21,7 +24,6 @@ export class ActService {
 
   constructor(private httpAuthService:HttpAuthService) {
   }
-
 
 
   list(page:number, count:number):Observable<any> {
@@ -67,7 +69,24 @@ export class ActService {
       user.firstName = item.user.firstName;
       user.patronymic = item.user.patronymic;
       act.user = user;
-      act.actType = new ActType(null, item.type)
+      act.actType = new ActType(null, item.type);
+
+      act.goods = [];
+      item.goodsList.forEach(
+        item=> {
+          act.goods.push(new Goods(
+            item.id,
+            item.name,
+            item.quantity,
+            item.weight,
+            item.price,
+            new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+            new Unit(item.quantityUnit.id, item.quantityUnit.name),
+            new Unit(item.weightUnit.id, item.weightUnit.name),
+            new Unit(item.priceUnit.id, item.priceUnit.name)
+          ))
+        }
+      )
       return act;
     })
   }

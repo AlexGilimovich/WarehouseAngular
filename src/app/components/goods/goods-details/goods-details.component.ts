@@ -44,7 +44,12 @@ export class GoodsDetailsComponent implements OnInit {
               private route:ActivatedRoute) {
     route.params.subscribe(params => {
       this.id = params['id'];
+      // this.warehouseId = params['warehouseId'];
+
+    });
+    route.queryParams.subscribe(params => {
       this.warehouseId = params['warehouseId'];
+
     });
 
     this.goodsForm = this.fb.group({

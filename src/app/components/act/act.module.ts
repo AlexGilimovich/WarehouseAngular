@@ -8,10 +8,9 @@ import {ActCreateComponent} from "./act-create/act-create.component";
 import {Routes, RouterModule} from "@angular/router";
 import {ActListContainerComponent} from "./act-list-container/act-list-container.component";
 import {ActService} from "./act.service";
-import { ActSearchComponent } from './act-search/act-search.component';
+import {ActSearchComponent} from "./act-search/act-search.component";
 import {ActSearchService} from "./act-search/act-search.service";
-import { ActGoodsComponent } from './act-goods/act-goods.component';
-
+import {ActGoodsComponent} from "./act-goods/act-goods.component";
 
 
 export const actTypeMessages:Map<string, string> = new Map([

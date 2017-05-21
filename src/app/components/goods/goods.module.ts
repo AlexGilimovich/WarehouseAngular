@@ -13,7 +13,6 @@ import {GoodsSearchComponent} from "./goods-search/goods-search.component";
 import {SearchService} from "./goods-search/search.service";
 import {StatusHistoryComponent} from "./status-history/status-history.component";
 import {GoodsActsComponent} from "./goods-acts/goods-acts.component";
-import {WarehouseComponent} from "../warehouse/warehouse-list/warehouse.component";
 import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 
 export const statusMessages:Map<string, string> = new Map([
@@ -62,7 +61,8 @@ export const goodsRoutes:Routes = [
     "redirectTo": 'list',
     "pathMatch": 'full'
   }, {
-    "path": "details/:warehouseId/:id",
+    // "path": "details/:warehouseId/:id",
+    "path": "details/:id",
     "component": GoodsDetailsComponent
   }, {
     "path": "list",
@@ -70,17 +70,34 @@ export const goodsRoutes:Routes = [
   }, {
     "path": "create",
     "component": GoodsCreateComponent
-  },{
+  }, {
     "path": "typespace/:id_type/warehouse/:id_warehouse/put",
     "component": WarehouseSchemeInfoComponent
   }
 ];
 @NgModule({
   imports: [
-    CommonModule, RouterModule, FormsModule, ReactiveFormsModule
-  ],
-  declarations: [GoodsContainerComponent, GoodsDetailsComponent, GoodsListComponent, GoodsCreateComponent, GoodsListContainerComponent, GoodsStatusSearchComponent, GoodsSearchComponent, StatusHistoryComponent, GoodsActsComponent],
-  providers: [GoodsService, SearchService]
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule],
+  declarations: [
+    GoodsContainerComponent,
+    GoodsDetailsComponent,
+    GoodsListComponent,
+    GoodsCreateComponent,
+    GoodsListContainerComponent,
+    GoodsStatusSearchComponent,
+    GoodsSearchComponent,
+    StatusHistoryComponent,
+    GoodsActsComponent],
+  providers: [
+    GoodsService,
+    SearchService],
+  exports: [
+    GoodsCreateComponent,
+    GoodsListContainerComponent]
+
 })
 export class GoodsModule {
 }

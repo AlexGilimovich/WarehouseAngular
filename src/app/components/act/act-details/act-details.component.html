@@ -50,7 +50,7 @@
           <b>Список товаров:</b>
         </div>
         <div class="large-10 small-10 column clickable" (click)="goToUserDetails()">
-          <app-act-goods></app-act-goods>
+          <app-act-goods [goodsList]="act?.goods"></app-act-goods>
         </div>
       </div>
     </div>

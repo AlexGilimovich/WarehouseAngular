@@ -153,7 +153,8 @@ export class GoodsListComponent implements OnInit {
   }
 
   private goToDetails(id:string):void {
-    this.router.navigate(['../details', this.warehouseId, id], {relativeTo: this.route});
+    // this.router.navigate(['../details', this.warehouseId, id], {relativeTo: this.route});
+    this.router.navigate(['../details', id], {relativeTo: this.route, queryParams:{warehouseId:this.warehouseId}});
   }
 
 
