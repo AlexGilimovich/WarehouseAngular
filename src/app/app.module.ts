@@ -27,7 +27,7 @@ import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/custo
 import {ManagerModule, managerRoutes} from "./components/manager/manager.module";
 import {ManagerComponent } from "./components/manager/manager.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
-import {invoiceRoutes} from "./components/invoice/invoice.module";
+import {InvoiceModule, invoiceRoutes} from "./components/invoice/invoice.module";
 import {IncomingInvoiceCreateComponent} from "./components/invoice/incoming-invoice/incoming-invoice-create/incoming-invoice-create.component";
 import {warehouseCompanyRoutes} from "./components/warehouse-company/warehouse-company.module";
 import {warehouseRoutes} from "./components/warehouse/warehouse.module";
@@ -138,7 +138,6 @@ const globalRoutes:Routes = [
     WarehouseSpaceComponent,
     WarehouseCellComponent,
     //CustomerCreateComponent,
-    IncomingInvoiceCreateComponent,
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -153,7 +152,8 @@ const globalRoutes:Routes = [
     ManagerModule,
     //WarehouseModule,
     TransportCompanyModule,
-    WarehouseCustomerCompanyModule
+    WarehouseCustomerCompanyModule,
+    InvoiceModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
