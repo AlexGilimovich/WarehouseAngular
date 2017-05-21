@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {Goods} from "../goods";
 import {GoodsService} from "../goods.service";
-import {ActivatedRoute, Router} from "@angular/router"; 
+import {ActivatedRoute, Router} from "@angular/router";
 import {GoodsStatusName} from "../goodsStatusName";
 import {Unit} from "../unit";
 import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
@@ -31,6 +31,7 @@ export class GoodsDetailsComponent implements OnInit {
   private goodsForm:FormGroup;
   private hasRights:boolean = true;//todo check
   private statusMessages = statusMessages;
+  private warehouseId;
 
   private cells:StorageCell[] = [];
 
@@ -43,6 +44,12 @@ export class GoodsDetailsComponent implements OnInit {
               private route:ActivatedRoute) {
     route.params.subscribe(params => {
       this.id = params['id'];
+      // this.warehouseId = params['warehouseId'];
+
+    });
+    route.queryParams.subscribe(params => {
+      this.warehouseId = params['warehouseId'];
+
     });
 
     this.goodsForm = this.fb.group({
@@ -126,27 +133,66 @@ export class GoodsDetailsComponent implements OnInit {
     );
   }
 
-  // private goToStorageView() {
-  //   this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', this.goods.storageType.id, this.warehouseId], {relativeTo: this.route});
-  //   this.warehouseService.selectCells$.subscribe(
-  //     cells => {
-  //       cells.forEach(
-  //         cell=> {
-  //           let c = new StorageCell();
-  //           c.idStorageCell = cell.idStorageCell;
-  //           c.number = cell.number;
-  //           this.goods.cells = [];
-  //           this.goods.cells.push(c);
-  //         }
-  //       );
-  //     }
-  //   )
-  //   this.putInStorage();
-  // }
-  //
-  // private putInStorage() {
-  //   this.goodsService.putInStorage(this.goods);
-  // }
+  private goToStorageView() {
+    this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    //   this.warehouseService.selectCells$.subscribe(
+    //     cells => {
+    //       cells.forEach(
+    //         cell=> {
+    //           let c = new StorageCell();
+    //           c.idStorageCell = cell.idStorageCell;
+    //           c.number = cell.number;
+    //           this.goods.cells = [];
+    //           this.goods.cells.push(c);
+    //         }
+    //       );
+    //     }
+    //   )
+    //   this.putInStorage();
+    // }
+    //
+    // private putInStorage() {
+    //   this.goodsService.putInStorage(this.goods);
+  }
+
+  private removeFromStorage() {
+    this.goodsService.removeFromStorage(this.goods).subscribe(
+      res=> {
+        this.goodsService.get(this.id).subscribe(
+          (goods:Goods) => {
+            this.goods = goods;
+            this.cells = goods.cells;
+            this.fillForm();
+            this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
+              (statuses) => {
+                this.statuses = statuses.sort((current, next)=> {
+                  return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+                });
+
+              },
+              (err)=> {
+                console.error(err);
+              }
+            );
+            this.actService.getActsForGoods(this.goods.id).subscribe(
+              (acts) => {
+                this.acts = acts.sort((current, next)=> {
+                  return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+                });
+              },
+              (err)=> {
+                console.error(err);
+              }
+            );
+          },
+          (err:any) => {
+            console.log(err);
+          }
+        );
+      }
+    )
+
+  }
 
   private fillForm():void {
     this.goodsForm.controls['name'].setValue(this.goods.name);
@@ -163,7 +209,8 @@ export class GoodsDetailsComponent implements OnInit {
 
   private close() {
     if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
-      this.router.navigate(['../../list'], {relativeTo: this.route});
+    // this.router.navigate(['../../../list'], {relativeTo: this.route});
+      this.location.back();
   }
 
   private save():void {

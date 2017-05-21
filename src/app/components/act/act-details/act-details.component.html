@@ -43,6 +43,22 @@
     </div>
   </div>
   <hr>
-  <p><b>Список товаров:</b></p>
-  <!--<app-goods-list></app-goods-list>-->
+  <div class="row">
+    <div class="large-12 small-12 column">
+      <div class="row">
+        <div class="large-2 small-2 column">
+          <b>Список товаров:</b>
+        </div>
+        <div class="large-10 small-10 column clickable" (click)="goToUserDetails()">
+          <app-act-goods [goodsList]="act?.goods"></app-act-goods>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
 </div>

@@ -25,7 +25,7 @@ const GET_STORAGE_SPACE_TYPES_URL:string = "http://localhost:8080/web/web/goods/
 const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
 const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
-
+const REMOVE_FROM_STORAGE_URL = "http://localhost:8080/web/web/goods/remove/";
 @Injectable()
 export class GoodsService {
   private goodsSource = new Subject<Goods>();
@@ -35,7 +35,7 @@ export class GoodsService {
   }
 
   //Event emitted when user finished creating goods
-  public goodsCreatedEvent(goods:Goods){
+  public goodsCreatedEvent(goods:Goods) {
     this.goodsSource.next(goods);
   }
 
@@ -131,7 +131,6 @@ export class GoodsService {
       )
     })
   }
-
 
 
   save(goods:Goods):Observable<any> {
@@ -251,7 +250,6 @@ export class GoodsService {
                   item.status.name,
                   item.status.note
                 ) : null
-
             )
           }),
         count: count
@@ -284,7 +282,7 @@ export class GoodsService {
 
   }
 
-  public putInStorage(goods):Observable<any>{
+  public putInStorage(goods):Observable<any> {
     let counter:number = goods.length;
     return Observable.create(
       observer=> {
@@ -307,6 +305,12 @@ export class GoodsService {
     )
   }
 
+  public removeFromStorage(goods):Observable<any> {
+    let counter:number = goods.length;
+    const url:string = `${REMOVE_FROM_STORAGE_URL}${goods.id}`;
+    return this.httpAuthService.put(url);
+
+  }
 
 
 }

@@ -162,9 +162,15 @@
               <ul class="menu simple" *ngFor="let cell of goods?.cells">
                 <li><a>{{cell.idStorageCell}}</a></li>
               </ul>
-              <button class="hollow button" type="button">
-                <span aria-hidden="true">
+              <button class="hollow button" type="button" (click)="goToStorageView()">
+                <span aria-hidden="true" >
                   Переместить
+                  <!--<i class="fi-plus"></i>-->
+                </span>
+              </button>
+              <button class="hollow button" type="button" (click)="removeFromStorage()">
+                <span aria-hidden="true">
+                  Освободить ячейки
                   <!--<i class="fi-plus"></i>-->
                 </span>
               </button>

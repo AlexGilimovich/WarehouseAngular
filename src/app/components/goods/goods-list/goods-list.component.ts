@@ -3,12 +3,10 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {GoodsService} from "../goods.service";
 import {GoodsStatusName} from "../goodsStatusName";
 import {WarehouseService} from "../../warehouse/warehouse.service";
-import {StorageCell} from "../../warehouse-scheme/storage-cell";
 import {Subscription} from "rxjs";
 import {statusMessages} from "../goods.module";
 import {GoodsSearchDTO} from "../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
-import {Goods} from "../goods";
 
 declare var $:any;
 
@@ -85,16 +83,6 @@ export class GoodsListComponent implements OnInit {
 
   }
 
-  //todo delete
-  // public createGoods() {
-  //   let goods:Goods;
-  //   this.router.navigate(['../create'], {relativeTo: this.route});
-  //   this.goodsService.goodsCreated$.subscribe(
-  //     res=> {
-  //       goods = res;
-  //     }
-  //   );
-  // }
 
 
   public getPage(page:number, searchDTO?:GoodsSearchDTO) {
@@ -163,7 +151,8 @@ export class GoodsListComponent implements OnInit {
   }
 
   private goToDetails(id:string):void {
-    this.router.navigate(['../details', id], {relativeTo: this.route});
+    // this.router.navigate(['../details', this.warehouseId, id], {relativeTo: this.route});
+    this.router.navigate(['../details', id], {relativeTo: this.route, queryParams:{warehouseId:this.warehouseId}});
   }
 
 
@@ -274,7 +263,8 @@ export class GoodsListComponent implements OnInit {
   }
 
   private goToStorageView(goods) {
-    this.router.navigate(['typespace/:id_type/warehouse/:id_warehouse/put', goods.goods.storageType.id, this.warehouseId], {relativeTo: this.route});
+    this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+
     // this.warehouseService.selectCells$.subscribe(
     //   cells => {
     //     cells.forEach(
