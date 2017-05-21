@@ -1,3 +1,63 @@
-<p>
-  act-create works!
-</p>
+<div class="callout">
+  <button class="close-button" type="button" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="form-container">
+    <form class="form" [formGroup]="actForm" (ngSubmit)="save()">
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="actType" class="right">Тип акта:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <select name="actType" id="actType" [formControl]="actForm.controls['actType']" required>
+                <option *ngFor="let type of actTypeNames" [value]="type.name">
+                  {{actTypeMessages.get(type.name)}}
+                </option>
+              </select>
+              <div class="callout alert"
+                   *ngIf="actForm.controls['actType'].hasError('required') && actForm.get('actType').touched">
+                Поле "Тип акта" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="note" class="right">Примечание:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <textarea name="note" id="note" cols="30" rows="10" required></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="large-3 small-3 columns">
+            <label for="note" class="right">Выбрать товары:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <!--<app-goods-list-container></app-goods-list-container>-->
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="large-9 small-9 columns button-right">
+          <input class="button" type="submit" [disabled]="!actForm.valid" value="Сохранить">
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+

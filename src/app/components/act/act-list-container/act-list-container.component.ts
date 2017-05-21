@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActTypeName} from "../actTypeName";
 import {ActService} from "../act.service";
+import {Router, ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -11,7 +12,9 @@ import {ActService} from "../act.service";
 export class ActListContainerComponent implements OnInit {
   private actTypeNames:ActTypeName[];
 
-  constructor(private actService:ActService) {
+  constructor(private actService:ActService,
+              private router:Router,
+              private route:ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -27,7 +30,7 @@ export class ActListContainerComponent implements OnInit {
   }
 
   private goToCreate() {
-
+    this.router.navigate(['../create'], {relativeTo: this.route});
   }
 
 
