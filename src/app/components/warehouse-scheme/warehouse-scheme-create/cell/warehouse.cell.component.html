@@ -1,0 +1,22 @@
+<div class="translucent-form-overlay">
+  <form method="post">
+    <h3>Добавление ячейки</h3>
+    <div class="row columns">
+      <label>Номер ячейки
+        <input type="text" name="name" placeholder="Номер ячейки..." [(ngModel)]="cell.number">
+      </label>
+    </div>
+
+    <div class="row columns">
+      <button type="button" class="primary button">
+        Отмена
+      </button>
+      <button type="button" class="secondary button">
+        Очистить
+      </button>
+      <button type="button" class="alert button" (click)="createCell()">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,22 @@
+<div class="translucent-form-overlay">
+  <form method="post">
+    <h3>Регистрация компании</h3>
+    <div class="row columns">
+      <label>Название склада
+        <input type="text" name="name" placeholder="Наименование склада..." [(ngModel)]="warehouse.name">
+      </label>
+    </div>
+
+    <div class="row columns">
+      <button type="button" class="primary button">
+        Отмена
+      </button>
+      <button type="button" class="secondary button">
+        Очистить
+      </button>
+      <button type="button" class="alert button" (click)="registration(warehouse)">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

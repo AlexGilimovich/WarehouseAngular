@@ -32,9 +32,26 @@ export class WarehouseComponent implements OnInit {
     });
   }
 
+  edit(id_warehouse: string){
+    this.router.navigate([id_warehouse, 'edit'], {relativeTo: this.route});
+  }
+
+  delete(id_warehouse: number) {
+    console.log("delte warehouse with id: "+id_warehouse);
+    this.warehouseService.delete(id_warehouse).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  registration(id: string){
+    console.log("registration action for warehouse with id:"+id);
+
+    this.router.navigate(['./registration'], {relativeTo: this.route});
+  }
+
   findSpace(id: string){
     console.log("call findSpace(id: String)");
     console.log(id);
-    this.router.navigate(['../../warehouse-scheme', id], {relativeTo: this.route});
+    this.router.navigate([id, 'scheme'], {relativeTo: this.route});
   }
 }

@@ -3,7 +3,6 @@
  */
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {WarehouseComponent} from "./warehouse.component";
 import {WarehouseSchemeInfoComponent} from "./warehouse.scheme.component";
 
 describe('WarehouseSchemeInfoComponent', () => {

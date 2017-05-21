@@ -6,11 +6,20 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {WarehouseComponent} from "./warehouse-list/warehouse.component";
 import {WarehouseService} from "./warehouse.service";
+import {WarehouseCreateComponent} from "./warehouse-create/warehouse.create.component";
 
 export const warehouseRoutes: Routes = [
   {
-    path: '',
+    path: 'warehouse',
     component: WarehouseComponent
+  },
+  {
+    path: "warehouse/registration",
+    component: WarehouseCreateComponent
+  },
+  {
+    path: "warehouse/:id_warehouse/edit",
+    component: WarehouseCreateComponent
   }
 ];
 
@@ -19,7 +28,7 @@ export const warehouseRoutes: Routes = [
     RouterModule,
     CommonModule
   ],
-  declarations: [WarehouseComponent],
+  declarations: [WarehouseComponent, WarehouseCreateComponent],
   providers: [WarehouseService]
 })
 export class WarehouseModule { }

@@ -17,12 +17,12 @@
         <!--    Start Navigation Menu    -->
         <section class="top-bar-section" id="mean_nav">
           <ul class="right">
-            <a [routerLink]="['./warehousecompany']" [routerLinkActive]="['active']">
+            <a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">
               WAREHOUSE COMPANY
             </a>
             <li><a href="#services">сервис</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
-            <li><a href="#Download">Download</a></li>
+            <li><a [routerLink]="['../warehousecompany/registration']" [routerLinkActive]="['active']">Регистрация</a></li>
             <li><a href="#about">о нас</a></li>
           </ul>
         </section>

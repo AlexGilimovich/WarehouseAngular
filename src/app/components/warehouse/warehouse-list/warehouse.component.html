@@ -6,12 +6,56 @@
 </head>
 <body>
 <h1>Склады:</h1>
+<!--<a [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
 <ul>
   <li *ngFor="let company of warehouse">
     <p>Номер склада: {{company?.idWarehouse}}</p>
-    <p>Наименование: <a [routerLink]="['../warehouse-scheme']" [routerLinkActive]="['active']" (click)="findSpace(company.idWarehouse)">{{company?.name}}</a></p>
+    <a (click)="edit(company?.idWarehouse)">Изменить</a>
+    <a (click)="delete(company?.idWarehouse)">Удалить</a>
+    <p>Наименование: <a [routerLink]="['./scheme']" [routerLinkActive]="['active']"
+                        (click)="findSpace(company.idWarehouse)">{{company?.name}}</a></p>
 
   </li>
+</ul>-->
+<div class="input-group">
+  <input class="input-group-field" placeholder="Название склада...">
+  <div class="input-group-button">
+    <input type="submit" class="button" value="Поиск">
+  </div>
+</div>
+<p class="help-text" id="passwordHelpText">Начните вводить название склада</p>
+
+<a class="right" [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
+<table class="hover">
+  <thead>
+  <tr>
+    <th>checkbox</th>
+    <th>Номер склада</th>
+    <th>Название склада</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let company of warehouse">
+    <td><input type="checkbox" value="{{company?.idWarehouse}}"></td>
+    <td>{{company?.idWarehouse}}</td>
+    <td>
+      <a (click)="findSpace(company.idWarehouse)">{{company?.name}}</a>
+      (<a (click)="edit(company?.idWarehouse)">Изменить</a>
+      <a (click)="delete(company?.idWarehouse)">Удалить</a>)
+    </td>
+  </tr>
+  </tbody>
+</table>
+<ul class="pagination text-center" role="navigation" aria-label="Pagination">
+  <li class="pagination-previous disabled"></li>
+  <li class="current"><span class="show-for-sr">Вы на странице</span> 1</li>
+  <li><a href="#" aria-label="Page 2">2</a></li>
+  <li><a href="#" aria-label="Page 3">3</a></li>
+  <li><a href="#" aria-label="Page 4">4</a></li>
+  <li class="ellipsis"></li>
+  <li><a href="#" aria-label="Page 12">12</a></li>
+  <li><a href="#" aria-label="Page 13">13</a></li>
+  <li class="pagination-next"><a href="#" aria-label="Next page"></a></li>
 </ul>
 </body>
 </html>

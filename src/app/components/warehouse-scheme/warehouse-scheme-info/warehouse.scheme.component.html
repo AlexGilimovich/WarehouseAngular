@@ -3,35 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <title>Схема склада</title>
-  <style>
-    #space {
-      background-color: #69D9FF;
-      float: left;
-      margin: 5%;
-    }
-
-    #cell {
-      background-color: #fbdd90;
-      height: auto;
-      width: 20%;
-      float: left;
-      margin: 5px;
-      border-color: black;
-      border: solid;
-      align: center;
-    }
-  </style>
 </head>
 
 <body>
 <h1 align="center">Схема склада</h1>
-
-  <div id="space" *ngFor="let space of storageSpace">
-    <h5 align="center">{{space?.idStorageSpace}} - <a href="#">{{space?.storageSpaceType.name}}</a></h5>
+<a (click)="addSpace(id_warehouse)">Добавить space</a>
+<div *ngFor="let space of storageSpace">
+  <span [ngSwitch]="space.storageSpaceType.name">
+    <div *ngSwitchCase="'Холодильная камера'" class="icecamera">
+      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      </h5>
+      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
+      <a>Удалить</a>
+      <div align="center" *ngFor="let cell of space.storageCellList">
+        <div [ngSwitch]="true">
+          <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Отапливаемое помещение'" class="heated">
+      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      </h5>
+      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
+      <a>Удалить</a>
+      <div align="center" *ngFor="let cell of space.storageCellList">
+        <div [ngSwitch]="true">
+          <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Неотапливаемое помещение'" class="noheated">
+      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      </h5>
+      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
+      <a>Удалить</a>
+      <div align="center" *ngFor="let cell of space.storageCellList">
+        <div [ngSwitch]="true">
+          <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Открытая площадка'" class="open">
+      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      </h5>
+      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
+      <a>Удалить</a>
+      <div align="center" *ngFor="let cell of space.storageCellList">
+        <div [ngSwitch]="true">
+          <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Камера глубокой заморозки'" class="icedeepcamera">
+      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      </h5>
+      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
+      <a>Удалить</a>
+      <div align="center" *ngFor="let cell of space.storageCellList">
+        <div [ngSwitch]="true">
+          <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+        </div>
+      </div>
+    </div>
+    <!--<!--<h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+    </h5>
+    <a>Добавить</a><a>Удалить</a>
     <div align="center" id="cell" *ngFor="let cell of space.storageCellList">
       <a href="#">{{cell?.idStorageCell}}</a>
-    </div>
-  </div>
+    </div>-->
+  </span>
+</div>
+
 
 </body>
 </html>

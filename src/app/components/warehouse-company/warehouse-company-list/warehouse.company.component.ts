@@ -23,7 +23,17 @@ export class WarehouseCompanyComponent implements OnInit {
   findWarehouse(id: string){
     console.log("call findWarehouse(id: String)");
     console.log(id);
-    this.router.navigate(['../warehouse', id], {relativeTo: this.route});
+    this.router.navigate(['./', id, 'warehouse'], {relativeTo: this.route});
+  }
+
+  delete(id: string){
+    console.log(id);
+    this.companyService.delete(id);
+  }
+
+  edit(id: string){
+    console.log("Id from edit"+id);
+    this.router.navigate(['./edit', id], {relativeTo: this.route});
   }
 
   ngOnInit(){

@@ -1,0 +1,72 @@
+$red: random(256)-1;
+$green: random(256)-1;
+$blue: random(256)-1;
+$alpha: random(100)/100;
+
+body {
+  background-color: #1d1d1d;
+}
+
+#space {
+  background-color: #66ffff;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
+.cell {
+  background-color: rgba($red, $green, $blue, $alpha);
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-disable {
+  background-color: white;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.icecamera {
+  background-color: #69D9FF;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
+.heated {
+  background-color: #ffffaa;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
+.open {
+  background-color: #ff6600;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
+.icedeepcamera {
+  background-color: #0000cc;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
+.noheated {
+  background-color: #00ff00;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}

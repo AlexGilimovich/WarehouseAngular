@@ -35,6 +35,10 @@ import {warehouseRoutes} from "./components/warehouse/warehouse.module";
 import {warehouseSchemeRoutes} from "./components/warehouse-scheme/warehouse-scheme.module";
 import {TransportCompanyListComponent} from "./components/tr-company/tr-company-list/tr-company-list.component";
 import {TransportCompanyCreateComponent} from "./components/tr-company/tr-company-create/tr-company-create.component";
+import {WarehouseCompanyCreateComponent} from "./components/warehouse-company/warehouse-company-create/warehouse.company.create.component";
+import {WarehouseCreateComponent} from "./components/warehouse/warehouse-create/warehouse.create.component";
+import {WarehouseSpaceComponent} from "./components/warehouse-scheme/warehouse-scheme-create/space/warehouse.space.component";
+import {WarehouseCellComponent} from "./components/warehouse-scheme/warehouse-scheme-create/cell/warehouse.cell.component";
 
 const desktopRoutes:Routes = [
   {
@@ -83,11 +87,11 @@ const globalRoutes:Routes = [
     children: warehouseCompanyRoutes
   },
   {
-    path: 'warehouse/:id',
+    path: 'warehousecompany/:id',
     children: warehouseRoutes
   },
   {
-    path: 'warehouse-scheme/:id',
+    path: 'warehousecompany/:id/warehouse/:id_warehouse/scheme',
     children: warehouseSchemeRoutes
   },
   {
@@ -123,8 +127,12 @@ const globalRoutes:Routes = [
     TransportCompanyListComponent,
     TransportCompanyCreateComponent,
     WarehouseCompanyComponent,
+    WarehouseCompanyCreateComponent,
     WarehouseComponent,
+    WarehouseCreateComponent,
     WarehouseSchemeInfoComponent,
+    WarehouseSpaceComponent,
+    WarehouseCellComponent,
     CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
 

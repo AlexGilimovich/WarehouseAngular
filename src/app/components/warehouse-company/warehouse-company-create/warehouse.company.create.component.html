@@ -1,0 +1,31 @@
+<div class="translucent-form-overlay">
+  <form method="post">
+    <h3>Регистрация компании</h3>
+    <div class="row columns">
+      <label>Наименование
+        <input type="text" name="name" placeholder="Наименование компании..." [(ngModel)]="warehouseCompany.name">
+      </label>
+    </div>
+    <div class="row columns">
+      <div class="switch">
+        Статус
+        <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch" [(ngModel)]="warehouseCompany.status">
+        <label class="switch-paddle" for="exampleSwitch">&nbsp; <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+          <span class="show-for-sr">Download Kittens</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="row columns">
+    <button type="button" class="primary button">
+    Отмена
+  </button>
+    <button type="button" class="secondary button">
+      Очистить
+    </button>
+    <button type="button" class="alert button" (click)="registration(warehouseCompany)">
+      Сохранить
+    </button>
+    </div>
+  </form>
+</div>

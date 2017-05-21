@@ -1,0 +1,24 @@
+<div class="translucent-form-overlay">
+  <form method="post">
+    <h3>Регистрация помещения для склада</h3>
+    <div class="row columns">
+      <label>Тип помещения
+        <select [(ngModel)]="selectedSpaceType" name="selectedSpaceType">
+          <option *ngFor="let c of spaceType" [ngValue]="c" [selected]="selectedStorageSpace.storageSpaceType?.idStorageSpaceType==c.idStorageSpaceType">{{c.name}}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="row columns">
+      <button type="button" class="primary button">
+        Отмена
+      </button>
+      <button type="button" class="secondary button">
+        Очистить
+      </button>
+      <button type="button" class="alert button" (click)="createSpace()">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>
