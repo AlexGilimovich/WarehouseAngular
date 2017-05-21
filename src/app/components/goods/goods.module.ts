@@ -13,6 +13,7 @@ import {GoodsSearchComponent} from "./goods-search/goods-search.component";
 import {SearchService} from "./goods-search/search.service";
 import {StatusHistoryComponent} from "./status-history/status-history.component";
 import {GoodsActsComponent} from "./goods-acts/goods-acts.component";
+import {WarehouseModule} from "../warehouse/warehouse.module";
 
 export const statusMessages:Map<string, string> = new Map([
   ["REGISTERED", "Зарегистрирован"],

@@ -43,6 +43,7 @@ import {CustomerDetailsComponent} from "./components/customer/customer-details/c
 import {WarehouseModule} from "./components/warehouse/warehouse.module";
 import {User} from "./components/user/user";
 import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
+import {WarehouseService} from "./components/warehouse/warehouse.service";
 
 const desktopRoutes:Routes = [
   {
@@ -157,7 +158,8 @@ const globalRoutes:Routes = [
     ShoppingCartService,
     LoginService,
     HttpAuthService,
-    User
+    User,
+    WarehouseService
   ],
   bootstrap: [AppComponent]
 })
