@@ -5,6 +5,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
+import {FormsModule} from "@angular/forms";
 import {Warehouse} from "../warehouse";
 import {WarehouseService} from "../warehouse.service";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";

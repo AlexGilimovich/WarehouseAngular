@@ -2,6 +2,7 @@
  * Created by Lenovo on 13.05.2017.
  */
 import { NgModule } from '@angular/core';
+import {FormsModule} from "@angular/forms";
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {WarehouseComponent} from "./warehouse-list/warehouse.component";

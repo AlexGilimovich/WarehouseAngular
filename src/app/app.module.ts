@@ -135,7 +135,7 @@ const globalRoutes:Routes = [
     WarehouseSchemeInfoComponent,
     WarehouseSpaceComponent,
     WarehouseCellComponent,
-    CustomerCreateComponent,
+    //CustomerCreateComponent,
     IncomingInvoiceCreateComponent,
   ],
   imports: [
@@ -146,7 +146,7 @@ const globalRoutes:Routes = [
     RouterModule.forRoot(globalRoutes),
     BookModule,
     DispatcherModule,
-    WarehouseModule,
+    //WarehouseModule,
     TransportCompanyModule,
     WarehouseCustomerCompanyModule
   ],
