@@ -45,7 +45,7 @@
       {{goods.goods.weightUnit.name}}
     </td>
     <td>
-      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.status?.name"
+      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.status?.name" [disabled]="!isEditable"
               (ngModel)="goods.goods.status.name" (change)="statusChangedEvent($event, goods)">
         <option *ngFor="let statusName of statusNames" [value]="statusName.name">
           {{statusMessages.get(statusName.name)}}

@@ -1,10 +1,16 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {Location} from "@angular/common";
-import {FormBuilder, FormGroup, Validators, FormArray} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from "@angular/forms";
 import {ActService} from "../act.service";
 import {ActTypeName} from "../actTypeName";
 import {actTypeMessages} from "../act.module";
 import {ActDTO} from "../ActDTO";
+import {GoodsStatusName} from "../../goods/goodsStatusName";
+import {GoodsService} from "../../goods/goods.service";
+import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
+import {Unit} from "../../goods/unit";
+import {GoodsListComponent} from "../../goods/goods-list/list/goods-list.component";
+import {Goods} from "../../goods/goods";
 
 @Component({
   selector: 'app-act-create',
@@ -13,19 +19,28 @@ import {ActDTO} from "../ActDTO";
 })
 export class ActCreateComponent implements OnInit {
   private actTypeNames:ActTypeName[];
-  private goodsIdList;//todo
+  private goodsList:Goods[] = [];
+  private selectedIdList:string[] = [];
+  private hasSelected:boolean;
+
+  private statusNames:GoodsStatusName[];
+  private storageTypes:StorageSpaceType[];
+  private units:Unit[];
+  @ViewChild(GoodsListComponent)
+  private goodsListComponent:GoodsListComponent;
+
   private actTypeMessages = actTypeMessages;
   private actForm:FormGroup;
 
   constructor(private actService:ActService,
               private location:Location,
-              private fb:FormBuilder) {
+              private fb:FormBuilder,
+              private goodsService:GoodsService) {
     // this.act = new Act();
     // this.act.actType = new ActType();
     this.actForm = this.fb.group({
       "actType": ['', Validators.compose([Validators.required])],
       "goods": new FormArray([], Validators.compose([goodsValidator]))
-
     });
   }
 
@@ -38,7 +53,36 @@ export class ActCreateComponent implements OnInit {
       (err)=> {
         console.error(err);
       }
-    )
+    );
+    this.goodsService.getStatusNames().subscribe(
+      (res) => {
+        this.statusNames = res;
+        this.statusNames.push(new GoodsStatusName(null, ''));
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getStorageSpaceTypes().subscribe(
+      (res) => {
+        this.storageTypes = res;
+        let emptyType = new StorageSpaceType();
+        emptyType.name = '';
+        this.storageTypes.push(emptyType);
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getUnits().subscribe(
+      (res) => {
+        this.units = res;
+        this.units.push(new Unit(null, ''));
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
   }
 
   private close() {
@@ -53,26 +97,60 @@ export class ActCreateComponent implements OnInit {
       res=> {
         this.location.back();
       },
-      error=>{
+      error=> {
         this.location.back();
       }
     )
+  }
+
+  private addGoods() {
+    let selectedGoods:Goods[] = this.goodsListComponent.getSelectedGoods().filter(
+      item=> {
+        return !this.isAlreadySelected(item.id);
+      }
+    );
+    this.goodsList = this.goodsList.concat(selectedGoods);
+    selectedGoods.forEach(
+      (item, index)=> {
+        (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));
+        this.selectedIdList.push(item.id);
+      }
+    )
+  }
+
+  private isAlreadySelected(goods) {
+    return this.selectedIdList.includes(goods);
+  }
+
+  private onSelected(event) {
+    this.hasSelected = event;
+
+  }
+
+  private onRemoved(goods:Goods) {
+    this.goodsList.splice(this.goodsList.findIndex(
+      item=> {
+        return item.id == goods.id;
+      }
+    ), 1);
+    let index = this.selectedIdList.findIndex(
+      item=> {
+        return item == goods.id;
+      }
+    );
+    this.selectedIdList.splice(index, 1);
+    (<FormArray>this.actForm.controls['goods']).removeAt(index);
+
+
   }
 
 
 }
 function goodsValidator(array:FormArray) {
   let errors:any = {};
-  let hasSelected:boolean = false;
 
-  array.controls.forEach(
-    item=> {
-      if (item.value)
-        hasSelected = true;
-    }
-  )
-  if (!hasSelected) {
-    errors.noRole = true;
-  }
+  if (array.length == 0)
+    errors.noSelectedGoods = true;
+
   return errors;
 }

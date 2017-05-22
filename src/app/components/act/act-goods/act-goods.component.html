@@ -34,7 +34,14 @@
     <td>
       {{goods.weightUnit.name}}
     </td>
+    <td class="button-column">
+      <button class="button hollow" type="button" (click)="remove(goods)" [disabled]="!isEditable">
+        <span aria-hidden="true">
+          <i class="fi-x"></i>
+        </span>
+      </button>
 
+    </td>
 
 
   </tr>

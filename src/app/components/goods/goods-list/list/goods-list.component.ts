@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {statusMessages} from "../../goods.module";
 import {GoodsSearchDTO} from "../../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
+import {Goods} from "../../goods";
 
 declare var $:any;
 
@@ -29,6 +30,8 @@ export class GoodsListComponent implements OnInit {
   private subscription:Subscription;
 
   private sortingDirection = "UP";
+
+  @Input() private isEditable = true;
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -83,7 +86,17 @@ export class GoodsListComponent implements OnInit {
 
   }
 
-
+  public getSelectedGoods():Goods[] {
+    return this.goodsList.filter(
+      item=> {
+        return item.selected;
+      }
+    ).map(
+      item=> {
+        return item.goods;
+      }
+    )
+  }
 
   public getPage(page:number, searchDTO?:GoodsSearchDTO) {
     $('#selectAll').prop('checked', false);
@@ -153,7 +166,7 @@ export class GoodsListComponent implements OnInit {
 
   private goToDetails(id:string):void {
     // this.router.navigate(['../details', this.warehouseId, id], {relativeTo: this.route});
-    this.router.navigate(['../details', id], {relativeTo: this.route, queryParams:{warehouseId:this.warehouseId}});
+    this.router.navigate(['../details', id], {relativeTo: this.route, queryParams: {warehouseId: this.warehouseId}});
   }
 
 
@@ -264,6 +277,7 @@ export class GoodsListComponent implements OnInit {
   }
 
   private goToStorageView(goods) {
+    if (!this.isEditable) return;
     this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
 
     // this.warehouseService.selectCells$.subscribe(
