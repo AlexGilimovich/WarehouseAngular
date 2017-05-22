@@ -1,4 +1,21 @@
+<style>
+  .strong {
+    color: white;
+  }
+
+  .serv_icon {
+    font-size: 1000%;
+  }
+
+  .social_icon {
+    font-size: 200%;
+    background:#535353;
+    color: #acacac;
+  }
+</style>
+
 <section class="hero">
+
   <header>
     <div class="row">
       <nav class="top-bar" data-topbar role="navigation">
@@ -56,40 +73,30 @@
   <!--    Start Services List    -->
   <div class="row services_list">
     <div class="small-12 medium-3 large-3 columns">
-      <img src="src/images/graph.jpg" alt="" title="" class="serv_icon"/>
+      <i class="fi-graph-trend serv_icon"></i>
       <h2 class="title">Стабильный рост клиентов</h2>
       <p>Уже более 100500 клиентов работают в данной системе</p>
     </div>
 
     <div class="small-12 medium-3 large-3 columns">
-      <img src="src/images/money.jpg" alt="" title="" class="serv_icon"/>
-      <h2 class="title">Удобный граический дизайн</h2>
-      <p>Ruis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <i class="fi-dollar serv_icon"></i>
+      <h2 class="title">Расчёт оборота трафика</h2>
+      <p>Возможность получения наиболее полной и правдободобной информации о деятельности всех направлений</p>
     </div>
 
     <div class="small-12 medium-3 large-3 columns">
-      <img src="src/images/task.jpg" alt="" title="" class="serv_icon"/>
-      <h2 class="title">Test The App</h2>
-      <p>Ruis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <i class="fi-clipboard-pencil serv_icon"></i>
+      <h2 class="title">Удобная система учёта</h2>
+      <p>Простой и интуитивно понятный интерфейс программы, в котором можно учитывать абсолютно все факторы</p>
     </div>
 
     <div class="small-12 medium-3 large-3 columns">
-      <img src="src/images/case.jpg" alt="" title="" class="serv_icon"/>
-      <h2 class="title">Launch The App</h2>
-      <p>Ruis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <i class="fi-lightbulb serv_icon"></i>
+      <h2 class="title">Есть идеи?</h2>
+      <p>Напишете нам <a>сюда</a>, и мы его обязательно рассмотрим и дадим обратную связь</p>
     </div>
   </div>
   <!--    End Services List    -->
-
-  <!--    Start Button    -->
-  <div class="btn_holder">
-    <a href="#" class="btn_fancy">
-      <div class="solid_layer"></div>
-
-      <div class="text_layer">Get In Touch</div>
-    </a>
-  </div>
-  <!--    End Button    -->
 
 </section>
 <!--  End Services Section  -->
@@ -106,17 +113,16 @@
 <!--  Start Call To Action Section  -->
 <section class="cta" id="Download">
   <div class="row">
-
     <!--    Start CTA Titles    -->
-    <h1 class="title">Volcano Free Responsive Zurb Foundation Template.</h1>
-    <h2 class="sub_title">Crafted With Care & attention to details by pixelhint.com</h2>
+    <h1 class="title">Зарегистрируйтесь прямо сейчас и получите все преимущества</h1>
+    <h2 class="sub_title">Откройте мир новых возможностей с онлайн-сервисом для управления складами</h2>
     <!--    End CTA Titles    -->
 
     <!--    Start Button    -->
     <a href="#" class="btn_fancy">
       <div class="solid_layer"></div>
 
-      <div class="text_layer">Get It Now!</div>
+      <div class="text_layer">Начать использовать</div>
     </a>
     <!--    End Button    -->
 
@@ -157,10 +163,22 @@
       <div class="contact_details right">
         <nav class="social">
           <ul class="no-bullet">
-            <li><a href="http://facebook.com/pixelhint" target="_blank">Facebook</a></li>
-            <li><a href="http://instagram.com/pixelhint" target="_blank">Instagram</a></li>
-            <li><a href="http://twitter.com/pixelhint" target="_blank">Twitter</a></li>
-            <li><a href="http://plus.google.com/+Pixelhint" target="_blank">Google+</a></li>
+            <li>
+              <i class="fi-social-facebook social_icon"></i>
+              <a href="http://facebook.com/warehouse" target="_blank">Facebook</a>
+            </li>
+            <li>
+              <i class="fi-social-instagram social_icon"></i>
+              <a href="http://instagram.com/warehouse" target="_blank">Instagram</a>
+            </li>
+            <li>
+              <i class="fi-social-twitter social_icon"></i>
+              <a href="http://twitter.com/warehouse" target="_blank">Twitter</a>
+            </li>
+            <li>
+              <i class="fi-social-google-plus social_icon"></i>
+              <a href="http://plus.google.com/+warehouse" target="_blank">Google+</a>
+            </li>
           </ul>
         </nav>
 
@@ -185,14 +203,47 @@
   <div class="text_layer"><img src="src/images/top_arrow.png" alt="Back to top" title="" class="top_arrow"></div>
 </a>
 
-<!--    Javascript Files    -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/touchSwipe.min.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
-<script type="text/javascript" src="js/foundation.min.js"></script>
-<script type="text/javascript" src="js/foundation/foundation.topbar.js"></script>
-<script type="text/javascript" src="js/carouFredSel.js"></script>
-<script type="text/javascript" src="js/scrollTo.js"></script>
-<script type="text/javascript" src="js/map.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+
+
+<script>
+  var map_wrapper = 'map_container';
+  var longitude = 53.888322;
+  var latitude = 27.544371;
+  var bubble_content =	"<p class='map_contacts'>" +
+    "<span>Адрес : </span>" +
+    "Толстого, 10, iTechArt" +
+    "</p>";
+
+  function initialize() {
+    var mapOptions = {
+      zoom: 17,
+      center: new google.maps.LatLng(longitude, latitude),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false,
+      streetViewControl:false,
+      scrollwheel : false,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL
+      }
+    };
+
+    var map = new google.maps.Map(document.getElementById(map_wrapper),mapOptions);
+
+    var marker = new google.maps.Marker({
+      position:  new google.maps.LatLng(longitude, latitude),
+      map: map,
+      icon     : "img/marker.png"//? or foundation icon use?
+    });
+
+    var infowindow = new google.maps.InfoWindow({
+      content: bubble_content
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map,marker);
+    });
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
