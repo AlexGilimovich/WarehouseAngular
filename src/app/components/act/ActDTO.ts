@@ -1,6 +1,7 @@
+import {Goods} from "../goods/goods";
 export class ActDTO {
   constructor(public type?:string,
-              public goodsList?:number[]) {
+              public goodsList?:Goods[]) {
 
   }
 

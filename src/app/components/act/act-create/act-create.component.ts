@@ -36,8 +36,6 @@ export class ActCreateComponent implements OnInit {
               private location:Location,
               private fb:FormBuilder,
               private goodsService:GoodsService) {
-    // this.act = new Act();
-    // this.act.actType = new ActType();
     this.actForm = this.fb.group({
       "actType": ['', Validators.compose([Validators.required])],
       "goods": new FormArray([], Validators.compose([goodsValidator]))
@@ -92,7 +90,8 @@ export class ActCreateComponent implements OnInit {
   private save() {
     let act:ActDTO = new ActDTO();
     act.type = this.actForm.controls['actType'].value;
-    act.goodsList = this.actForm.controls['goods'].value;
+    act.goodsList = this.goodsList;
+
     this.actService.save(act).subscribe(
       res=> {
         this.location.back();
@@ -108,8 +107,8 @@ export class ActCreateComponent implements OnInit {
       item=> {
         return !this.isAlreadySelected(item.id);
       }
-    );
-    this.goodsList = this.goodsList.concat(selectedGoods);
+    ).slice();
+    this.goodsList = this.goodsList.concat(selectedGoods);//todo copy of array
     selectedGoods.forEach(
       (item, index)=> {
         (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));
