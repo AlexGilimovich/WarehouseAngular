@@ -7,7 +7,7 @@ import {ActSearchDTO} from "../actSearchDTO";
 import {Subscription} from "rxjs";
 import {User} from "../../user/user";
 import {ActSearchService} from "../act-search/act-search.service";
-import {GoodsListContainerComponent} from "../../goods/goods-list-container/goods-list-container.component";
+import {GoodsListContainerComponent} from "../../goods/goods-list/goods-list-container/goods-list-container.component";
 
 declare var $;
 

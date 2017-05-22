@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {GoodsSearchDTO} from "../goodsSearchDTO";
+import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
+import {GoodsSearchDTO} from "../../goodsSearchDTO";
+import {GoodsStatusSearchDTO} from "../../goodsStatusSearchDTO";
 
 @Injectable()
 export class SearchService {
@@ -25,7 +25,7 @@ export class SearchService {
     this.removeStatusSource.next(status);
   }
 
-  public dateValidationEvent(validity:boolean){
+  public dateValidationEvent(validity:boolean) {
     this.dateValiditySource.next(validity);
   }
 

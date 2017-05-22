@@ -1,11 +1,11 @@
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
-import {GoodsService} from "../goods.service";
-import {GoodsStatusName} from "../goodsStatusName";
-import {WarehouseService} from "../../warehouse/warehouse.service";
+import {GoodsService} from "../../goods.service";
+import {GoodsStatusName} from "../../goodsStatusName";
+import {WarehouseService} from "../../../warehouse/warehouse.service";
 import {Subscription} from "rxjs";
-import {statusMessages} from "../goods.module";
-import {GoodsSearchDTO} from "../goodsSearchDTO";
+import {statusMessages} from "../../goods.module";
+import {GoodsSearchDTO} from "../../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
 
 declare var $:any;
@@ -86,6 +86,7 @@ export class GoodsListComponent implements OnInit {
 
 
   public getPage(page:number, searchDTO?:GoodsSearchDTO) {
+    $('#selectAll').prop('checked', false);
     this.goodsList = [];
     this.currentPage = page;
     if (!searchDTO) {
@@ -259,7 +260,7 @@ export class GoodsListComponent implements OnInit {
     )
     this.doUpdate();
     $('#statusModal').foundation('close');
-    $('#selectAll').prop('checked', false);
+
   }
 
   private goToStorageView(goods) {

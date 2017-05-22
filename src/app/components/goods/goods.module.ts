@@ -3,17 +3,14 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {GoodsContainerComponent} from "./goods-container/goods-container.component";
 import {GoodsDetailsComponent} from "./goods-details/goods-details.component";
-import {GoodsListComponent} from "./goods-list/goods-list.component";
 import {GoodsCreateComponent} from "./goods-create/goods-create.component";
 import {Routes, RouterModule} from "@angular/router";
-import {GoodsListContainerComponent} from "./goods-list-container/goods-list-container.component";
 import {GoodsService} from "./goods.service";
-import {GoodsStatusSearchComponent} from "./goods-status-search/goods-status-search.component";
-import {GoodsSearchComponent} from "./goods-search/goods-search.component";
-import {SearchService} from "./goods-search/search.service";
 import {StatusHistoryComponent} from "./status-history/status-history.component";
 import {GoodsActsComponent} from "./goods-acts/goods-acts.component";
 import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
+import {GoodsListModule} from "./goods-list/goods-list.module";
+import {GoodsListContainerComponent} from "./goods-list/goods-list-container/goods-list-container.component";
 
 export const statusMessages:Map<string, string> = new Map([
   ["REGISTERED", "Зарегистрирован"],
@@ -80,23 +77,22 @@ export const goodsRoutes:Routes = [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    GoodsListModule],
   declarations: [
     GoodsContainerComponent,
     GoodsDetailsComponent,
-    GoodsListComponent,
+    // GoodsListComponent,
     GoodsCreateComponent,
-    GoodsListContainerComponent,
-    GoodsStatusSearchComponent,
-    GoodsSearchComponent,
+    // GoodsListContainerComponent,
+    // GoodsStatusSearchComponent,
+    // GoodsSearchComponent,
     StatusHistoryComponent,
     GoodsActsComponent],
   providers: [
-    GoodsService,
-    SearchService],
-  exports: [
-    GoodsCreateComponent,
-    GoodsListContainerComponent]
+    GoodsService
+    ],
+
 
 })
 export class GoodsModule {

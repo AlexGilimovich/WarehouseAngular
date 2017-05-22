@@ -1,13 +1,12 @@
-import {Component, OnInit, Input, ViewChild} from '@angular/core';
-import {GoodsStatusName} from "../goodsStatusName";
-import {GoodsSearchDTO} from "../goodsSearchDTO";
-import {Unit} from "../unit";
-import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
-import {statusMessages, unitMessages, storageTypeMessages} from "../goods.module";
-import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
-import {GoodsListComponent} from "../goods-list/goods-list.component";
+import {Component, OnInit, Input} from "@angular/core";
 import {SearchService} from "./search.service";
 import {Subscription} from "rxjs";
+import {GoodsStatusName} from "../../goodsStatusName";
+import {Unit} from "../../unit";
+import {StorageSpaceType} from "../../../warehouse-scheme/storage-space-type";
+import {GoodsSearchDTO} from "../../goodsSearchDTO";
+import {unitMessages, storageTypeMessages, statusMessages} from "../../goods.module";
+import {GoodsStatusSearchDTO} from "../../goodsStatusSearchDTO";
 
 declare var $:any;
 

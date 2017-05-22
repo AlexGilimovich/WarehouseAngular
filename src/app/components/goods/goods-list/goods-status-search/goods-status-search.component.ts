@@ -1,8 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {GoodsStatusSearchDTO} from "../goodsStatusSearchDTO";
-import {GoodsStatusName} from "../goodsStatusName";
-import {statusMessages} from "../goods.module";
 import {SearchService} from "../goods-search/search.service";
+import {GoodsStatusSearchDTO} from "../../goodsStatusSearchDTO";
+import {GoodsStatusName} from "../../goodsStatusName";
+import {statusMessages} from "../../goods.module";
 
 @Component({
   selector: 'app-goods-status-search',

@@ -24,8 +24,8 @@ import {TransportCompanyModule, transportCompanyRoutes} from "./components/tr-co
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
 import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/customer/customer.module";
-import {DispatcherModule, dispatcherRoutes} from "./components/dispatcher/dispatcher.module";
-import {DispatcherComponent } from "./components/dispatcher/dispatcher.component";
+import {ManagerModule, managerRoutes} from "./components/manager/manager.module";
+import {ManagerComponent } from "./components/manager/manager.component";
 import {CustomerCreateComponent} from "./components/customer/customer-create/customer-create.component";
 import {invoiceRoutes} from "./components/invoice/invoice.module";
 import {IncomingInvoiceCreateComponent} from "./components/invoice/incoming-invoice/incoming-invoice-create/incoming-invoice-create.component";
@@ -108,9 +108,9 @@ const globalRoutes:Routes = [
     children: invoiceRoutes
   },
   {
-    "path": "dispatcher",
-    "component": DispatcherComponent,
-    "children": dispatcherRoutes
+    "path": "manager",
+    "component": ManagerComponent,
+    "children": managerRoutes
   }
 
 ];
@@ -146,7 +146,7 @@ const globalRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(globalRoutes),
     BookModule,
-    DispatcherModule,
+    ManagerModule,
     //WarehouseModule,
     TransportCompanyModule,
     WarehouseCustomerCompanyModule

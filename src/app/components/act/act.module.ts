@@ -11,6 +11,7 @@ import {ActService} from "./act.service";
 import {ActSearchComponent} from "./act-search/act-search.component";
 import {ActSearchService} from "./act-search/act-search.service";
 import {ActGoodsComponent} from "./act-goods/act-goods.component";
+import {GoodsListModule} from "../goods/goods-list/goods-list.module";
 
 
 export const actTypeMessages:Map<string, string> = new Map([
@@ -40,7 +41,7 @@ export const actRoutes:Routes = [
 
 @NgModule({
   imports: [
-    CommonModule, RouterModule, FormsModule, ReactiveFormsModule
+    CommonModule, RouterModule, FormsModule, ReactiveFormsModule, GoodsListModule
   ],
   declarations: [ActContainerComponent, ActDetailsComponent, ActListComponent, ActCreateComponent, ActListContainerComponent, ActSearchComponent, ActGoodsComponent],
   providers: [ActService, ActSearchService]

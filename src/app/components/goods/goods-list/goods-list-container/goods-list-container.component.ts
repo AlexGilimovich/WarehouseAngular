@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {GoodsListComponent} from "../goods-list/goods-list.component";
-import {GoodsService} from "../goods.service";
-import {GoodsStatusName} from "../goodsStatusName";
-import {Unit} from "../unit";
-import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {Unit} from "../../unit";
+import {StorageSpaceType} from "../../../warehouse-scheme/storage-space-type";
+import {GoodsListComponent} from "../list/goods-list.component";
+import {GoodsStatusName} from "../../goodsStatusName";
+import {GoodsService} from "../../goods.service";
 
 declare var $:any;
 
