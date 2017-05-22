@@ -44,6 +44,7 @@ import {WarehouseModule} from "./components/warehouse/warehouse.module";
 import {User} from "./components/user/user";
 import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseService} from "./components/warehouse/warehouse.service";
+import { AgmCoreModule } from 'angular2-google-maps/core';
 
 const desktopRoutes:Routes = [
   {
@@ -140,6 +141,9 @@ const globalRoutes:Routes = [
     IncomingInvoiceCreateComponent,
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8C9_ZetYZUMduJ2TOXBkHr8yulXfo1WU'
+    }),
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

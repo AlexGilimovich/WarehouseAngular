@@ -12,6 +12,10 @@
     background:#535353;
     color: #acacac;
   }
+
+  .sebm-google-map-container {
+    height: 600px;
+  }
 </style>
 
 <section class="hero">
@@ -139,7 +143,13 @@
   <div class="shadow"></div>
   <!--    End Map Shadow    -->
 
-  <div id="map_container"></div>
+  <div id="map_container">
+    <!--MAP FROM ANGULAR2-->
+    <sebm-google-map [latitude]="lat" [longitude]="lng">
+      <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+    </sebm-google-map>
+    <!--END OF MAP FROM ANGULAR2-->
+  </div>
 </section>
 <!--  End Map Section  -->
 
@@ -202,48 +212,3 @@
   <div class="solid_layer"></div>
   <div class="text_layer"><img src="src/images/top_arrow.png" alt="Back to top" title="" class="top_arrow"></div>
 </a>
-
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
-
-<script>
-  var map_wrapper = 'map_container';
-  var longitude = 53.888322;
-  var latitude = 27.544371;
-  var bubble_content =	"<p class='map_contacts'>" +
-    "<span>Адрес : </span>" +
-    "Толстого, 10, iTechArt" +
-    "</p>";
-
-  function initialize() {
-    var mapOptions = {
-      zoom: 17,
-      center: new google.maps.LatLng(longitude, latitude),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      mapTypeControl: false,
-      streetViewControl:false,
-      scrollwheel : false,
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.SMALL
-      }
-    };
-
-    var map = new google.maps.Map(document.getElementById(map_wrapper),mapOptions);
-
-    var marker = new google.maps.Marker({
-      position:  new google.maps.LatLng(longitude, latitude),
-      map: map,
-      icon     : "img/marker.png"//? or foundation icon use?
-    });
-
-    var infowindow = new google.maps.InfoWindow({
-      content: bubble_content
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(map,marker);
-    });
-  }
-
-  google.maps.event.addDomListener(window, 'load', initialize);
-</script>
