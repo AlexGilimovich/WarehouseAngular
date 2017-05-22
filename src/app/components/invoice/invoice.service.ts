@@ -7,6 +7,7 @@ import {User} from "../user/user";
 import {Host} from "../../util/host";
 import {FormGroup} from "@angular/forms";
 import {Goods} from "../goods/goods";
+import {ActivatedRoute} from "@angular/router";
 
 const path = Host.getURL() + 'invoice';
 
@@ -19,6 +20,21 @@ export class InvoiceService {
   getLoggedUser(){
     const dispatcher = this.loginService.getLoggedUser();
     return this.buildFullName(dispatcher);
+  }
+
+  getIncomingInvoiceById(id: number) {
+    if (id != null) {
+      const url = path + '/incoming/' + id;
+      const headers = new Headers();
+      const options = new RequestOptions({
+        headers: headers,
+      });
+
+      return this.httpAuthService.get(url, options).map((response: Response) => {
+        const item = response.json();
+        return this.mapIncomingInvoiceFromItem(item);
+      });
+    }
   }
 
   saveIncomingInvoice(invoice: IncomingInvoice) {
@@ -38,12 +54,32 @@ export class InvoiceService {
     });
   }
 
-  mapIncomingInvoiceFromForm(form: FormGroup) {
+  updateIncomingInvoice(invoice: IncomingInvoice) {
+    const url = path + '/incoming/' + invoice.id;
+    const body = JSON.stringify(invoice);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+    console.log(body);
+
+    return this.httpAuthService.put(url, body, options).map((response: Response) => {
+      if (response.text()) {
+        return (response.json());
+      }
+    });
+  }
+
+  mapIncomingInvoiceFromForm(form: FormGroup, id?: number) {
     const invoice = new IncomingInvoice();
+    if (id != null) {
+      invoice.id = id;
+    }
     invoice.number = form.controls['number'].value;
     invoice.issueDate = form.controls['issueDate'].value;
-    invoice.transportCompany = form.controls['transportCompany'].value.id;
-    invoice.supplierCompany = form.controls['supplierCompany'].value.id;
+    invoice.transportCompany = form.controls['transportCompany'].value;
+    invoice.supplierCompany = form.controls['supplierCompany'].value;
     invoice.transportNumber = form.controls['transportNumber'].value;
     invoice.transportName = form.controls['transportName'].value;
     if (form.controls['driver'].value != null) {
@@ -57,7 +93,17 @@ export class InvoiceService {
 
     // todo remove mock goods
     invoice.goods = [];
+    // todo remove mock status
+    invoice.status = '';
     return invoice;
+  }
+
+  parseIdParam(route: ActivatedRoute) {
+    let id;
+    route.params.subscribe(params => {
+      id = params['id'];
+    });
+    return id;
   }
 
   private buildFullName(user: User) {
@@ -70,5 +116,28 @@ export class InvoiceService {
       name += user.firstName;
     }
     return name;
+  }
+
+  private mapIncomingInvoiceFromItem(item: any): IncomingInvoice{
+    const invoice = new IncomingInvoice();
+    invoice.number = item.number;
+    invoice.issueDate = item.issueDate;
+    invoice.transportCompany = item.transportCompany;
+    invoice.supplierCompany = item.supplierCompany;
+    invoice.transportName = item.transportName;
+    invoice.transportNumber = item.transportNumber;
+    if (item.driver != null) {
+      invoice.driver = item.driver;
+    }
+    invoice.description = item.description;
+    invoice.goodsQuantity = item.goodsQuantity;
+    invoice.goodsQuantityUnit = item.goodsQuantityUnit;
+    invoice.goodsEntryCount = item.goodsEntryCount;
+    invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
+    return invoice;
+  }
+
+  private mapOutgoingInvoiceFromItem(item: any) {
+
   }
 }
