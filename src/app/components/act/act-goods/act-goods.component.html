@@ -23,14 +23,15 @@
       {{goods.quantityUnit.name}}
     </td>
     <td class="number-column">
-      <input type="number" [disabled]="!isEditable" [(ngModel)]="goods.price" max="{{goodsInitialState[i].price}}" (input)="limitValue($event, i, 'price')">
-
+      <!--<input type="number" [disabled]="!isEditable" [(ngModel)]="goods.price" max="{{goodsInitialState[i].price}}" (input)="limitValue($event, i, 'price')">-->
+      {{goods.price}}
     </td>
     <td>
       {{goods.priceUnit.name}}
     </td>
     <td class="number-column">
-      <input type="number" [disabled]="!isEditable" [(ngModel)]="goods.weight" max="{{goodsInitialState[i].weight}}" (input)="limitValue($event, i, 'weight')">
+      <!--<input type="number" [disabled]="!isEditable" [(ngModel)]="goods.weight" max="{{goodsInitialState[i].weight}}" (input)="limitValue($event, i, 'weight')">-->
+      {{goods.weight}}
     </td>
     <td>
       {{goods.weightUnit.name}}
