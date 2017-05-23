@@ -32,6 +32,7 @@ export class GoodsListComponent implements OnInit {
   private sortingDirection = "UP";
 
   @Input() private isEditable = true;
+  private isStatusEditable = true;
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -83,8 +84,8 @@ export class GoodsListComponent implements OnInit {
         console.error(err);
       }
     );
-
   }
+
 
   public getSelectedGoods():Goods[] {
     return this.goodsList.filter(

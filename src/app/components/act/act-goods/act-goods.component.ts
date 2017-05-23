@@ -44,7 +44,7 @@ export class ActGoodsComponent implements OnInit, OnChanges {
     this.onRemoved.emit(goods);
   }
 
-  private limitValue(event, index:number, field:string) {
+  private limitValue(event, index:number, field:string):void {
     switch (field) {
       case "quantity":
         event.target.value > this.goodsInitialState[index].quantity ? event.target.value = this.goodsInitialState[index].quantity : event.target.value;
