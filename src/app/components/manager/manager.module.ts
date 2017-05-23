@@ -9,6 +9,8 @@ import {ActContainerComponent} from "../act/act-container/act-container.componen
 import {GoodsModule, goodsRoutes} from "../goods/goods.module";
 import {ActModule, actRoutes} from "../act/act.module";
 import {UserModule, userRoutes} from "../user/user.module";
+import {HeaderModule} from "../header/header.module";
+import {UserDetailsComponent} from "../user/user-details/user-details.component";
 
 export const managerRoutes:Routes = [
   {
@@ -27,6 +29,10 @@ export const managerRoutes:Routes = [
     "path": "act",
     "component": ActContainerComponent,
     "children": actRoutes
+  },
+  {
+    "path": "user/details/:id",
+    "component": UserDetailsComponent
   }
 ];
 
@@ -36,7 +42,8 @@ export const managerRoutes:Routes = [
     UserModule,
     RouterModule,
     ActModule,
-    GoodsModule
+    GoodsModule,
+    HeaderModule
   ],
   declarations: [ManagerComponent, ManagerDesktopComponent],
   exports: []
