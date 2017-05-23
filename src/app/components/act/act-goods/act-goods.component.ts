@@ -23,6 +23,7 @@ export class ActGoodsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    if (this.goodsList)
     this.goodsInitialState = this.goodsList.map(
       item=> {
         return {

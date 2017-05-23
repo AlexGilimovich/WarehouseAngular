@@ -107,8 +107,22 @@ export class ActCreateComponent implements OnInit {
       item=> {
         return !this.isAlreadySelected(item.id);
       }
-    ).slice();
-    this.goodsList = this.goodsList.concat(selectedGoods);//todo copy of array
+    ).map(
+      item=> {
+        let goods = new Goods();
+        goods.id = item.id;
+        goods.name = item.name;
+        goods.quantity = item.quantity;
+        goods.quantityUnit = item.quantityUnit;
+        goods.weight = item.weight;
+        goods.weightUnit = item.weightUnit;
+        goods.price = item.price;
+        goods.priceUnit = item.priceUnit;
+        goods.storageType = item.storageType;
+        return goods;
+      }
+    );
+    this.goodsList = this.goodsList.concat(selectedGoods);
     selectedGoods.forEach(
       (item, index)=> {
         (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));

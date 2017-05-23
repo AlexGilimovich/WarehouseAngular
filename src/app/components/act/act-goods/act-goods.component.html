@@ -9,7 +9,7 @@
     <th (click)="sort('weight')">Вес</th>
     <th (click)="sort('weightUnit')">Ед.изм.</th>
   </tr>
-  <tr *ngFor="let goods of goodsList;let i=index;" class="clickable" >
+  <tr *ngFor="let goods of goodsList;let i=index;" class="clickable" (click)="goToDetails(goods.id)">
     <td (click)="goToDetails(goods.id)">
       {{goods.name}}
     </td>
