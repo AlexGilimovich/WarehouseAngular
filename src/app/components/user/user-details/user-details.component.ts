@@ -13,6 +13,7 @@ import {UserService} from "../user-service.service";
 import {User} from "../user";
 import {rolesMessages} from "../user.module";
 import {WarehouseService} from "../../warehouse/warehouse.service";
+import {LoginService} from "../../login/login.service";
 
 @Component({
   selector: 'app-user-details',
@@ -35,7 +36,8 @@ export class UserDetailsComponent implements OnInit {
               private fb:FormBuilder,
               private datePipe:DatePipe,
               private location:Location,
-              private user:User) {
+              private loginService:LoginService
+             ) {
     route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -84,7 +86,7 @@ export class UserDetailsComponent implements OnInit {
             }
           );
           //list warehouses on form
-          this.warehouseService.getWarehouse(this.user.warehouse.warehouseCompany.idWarehouseCompany).subscribe(
+          this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany).subscribe(
             (warehouseList:Warehouse[]) => {
               this.warehouseList = warehouseList;
               this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
@@ -102,7 +104,7 @@ export class UserDetailsComponent implements OnInit {
     } else {
       this.userForm.controls['login'].setValidators([Validators.compose([Validators.required]), Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(5)])]);
-      this.warehouseService.getWarehouse(this.user.warehouse.warehouseCompany.idWarehouseCompany).subscribe(
+      this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany).subscribe(
         (warehouseList:Warehouse[]) => {
           this.warehouseList = warehouseList;
         },

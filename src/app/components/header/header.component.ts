@@ -10,28 +10,30 @@ import {Router, ActivatedRoute} from "@angular/router";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private user:User,
-              private loginService:LoginService,
+  private user:User;
+
+  constructor(private loginService:LoginService,
               private router:Router,
               private route:ActivatedRoute) {
+    this.user = this.loginService.getLoggedUser();
   }
 
   ngOnInit() {
   }
 
   private logout():void {
-    this.loginService.logout(this.user).subscribe(
-      res=>{
+    this.loginService.logout(this.loginService.getLoggedUser()).subscribe(
+      res=> {
         this.router.navigateByUrl('/index');
       },
-      error=>{
-        
+      error=> {
+
       }
     )
   }
 
   private goToUserDetails() {
-    this.router.navigate(['./user/details', this.user.id], {relativeTo: this.route});
+    this.router.navigate(['./user/details', this.loginService.getLoggedUser().id], {relativeTo: this.route});
 
   }
 

@@ -1,12 +1,33 @@
-<div class="login-form-container">
-  <div class="message">
-  <h3>Пожалуйста, введите логин и пароль</h3>
+<div class="window">
+  <div class="login-window">
+    <div class="head">
+      <h3>WAREHOUSE</h3>
+    </div>
+    <div class="form-container">
+      <form #loginForm="ngForm"  (ngSubmit)="logIn()">
+        <div *ngIf="showError" class="callout alert centered">
+          Не удалось войти...
+        </div>
+        <label for="login">Логин:</label>
+        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel" (click)="resetError()">
+        <div *ngIf="login.touched && !login.valid" class="callout alert">
+          Пожалуйста, введите логин
+        </div>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required
+               #pass="ngModel" (click)="resetError()">
+        <div *ngIf="pass.touched && !pass.valid" class="callout alert">
+          Пожалуйста, введите пароль
+        </div>
+        <div class="remember-me">
+          <input type="checkbox" id="rememberMe" name="rememberMe" [(ngModel)]="rememberMe"> <label for="rememberMe">
+          Запомнить меня</label>
+        </div>
+
+        <input type="submit" class="button expanded" value="Войти">
+        <!--<input type="button" class="btn indented" value="Войти" [routerLink]="['../manager']" [routerLinkActive]="['active']">-->
+      </form>
+
+    </div>
   </div>
-  <form action="" method="post">
-    <label for="login">Логин:</label>
-    <input type="text" id="login" name="login" required class="input">
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" name="password" required class="input">
-    <input type="button" class="btn indented" value="Войти" [routerLink]="['../manager']" [routerLinkActive]="['active']">
-  </form>
 </div>

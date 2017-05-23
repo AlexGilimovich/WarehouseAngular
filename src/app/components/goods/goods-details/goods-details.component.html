@@ -155,35 +155,22 @@
               <label class="right">Место хранения:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <!--<div *ngFor="let cell of goods?.cells">-->
-              <!--{{cell.idStorageCell}}-->
-              <!--</div>-->
 
               <ul class="menu simple" *ngFor="let cell of goods?.cells">
                 <li><a>{{cell.idStorageCell}}</a></li>
               </ul>
               <button class="hollow button" type="button" (click)="goToStorageView()">
-                <span aria-hidden="true" >
+                <span aria-hidden="true">
                   Переместить
-                  <!--<i class="fi-plus"></i>-->
                 </span>
               </button>
               <button class="hollow button" type="button" (click)="removeFromStorage()">
                 <span aria-hidden="true">
                   Освободить ячейки
-                  <!--<i class="fi-plus"></i>-->
                 </span>
               </button>
 
             </div>
-            <!--<div class="large-3 small-3 columns">-->
-            <!--<button class="hollow button" type="button">-->
-            <!--<span aria-hidden="true">-->
-            <!--Переместить-->
-            <!--&lt;!&ndash;<i class="fi-plus"></i>&ndash;&gt;-->
-            <!--</span>-->
-            <!--</button>-->
-            <!--</div>-->
           </div>
         </div>
       </div>

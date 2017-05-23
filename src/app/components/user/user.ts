@@ -1,8 +1,6 @@
 import {Role} from "./role";
 import {Warehouse} from "../warehouse/warehouse";
-import { Injectable, Inject } from '@angular/core';
 
-@Injectable()
 export class User {
   public id:number;
   public lastName:string;

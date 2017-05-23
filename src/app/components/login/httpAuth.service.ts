@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import {Http, Headers, Response, RequestOptions, RequestMethod, Request} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import {Md5} from 'ts-md5/dist/md5';
 import {LoginService} from "./login.service";
 import {User} from "../user/user";
 

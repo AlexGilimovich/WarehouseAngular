@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {User} from "../../user/user";
 import {ActSearchService} from "../act-search/act-search.service";
 import {GoodsListContainerComponent} from "../../goods/goods-list/goods-list-container/goods-list-container.component";
+import {LoginService} from "../../login/login.service";
 
 declare var $;
 
@@ -39,7 +40,7 @@ export class ActListComponent implements OnInit {
               private actSearchService:ActSearchService,
               private router:Router,
               private route:ActivatedRoute,
-              private user:User) {
+              private loginService:LoginService) {
     this.searchSubscription = actSearchService.searchDTO$.subscribe(
       searchDTO => {
         this.searchDTO = searchDTO;

@@ -1,37 +1,48 @@
-.input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  height: 25px;
-}
-
-.indented {
-  margin: 7px 10px;
-}
-
-.btn {
-  margin: 30px auto;
-  width: 100%;
-  background-color: #4ca6cf;
-  color: white;
-  height: 35px;
-  font-size: 1.1em;
-
-}
-.login-form-container{
+.window {
   position: absolute;
-  width:20%;
-  height: 50%;
-  top: 20%;
-  left: 40%;
-  padding: 15px;
-  text-align: center;
-  border: solid 1px;
-  background-color: white;
-}
-body{
-  background-color: #F7F7F7;
-  font-family: Arial;
-}
+  height: 100%;
+  width: 100%;
+  background: url('../../../images/hero.jpg') no-repeat;
+  background-size: cover;
 
+  .login-window {
+    position: absolute;
+    width: 20%;
+    height: auto;
+    min-height: 40%;
+    top: 20%;
+    left: 40%;
+    text-align: left;
+    border: solid 1px;
+    background-color: white;
+    .form-container {
+      .centered{
+        text-align: center;
+      }
+      label {
+        margin-left: 10px;
+      }
+      input {
+        margin: 15px 0;
+      }
+      input[type=submit] {
+        margin: 1.5rem 0 3rem 0;
+        font-size: 1.2rem;
+      }
+      .remember-me {
+        text-align: center;
+      }
+    }
+
+    .head {
+      width: 100%;
+      background-color: #3adb76;
+      height: 100px;
+      padding: 40px 0 0 15px;
+      color: white;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+  }
+}
 
