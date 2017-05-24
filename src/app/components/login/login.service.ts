@@ -5,8 +5,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {Warehouse} from "../warehouse/warehouse";
 import {WarehouseCompany} from "../warehouse-company/warehouse-company";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {Role} from "../user/role";
+import {LocalStorageService} from 'angular-2-local-storage';
 
 const URL:string = "http://localhost:8080/web/web/login";
 
@@ -14,7 +15,8 @@ const URL:string = "http://localhost:8080/web/web/login";
 export class LoginService {
   private authenticatedUser:User;
 
-  constructor(private http:Http) {
+  constructor(private http:Http,
+              private localStorageService:LocalStorageService) {
 
     // this.authenticatedUser.login = "root";
     // this.authenticatedUser.password = "root";
@@ -26,8 +28,15 @@ export class LoginService {
     return this.authenticatedUser;
   }
 
+
+  public checkLocalStorage() {
+    if (this.localStorageService.get("user")) {
+      this.authenticatedUser = <User>this.localStorageService.get("user");
+      return this.authenticatedUser.roles[0];
+    }
+  }
+
   public login(login:string, password:string, rememberMe:boolean):Observable<Role> {
-    //todo rememberMe
     let headers:Headers = new Headers();
     headers.append("Authorization", "Basic " + btoa(login + ":" + password));
     let requestOptions:RequestOptions = new RequestOptions({headers: headers});
@@ -57,6 +66,9 @@ export class LoginService {
               str.warehouse.warehouseCompany.status
             ));
         this.authenticatedUser = user;
+        if (rememberMe) {
+          this.localStorageService.add("user", user);
+        }
         return user.roles[0];//todo
       }
     );
@@ -65,11 +77,8 @@ export class LoginService {
   public logout(user:User):Observable<boolean> {
     return Observable.create(
       observer=> {
-        //todo logout
-        let logout = true;
-        if (logout)
-          return observer.next(true);
-        else return observer.error();
+        this.localStorageService.remove("user");
+        return observer.next(true);
       }
     )
 

@@ -1,5 +1,8 @@
 <div class="window">
   <div class="login-window">
+    <button class="close-button" type="button" (click)="goBack()">
+      <span aria-hidden="true">&times;</span>
+    </button>
     <div class="head">
       <h3>WAREHOUSE</h3>
     </div>
@@ -9,7 +12,7 @@
           Не удалось войти...
         </div>
         <label for="login">Логин:</label>
-        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel" (click)="resetError()">
+        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel" (focus)="resetError()">
         <div *ngIf="login.touched && !login.valid" class="callout alert">
           Пожалуйста, введите логин
         </div>

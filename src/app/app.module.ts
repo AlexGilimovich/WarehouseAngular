@@ -43,6 +43,7 @@ import {User} from "./components/user/user";
 import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseService} from "./components/warehouse/warehouse.service";
 import {AgmCoreModule} from 'angular2-google-maps/core';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 const desktopRoutes:Routes = [
   {
@@ -128,12 +129,16 @@ const globalRoutes:Routes = [
     WarehouseCreateComponent,
     WarehouseSchemeInfoComponent,
     WarehouseSpaceComponent,
-    WarehouseCellComponent,
+    WarehouseCellComponent
     //CustomerCreateComponent,
   ],
   imports: [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB8C9_ZetYZUMduJ2TOXBkHr8yulXfo1WU'
+    }),
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
     }),
     BrowserModule,
     FormsModule,
