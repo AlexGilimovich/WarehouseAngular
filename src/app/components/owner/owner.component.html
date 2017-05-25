@@ -1,0 +1,22 @@
+<app-header></app-header>
+
+
+<div class="container">
+
+  <div class="row">
+    <div class="large-2 small-2 column side-menu">
+      <ul class="menu vertical">
+        <!--<li [ngClass]="{'active':currentPage=='user'}"><a (click)="navigateToPage('user')" [routerLinkActive]="['active']">Пользователи</a></li>-->
+        <li [ngClass]="{'active':currentPage=='company'}"><a (click)="navigateToPage('company')" [routerLink]="['./company']" [routerLinkActive]="['active']">Компания</a></li>
+        <li [ngClass]="{'active':currentPage=='report'}"><a (click)="navigateToPage('report')" [routerLink]="['./report']" [routerLinkActive]="['active']">Отчеты</a></li>
+
+        <!--<li><a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">Моя компания</a></li>-->
+      </ul>
+    </div>
+
+
+    <div class="large-10 small-10 column">
+      <app-owner-desktop></app-owner-desktop>
+    </div>
+  </div>
+</div>

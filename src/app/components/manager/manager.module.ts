@@ -7,7 +7,6 @@ import {GoodsContainerComponent} from "../goods/goods-container/goods-container.
 import {ActContainerComponent} from "../act/act-container/act-container.component";
 import {GoodsModule, goodsRoutes} from "../goods/goods.module";
 import {ActModule, actRoutes} from "../act/act.module";
-import {UserModule} from "../user/user.module";
 import {HeaderModule} from "../header/header.module";
 import {WarehouseComponent} from "../warehouse/warehouse-list/warehouse.component";
 
@@ -48,7 +47,6 @@ export const managerRoutes:Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    UserModule,
     RouterModule,
     ActModule,
     GoodsModule,

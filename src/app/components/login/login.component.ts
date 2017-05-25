@@ -23,7 +23,9 @@ export class LoginComponent implements OnInit {
   private logIn() {
     this.loginService.login(this.loginName, this.password, this.rememberMe).subscribe(
       res=> {
-        this.navigate(res.role);
+        // this.navigate(res.role);
+        this.navigate('ROLE_OWNER');
+
       },
       error=> {
         this.showError = true;
@@ -36,6 +38,11 @@ export class LoginComponent implements OnInit {
     switch (role) {
       case "ROLE_MANAGER":
         this.router.navigate(['../manager'], {
+          relativeTo: this.route
+        });
+        break;
+      case "ROLE_OWNER":
+        this.router.navigate(['../owner'], {
           relativeTo: this.route
         });
         break;
