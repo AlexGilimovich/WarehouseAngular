@@ -1,9 +1,6 @@
 /**
  * Created by Lenovo on 14.05.2017.
  */
-/**
- * Created by Lenovo on 13.05.2017.
- */
 
 import { Injectable } from '@angular/core';
 import {Http, Headers, Response, RequestOptions} from '@angular/http';
@@ -16,11 +13,19 @@ import {isUndefined} from "util";
 import {StorageSpaceDTO} from "./storage-space-DTO";
 import {StorageCellDTO} from "./storage-cell-DTO";
 import {StorageCell} from "./storage-cell";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class WarehouseSchemeService {
+  private cellSource = new Subject<StorageCell[]>();
+
+  cartItems$ = this.cellSource.asObservable();
 
   constructor(private http: Http, private httpAuthService: HttpAuthService) {}
+
+  checkout(cell: StorageCell[]) {
+    this.cellSource.next(cell);
+  }
 
   getStorageSpace(id: number): Observable<StorageSpace[]> {
     const url = Host.URL+'storage/'+id;

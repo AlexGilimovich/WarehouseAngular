@@ -3,6 +3,7 @@ import {Component, OnInit} from "@angular/core";
 import {StorageSpace} from "../storage-space";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
+import {StorageCell} from "../storage-cell";
 /**
  * Created by Lenovo on 14.05.2017.
  */
@@ -13,6 +14,7 @@ import {isUndefined} from "util";
   providers: [WarehouseSchemeService]
 })
 export class WarehouseSchemeInfoComponent implements OnInit {
+  cells: StorageCell[]=[];
   id_warehouse: number;
   storageSpace: StorageSpace[]=[];
   id_type: number;
@@ -46,6 +48,16 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   editCell(id_space: number, id_cell: number) {
     console.log("Redirect to adding cell with id: "+id_space);
     this.router.navigate([id_space, 'cell', id_cell, 'edit'], {relativeTo: this.route});
+  }
+
+  putInCell(cell: StorageCell){
+    this.cells.push(cell);
+    console.log("ID: "+cell.idStorageCell);
+  }
+
+  submitPut(){
+    console.log("Submiting action");
+    this.service.checkout(this.cells);
   }
 
   ngOnInit(){

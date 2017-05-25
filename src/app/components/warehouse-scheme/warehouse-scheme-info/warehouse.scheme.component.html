@@ -19,7 +19,8 @@
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+             (click)="putInCell(cell)" class="cell-disable">{{cell?.number}}</a>
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
@@ -33,7 +34,8 @@
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+             (click)="putInCell(cell)" class="cell-disable">{{cell?.number}}</a>
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
@@ -47,7 +49,8 @@
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+             (click)="putInCell(cell)" class="cell-disable">{{cell?.number}}</a>
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
@@ -61,7 +64,8 @@
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+             (click)="putInCell(cell)" class="cell-disable">{{cell?.number}}</a>
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
@@ -75,7 +79,8 @@
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType" class="cell-disable">{{cell?.number}}</a>
+          <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+             (click)="putInCell(cell)" class="cell-disable">{{cell?.number}}</a>
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
@@ -89,6 +94,7 @@
   </span>
 </div>
 
+<button (click)="submitPut()" class="button">Ок</button>
 
 </body>
 </html>
