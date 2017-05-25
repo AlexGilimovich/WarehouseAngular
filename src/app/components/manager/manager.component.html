@@ -4,17 +4,19 @@
 <div class="container">
 
   <div class="row">
-    <div class="large-2 small-2">
+    <div class="large-2 small-2 column side-menu">
       <ul class="menu vertical">
-        <li><a [routerLink]="['./user']" [routerLinkActive]="['active']">Пользователи</a></li>
-        <li><a [routerLink]="['./goods']" [routerLinkActive]="['active']">Товары</a></li>
-        <li><a [routerLink]="['./act']" [routerLinkActive]="['active']">Акты</a></li>
+        <!--<li [ngClass]="{'active':currentPage=='user'}"><a (click)="navigateToPage('user')" [routerLinkActive]="['active']">Пользователи</a></li>-->
+        <li [ngClass]="{'active':currentPage=='goods'}"><a (click)="navigateToPage('goods')" [routerLink]="['./goods']" [routerLinkActive]="['active']">Товары</a></li>
+        <li [ngClass]="{'active':currentPage=='act'}"><a (click)="navigateToPage('act')" [routerLink]="['./act']" [routerLinkActive]="['active']">Акты</a></li>
+        <li [ngClass]="{'active':currentPage=='invoice'}"><a (click)="navigateToPage('invoice')" [routerLink]="['./invoice']" [routerLinkActive]="['active']">Накладные</a></li>
+        <li [ngClass]="{'active':currentPage=='warehouse'}"><a (click)="navigateToPage('warehouse')" [routerLink]="['./warehouse']" [routerLinkActive]="['active']">Склад</a></li>
         <!--<li><a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">Моя компания</a></li>-->
       </ul>
     </div>
 
 
-    <div class="large-10 small-10">
+    <div class="large-10 small-10 column">
       <app-dispatcher-desktop></app-dispatcher-desktop>
     </div>
   </div>
