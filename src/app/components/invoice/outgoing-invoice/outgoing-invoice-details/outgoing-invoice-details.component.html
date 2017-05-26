@@ -1,0 +1,87 @@
+<div>
+  <form [formGroup]="invoiceForm"
+        (ngSubmit)="onSubmit(invoiceForm)">
+    <label>
+      Номер ТТН
+      <input type="text" [formControl]="invoiceForm.controls['number']">
+    </label>
+
+    <label>
+      Дата выписки ТТН
+      <input type="date" [formControl]="invoiceForm.controls['issueDate']">
+    </label>
+
+    <label>
+      Выбрать перевозчика
+      <select [formControl]="invoiceForm.controls['transportCompany']"
+              (change)="onTransportChange()">
+        <option *ngFor="let company of transportCompanies"
+                [ngValue]="company"
+                [selected]="defaultTransport.id === company.id">
+          {{company.name}}
+        </option>
+      </select>
+    </label>
+
+    <input type="text" [formControl]="invoiceForm.controls['currentTransportCompany']">
+
+    <label>
+      Получатель
+      <select [formControl]="invoiceForm.controls['receiverCompany']" (change)="onReceiverChange()">
+        <option *ngFor="let company of receiverCompanies"
+                [ngValue]="company"
+                [selected]="defaultReceiver.id === company.id">
+          {{company.name}}
+        </option>
+      </select>
+    </label>
+
+    <input type="text" [formControl]="invoiceForm.controls['currentReceiverCompany']">
+
+    <label>
+      Номер транспортного средства
+      <input type="text" [formControl]="invoiceForm.controls['transportNumber']">
+    </label>
+
+    <label>
+      Название транспортного средства
+      <input type="text" [formControl]="invoiceForm.controls['transportName']">
+    </label>
+
+    <!-- todo
+    <label>
+      Водитель
+      <input type="text" [formControl]="invoiceForm.controls['driver']">
+    </label>
+    -->
+
+    <label>
+      Описание
+      <textarea [formControl]="invoiceForm.controls['description']"></textarea>
+    </label>
+
+    <label>
+      Сумма товаров по ТТН
+      <input type="number" [formControl]="invoiceForm.controls['goodsEntryCount']">
+
+      <input type="text" [formControl]="invoiceForm.controls['goodsEntryCountUnit']">
+    </label>
+
+    <label>
+      Количество наименований товаров по ТТН
+      <input type="number" [formControl]="invoiceForm.controls['goodsQuantity']">
+
+      <input type="text" [formControl]="invoiceForm.controls['goodsQuantityUnit']">
+    </label>
+
+    <!-- todo goods -->
+
+    <input type="submit">
+  </form>
+
+  <!-- todo modal
+  <button data-reveal-id="transportModel" (click)="openTransportModal()">Выбрать перевозчика</button>
+  <div id="transportModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">-->
+  <!--<a class="close-reveal-modal" aria-label="Close">&#215;</a>-->
+  <!--</div>-->
+</div>
