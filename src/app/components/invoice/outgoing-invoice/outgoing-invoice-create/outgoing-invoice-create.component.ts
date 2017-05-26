@@ -1,23 +1,22 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {IncomingInvoice} from "../incoming-invoice";
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {TransportCompany} from "../../../tr-company/tr-company";
+import {WarehouseCustomerCompany} from "../../../customer/customer";
 import {InvoiceService} from "../../invoice.service";
 import {TransportCompanyService} from "../../../tr-company/tr-company.service";
 import {WarehouseCustomerCompanyService} from "../../../customer/customer.service";
-import {TransportCompany} from "../../../tr-company/tr-company";
-import {WarehouseCustomerCompany} from "../../../customer/customer";
-import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-incoming-invoice-create',
-  templateUrl: './incoming-invoice-create.component.html',
-  styleUrls: ['./incoming-invoice-create.component.scss'],
+  selector: 'app-outgoing-invoice-create',
+  templateUrl: './outgoing-invoice-create.component.html',
+  styleUrls: ['./outgoing-invoice-create.component.scss'],
   providers: [InvoiceService, TransportCompanyService, WarehouseCustomerCompanyService]
 })
-export class IncomingInvoiceCreateComponent implements OnInit {
+export class OutgoingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
   transportCompanies: TransportCompany[];
-  supplierCompanies: WarehouseCustomerCompany[];
+  receiverCompanies: WarehouseCustomerCompany[];
   // @ViewChild('transportModal') transportModal: ElementRef;
 
   constructor(private invoiceService: InvoiceService,
@@ -30,8 +29,8 @@ export class IncomingInvoiceCreateComponent implements OnInit {
       'issueDate': [''],
       'transportCompany': [''],
       'currentTransportCompany': [''],
-      'supplierCompany': [''],
-      'currentSupplierCompany': [''],
+      'receiverCompany': [''],
+      'currentReceiverCompany': [''],
       'transportNumber': [''],
       'transportName': [''],
       // todo invisible driver if not auto
@@ -51,14 +50,14 @@ export class IncomingInvoiceCreateComponent implements OnInit {
       this.transportCompanies = data;
     });
     this.customerService.getAll().subscribe(data => {
-      this.supplierCompanies = data;
+      this.receiverCompanies = data;
     });
   }
 
   onSubmit(form: FormGroup) {
-    const invoice = this.invoiceService.mapIncomingInvoiceFromForm(form);
+    const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form);
     console.log(invoice);
-    this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
+    this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
       console.log(data);
     });
   }
@@ -67,12 +66,8 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     this.invoiceForm.controls['currentTransportCompany'].setValue(this.invoiceForm.controls['transportCompany'].value.name);
   }
 
-  onSupplierChange() {
-    this.invoiceForm.controls['currentSupplierCompany'].setValue(this.invoiceForm.controls['supplierCompany'].value.name);
+  onReceiverChange() {
+    this.invoiceForm.controls['currentReceiverCompany'].setValue(this.invoiceForm.controls['receiverCompany'].value.name);
   }
-
-  // openTransportModal() {
-  //   this.transportModal.nativeElement.click();
-  // }
 
 }

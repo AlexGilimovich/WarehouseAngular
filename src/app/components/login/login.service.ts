@@ -17,10 +17,10 @@ export class LoginService {
 
   constructor(private http:Http,
               private localStorageService:LocalStorageService) {
-
-    // this.authenticatedUser.login = "root";
-    // this.authenticatedUser.password = "root";
-    // this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
+    this.authenticatedUser = new User();
+    this.authenticatedUser.login = "root";
+    this.authenticatedUser.password = "root";
+    this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
 
   }
 

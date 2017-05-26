@@ -1,13 +1,12 @@
-import {TransportCompany} from "../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../customer/customer";
+import {TransportCompany} from "../../tr-company/tr-company";
 import {Goods} from "../../goods/goods";
 import {Driver} from "../../driver/driver";
-import {Timestamp} from "rxjs/Rx";
-export class IncomingInvoice {
+export class OutgoingInvoice {
   id?: number;
   number: string;
   issueDate: Date;
-  supplierCompany: WarehouseCustomerCompany;
+  receiverCompany: WarehouseCustomerCompany;
   transportCompany: TransportCompany;
   transportNumber: string;
   transportName: string;
@@ -17,7 +16,7 @@ export class IncomingInvoice {
   goodsEntryCount: number;
   goodsQuantityUnit: string;
   goodsEntryCountUnit: string;
-  dispatcher?: string;
+  manager?: string;
   goods: Goods[];
   status?: string;
   registrationDate?: Date;
