@@ -18,9 +18,9 @@
   </li>
 </ul>-->
 <div class="input-group">
-  <input class="input-group-field" placeholder="Название склада...">
+  <input class="input-group-field" name="name" [(ngModel)]="warehouse_search.name" placeholder="Название склада...">
   <div class="input-group-button">
-    <input type="submit" class="button" value="Поиск">
+    <input type="submit" class="button" (click)="search()" value="Поиск">
   </div>
 </div>
 <p class="help-text" id="passwordHelpText">Начните вводить название склада</p>

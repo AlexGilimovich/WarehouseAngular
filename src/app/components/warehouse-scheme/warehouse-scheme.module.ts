@@ -44,4 +44,4 @@ export const warehouseSchemeRoutes: Routes = [
   declarations: [WarehouseSchemeInfoComponent, WarehouseSpaceComponent, WarehouseCellComponent],
   providers: [WarehouseSchemeService]
 })
-export class WarehouseModule { }
+export class WarehouseSchemeModule { }

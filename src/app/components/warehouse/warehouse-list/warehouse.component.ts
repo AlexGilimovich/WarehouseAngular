@@ -17,6 +17,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class WarehouseComponent implements OnInit {
   id: number;
+  warehouse_search: Warehouse = new Warehouse;
   warehouse: Warehouse[]=[];
 
   constructor(private warehouseService: WarehouseService, private route:ActivatedRoute, private router:Router,){
@@ -25,9 +26,13 @@ export class WarehouseComponent implements OnInit {
     console.log("ID FROM constructor: "+this.id);
   }
 
+  search(){
+    console.log(this.warehouse_search.name);
+  }
+
   ngOnInit(){
     console.log("open method get data warehouse customer");
-    this.warehouseService.getWarehouse(this.id).subscribe(data => {
+    this.warehouseService.getWarehouse(this.id, 1, 10).subscribe(data => {
       this.warehouse = data;
     });
   }

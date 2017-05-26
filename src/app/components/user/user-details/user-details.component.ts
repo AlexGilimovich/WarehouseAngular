@@ -86,7 +86,7 @@ export class UserDetailsComponent implements OnInit {
             }
           );
           //list warehouses on form
-          this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany).subscribe(
+          this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
             (warehouseList:Warehouse[]) => {
               this.warehouseList = warehouseList;
               this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
@@ -104,7 +104,7 @@ export class UserDetailsComponent implements OnInit {
     } else {
       this.userForm.controls['login'].setValidators([Validators.compose([Validators.required]), Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(5)])]);
-      this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany).subscribe(
+      this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
         (warehouseList:Warehouse[]) => {
           this.warehouseList = warehouseList;
         },

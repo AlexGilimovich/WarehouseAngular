@@ -14,8 +14,8 @@ export class WarehouseService {
 
   constructor(private http: Http, private httpAuthService: HttpAuthService) {}
 
-  getWarehouse(id: number): Observable<Warehouse[]> {
-    const url = Host.URL+'warehouse/'+id;
+  getWarehouse(id: number, page: number, count: number): Observable<Warehouse[]> {
+    const url = Host.URL+'warehouse/?id='+id+'&page='+page+'&count='+count;
     const headers = new Headers();
     const params = new URLSearchParams();
 
