@@ -3,15 +3,15 @@
     <tr>
       <th>Номер ТТН</th>
       <th>Дата выписки</th>
-      <th>Отправитель</th>
+      <th>Получатель</th>
       <th>Перевозчик</th>
-      <th>Диспетчер</th>
+      <th>Менеджер</th>
       <th>Статус</th>
       <th></th>
     </tr>
     <tr *ngFor="let invoice of invoices">
       <td>
-        <a [routerLink]="['/invoice/incoming', invoice.id]" >
+        <a [routerLink]="['/invoice/outgoing', invoice.id]" >
           {{invoice.number}}
         </a>
       </td>
@@ -19,13 +19,13 @@
         {{invoice.issueDate}}
       </td>
       <td>
-        {{invoice.supplierCompany.name}}
+        {{invoice.receiverCompany.name}}
       </td>
       <td>
         {{invoice.transportCompany.name}}
       </td>
       <td>
-        {{invoice.dispatcher}}
+        {{invoice.manager}}
       </td>
       <td>
         {{invoice.status}}

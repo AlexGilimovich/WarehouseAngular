@@ -16,7 +16,7 @@ export class IncomingInvoiceListComponent implements OnInit {
 
   ngOnInit() {
     this.invoiceService.getAllIncoming().subscribe(data => {
-      this.invoices = data;
+       this.invoices = data;
     });
   }
 

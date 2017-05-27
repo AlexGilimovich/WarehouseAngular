@@ -46,6 +46,28 @@ export class InvoiceService {
     });
   }
 
+  getAllOutgoing(page?: number, count?: number) {
+    const url = path + '/outgoing';
+    const headers = new Headers();
+    const params = new URLSearchParams();
+    if (page != null) {
+      params.set('page', page.toString());
+    }
+    if (count != null) {
+      params.set('count', count.toString());
+    }
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        return this.mapOutgoingInvoiceFromItem(item);
+      });
+    });
+  }
+
   getIncomingInvoiceById(id: number) {
     if (id != null) {
       const url = path + '/incoming/' + id;
@@ -242,6 +264,7 @@ export class InvoiceService {
 
   private mapOutgoingInvoiceFromItem(item: any): OutgoingInvoice{
     const invoice = new OutgoingInvoice();
+    invoice.id = item.id;
     invoice.number = item.number;
     invoice.issueDate = item.issueDate;
     invoice.transportCompany = item.transportCompany;
@@ -256,10 +279,21 @@ export class InvoiceService {
     invoice.goodsQuantityUnit = item.goodsQuantityUnit;
     invoice.goodsEntryCount = item.goodsEntryCount;
     invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
+    invoice.status = item.status;
+    invoice.manager = item.manager;
+    invoice.registrationDate = item.registrationDate;
     return invoice;
   }
 
   removeIncomingInvoiceFromArray(invoices: IncomingInvoice[], invoice: IncomingInvoice) {
+    const index = invoices.indexOf(invoice, 0);
+    if (index > -1) {
+      invoices.splice(index, 1);
+    }
+    return invoices;
+  }
+
+  removeOutgoingInvoiceFromArray(invoices: OutgoingInvoice[], invoice: OutgoingInvoice) {
     const index = invoices.indexOf(invoice, 0);
     if (index > -1) {
       invoices.splice(index, 1);

@@ -71,7 +71,7 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form, this.id);
     console.log(invoice);
     this.invoiceService.updateOutgoingInvoice(invoice).subscribe(data => {
-      console.log(data);
+      this.router.navigateByUrl('invoice/outgoing');
     });
   }
 

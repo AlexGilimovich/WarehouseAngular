@@ -7,11 +7,17 @@ import { IncomingInvoiceDetailsComponent } from './incoming-invoice/incoming-inv
 import { OutgoingInvoiceCreateComponent } from './outgoing-invoice/outgoing-invoice-create/outgoing-invoice-create.component';
 import { OutgoingInvoiceDetailsComponent } from './outgoing-invoice/outgoing-invoice-details/outgoing-invoice-details.component';
 import { IncomingInvoiceListComponent } from './incoming-invoice/incoming-invoice-list/incoming-invoice-list.component';
+import { OutgoingInvoiceListComponent } from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
 
 export const invoiceRoutes: Routes = [
   {
     path: 'incoming',
     component: IncomingInvoiceListComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'outgoing',
+    component: OutgoingInvoiceListComponent,
     pathMatch: 'full'
   },
   {
@@ -39,6 +45,6 @@ export const invoiceRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent, OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent, IncomingInvoiceListComponent]
+  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent, OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent, IncomingInvoiceListComponent, OutgoingInvoiceListComponent]
 })
 export class InvoiceModule { }
