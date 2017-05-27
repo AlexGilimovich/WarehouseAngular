@@ -24,6 +24,28 @@ export class InvoiceService {
     return this.buildFullName(dispatcher);
   }
 
+  getAllIncoming(page?: number, count?: number) {
+    const url = path + '/incoming';
+    const headers = new Headers();
+    const params = new URLSearchParams();
+    if (page != null) {
+      params.set('page', page.toString());
+    }
+    if (count != null) {
+      params.set('count', count.toString());
+    }
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        return this.mapIncomingInvoiceFromItem(item);
+      });
+    });
+  }
+
   getIncomingInvoiceById(id: number) {
     if (id != null) {
       const url = path + '/incoming/' + id;
@@ -76,6 +98,23 @@ export class InvoiceService {
     const url = path + '/outgoing/' + invoice.id;
     const body = JSON.stringify(invoice);
     return this.updateInvoice(url, body);
+  }
+
+  delete(id: number) {
+    if (id != null) {
+      const url = path + '/' + id.toString();
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json;charset=utf-8');
+      const options = new RequestOptions({
+        headers: headers
+      });
+
+      return this.httpAuthService.delete(url, options).map((response: Response) => {
+        if (response.text()) {
+          return (response.json());
+        }
+      });
+    }
   }
 
   parseIdParam(route: ActivatedRoute) {
@@ -180,6 +219,7 @@ export class InvoiceService {
 
   private mapIncomingInvoiceFromItem(item: any): IncomingInvoice{
     const invoice = new IncomingInvoice();
+    invoice.id = item.id;
     invoice.number = item.number;
     invoice.issueDate = item.issueDate;
     invoice.transportCompany = item.transportCompany;
@@ -194,6 +234,9 @@ export class InvoiceService {
     invoice.goodsQuantityUnit = item.goodsQuantityUnit;
     invoice.goodsEntryCount = item.goodsEntryCount;
     invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
+    invoice.status = item.status;
+    invoice.dispatcher = item.dispatcher;
+    invoice.registrationDate = item.registrationDate;
     return invoice;
   }
 
@@ -214,5 +257,13 @@ export class InvoiceService {
     invoice.goodsEntryCount = item.goodsEntryCount;
     invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
     return invoice;
+  }
+
+  removeIncomingInvoiceFromArray(invoices: IncomingInvoice[], invoice: IncomingInvoice) {
+    const index = invoices.indexOf(invoice, 0);
+    if (index > -1) {
+      invoices.splice(index, 1);
+    }
+    return invoices;
   }
 }

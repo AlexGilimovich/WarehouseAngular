@@ -1,0 +1,41 @@
+<div>
+  <table class="hover">
+    <tr>
+      <th>Номер ТТН</th>
+      <th>Дата выписки</th>
+      <th>Отправитель</th>
+      <th>Перевозчик</th>
+      <th>Менеджер</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let invoice of invoices">
+      <td>
+        <a [routerLink]="['/invoice/incoming', invoice.id]" >
+          {{invoice.number}}
+        </a>
+      </td>
+      <td>
+        {{invoice.issueDate}}
+      </td>
+      <td>
+        {{invoice.supplierCompany.name}}
+      </td>
+      <td>
+        {{invoice.transportCompany.name}}
+      </td>
+      <td>
+        {{invoice.dispatcher}}
+      </td>
+      <td>
+        <button (click)="delete(invoice)">
+          Удалить
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- todo create pagination -->
+
+  <a routerLink='new'>Создать</a>
+
+</div>

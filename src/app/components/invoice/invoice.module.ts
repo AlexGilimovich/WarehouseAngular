@@ -6,8 +6,14 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { IncomingInvoiceDetailsComponent } from './incoming-invoice/incoming-invoice-details/incoming-invoice-details.component';
 import { OutgoingInvoiceCreateComponent } from './outgoing-invoice/outgoing-invoice-create/outgoing-invoice-create.component';
 import { OutgoingInvoiceDetailsComponent } from './outgoing-invoice/outgoing-invoice-details/outgoing-invoice-details.component';
+import { IncomingInvoiceListComponent } from './incoming-invoice/incoming-invoice-list/incoming-invoice-list.component';
 
 export const invoiceRoutes: Routes = [
+  {
+    path: 'incoming',
+    component: IncomingInvoiceListComponent,
+    pathMatch: 'full'
+  },
   {
     path: 'incoming/new',
     component: IncomingInvoiceCreateComponent
@@ -33,6 +39,6 @@ export const invoiceRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent, OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent]
+  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent, OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent, IncomingInvoiceListComponent]
 })
 export class InvoiceModule { }

@@ -3,6 +3,7 @@ import {WarehouseCustomerCompany} from "../../customer/customer";
 import {Goods} from "../../goods/goods";
 import {Driver} from "../../driver/driver";
 import {Timestamp} from "rxjs/Rx";
+import {User} from "../../user/user";
 export class IncomingInvoice {
   id?: number;
   number: string;

@@ -59,7 +59,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     const invoice = this.invoiceService.mapIncomingInvoiceFromForm(form);
     console.log(invoice);
     this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
-      console.log(data);
+      this.router.navigateByUrl('invoice/incoming');
     });
   }
 
