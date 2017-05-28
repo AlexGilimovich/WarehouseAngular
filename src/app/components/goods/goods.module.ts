@@ -79,6 +79,9 @@ export const goodsRoutes:Routes = [
     FormsModule,
     ReactiveFormsModule,
     GoodsListModule],
+  exports: [
+    GoodsCreateComponent
+  ],
   declarations: [
     GoodsContainerComponent,
     GoodsDetailsComponent,

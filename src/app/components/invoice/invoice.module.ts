@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {IncomingInvoiceCreateComponent} from "./incoming-invoice/incoming-invoice-create/incoming-invoice-create.component";
 import {RouterModule, Routes} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { IncomingInvoiceDetailsComponent } from './incoming-invoice/incoming-invoice-details/incoming-invoice-details.component';
-import { OutgoingInvoiceCreateComponent } from './outgoing-invoice/outgoing-invoice-create/outgoing-invoice-create.component';
-import { OutgoingInvoiceDetailsComponent } from './outgoing-invoice/outgoing-invoice-details/outgoing-invoice-details.component';
-import { IncomingInvoiceListComponent } from './incoming-invoice/incoming-invoice-list/incoming-invoice-list.component';
-import { OutgoingInvoiceListComponent } from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
+import {IncomingInvoiceDetailsComponent} from './incoming-invoice/incoming-invoice-details/incoming-invoice-details.component';
+import {OutgoingInvoiceCreateComponent} from './outgoing-invoice/outgoing-invoice-create/outgoing-invoice-create.component';
+import {OutgoingInvoiceDetailsComponent} from './outgoing-invoice/outgoing-invoice-details/outgoing-invoice-details.component';
+import {IncomingInvoiceListComponent} from './incoming-invoice/incoming-invoice-list/incoming-invoice-list.component';
+import {OutgoingInvoiceListComponent} from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
+import {GoodsCreateComponent} from "../goods/goods-create/goods-create.component";
+import {GoodsModule} from "../goods/goods.module";
 
 export const invoiceRoutes: Routes = [
   {
@@ -35,6 +37,10 @@ export const invoiceRoutes: Routes = [
   {
     path: 'outgoing/:id',
     component: OutgoingInvoiceDetailsComponent
+  },
+  {
+    path: 'incoming/goods/new',
+    component: GoodsCreateComponent
   }
 ];
 
@@ -43,8 +49,12 @@ export const invoiceRoutes: Routes = [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GoodsModule
   ],
-  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent, OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent, IncomingInvoiceListComponent, OutgoingInvoiceListComponent]
+  declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
+    OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent]
 })
-export class InvoiceModule { }
+export class InvoiceModule {
+}

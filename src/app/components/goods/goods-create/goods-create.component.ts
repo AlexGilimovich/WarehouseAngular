@@ -75,7 +75,6 @@ export class GoodsCreateComponent implements OnInit {
     goods.weightUnit = new Unit(null, this.goodsForm.controls['weightUnit'].value);
     goods.priceUnit = new Unit(null, this.goodsForm.controls['priceUnit'].value);
     this.goodsService.goodsCreatedEvent(goods);
-    this.location.back();
   }
 
   private close() {
