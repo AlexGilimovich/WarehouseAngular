@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {Goods} from "../../../goods/goods";
 import {GoodsService} from "../../../goods/goods.service";
 import {GoodsCreateComponent} from "../../../goods/goods-create/goods-create.component";
+declare const $: any;
 
 @Component({
   selector: 'app-incoming-invoice-create',
@@ -23,7 +24,6 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   transportCompanies: TransportCompany[];
   supplierCompanies: WarehouseCustomerCompany[];
   goodsList: Goods[] = [];
-  // @ViewChild('transportModal') transportModal: ElementRef;
 
   constructor(private invoiceService: InvoiceService,
               private transportService: TransportCompanyService,
@@ -51,6 +51,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('body').foundation();
     // todo add search by elastic in modal
     this.transportService.getAll().subscribe(data => {
       this.transportCompanies = data;
@@ -78,16 +79,22 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   }
 
   createGoods() {
+    this.openGoodsModal();
     let goods: Goods;
-    this.goodsService.goodsCreated$.subscribe(res => {
+    const subscription = this.goodsService.goodsCreated$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
       console.log(this.goodsList);
+      this.closeGoodsModal();
+      subscription.unsubscribe();
     });
   }
 
-  // openTransportModal() {
-  //   this.transportModal.nativeElement.click();
-  // }
+  openGoodsModal() {
+    $('#goodsModal').foundation('open');
+  }
 
+  closeGoodsModal() {
+    $('#goodsModal').foundation('close');
+  }
 }
