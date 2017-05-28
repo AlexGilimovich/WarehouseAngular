@@ -22,7 +22,7 @@
 
   <header>
     <div class="row">
-      <nav class="top-bar" data-topbar role="navigation">
+      <nav class="" data-topbar role="navigation">
 
         <!--    Start Logo    -->
         <ul class="title-area">
@@ -31,7 +31,6 @@
               <h1>warehouse<span class="tld">.com</span></h1>
             </a>
           </li>
-          <span class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></span>
         </ul>
         <!--    End Logo    -->
 
@@ -45,6 +44,7 @@
             <li><a href="#testimonials">Testimonials</a></li>
             <li><a [routerLink]="['../warehousecompany/registration']" [routerLinkActive]="['active']">Регистрация</a></li>
             <li><a href="#about">о нас</a></li>
+            <li><a [routerLink]="['../login']" [routerLinkActive]="['active']">Sign in</a></li>
           </ul>
         </section>
         <!--    End Navigation Menu    -->
@@ -64,7 +64,6 @@
   <!--    End Hero Caption    -->
 
 </section>
-<div class="sign-in"><a [routerLink]="['../login']" [routerLinkActive]="['active']"><h1>Sign in</h1></a></div>
 
 <section class="services" id="services">
 

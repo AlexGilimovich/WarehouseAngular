@@ -6,6 +6,7 @@ import {WarehouseCompany} from "../warehouse-company";
 import {WarehouseCompanyService} from "../warehouse-company.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
+import {User} from "../../user/user";
 declare var $: any;
 
 @Component({
@@ -17,6 +18,7 @@ declare var $: any;
 export class WarehouseCompanyCreateComponent implements OnInit {
   id: number;
   warehouseCompany = new WarehouseCompany;
+  user: User=new User;
 
   constructor(private companyService: WarehouseCompanyService, private router:Router, private route:ActivatedRoute){
     console.log("CHECKED from created component");
@@ -32,7 +34,10 @@ export class WarehouseCompanyCreateComponent implements OnInit {
   registration(warehouseCompany: WarehouseCompany){
     console.log(warehouseCompany);
     this.companyService.save(warehouseCompany).subscribe(data => {
-      console.log(data);
+      this.user.id = data.id;
+      this.user.login = data.login;
+      this.user.password = data.password;
+      console.log(this.user);
     });
     if(isUndefined(this.id)) this.router.navigate(['../'], {relativeTo: this.route});
     else this.router.navigate(['../../'], {relativeTo: this.route});

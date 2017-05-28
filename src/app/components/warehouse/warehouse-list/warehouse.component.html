@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Склады компании</title>
+  <style>
+    .icon {
+      font-size: 170%;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-<h1>Склады:</h1>
+<h1 style="text-align: center">Склады</h1>
 <!--<a [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
 <ul>
   <li *ngFor="let company of warehouse">
@@ -18,20 +24,27 @@
   </li>
 </ul>-->
 <div class="input-group">
-  <input class="input-group-field" name="name" [(ngModel)]="warehouse_search.name" placeholder="Название склада...">
+  <input class="input-group-field" (keyup)="search()" name="name" [(ngModel)]="warehouse_search.name" placeholder="Название склада...">
   <div class="input-group-button">
     <input type="submit" class="button" (click)="search()" value="Поиск">
   </div>
 </div>
 <p class="help-text" id="passwordHelpText">Начните вводить название склада</p>
 
-<a class="right" [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
+
+<a><i class="right fi-x icon"></i></a>
+<a><i class="right fi-pencil icon"></i></a>
+<a class="right" [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">
+  <i class="fi-plus icon"></i>
+</a>
 <table class="hover">
   <thead>
   <tr>
-    <th>checkbox</th>
+    <th><i class="fi-checkbox icon"></i></th>
     <th>Номер склада</th>
     <th>Название склада</th>
+    <th><i class="fi-pencil icon"></i></th>
+    <th><i class="fi-x icon"></i></th>
   </tr>
   </thead>
   <tbody>
@@ -40,22 +53,25 @@
     <td>{{company?.idWarehouse}}</td>
     <td>
       <a (click)="findSpace(company.idWarehouse)">{{company?.name}}</a>
-      (<a (click)="edit(company?.idWarehouse)">Изменить</a>
-      <a (click)="delete(company?.idWarehouse)">Удалить</a>)
     </td>
+    <td><a (click)="edit(company?.idWarehouse)"><i class="fi-pencil icon"></i></a></td>
+    <td><a (click)="delete(company?.idWarehouse)"><i class="fi-x icon"></i></a></td>
   </tr>
   </tbody>
 </table>
 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-  <li class="pagination-previous disabled"></li>
-  <li class="current"><span class="show-for-sr">Вы на странице</span> 1</li>
-  <li><a href="#" aria-label="Page 2">2</a></li>
-  <li><a href="#" aria-label="Page 3">3</a></li>
-  <li><a href="#" aria-label="Page 4">4</a></li>
-  <li class="ellipsis"></li>
-  <li><a href="#" aria-label="Page 12">12</a></li>
-  <li><a href="#" aria-label="Page 13">13</a></li>
-  <li class="pagination-next"><a href="#" aria-label="Next page"></a></li>
+  <li class="pagination-previous disabled" (click)="prevPage()" aria-label="Prev page"></li>
+  <li class="current"><span class="show-for-sr">Вы на странице</span>{{page}}</li>
+  <li class="pagination-next"><a (click)="nextPage()" aria-label="Next page"></a></li>
+
+  <div class="item-counter">
+    <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getData(0)">
+      <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+    </select>
+  </div>
+  <h5 class="item-counter">Отображать по:</h5>
+
 </ul>
+
 </body>
 </html>

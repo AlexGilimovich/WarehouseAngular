@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 import {WarehouseCompany} from './warehouse-company';
 import {Host} from "../../util/host";
 import {isUndefined} from "util";
+import {User} from "../user/user";
 
 @Injectable()
 export class WarehouseCompanyService {
@@ -52,7 +53,9 @@ export class WarehouseCompanyService {
 
     if(isUndefined(company.idWarehouseCompany)) {
       return this.httpAuthService.post(url, body, options).map((response: Response) => {
+        console.log("Response"+response.json());
         if (response.text()) {
+          console.log("Response"+response.json());
           return (response.json());
         }
       });

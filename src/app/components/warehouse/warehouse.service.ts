@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {Warehouse} from './warehouse';
 import {Host} from "../../util/host";
 import {isUndefined} from "util";
+import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 @Injectable()
 export class WarehouseService {
@@ -30,6 +31,29 @@ export class WarehouseService {
         warehouse.idWarehouse = item.idWarehouse;
         warehouse.name = item.name;
         warehouse.warehouseCompany = item.warehouseCompany;
+        return warehouse;
+      });
+    });
+  }
+
+  search(warehouse: Warehouse): Observable<Warehouse[]>{
+    const url = Host.URL+'warehouse/search';
+
+    const body = JSON.stringify(warehouse);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+    console.log(body);
+
+    return this.httpAuthService.post(url, body, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        const warehouse: Warehouse = new Warehouse();
+        warehouse.idWarehouse = item.idWarehouse;
+        warehouse.name = item.name;
+        warehouse.warehouseCompany = item.warehouseCompany;
+        console.log(warehouse);
         return warehouse;
       });
     });

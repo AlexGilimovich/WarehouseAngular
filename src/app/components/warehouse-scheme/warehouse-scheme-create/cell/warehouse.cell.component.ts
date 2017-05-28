@@ -60,6 +60,11 @@ export class WarehouseCellComponent implements OnInit {
     else this.router.navigate(['../../../../'], {relativeTo: this.route});
   }
 
+  deleteCell(id: number){
+    console.log(id);
+    //todo: realize this method
+  }
+
   ngOnInit(){
     console.log("INIT CELL method");
   }

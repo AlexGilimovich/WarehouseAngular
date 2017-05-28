@@ -7,15 +7,16 @@
 
 <body>
 <h1 align="center">Схема склада</h1>
-<a (click)="addSpace(id_warehouse)">Добавить space</a>
+<a *ngIf="!isPutAction" (click)="addSpace(id_warehouse)">Добавить space</a>
 <div *ngFor="let space of storageSpace">
   <span [ngSwitch]="space.storageSpaceType.name">
     <div *ngSwitchCase="'Холодильная камера'" class="icecamera">
-      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a *ngIf="!isPutAction" (click)="editSpace(space?.idStorageSpace)"><i class="fi-pencil"></i></a>
+        <a *ngIf="!isPutAction" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
       </h5>
-      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
-      <a>Удалить</a>
-      <div align="center" *ngFor="let cell of space.storageCellList">
+
+      <div *ngFor="let cell of space.storageCellList">
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
@@ -24,13 +25,15 @@
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
+      <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
     </div>
     <div *ngSwitchCase="'Отапливаемое помещение'" class="heated">
-      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+     <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a *ngIf="!isPutAction" (click)="editSpace(space?.idStorageSpace)"><i class="fi-pencil"></i></a>
+        <a *ngIf="!isPutAction" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
       </h5>
-      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
-      <a>Удалить</a>
-      <div align="center" *ngFor="let cell of space.storageCellList">
+
+      <div *ngFor="let cell of space.storageCellList">
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
@@ -39,13 +42,15 @@
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
+      <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
     </div>
     <div *ngSwitchCase="'Неотапливаемое помещение'" class="noheated">
-      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a *ngIf="!isPutAction" (click)="editSpace(space?.idStorageSpace)"><i class="fi-pencil"></i></a>
+        <a *ngIf="!isPutAction" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
       </h5>
-      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
-      <a>Удалить</a>
-      <div align="center" *ngFor="let cell of space.storageCellList">
+
+      <div *ngFor="let cell of space.storageCellList">
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
@@ -54,13 +59,15 @@
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
+      <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
     </div>
     <div *ngSwitchCase="'Открытая площадка'" class="open">
-      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a *ngIf="!isPutAction" (click)="editSpace(space?.idStorageSpace)"><i class="fi-pencil"></i></a>
+        <a *ngIf="!isPutAction" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
       </h5>
-      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
-      <a>Удалить</a>
-      <div align="center" *ngFor="let cell of space.storageCellList">
+
+      <div *ngFor="let cell of space.storageCellList">
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
@@ -69,13 +76,15 @@
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
+      <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
     </div>
     <div *ngSwitchCase="'Камера глубокой заморозки'" class="icedeepcamera">
-      <h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
+      <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a *ngIf="!isPutAction" (click)="editSpace(space?.idStorageSpace)"><i class="fi-pencil"></i></a>
+        <a *ngIf="!isPutAction" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
       </h5>
-      <a (click)="addCell(space?.idStorageSpace)">Добавить</a>
-      <a>Удалить</a>
-      <div align="center" *ngFor="let cell of space.storageCellList">
+
+      <div *ngFor="let cell of space.storageCellList">
         <div [ngSwitch]="true">
           <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
           <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell" (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
@@ -84,6 +93,7 @@
           <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
         </div>
       </div>
+      <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
     </div>
     <!--<!--<h5 align="center">{{space?.idStorageSpace}} - <a (click)="editSpace(space?.idStorageSpace)">{{space?.storageSpaceType.name}}</a>
     </h5>
@@ -94,7 +104,7 @@
   </span>
 </div>
 
-<button (click)="submitPut()" class="button">Ок</button>
+<button *ngIf="isPutAction" (click)="submitPut()" class="button">Ок</button>
 
 </body>
 </html>

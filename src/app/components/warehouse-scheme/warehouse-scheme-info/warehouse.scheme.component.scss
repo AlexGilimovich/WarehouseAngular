@@ -1,10 +1,11 @@
-$red: random(256)-1;
+$red: random(128)-1;
 $green: random(256)-1;
-$blue: random(256)-1;
+$blue: random(128)-1;
 $alpha: random(100)/100;
 
-body {
-  background-color: #1d1d1d;
+.delete{
+  right: 0%;
+  top: 0%;
 }
 
 #space {
@@ -16,6 +17,7 @@ body {
 
 .cell {
   background-color: rgba($red, $green, $blue, $alpha);
+  text-align: center;
   height: auto;
   width: 20%;
   float: left;
@@ -26,6 +28,7 @@ body {
 }
 
 .cell-disable {
+  text-align: center;
   background-color: white;
   height: auto;
   width: 20%;
@@ -58,7 +61,7 @@ body {
 }
 
 .icedeepcamera {
-  background-color: #0000cc;
+  background-color: #00556c;
   float: left;
   margin: 5%;
   opacity: 0.8;

@@ -8,6 +8,7 @@ import { Response} from '@angular/http';
 import {WarehouseService} from "../warehouse.service";
 import {Warehouse} from "../warehouse";
 import {ActivatedRoute, Router} from "@angular/router";
+import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
 
 @Component({
   selector: 'app-warehouse',
@@ -17,24 +18,51 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class WarehouseComponent implements OnInit {
   id: number;
+  page: number;
   warehouse_search: Warehouse = new Warehouse;
   warehouse: Warehouse[]=[];
+  itemsOnPage: number = 5;
+  itemsOnPageArray: number[] = [5,10,15,20];
 
-  constructor(private warehouseService: WarehouseService, private route:ActivatedRoute, private router:Router,){
+  constructor(private warehouseService: WarehouseService, private route:ActivatedRoute, private router:Router){
     console.log("CHECKED");
-    route.params.subscribe(params => { this.id = params['id']; });
+    this.page = 1;
     console.log("ID FROM constructor: "+this.id);
+  }
+
+  getData(position: number){
+    this.warehouseService.getWarehouse(this.id, position, this.itemsOnPage).subscribe(data => {
+      this.warehouse = data;
+    });
+  }
+
+  nextPage(){
+    this.page++;
+    console.log(this.itemsOnPage);
+    this.getData((this.page-1)*this.itemsOnPage);
+  }
+
+  prevPage(){
+    this.page--;
+    console.log(this.itemsOnPage);
+    this.getData((this.page-1)*this.itemsOnPage);
   }
 
   search(){
     console.log(this.warehouse_search.name);
+    this.warehouse_search.warehouseCompany = new WarehouseCompany;
+    this.warehouse_search.warehouseCompany.idWarehouseCompany = this.id;
+    console.log(this.warehouse_search.warehouseCompany.idWarehouseCompany);
+    this.warehouseService.search(this.warehouse_search).subscribe(data => {
+      this.warehouse = data;
+    });
   }
 
   ngOnInit(){
+    this.route.params.subscribe(params => { this.id = params['id']; });
     console.log("open method get data warehouse customer");
-    this.warehouseService.getWarehouse(this.id, 1, 10).subscribe(data => {
-      this.warehouse = data;
-    });
+    console.log(this.id);
+    this.getData(0);
   }
 
   edit(id_warehouse: string){
