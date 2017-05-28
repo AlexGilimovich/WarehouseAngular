@@ -11,7 +11,7 @@ import {StorageCell} from "../storage-cell";
   selector: 'app-warehouse-company',
   templateUrl: './warehouse.scheme.component.html',
   styleUrls: ['./warehouse.scheme.component.scss'],
-  providers: [WarehouseSchemeService]
+  // providers: [WarehouseSchemeService]
 })
 export class WarehouseSchemeInfoComponent implements OnInit {
   cells: StorageCell[]=[];

@@ -8,6 +8,7 @@ import {WarehouseSchemeService} from "./warehouse-scheme.service";
 import {WarehouseSchemeInfoComponent} from "./warehouse-scheme-info/warehouse.scheme.component";
 import {WarehouseSpaceComponent} from "./warehouse-scheme-create/space/warehouse.space.component";
 import {WarehouseCellComponent} from "./warehouse-scheme-create/cell/warehouse.cell.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 export const warehouseSchemeRoutes: Routes = [
   {
@@ -39,7 +40,8 @@ export const warehouseSchemeRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   declarations: [WarehouseSchemeInfoComponent, WarehouseSpaceComponent, WarehouseCellComponent],
   providers: [WarehouseSchemeService]

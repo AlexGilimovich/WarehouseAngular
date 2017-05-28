@@ -1,8 +1,7 @@
-import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {GoodsService} from "../../goods.service";
 import {GoodsStatusName} from "../../goodsStatusName";
-import {WarehouseService} from "../../../warehouse/warehouse.service";
 import {Subscription} from "rxjs";
 import {statusMessages} from "../../goods.module";
 import {GoodsSearchDTO} from "../../goodsSearchDTO";
@@ -29,6 +28,7 @@ export class GoodsListComponent implements OnInit {
   private searchDTO:GoodsSearchDTO;
   private subscription:Subscription;
 
+
   private sortingDirection = "UP";
 
   @Input() private isEditable = true;
@@ -44,7 +44,6 @@ export class GoodsListComponent implements OnInit {
   private displayedPageCount = 7;//constant: number of pages in pagination
 
   constructor(private goodsService:GoodsService,
-              private warehouseService:WarehouseService,
               private router:Router,
               private route:ActivatedRoute,
               private searchService:SearchService) {
@@ -53,6 +52,7 @@ export class GoodsListComponent implements OnInit {
         this.searchDTO = searchDTO;
         this.getPage(1, searchDTO);
       });
+
     // route.params.subscribe(params => {
     //   this.warehouseId = params['id'];
     // });
@@ -85,6 +85,7 @@ export class GoodsListComponent implements OnInit {
       }
     );
   }
+  
 
 
   public getSelectedGoods():Goods[] {
@@ -279,32 +280,11 @@ export class GoodsListComponent implements OnInit {
 
   private goToStorageView(goods) {
     if (!this.isEditable) return;
+    this.goodsService.selectedForPuttingGoodsSource.next(goods.goods);
     this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
-
-    // this.warehouseService.selectCells$.subscribe(
-    //   cells => {
-    //     cells.forEach(
-    //       cell=> {
-    //         let c = new StorageCell();
-    //         c.idStorageCell = cell.idStorageCell;
-    //         c.number = cell.number;
-    //         goods.goods.cells = [];
-    //         goods.goods.cells.push(c);
-    //         goods.moved = true;
-    //       }
-    //     );
-    //   }
-    // )
-    this.putInStorage(goods);
   }
 
-  private putInStorage(goods) {
-    this.goodsService.putInStorage(this.goodsList.filter(
-      item=> {
-        return item.moved;
-      }
-    ));
-  }
+
 
 
   public openStatusModal():void {

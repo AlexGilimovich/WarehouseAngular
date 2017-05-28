@@ -16,7 +16,7 @@ import {isUndefined} from "util";
   selector: 'app-warehouse-space',
   templateUrl: './warehouse.space.component.html',
   styleUrls: ['./warehouse.space.component.scss'],
-  providers: [WarehouseSchemeService]
+  // providers: [WarehouseSchemeService]
 })
 export class WarehouseSpaceComponent implements OnInit {
   id: number;

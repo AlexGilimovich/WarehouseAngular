@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
   private logIn() {
     this.loginService.login(this.loginName, this.password, this.rememberMe).subscribe(
       res=> {
-        // this.navigate(res.role);
-        this.navigate('ROLE_OWNER');
+        this.navigate(res.role);
+        // this.navigate('ROLE_MANAGER');
 
       },
       error=> {

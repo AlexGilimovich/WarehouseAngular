@@ -20,7 +20,6 @@ import {LoginService} from "./components/login/login.service";
 import {HttpAuthService} from "./components/login/httpAuth.service";
 import {TransportCompanyModule, transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
-import {WarehouseSchemeInfoComponent} from "./components/warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/customer/customer.module";
 import {ManagerModule, managerRoutes} from "./components/manager/manager.module";
 import {ManagerComponent} from "./components/manager/manager.component";
@@ -30,15 +29,13 @@ import {warehouseRoutes} from "./components/warehouse/warehouse.module";
 import {warehouseSchemeRoutes} from "./components/warehouse-scheme/warehouse-scheme.module";
 import {WarehouseCompanyCreateComponent} from "./components/warehouse-company/warehouse-company-create/warehouse.company.create.component";
 import {WarehouseCreateComponent} from "./components/warehouse/warehouse-create/warehouse.create.component";
-import {WarehouseSpaceComponent} from "./components/warehouse-scheme/warehouse-scheme-create/space/warehouse.space.component";
-import {WarehouseCellComponent} from "./components/warehouse-scheme/warehouse-scheme-create/cell/warehouse.cell.component";
-import {User} from "./components/user/user";
 import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseService} from "./components/warehouse/warehouse.service";
 import {AgmCoreModule} from "angular2-google-maps/core";
 import {LocalStorageModule} from "angular-2-local-storage";
 import {OwnerComponent} from "./components/owner/owner.component";
 import {ownerRoutes, OwnerModule} from "./components/owner/owner.module";
+import {FinanceModule} from "./components/finance/finance.module";
 
 const desktopRoutes:Routes = [
   {
@@ -128,9 +125,9 @@ const globalRoutes:Routes = [
     WarehouseCompanyCreateComponent,
     WarehouseComponent,
     WarehouseCreateComponent,
-    WarehouseSchemeInfoComponent,
-    WarehouseSpaceComponent,
-    WarehouseCellComponent
+    // WarehouseSchemeInfoComponent,
+    // WarehouseSpaceComponent,
+    // WarehouseCellComponent
     //CustomerCreateComponent,
   ],
   imports: [
@@ -152,7 +149,8 @@ const globalRoutes:Routes = [
     //WarehouseModule,
     TransportCompanyModule,
     WarehouseCustomerCompanyModule,
-    InvoiceModule
+    InvoiceModule,
+    FinanceModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},

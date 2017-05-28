@@ -18,7 +18,7 @@ import {isUndefined} from "util";
   selector: 'app-warehouse-cell',
   templateUrl: './warehouse.cell.component.html',
   styleUrls: ['./warehouse.cell.component.scss'],
-  providers: [WarehouseSchemeService]
+  // providers: [WarehouseSchemeService]
 })
 
 /*idStorageCell: number;

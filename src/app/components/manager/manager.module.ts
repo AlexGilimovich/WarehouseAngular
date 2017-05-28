@@ -9,6 +9,9 @@ import {GoodsModule, goodsRoutes} from "../goods/goods.module";
 import {ActModule, actRoutes} from "../act/act.module";
 import {HeaderModule} from "../header/header.module";
 import {WarehouseComponent} from "../warehouse/warehouse-list/warehouse.component";
+import {FinanceComponent} from "../finance/finance.component";
+import {UserContainerComponent} from "../user/user-container/user-container.component";
+import {userRoutes, UserModule} from "../user/user.module";
 
 export const managerRoutes:Routes = [
   {
@@ -20,11 +23,11 @@ export const managerRoutes:Routes = [
     "component": GoodsContainerComponent,
     "children": goodsRoutes
   },
-  // {
-  //   "path": "user",
-  //   "component": UserContainerComponent,
-  //   "children": userRoutes
-  // },
+  {
+    "path": "user",
+    "component": UserContainerComponent,
+    "children": userRoutes
+  },
   {
     "path": "act",
     "component": ActContainerComponent,
@@ -41,7 +44,11 @@ export const managerRoutes:Routes = [
   // {
   //   "path": "invoice",
   //   "component": InvoiceComponent
-  // }
+  // },
+  {
+    "path": "finance",
+    "component": FinanceComponent
+  }
 ];
 
 @NgModule({
@@ -50,6 +57,7 @@ export const managerRoutes:Routes = [
     RouterModule,
     ActModule,
     GoodsModule,
+    UserModule,
     HeaderModule
   ],
   declarations: [ManagerComponent, ManagerDesktopComponent],

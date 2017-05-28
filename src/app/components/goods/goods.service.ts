@@ -31,6 +31,10 @@ export class GoodsService {
   private goodsSource = new Subject<Goods>();
   goodsCreated$ = this.goodsSource.asObservable();
 
+  public selectedForPuttingGoodsSource = new Subject<any>();
+  public selectedForPuttingGoods$ = this.selectedForPuttingGoodsSource.asObservable();
+
+
   constructor(private httpAuthService:HttpAuthService) {
   }
 
@@ -283,24 +287,19 @@ export class GoodsService {
   }
 
   public putInStorage(goods):Observable<any> {
-    let counter:number = goods.length;
     return Observable.create(
       observer=> {
-        goods.forEach(
-          item => {
-            const url:string = `${BASE_URL}${"/"}${item.goods.id}${"/put"}`;
-            this.httpAuthService.put(url, JSON.stringify(item)).subscribe(
-              resp=> {
-                if (--counter == 0)
-                  observer.next();
-              },
-              error=> {
-                if (--counter == 0)
-                  observer.next();
-              }
-            )
+        const url:string = `${BASE_URL}${"/"}${goods.id}${"/put"}`;
+        this.httpAuthService.put(url, JSON.stringify(goods)).subscribe(
+          resp=> {
+            observer.next();
+          },
+          error=> {
+            observer.error("Failed to update cells" + error);
           }
-        );
+        )
+
+
       }
     )
   }

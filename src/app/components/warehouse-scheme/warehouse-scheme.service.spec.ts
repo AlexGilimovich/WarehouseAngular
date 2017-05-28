@@ -5,7 +5,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import {WarehouseSchemeService} from './warehouse-scheme.service';
 
-describe('WarehouseService', () => {
+describe('WarehouseSchemeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [WarehouseSchemeService]

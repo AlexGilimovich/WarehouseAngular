@@ -134,26 +134,12 @@ export class GoodsDetailsComponent implements OnInit {
   }
 
   private goToStorageView() {
+    this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
     this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
-    //   this.warehouseService.selectCells$.subscribe(
-    //     cells => {
-    //       cells.forEach(
-    //         cell=> {
-    //           let c = new StorageCell();
-    //           c.idStorageCell = cell.idStorageCell;
-    //           c.number = cell.number;
-    //           this.goods.cells = [];
-    //           this.goods.cells.push(c);
-    //         }
-    //       );
-    //     }
-    //   )
-    //   this.putInStorage();
-    // }
-    //
-    // private putInStorage() {
-    //   this.goodsService.putInStorage(this.goods);
+
   }
+
+
 
   private removeFromStorage() {
     this.goodsService.removeFromStorage(this.goods).subscribe(
