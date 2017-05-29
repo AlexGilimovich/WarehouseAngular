@@ -11,6 +11,8 @@ import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
 import {Unit} from "../../goods/unit";
 import {GoodsListComponent} from "../../goods/goods-list/list/goods-list.component";
 import {Goods} from "../../goods/goods";
+import {User} from "../../user/user";
+import {LoginService} from "../../login/login.service";
 
 @Component({
   selector: 'app-act-create',
@@ -22,6 +24,8 @@ export class ActCreateComponent implements OnInit {
   private goodsList:Goods[] = [];
   private selectedIdList:string[] = [];
   private hasSelected:boolean;
+  private user:User;
+  private currentDate:Date;
 
   private statusNames:GoodsStatusName[];
   private storageTypes:StorageSpaceType[];
@@ -35,11 +39,14 @@ export class ActCreateComponent implements OnInit {
   constructor(private actService:ActService,
               private location:Location,
               private fb:FormBuilder,
-              private goodsService:GoodsService) {
+              private goodsService:GoodsService,
+              private loginService:LoginService) {
     this.actForm = this.fb.group({
       "actType": ['', Validators.compose([Validators.required])],
       "goods": new FormArray([], Validators.compose([goodsValidator]))
     });
+    this.user = this.loginService.getLoggedUser();
+    this.currentDate = new Date();
   }
 
   ngOnInit() {
