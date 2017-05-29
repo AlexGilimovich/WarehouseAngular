@@ -30,10 +30,19 @@
   }
 
   #mean_nav {
+    background: rgba(0, 0, 0, 0.7);
     position: absolute;
     top: 2.5%;
     right: 3%;
   }
+
+  ul,
+  ol,
+  dl {
+    margin-left: 0rem;
+    margin-bottom: 0rem;
+    list-style-position: outside;
+    line-height: 1.6; }
 </style>
 
 <section class="hero">
@@ -60,7 +69,7 @@
             </a>-->
             <li><b><a href="#services">сервис</a></b></li>
             <li><b><a [routerLink]="['../warehousecompany/registration']" [routerLinkActive]="['active']">Регистрация</a></b></li>
-            <!--<li><b><a href="#about">о нас</a></b></li>-->
+            <li><b><a href="#about">о нас</a></b></li>
             <li><b><a [routerLink]="['../login']" [routerLinkActive]="['active']">Войти</a></b></li>
           </ul>
         </section>

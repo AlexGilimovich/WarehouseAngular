@@ -36,6 +36,7 @@ import {LocalStorageModule} from "angular-2-local-storage";
 import {OwnerComponent} from "./components/owner/owner.component";
 import {ownerRoutes, OwnerModule} from "./components/owner/owner.module";
 import {FinanceModule} from "./components/finance/finance.module";
+import {ChartsModule} from "ng2-charts";
 
 const desktopRoutes:Routes = [
   {
@@ -138,6 +139,7 @@ const globalRoutes:Routes = [
       prefix: 'my-app',
       storageType: 'localStorage'
     }),
+    ChartsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
