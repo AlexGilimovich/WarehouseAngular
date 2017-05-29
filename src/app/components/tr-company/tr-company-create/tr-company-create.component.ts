@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-tr-company-create',
@@ -18,7 +18,7 @@ export class TransportCompanyCreateComponent implements OnInit {
               private formBuilder: FormBuilder) {
     this.companyForm = formBuilder.group({
       'isTrusted': '',
-      'name': ['']
+      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
     });
     this.companyForm.controls['isTrusted'].setValue(false);
   }

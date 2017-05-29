@@ -1,31 +1,48 @@
-<div>
-  <form [formGroup]="companyForm"
-        (ngSubmit)="onSubmit(companyForm)">
-    <label>
-      Доверенный
-      <input type="checkbox"
-             [formControl]="companyForm.controls['isTrusted']">
-    </label>
+<div class="callout">
+  <div class="form-container">
+    <form [formGroup]="companyForm"
+          (ngSubmit)="onSubmit(companyForm)">
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <div class="switch">
+                <input class="switch-input" id="isTrusted" type="checkbox"
+                       [formControl]="companyForm.controls['isTrusted']">
+                <label class="switch-paddle" for="isTrusted">
+                  <span class="show-for-sr">Доверенный:</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-3 small-3 columns">
+          <label for="name" class="right">Название:</label>
+        </div>
+        <div class="large-9 small-9 columns">
+          <input id="name" type="text"
+                 [formControl]="companyForm.controls['name']" required/>
+          <div class="callout alert"
+               *ngIf="companyForm.controls['name'].hasError('required') && companyForm.get('name').touched">
+            Поле "Название" не может быть пустым
+          </div>
+          <div class="callout alert"
+               *ngIf="!companyForm.controls['name'].valid &&
+                    !companyForm.controls['name'].hasError('required') &&
+                     companyForm.get('name').touched">
+            Название может содержать только буквы, цифры и пробелы
+          </div>
+        </div>
+      </div>
 
-    <label>
-      Имя
-      <input type="text"
-             [formControl]="companyForm.controls['name']">
-    </label>
-
-    <!-- todo do we even need it -->
-    <!--<div *ngIf="company.isTrusted">-->
-      <!--<label>-->
-        <!--Логин-->
-        <!--<input type="text" name="login">-->
-      <!--</label>-->
-
-      <!--<label>-->
-        <!--Пароль-->
-        <!--<input type="password">-->
-      <!--</label>-->
-    <!--</div>-->
-
-    <input type="submit">
-  </form>
+      <div class="row">
+        <div class="large-9 small-9 columns button-right">
+          <input class="button" type="submit"
+                 [disabled]="!companyForm.valid" value="Сохранить">
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
