@@ -12,6 +12,7 @@ import {WarehouseComponent} from "../warehouse/warehouse-list/warehouse.componen
 import {FinanceComponent} from "../finance/finance.component";
 import {UserContainerComponent} from "../user/user-container/user-container.component";
 import {userRoutes, UserModule} from "../user/user.module";
+import {warehouseSchemeRoutes} from "../warehouse-scheme/warehouse-scheme.module";
 
 export const managerRoutes:Routes = [
   {
@@ -38,8 +39,12 @@ export const managerRoutes:Routes = [
   //   "component": UserDetailsComponent
   // },
   {
-    "path": "warehouse/:id",
+    "path": "warehousecompany/:id/warehouse",
     "component": WarehouseComponent
+  },
+  {
+    path: 'warehousecompany/:id/warehouse/:id_warehouse/scheme',
+    children: warehouseSchemeRoutes
   },
   // {
   //   "path": "invoice",

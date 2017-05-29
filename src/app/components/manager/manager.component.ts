@@ -50,7 +50,7 @@ export class ManagerComponent implements OnInit {
         this.currentPage = 'invoice';
         break;
       case 'warehouse':
-        this.router.navigate(['./warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse], {
+        this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.idWarehouse, 'warehouse'], {
           relativeTo: this.route
         });
         this.currentPage = 'warehouse';

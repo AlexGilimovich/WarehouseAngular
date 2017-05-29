@@ -10,7 +10,7 @@
         <li [ngClass]="{'active':currentPage=='goods'}"><a (click)="navigateToPage('goods')" [routerLink]="['./goods']" [routerLinkActive]="['active']">Товары</a></li>
         <li [ngClass]="{'active':currentPage=='act'}"><a (click)="navigateToPage('act')" [routerLink]="['./act']" [routerLinkActive]="['active']">Акты</a></li>
         <li [ngClass]="{'active':currentPage=='invoice'}"><a (click)="navigateToPage('invoice')" [routerLink]="['./invoice']" [routerLinkActive]="['active']">Накладные</a></li>
-        <li [ngClass]="{'active':currentPage=='warehouse'}"><a (click)="navigateToPage('warehouse')" [routerLink]="['./warehouse']" [routerLinkActive]="['active']">Склад</a></li>
+        <li [ngClass]="{'active':currentPage=='warehouse'}"><a (click)="navigateToPage('warehouse')" [routerLink]="['./warehousecompany']" [routerLinkActive]="['active']">Склады</a></li>
         <!--<li><a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">Моя компания</a></li>-->
       </ul>
     </div>
