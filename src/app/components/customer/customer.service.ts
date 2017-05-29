@@ -103,6 +103,25 @@ export class WarehouseCustomerCompanyService {
     }
   }
 
+  search(searchParams: string) {
+    const customer = new WarehouseCustomerCompany();
+    customer.name = searchParams;
+
+    const url = path + '/search';
+    const body = JSON.stringify(customer);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+
+    return this.httpAuthService.post(url, body, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        return this.mapCustomerFromItem(item);
+      });
+    });
+  }
+
   removeCustomerFromArray(customers: WarehouseCustomerCompany[], customer: WarehouseCustomerCompany) {
     const index = customers.indexOf(customer, 0);
     if (index > -1) {
@@ -134,5 +153,4 @@ export class WarehouseCustomerCompanyService {
     customer.name = item.name;
     return customer;
   }
-
 }

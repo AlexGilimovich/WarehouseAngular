@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {Goods} from "../../../goods/goods";
 import {GoodsService} from "../../../goods/goods.service";
 import {GoodsCreateComponent} from "../../../goods/goods-create/goods-create.component";
+import {Unit} from "../../../goods/unit";
 declare const $: any;
 
 @Component({
@@ -22,8 +23,11 @@ declare const $: any;
 export class IncomingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
   transportCompanies: TransportCompany[];
+  chosenTransport: TransportCompany;
   supplierCompanies: WarehouseCustomerCompany[];
+  chosenSupplier: WarehouseCustomerCompany;
   goodsList: Goods[] = [];
+  units: Unit[] = [];
 
   constructor(private invoiceService: InvoiceService,
               private transportService: TransportCompanyService,
@@ -35,9 +39,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
       'number': [''],
       'issueDate': [''],
       'transportCompany': [''],
-      'currentTransportCompany': [''],
       'supplierCompany': [''],
-      'currentSupplierCompany': [''],
       'transportNumber': [''],
       'transportName': [''],
       // todo invisible driver if not auto
@@ -52,12 +54,14 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    // todo add search by elastic in modal
     this.transportService.getAll().subscribe(data => {
       this.transportCompanies = data;
     });
     this.customerService.getAll().subscribe(data => {
       this.supplierCompanies = data;
+    });
+    this.goodsService.getUnits().subscribe(data => {
+      this.units = data;
     });
   }
 
@@ -70,12 +74,34 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     });
   }
 
-  onTransportChange() {
-    this.invoiceForm.controls['currentTransportCompany'].setValue(this.invoiceForm.controls['transportCompany'].value.name);
+  refreshTransportCompanies(searchParams: string) {
+    this.transportService.search(searchParams).subscribe(data => {
+      this.transportCompanies = data;
+    });
   }
 
-  onSupplierChange() {
-    this.invoiceForm.controls['currentSupplierCompany'].setValue(this.invoiceForm.controls['supplierCompany'].value.name);
+  onTransportChosen(company: TransportCompany) {
+    this.chosenTransport = company;
+  }
+
+  saveTransport() {
+    this.invoiceForm.controls['transportCompany'].setValue(this.chosenTransport);
+    this.closeTransportModal();
+  }
+
+  refreshSupplierCompanies(searchParams: string) {
+    this.customerService.search(searchParams).subscribe(data => {
+      this.supplierCompanies = data;
+    });
+  }
+
+  onSupplierChosen(supplier: WarehouseCustomerCompany) {
+    this.chosenSupplier = supplier;
+  }
+
+  saveSupplier() {
+    this.invoiceForm.controls['supplierCompany'].setValue(this.chosenSupplier);
+    this.closeSupplierModal();
   }
 
   createGoods() {
@@ -84,10 +110,29 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     const subscription = this.goodsService.goodsCreated$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
-      console.log(this.goodsList);
       this.closeGoodsModal();
       subscription.unsubscribe();
     });
+  }
+
+  deleteGoods(goods: Goods) {
+    this.goodsList = this.invoiceService.deleteGoodsFromArray(this.goodsList, goods);
+  }
+
+  openTransportModal() {
+    $('#transportModal').foundation('open');
+  }
+
+  closeTransportModal() {
+    $('#transportModal').foundation('close');
+  }
+
+  openSupplierModal() {
+    $('#supplierModal').foundation('open');
+  }
+
+  closeSupplierModal() {
+    $('#supplierModal').foundation('close');
   }
 
   openGoodsModal() {

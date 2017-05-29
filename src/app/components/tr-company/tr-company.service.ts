@@ -102,6 +102,25 @@ export class TransportCompanyService {
     }
   }
 
+  search(searchParams: string) {
+    const company = new TransportCompany();
+    company.name = searchParams;
+
+    const url = path + '/search';
+    const body = JSON.stringify(company);
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+
+    return this.httpAuthService.post(url, body, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        return this.mapCompanyFromItem(item);
+      });
+    });
+  }
+
   removeCompanyFromArray(companies: TransportCompany[], company: TransportCompany) {
     const index = companies.indexOf(company, 0);
     if (index > -1) {

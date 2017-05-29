@@ -4,6 +4,7 @@ import {Goods} from "../../goods/goods";
 import {Driver} from "../../driver/driver";
 import {Timestamp} from "rxjs/Rx";
 import {User} from "../../user/user";
+import {Unit} from "../../goods/unit";
 export class IncomingInvoice {
   id?: number;
   number: string;
@@ -16,8 +17,8 @@ export class IncomingInvoice {
   description: string;
   goodsQuantity: number;
   goodsEntryCount: number;
-  goodsQuantityUnit: string;
-  goodsEntryCountUnit: string;
+  goodsQuantityUnit: Unit;
+  goodsEntryCountUnit: Unit;
   dispatcher?: string;
   goods: Goods[];
   status?: string;

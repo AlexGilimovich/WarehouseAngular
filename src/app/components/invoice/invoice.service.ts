@@ -208,9 +208,6 @@ export class InvoiceService {
     invoice.goodsEntryCountUnit = form.controls['goodsEntryCountUnit'].value;
     invoice.goodsQuantity = form.controls['goodsQuantity'].value;
     invoice.goodsQuantityUnit = form.controls['goodsQuantityUnit'].value;
-
-    // todo remove mock goods
-    invoice.goods = [];
     return invoice;
   }
 
@@ -291,6 +288,14 @@ export class InvoiceService {
       invoices.splice(index, 1);
     }
     return invoices;
+  }
+
+  deleteGoodsFromArray(goodsList: Goods[], goods: Goods) {
+    const index = goodsList.indexOf(goods, 0);
+    if (index > -1) {
+      goodsList.splice(index, 1);
+    }
+    return goodsList;
   }
 
   removeOutgoingInvoiceFromArray(invoices: OutgoingInvoice[], invoice: OutgoingInvoice) {
