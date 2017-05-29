@@ -12,12 +12,23 @@ import {ROUTER_PROVIDERS} from "@angular/router/src/router_module";
 })
 export class CustomerListComponent implements OnInit {
   customers: WarehouseCustomerCompany[] = [];
-  constructor(private customerService: WarehouseCustomerCompanyService) { }
+  constructor(private customerService: WarehouseCustomerCompanyService,
+              private router: Router) {}
 
   ngOnInit() {
     this.customerService.getAll().subscribe(data => {
       this.customers = data;
     });
+  }
+
+  goToDetails(id: number) {
+    if (id != null) {
+      this.router.navigateByUrl('customer/' + id);
+    }
+  }
+
+  createCustomer() {
+    this.router.navigateByUrl('customer/new');
   }
 
   delete(customer: WarehouseCustomerCompany) {

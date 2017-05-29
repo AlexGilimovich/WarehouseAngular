@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router, ActivatedRoute, Params } from "@angular/router";
 import {WarehouseCustomerCompany} from "../customer";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-customer-details',
@@ -19,7 +19,7 @@ export class CustomerDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private formBuilder: FormBuilder) {
     this.customerForm = this.formBuilder.group({
-      'name': ['']
+      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
     });
   }
 
@@ -27,7 +27,6 @@ export class CustomerDetailsComponent implements OnInit {
     this.id = this.customerService.parseIdParam(this.route);
     this.customerService.getById(this.id).subscribe(data => {
       const customer = data;
-      console.log(customer);
       this.customerForm.controls['name'].setValue(customer.name);
     });
   }
