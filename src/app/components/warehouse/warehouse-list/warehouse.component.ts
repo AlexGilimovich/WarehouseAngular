@@ -105,4 +105,9 @@ export class WarehouseComponent implements OnInit {
   public chartHovered(e:any):void {
     console.log(e);
   }
+
+  public ChartOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
 }
