@@ -18,6 +18,24 @@
   }
 </style>
 
+<style>
+  ul.navbar li {
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 1px; /* Отступ слева */
+  }
+
+  .right {
+    text-align: right;
+    float: right;
+  }
+
+  #mean_nav {
+    position: absolute;
+    top: 2.5%;
+    right: 3%;
+  }
+</style>
+
 <section class="hero">
 
   <header>
@@ -25,7 +43,7 @@
       <nav class="" data-topbar role="navigation">
 
         <!--    Start Logo    -->
-        <ul class="title-area">
+        <ul class="title-area navbar">
           <li class="name">
             <a href="#" class="logo">
               <h1>warehouse<span class="tld">.com</span></h1>
@@ -35,16 +53,15 @@
         <!--    End Logo    -->
 
         <!--    Start Navigation Menu    -->
-        <section class="top-bar-section" id="mean_nav">
-          <ul class="right">
-            <a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">
+        <section class="top-bar-section right" id="mean_nav">
+          <ul class="right navbar">
+            <!--<a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">
               WAREHOUSE COMPANY
-            </a>
+            </a>-->
             <li><a href="#services">сервис</a></li>
-            <li><a href="#testimonials">Testimonials</a></li>
             <li><a [routerLink]="['../warehousecompany/registration']" [routerLinkActive]="['active']">Регистрация</a></li>
             <li><a href="#about">о нас</a></li>
-            <li><a [routerLink]="['../login']" [routerLinkActive]="['active']">Sign in</a></li>
+            <li><a [routerLink]="['../login']" [routerLinkActive]="['active']">Войти</a></li>
           </ul>
         </section>
         <!--    End Navigation Menu    -->
@@ -54,6 +71,7 @@
   </header>
 
   <!--    Start Hero Caption    -->
+
   <section class="caption">
     <div class="row">
       <h1 class="mean_cap">Система управления складами</h1>
