@@ -27,9 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginName, this.password, this.rememberMe).subscribe(
       res=> {
         this.requestInProgress = false;
-        this.navigate(res.role);
-        // this.navigate('ROLE_MANAGER');
-
+        this.navigate(res);
       },
       error=> {
         this.requestInProgress = false;
@@ -42,25 +40,11 @@ export class LoginComponent implements OnInit {
 
   }
 
-  private navigate(role:string):void {
-    switch (role) {
-      case "ROLE_MANAGER":
-        this.router.navigate(['../manager'], {
-          relativeTo: this.route
-        });
-        break;
-      case "ROLE_OWNER":
-        this.router.navigate(['../owner'], {
-          relativeTo: this.route
-        });
-        break;
-      //todo
-      default:
-        this.router.navigate(['../manager'], {
-          relativeTo: this.route
-        });
-        break;
-    }
+  private navigate(roles:Role[]):void {
+    this.router.navigate(['../desktop'], {
+      relativeTo: this.route
+    });
+
   }
 
   ngOnInit() {
@@ -70,7 +54,7 @@ export class LoginComponent implements OnInit {
       this.loginService.login(user.login, user.password, true).subscribe(
         res=> {
           this.requestInProgress = false;
-          this.navigate(user.roles[0].role);//todo
+          this.navigate(user.roles);
 
         },
         error=> {
@@ -81,7 +65,6 @@ export class LoginComponent implements OnInit {
             this.errors = {serverNotAvailableError: true, invalidCredentialsError: false};
         }
       );
-
 
 
     }

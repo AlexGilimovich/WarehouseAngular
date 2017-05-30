@@ -20,15 +20,22 @@ export class User {
 
   }
 
-  public hasRole(role:Role):boolean {
+  // public hasRole(role:Role):boolean {
+  //   for (let r of this.roles)
+  //     if (r.role === role.role) return true;
+  //   return false;
+  //   //return this.roles.includes(role);
+  // }
+
+  public hasRole(role:string):boolean {
     for (let r of this.roles)
-      if (r.role === role.role) return true;
+      if (r.role === role) return true;
     return false;
     //return this.roles.includes(role);
   }
 
   public addRole(role:Role) {
-    if (!this.hasRole(role))
+    if (!this.hasRole(role.role))
       this.roles.push(role);
   }
 

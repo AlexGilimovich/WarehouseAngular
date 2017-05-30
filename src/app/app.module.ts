@@ -5,15 +5,6 @@ import {HttpModule} from "@angular/http";
 import {Routes, RouterModule} from "@angular/router";
 import {HashLocationStrategy, LocationStrategy, APP_BASE_HREF} from "@angular/common";
 import {AppComponent} from "./app.component";
-import {HomeComponent} from "./components/home/home.component";
-import {AboutComponent} from "./components/about/about.component";
-import {FooterComponent} from "./components/footer/footer.component";
-import {ShoppingCartComponent} from "./components/shopping-cart/shopping-cart.component";
-import {CartFormComponent} from "./components/shopping-cart/cart-form/cart-form.component";
-import {bookServiceInjectables} from "./components/book/book-service-injectables";
-import {BookModule, routes as bookRoutes} from "./components/book/book.module";
-import {BookContainerComponent} from "./components/book/book-container/book-container.component";
-import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.service";
 import {LoginComponent} from "./components/login/login.component";
 import {IndexComponent} from "./components/index/index.component";
 import {LoginService} from "./components/login/login.service";
@@ -21,8 +12,6 @@ import {HttpAuthService} from "./components/login/httpAuth.service";
 import {TransportCompanyModule, transportCompanyRoutes} from "./components/tr-company/tr-company.module";
 import {WarehouseCompanyComponent} from "./components/warehouse-company/warehouse-company-list/warehouse.company.component";
 import {customerRoutes, WarehouseCustomerCompanyModule} from "./components/customer/customer.module";
-import {ManagerModule, managerRoutes} from "./components/manager/manager.module";
-import {ManagerComponent} from "./components/manager/manager.component";
 import {InvoiceModule, invoiceRoutes} from "./components/invoice/invoice.module";
 import {warehouseCompanyRoutes} from "./components/warehouse-company/warehouse-company.module";
 import {warehouseRoutes} from "./components/warehouse/warehouse.module";
@@ -33,33 +22,12 @@ import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehous
 import {WarehouseService} from "./components/warehouse/warehouse.service";
 import {AgmCoreModule} from "angular2-google-maps/core";
 import {LocalStorageModule} from "angular-2-local-storage";
-import {OwnerComponent} from "./components/owner/owner.component";
-import {ownerRoutes, OwnerModule} from "./components/owner/owner.module";
 import {FinanceModule} from "./components/finance/finance.module";
 import {ChartsModule} from "ng2-charts";
-import { SpinnerModule } from 'angular2-spinner/dist';
+import {SpinnerModule} from "angular2-spinner/dist";
+import {DesktopComponent} from "./components/desktop/desktop.component";
+import {DesktopModule, desktopRoutes} from "./components/desktop/desktop.module";
 
-const desktopRoutes:Routes = [
-  {
-    "path": "",
-    "redirectTo": "home",
-    "pathMatch": "full"
-  }, {
-    "path": "home",
-    "component": HomeComponent,
-  }, {
-    "path": "book",
-    "component": BookContainerComponent,
-    "children": bookRoutes,
-  },
-  {
-    "path": "cart",
-    "component": ShoppingCartComponent,
-  }, {
-    "path": "about",
-    "component": AboutComponent,
-  }
-];
 
 const globalRoutes:Routes = [
   {
@@ -98,16 +66,11 @@ const globalRoutes:Routes = [
     children: invoiceRoutes
   },
   {
-    path: "manager",
-    component: ManagerComponent,
-    children: managerRoutes
+    path: "desktop",
+    component: DesktopComponent,
+    children: desktopRoutes
   }
-  ,
-  {
-    path: "owner",
-    component: OwnerComponent,
-    children: ownerRoutes
-  }
+
 
 ];
 
@@ -116,12 +79,6 @@ const globalRoutes:Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
-    AboutComponent,
-    FooterComponent,
-    ShoppingCartComponent,
-    CartFormComponent,
-    BookContainerComponent,
     IndexComponent,
     WarehouseCompanyComponent,
     WarehouseCompanyCreateComponent,
@@ -146,21 +103,17 @@ const globalRoutes:Routes = [
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(globalRoutes),
-    BookModule,
-    ManagerModule,
-    OwnerModule,
     //WarehouseModule,
     TransportCompanyModule,
     WarehouseCustomerCompanyModule,
     InvoiceModule,
     FinanceModule,
-    SpinnerModule
+    SpinnerModule,
+    DesktopModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
     {"provide": LocationStrategy, "useClass": HashLocationStrategy},
-    bookServiceInjectables,
-    ShoppingCartService,
     LoginService,
     HttpAuthService,
     WarehouseService

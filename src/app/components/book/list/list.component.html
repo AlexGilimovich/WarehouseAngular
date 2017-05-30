@@ -1,9 +1,0 @@
-<h1>Catalog</h1>
-<hr>
-<div *ngFor="let book of books">
-  <list-item
-    [book]="book"
-    (click)="goToBook(book.sku)">
-  </list-item>
-  <button (click)="addToCart(book)">Add To Cart</button>
-</div>

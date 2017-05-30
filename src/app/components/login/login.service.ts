@@ -5,7 +5,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {Warehouse} from "../warehouse/warehouse";
 import {WarehouseCompany} from "../warehouse-company/warehouse-company";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Role} from "../user/role";
 import {LocalStorageService} from "angular-2-local-storage";
 
@@ -17,10 +17,10 @@ export class LoginService {
 
   constructor(private http:Http,
               private localStorageService:LocalStorageService) {
-    this.authenticatedUser = new User();
-    this.authenticatedUser.login = "root";
-    this.authenticatedUser.password = "root";
-    this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
+    // this.authenticatedUser = new User();
+    // this.authenticatedUser.login = "root";
+    // this.authenticatedUser.password = "root";
+    // this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
 
   }
 
@@ -37,8 +37,7 @@ export class LoginService {
   }
 
 
-
-  public login(login:string, password:string, rememberMe:boolean):Observable<Role> {
+  public login(login:string, password:string, rememberMe:boolean):Observable<Role[]> {
     let headers:Headers = new Headers();
     headers.append("Authorization", "Basic " + btoa(login + ":" + password));
     let requestOptions:RequestOptions = new RequestOptions({headers: headers});
@@ -72,7 +71,7 @@ export class LoginService {
         if (rememberMe) {
           this.localStorageService.add("user", user);
         }
-        return user.roles[0];//todo
+        return user.roles;
       }
     )
   }
@@ -84,8 +83,6 @@ export class LoginService {
         return observer.next(true);
       }
     )
-
-
   }
 
 }

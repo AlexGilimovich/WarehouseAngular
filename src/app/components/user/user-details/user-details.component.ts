@@ -72,7 +72,7 @@ export class UserDetailsComponent implements OnInit {
               this.roles = new Array();
               res.forEach(
                 role=> {
-                  if (this.currentUser.hasRole(role)) {
+                  if (this.currentUser.hasRole(role.role)) {
                     this.roles.push({role: role, checked: true});
                   } else {
                     this.roles.push({role: role, checked: false});
