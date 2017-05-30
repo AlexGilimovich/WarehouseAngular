@@ -40,7 +40,7 @@ export class ActDetailsComponent implements OnInit {
   }
 
   private goToUserDetails(){
-    this.router.navigate(['../../../user/details', this.act.user.id], {relativeTo: this.route});
+    this.router.navigate(['../../../users/details', this.act.user.id], {relativeTo: this.route});
   }
 
 }

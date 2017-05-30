@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {User} from "./user";
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
@@ -14,6 +14,7 @@ const GET_URL:string = "http://localhost:8080/web/web/user/";
 const GET_ROLES_URL:string = "http://localhost:8080/web/web/user/roles";
 const SAVE_URL:string = "http://localhost:8080/web/web/user/save";
 const DELETE_URL:string = "http://localhost:8080/web/web/user/delete";
+const CHECK_LOGIN_URL:string = "http://localhost:8080/web/web/user/is_occupied?loginName=";
 
 @Injectable()
 export class UserService {
@@ -121,11 +122,11 @@ export class UserService {
             users.forEach(user=> {
               this.removeUser(user).map(res=> {
               }).subscribe(res=> {
-                if (++counter == users.length) {
-                  resolve();
-                }
-              },
-                error=>{
+                  if (++counter == users.length) {
+                    resolve();
+                  }
+                },
+                error=> {
                   if (++counter == users.length) {
                     resolve();
                   }
@@ -146,5 +147,14 @@ export class UserService {
     return this.httpAuthService.delete(url);
   }
 
+  public checkLoginNameExists(loginName:string):Observable<string> {
+    return this.httpAuthService.get(`${CHECK_LOGIN_URL}${loginName}`).map(
+      (resp)=> {
+        return resp.json().status;
+      }
+    );
+  }
 
 }
+
+

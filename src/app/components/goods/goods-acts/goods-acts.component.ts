@@ -20,7 +20,7 @@ export class GoodsActsComponent implements OnInit {
   }
 
   private goToActDetails(act:Act) {
-    this.router.navigate(["../../../act/details",act.id], {relativeTo: this.route});
+    this.router.navigate(["../../../acts/details",act.id], {relativeTo: this.route});
   }
 
 }
