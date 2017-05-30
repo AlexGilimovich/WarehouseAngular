@@ -16,7 +16,7 @@
     border: solid 1px;
     background-color: white;
     .form-container {
-      .centered{
+      .centered {
         text-align: center;
       }
       label {
@@ -32,6 +32,7 @@
       .remember-me {
         text-align: center;
       }
+
     }
 
     .head {
@@ -43,6 +44,15 @@
       text-align: left;
       margin-bottom: 1rem;
     }
+
+    .spinner {
+      display: inline;
+      position: absolute;
+      top: calc(50% - 50px);
+      left: calc(50% - 50px);
+    }
+
+
   }
 }
 

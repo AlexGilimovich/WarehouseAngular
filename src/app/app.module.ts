@@ -37,6 +37,7 @@ import {OwnerComponent} from "./components/owner/owner.component";
 import {ownerRoutes, OwnerModule} from "./components/owner/owner.module";
 import {FinanceModule} from "./components/finance/finance.module";
 import {ChartsModule} from "ng2-charts";
+import { SpinnerModule } from 'angular2-spinner/dist';
 
 const desktopRoutes:Routes = [
   {
@@ -152,7 +153,8 @@ const globalRoutes:Routes = [
     TransportCompanyModule,
     WarehouseCustomerCompanyModule,
     InvoiceModule,
-    FinanceModule
+    FinanceModule,
+    SpinnerModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},

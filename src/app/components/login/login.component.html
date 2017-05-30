@@ -1,18 +1,22 @@
 <div class="window">
-  <div class="login-window">
+  <div  [ngClass]="{'login-window': true}">
     <button class="close-button" type="button" (click)="goBack()">
       <span aria-hidden="true">&times;</span>
     </button>
     <div class="head">
       <h3>WAREHOUSE</h3>
     </div>
-    <div class="form-container">
-      <form #loginForm="ngForm"  (ngSubmit)="logIn()">
-        <div *ngIf="showError" class="callout alert centered">
-          Не удалось войти...
+    <div [ngClass]="{'form-container': true}">
+      <form #loginForm="ngForm" (ngSubmit)="logIn()">
+        <div *ngIf="errors?.serverNotAvailableError" class="callout alert centered">
+          Не удалось войти...Cервер не доступен
+        </div>
+        <div *ngIf="errors?.invalidCredentialsError" class="callout alert centered">
+          Не удалось войти...Неверный логин или пароль
         </div>
         <label for="login">Логин:</label>
-        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel" (focus)="resetError()">
+        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel"
+               (focus)="resetError()">
         <div *ngIf="login.touched && !login.valid" class="callout alert">
           Пожалуйста, введите логин
         </div>
@@ -28,8 +32,12 @@
         </div>
 
         <input type="submit" class="button expanded" value="Войти">
-        <!--<input type="button" class="btn indented" value="Войти" [routerLink]="['../manager']" [routerLinkActive]="['active']">-->
       </form>
+
+      <div class="spinner" *ngIf="requestInProgress">
+        <spinner [size]="100" [tickness]="1"></spinner>
+      </div>
+
 
     </div>
   </div>

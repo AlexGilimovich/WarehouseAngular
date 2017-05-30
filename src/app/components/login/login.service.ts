@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {User} from "../user/user";
-import {Http, Headers, RequestOptions} from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import {Http, Headers, RequestOptions} from "@angular/http";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 import {Warehouse} from "../warehouse/warehouse";
 import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 import {Observable} from "rxjs";
 import {Role} from "../user/role";
-import {LocalStorageService} from 'angular-2-local-storage';
+import {LocalStorageService} from "angular-2-local-storage";
 
 const URL:string = "http://localhost:8080/web/web/login";
 
@@ -29,12 +29,14 @@ export class LoginService {
   }
 
 
-  public checkLocalStorage() {
+  public checkLocalStorage():User {
     if (this.localStorageService.get("user")) {
       this.authenticatedUser = <User>this.localStorageService.get("user");
-      return this.authenticatedUser.roles[0];
+      return this.authenticatedUser;
     }
   }
+
+
 
   public login(login:string, password:string, rememberMe:boolean):Observable<Role> {
     let headers:Headers = new Headers();
@@ -42,6 +44,7 @@ export class LoginService {
     let requestOptions:RequestOptions = new RequestOptions({headers: headers});
     return this.http.get(URL, requestOptions).map(
       res=> {
+
         let str = res.json();
         let user = new User();
         user.id = str.id;
@@ -71,7 +74,7 @@ export class LoginService {
         }
         return user.roles[0];//todo
       }
-    );
+    )
   }
 
   public logout(user:User):Observable<boolean> {
