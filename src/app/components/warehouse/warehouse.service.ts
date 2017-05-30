@@ -30,6 +30,9 @@ export class WarehouseService {
         const warehouse: Warehouse = new Warehouse();
         warehouse.idWarehouse = item.idWarehouse;
         warehouse.name = item.name;
+        warehouse.status = item.status;
+        warehouse.x = item.x;
+        warehouse.y = item.y;
         warehouse.warehouseCompany = item.warehouseCompany;
         return warehouse;
       });

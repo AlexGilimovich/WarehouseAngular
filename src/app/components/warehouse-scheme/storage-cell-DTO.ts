@@ -6,4 +6,5 @@ export class StorageCellDTO {
   number: string;
   idStorageSpace: number;
   idGoods: number;
+  status: boolean;
 }

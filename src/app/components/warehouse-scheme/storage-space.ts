@@ -8,4 +8,5 @@ export class StorageSpace {
   idStorageSpace: number;
   storageSpaceType: StorageSpaceType;
   storageCellList: StorageCell[]=[];
+  status: boolean;
 }

@@ -78,6 +78,9 @@ export class UserService {
       });
       if (item.warehouse !== null)
         user.warehouse = new Warehouse(item.warehouse.idWarehouse, item.warehouse.name,
+          item.warehouse.status,
+          item.warehouse.x,
+          item.warehouse.y,
           new WarehouseCompany(item.warehouse.warehouseCompany.idWarehouseCompany,
             item.warehouse.warehouseCompany.name,
             item.warehouse.warehouseCompany.status

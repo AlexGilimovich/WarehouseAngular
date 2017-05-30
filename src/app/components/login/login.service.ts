@@ -17,10 +17,10 @@ export class LoginService {
 
   constructor(private http:Http,
               private localStorageService:LocalStorageService) {
-    // this.authenticatedUser = new User();
-    // this.authenticatedUser.login = "root";
-    // this.authenticatedUser.password = "root";
-    // this.authenticatedUser.warehouse = new Warehouse(1, "name", new WarehouseCompany(10));
+    //this.authenticatedUser = new User();
+    //this.authenticatedUser.login = "root";
+    //this.authenticatedUser.password = "root";
+    //this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
 
   }
 
@@ -63,6 +63,9 @@ export class LoginService {
         });
         if (str.warehouse !== null)
           user.warehouse = new Warehouse(str.warehouse.idWarehouse, str.warehouse.name,
+            str.warehouse.status,
+            str.warehouse.x,
+            str.warehouse.y,
             new WarehouseCompany(str.warehouse.warehouseCompany.idWarehouseCompany,
               str.warehouse.warehouseCompany.name,
               str.warehouse.warehouseCompany.status

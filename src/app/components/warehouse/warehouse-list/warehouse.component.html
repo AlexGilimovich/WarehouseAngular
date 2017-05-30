@@ -9,7 +9,9 @@
       text-align: center;
     }
 
-
+    .sebm-google-map-container {
+      height: 350px;
+    }
   </style>
   </head>
 <body>
@@ -74,7 +76,7 @@
   <h5 class="item-counter">Отображать по:</h5>
 
 </ul>
-<div style="display: block">
+<div style="display: block" *ngIf="isDataAvailable">
   <canvas baseChart
           [data]="pieChartData"
           [labels]="pieChartLabels"
@@ -83,7 +85,44 @@
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)">
   </canvas>
+</div>
 
+<div>
+  <div style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+  </div>
+</div>
+
+<div id="map_container" *ngIf="isDataAvailable">
+  <!--MAP FROM ANGULAR2-->
+  <sebm-google-map
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom"
+    [disableDefaultUI]=false
+    [zoomControl]=false
+    (mapClick)="mapClicked($event)">
+    <sebm-google-map-marker
+      *ngFor="let m of markers; let i = index"
+      (markerClick)="clickedMarker(m, i)"
+      [latitude]="m.lat"
+      [longitude]="m.lng"
+      [markerDraggable] = "m.draggable"
+      (dragEnd) = "markerDragEnd(m , $event)"
+    >
+      <sebm-google-map-info-window>
+        <strong>{{m.name}}</strong>
+      </sebm-google-map-info-window>
+    </sebm-google-map-marker>
+  </sebm-google-map>
+  <!--END OF MAP FROM ANGULAR2-->
 </div>
 </body>
 </html>

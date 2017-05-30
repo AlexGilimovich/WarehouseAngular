@@ -6,4 +6,5 @@ export class StorageSpaceDTO {
   idStorageSpace: number;
   idWarehouse: number;
   idStorageSpaceType: number;
+  status: boolean;
 }

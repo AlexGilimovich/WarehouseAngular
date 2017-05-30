@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {marker} from "../../util/marker";
 
 @Component({
   selector: 'app-index',
@@ -89,13 +90,6 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-}
 
-//Marker type
-interface marker {
- name?: string;
- lat: number;
- lng: number;
- draggable: boolean;
+  }
 }

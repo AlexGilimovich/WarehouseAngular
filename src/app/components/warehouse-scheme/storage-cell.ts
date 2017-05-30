@@ -6,4 +6,5 @@ export class StorageCell {
   idStorageCell: number;
   number: string;
   goods: Goods;
+  status: boolean;
 }
