@@ -76,6 +76,10 @@ export const desktopRoutes:Routes = [
   // {
   //   path: "emails",
   //   component: EmailComponent
+  // },
+  // {
+  //   path: "settings",
+  //   component: SettingsComponent
   // }
 
 ];

@@ -21,10 +21,20 @@ export class DesktopComponent implements OnInit {
               private route:ActivatedRoute,
               private loginService:LoginService) {
     this.user = loginService.getLoggedUser();
+    this.currentPage = this.getHomePage();
   }
 
   ngOnInit() {
     $("body").foundation();
+  }
+
+  private getHomePage():string {
+    if (this.user.hasRole('ROLE_ADMIN')) return 'serviceUsers';
+    if (this.user.hasRole('ROLE_OWNER')) return 'warehouses';
+    if (this.user.hasRole('ROLE_SUPERVISOR')) return 'warehouse';
+    if (this.user.hasRole('ROLE_MANAGER')) return 'warehouse';
+    if (this.user.hasRole('ROLE_CONTROLLER')) return 'invoices';
+    if (this.user.hasRole('ROLE_DISPATCHER')) return 'invoices';
   }
 
 
@@ -38,7 +48,6 @@ export class DesktopComponent implements OnInit {
     );
     return hasRole;
   }
-
 
 
   private navigateToPage(page:string) {
@@ -78,7 +87,7 @@ export class DesktopComponent implements OnInit {
         this.currentPage = 'finances';
         break;
       case 'warehouse':
-        this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, 'warehouse',this.loginService.getLoggedUser().warehouse.idWarehouse,'scheme'], {relativeTo: this.route});
+        this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, 'warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'scheme'], {relativeTo: this.route});
         this.currentPage = 'warehouse';
         break;
       case 'adminReports':
@@ -96,6 +105,10 @@ export class DesktopComponent implements OnInit {
       case 'emails':
         this.router.navigate(['./emails'], {relativeTo: this.route});
         this.currentPage = 'emails';
+        break;
+      case 'settings':
+        this.router.navigate(['./settings'], {relativeTo: this.route});
+        this.currentPage = 'settings';
         break;
       default:
         break;

@@ -6,19 +6,20 @@
   <div class="row">
     <div class="large-2 small-2 column side-menu">
       <ul class="menu vertical">
-        <li *ngIf="hasAnyRole('ROLE_SUPERVISOR')" [ngClass]="{'active':currentPage=='users'}"><a (click)="navigateToPage('users')">Пользователи</a></li>
-        <li *ngIf="hasAnyRole('ROLE_SUPERVISOR','ROLE_MANAGER','ROLE_DISPATCHER')" [ngClass]="{'active':currentPage=='goods'}"><a (click)="navigateToPage('goods')">Товары</a></li>
-        <li *ngIf="hasAnyRole('ROLE_MANAGER','ROLE_CONTROLLER')" [ngClass]="{'active':currentPage=='acts'}"><a (click)="navigateToPage('acts')">Акты</a></li>
-        <li *ngIf="hasAnyRole('ROLE_MANAGER','ROLE_DISPATCHER','ROLE_CONTROLLER')" [ngClass]="{'active':currentPage=='invoices'}"><a (click)="navigateToPage('invoices')">Накладные</a></li>
+        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='serviceUsers'}"><a (click)="navigateToPage('serviceUsers')">Пользователи сервиса</a></li>
+        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='adminReports'}"><a (click)="navigateToPage('adminReports')">Отчеты</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='warehouses'}"><a (click)="navigateToPage('warehouses')">Склады</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='customers'}"><a (click)="navigateToPage('customers')">Клиенты</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='reports'}"><a (click)="navigateToPage('reports')">Отчеты</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='finances'}"><a (click)="navigateToPage('finances')">Расценки</a></li>
         <li *ngIf="hasAnyRole('ROLE_SUPERVISOR','ROLE_MANAGER')" [ngClass]="{'active':currentPage=='warehouse'}"><a (click)="navigateToPage('warehouse')">Склад</a></li>
-        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='adminReports'}"><a (click)="navigateToPage('adminReports')">Отчеты</a></li>
-        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='serviceUsers'}"><a (click)="navigateToPage('serviceUsers')">Пользователи сервиса</a></li>
+        <li *ngIf="hasAnyRole('ROLE_MANAGER','ROLE_DISPATCHER','ROLE_CONTROLLER')" [ngClass]="{'active':currentPage=='invoices'}"><a (click)="navigateToPage('invoices')">Накладные</a></li>
+        <li *ngIf="hasAnyRole('ROLE_SUPERVISOR')" [ngClass]="{'active':currentPage=='users'}"><a (click)="navigateToPage('users')">Пользователи</a></li>
+        <li *ngIf="hasAnyRole('ROLE_SUPERVISOR','ROLE_MANAGER','ROLE_DISPATCHER')" [ngClass]="{'active':currentPage=='goods'}"><a (click)="navigateToPage('goods')">Товары</a></li>
+        <li *ngIf="hasAnyRole('ROLE_MANAGER','ROLE_CONTROLLER')" [ngClass]="{'active':currentPage=='acts'}"><a (click)="navigateToPage('acts')">Акты</a></li>
         <li *ngIf="hasAnyRole('ROLE_DISPATCHER')" [ngClass]="{'active':currentPage=='transportCompanies'}"><a (click)="navigateToPage('transportCompanies')">Транспортные компании</a></li>
         <li *ngIf="hasAnyRole('ROLE_SUPERVISOR')" [ngClass]="{'active':currentPage=='emails'}"><a (click)="navigateToPage('emails')">Отправка email</a></li>
+        <li *ngIf="hasAnyRole('ROLE_SUPERVISOR','ROLE_MANAGER','ROLE_DISPATCHER','ROLE_OWNER','ROLE_ADMIN','ROLE_CONTROLLER')" [ngClass]="{'active':currentPage=='settings'}"><a (click)="navigateToPage('settings')">Настройки</a></li>
       </ul>
     </div>
 
