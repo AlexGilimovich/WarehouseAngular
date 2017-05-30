@@ -22,6 +22,7 @@ export class DesktopComponent implements OnInit {
               private loginService:LoginService) {
     this.user = loginService.getLoggedUser();
     this.currentPage = this.getHomePage();
+    this.navigateToPage(this.currentPage);
   }
 
   ngOnInit() {
