@@ -50,7 +50,7 @@ export class UserDetailsComponent implements OnInit {
         Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]),
         Validators.composeAsync([this.validateLogin.bind(this)])
       ],
-      "password": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.minLength(5)])],
+      "password": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.minLength(4)])],
       "firstName": [{
         value: '',
         disabled: !this.hasRights
@@ -82,7 +82,12 @@ export class UserDetailsComponent implements OnInit {
                   if (this.currentUser.hasRole(role.role)) {
                     this.roles.push({role: role, checked: true});
                   } else {
-                    this.roles.push({role: role, checked: false});
+                    if (role.role == 'ROLE_ADMIN') {
+                      if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
+                        this.roles.push({role: role, checked: false});
+                    } else{
+                      this.roles.push({role: role, checked: false});
+                    }
                   }
                 }
               )
@@ -112,7 +117,7 @@ export class UserDetailsComponent implements OnInit {
     } else {
       this.userForm.controls['login'].setValidators([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['login'].setAsyncValidators([this.validateLogin.bind(this)]);
-      this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(5)])]);
+      this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(4)])]);
       this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
         (warehouseList:Warehouse[]) => {
           this.warehouseList = warehouseList;
@@ -126,7 +131,12 @@ export class UserDetailsComponent implements OnInit {
           this.roles = new Array();
           res.forEach(
             role=> {
-              this.roles.push({role: role, checked: false});
+              if (role.role == 'ROLE_ADMIN') {
+                if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
+                  this.roles.push({role: role, checked: false});
+              } else{
+                this.roles.push({role: role, checked: false});
+              }
             }
           )
           this.addRoleControls();
