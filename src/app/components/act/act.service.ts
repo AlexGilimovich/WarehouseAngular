@@ -11,12 +11,12 @@ import {Unit} from "../goods/unit";
 import {StorageType} from "../goods/storageType";
 import {Goods} from "../goods/goods";
 
-const LIST_URL:string = "http://localhost:8080/web/web/act";
+const LIST_URL:string = "http://localhost:8080/web/web/act/list/";
 const GET_URL:string = "http://localhost:8080/web/web/act/";
 const SAVE_URL:string = "http://localhost:8080/web/web/act/save";
 const GET_ACTS_FOR_GOODS_URL:string = "http://localhost:8080/web/web/act/acts";
 const GET_ACTS_TYPES_URL:string = "http://localhost:8080/web/web/act/acts";
-const SEARCH_URL:string = "http://localhost:8080/web/web/act/search";
+const SEARCH_URL:string = "http://localhost:8080/web/web/act/search/";
 
 @Injectable()
 export class ActService {
@@ -26,8 +26,8 @@ export class ActService {
   }
 
 
-  list(page:number, count:number):Observable<any> {
-    const url:string = `${LIST_URL}${"?page="}${page}${"&count="}${count}`;
+  list(warehouseId:number, page:number, count:number):Observable<any> {
+    const url:string = `${LIST_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
@@ -74,21 +74,20 @@ export class ActService {
       user.patronymic = item.user.patronymic;
       act.user = user;
       act.type = new ActType(null, item.type);
-
       act.goodsList = [];
       item.goodsList.forEach(
         item=> {
-          act.goodsList.push(new Goods(
-            item.id,
-            item.name,
-            item.quantity,
-            item.weight,
-            item.price,
-            new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-            new Unit(item.quantityUnit.id, item.quantityUnit.name),
-            new Unit(item.weightUnit.id, item.weightUnit.name),
-            new Unit(item.priceUnit.id, item.priceUnit.name)
-          ))
+          let goods = new Goods();
+          goods.id = item.id;
+          goods.name = item.name;
+          goods.quantity = item.quantity;
+          goods.weight = item.weight;
+          goods.price = item.price;
+          goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+          goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+          goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+          goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+          act.goodsList.push(goods);
         }
       )
       return act;
@@ -133,10 +132,11 @@ export class ActService {
   }
 
 
-  search(dto:ActSearchDTO, page:number, count:number):Observable<any> {
-    const url:string = `${SEARCH_URL}${"/"}${"?page="}${page}${"&count="}${count}`;
+  search(warehouseId:number, dto:ActSearchDTO, page:number, count:number):Observable<any> {
+    const url:string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
     return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
+      console.log(response.headers);//todo delete
       return {
         acts: (<any>response.json()).map(
           item=> {

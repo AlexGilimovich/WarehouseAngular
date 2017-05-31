@@ -189,7 +189,7 @@ export class GoodsDetailsComponent implements OnInit {
     this.goodsForm.controls['price'].setValue(this.goods.price);
     this.goodsForm.controls['priceUnit'].setValue(this.goods.priceUnit.name);
     this.goodsForm.controls['storageType'].setValue(this.goods.storageType.name);
-    this.goodsForm.controls['currentStatus'].setValue(this.goods.status ? this.goods.status.name : null);
+    this.goodsForm.controls['currentStatus'].setValue(this.goods.currentStatus ? this.goods.currentStatus.name : null);
 
   }
 
@@ -208,10 +208,10 @@ export class GoodsDetailsComponent implements OnInit {
     goods.price = this.goodsForm.controls['price'].value;
 
     goods.storageType = new StorageType(null, this.goodsForm.controls['storageType'].value);
-    goods.status = new GoodsStatus();
-    if (this.goods.status)
-      goods.status.name = this.goodsForm.controls['currentStatus'].value == this.goods.status.name ? '' : this.goodsForm.controls['currentStatus'].value;
-    else goods.status.name = this.goodsForm.controls['currentStatus'].value;
+    goods.currentStatus = new GoodsStatus();
+    if (this.goods.currentStatus)
+      goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value == this.goods.currentStatus.name ? '' : this.goodsForm.controls['currentStatus'].value;
+    else goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value;
     goods.quantityUnit = new Unit(null, this.goodsForm.controls['quantityUnit'].value);
     goods.weightUnit = new Unit(null, this.goodsForm.controls['weightUnit'].value);
     goods.priceUnit = new Unit(null, this.goodsForm.controls['priceUnit'].value);

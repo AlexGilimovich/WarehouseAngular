@@ -52,40 +52,46 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           item=> {
-            return new Goods(
-              item.id,
-              item.name,
-              item.quantity,
-              item.weight,
-              item.price,
-              new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-              new Unit(item.quantityUnit.id, item.quantityUnit.name),
-              new Unit(item.weightUnit.id, item.weightUnit.name),
-              new Unit(item.priceUnit.id, item.priceUnit.name),
-              item.cells.map(
-                item=> {
-                  let storageCell = new StorageCell();
-                  storageCell.number = item.number;
-                  storageCell.idStorageCell = item.idStorageCell;
-                  return storageCell;
-                }
-              ),
-              // item.cells.map(
-              //   item=> {
-              //     let storageSpace = new StorageSpace();
-              //     storageSpace.idStorageSpace = item.idStorageSpace;
-              //     return storageSpace;
-              //   }
-              // ),
-              null,
-              item.status ?
-                new GoodsStatus(
-                  item.status.id,
-                  item.status.date,
-                  item.status.name,
-                  item.status.note
-                ) : null
+            let goods = new Goods();
+            goods.id = item.id;
+            goods.name = item.name;
+            goods.quantity = item.quantity;
+            goods.weight = item.weight;
+            goods.price = item.price;
+            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+            goods.cells = item.cells.map(
+              item=> {
+                let storageCell = new StorageCell();
+                storageCell.number = item.number;
+                storageCell.idStorageCell = item.idStorageCell;
+                return storageCell;
+              }
             )
+            goods.currentStatus = item.currentStatus ?
+                new GoodsStatus(
+                  item.currentStatus.id,
+                  item.currentStatus.date,
+                  item.currentStatus.name,
+                  item.currentStatus.note
+                ) : null;
+            goods.registeredStatus = item.registeredStatus ?
+              new GoodsStatus(
+                item.registeredStatus.id,
+                item.registeredStatus.date,
+                item.registeredStatus.name,
+                item.registeredStatus.note
+              ) : null;
+            goods.movedOutStatus = item.movedOutStatus ?
+              new GoodsStatus(
+                item.movedOutStatus.id,
+                item.movedOutStatus.date,
+                item.movedOutStatus.name,
+                item.movedOutStatus.note
+              ) : null;
+            return goods;
           }),
         count: count
       }
@@ -99,40 +105,46 @@ export class GoodsService {
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response) => {
       const item = response.json();
-      return new Goods(
-        item.id,
-        item.name,
-        item.quantity,
-        item.weight,
-        item.price,
-        new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-        new Unit(item.quantityUnit.id, item.quantityUnit.name),
-        new Unit(item.weightUnit.id, item.weightUnit.name),
-        new Unit(item.priceUnit.id, item.priceUnit.name),
-        item.cells.map(
-          item=> {
-            let storageCell = new StorageCell();
-            storageCell.number = item.number;
-            storageCell.idStorageCell = item.idStorageCell;
-            return storageCell;
-          }
-        ),
-        // item.cells.map(
-        //   item=> {
-        //     let storageSpace = new StorageSpace();
-        //     storageSpace.idStorageSpace = item.idStorageSpace;
-        //     return storageSpace;
-        //   }
-        // ),
-        null,
-        item.status ?
-          new GoodsStatus(
-            item.status.id,
-            item.status.date,
-            item.status.name,
-            item.status.note
-          ) : null
+      let goods = new Goods();
+      goods.id = item.id;
+      goods.name = item.name;
+      goods.quantity = item.quantity;
+      goods.weight = item.weight;
+      goods.price = item.price;
+      goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+      goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+      goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+      goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+      goods.cells = item.cells.map(
+        item=> {
+          let storageCell = new StorageCell();
+          storageCell.number = item.number;
+          storageCell.idStorageCell = item.idStorageCell;
+          return storageCell;
+        }
       )
+      goods.currentStatus = item.currentStatus ?
+        new GoodsStatus(
+          item.currentStatus.id,
+          item.currentStatus.date,
+          item.currentStatus.name,
+          item.currentStatus.note
+        ) : null;
+      goods.registeredStatus = item.registeredStatus ?
+        new GoodsStatus(
+          item.registeredStatus.id,
+          item.registeredStatus.date,
+          item.registeredStatus.name,
+          item.registeredStatus.note
+        ) : null;
+      goods.movedOutStatus = item.movedOutStatus ?
+        new GoodsStatus(
+          item.movedOutStatus.id,
+          item.movedOutStatus.date,
+          item.movedOutStatus.name,
+          item.movedOutStatus.note
+        ) : null;
+      return goods;
     })
   }
 
@@ -221,40 +233,46 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           item=> {
-            return new Goods(
-              item.id,
-              item.name,
-              item.quantity,
-              item.weight,
-              item.price,
-              new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-              new Unit(item.quantityUnit.id, item.quantityUnit.name),
-              new Unit(item.weightUnit.id, item.weightUnit.name),
-              new Unit(item.priceUnit.id, item.priceUnit.name),
-              item.cells.map(
-                item=> {
-                  let storageCell = new StorageCell();
-                  storageCell.number = item.number;
-                  storageCell.idStorageCell = item.idStorageCell;
-                  return storageCell;
-                }
-              ),
-              // item.cells.map(
-              //   item=> {
-              //     let storageSpace = new StorageSpace();
-              //     storageSpace.idStorageSpace = item.idStorageSpace;
-              //     return storageSpace;
-              //   }
-              // ),
-              null,
-              item.status ?
-                new GoodsStatus(
-                  item.status.id,
-                  item.status.date,
-                  item.status.name,
-                  item.status.note
-                ) : null
+            let goods = new Goods();
+            goods.id = item.id;
+            goods.name = item.name;
+            goods.quantity = item.quantity;
+            goods.weight = item.weight;
+            goods.price = item.price;
+            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+            goods.cells = item.cells.map(
+              item=> {
+                let storageCell = new StorageCell();
+                storageCell.number = item.number;
+                storageCell.idStorageCell = item.idStorageCell;
+                return storageCell;
+              }
             )
+            goods.currentStatus = item.currentStatus ?
+              new GoodsStatus(
+                item.currentStatus.id,
+                item.currentStatus.date,
+                item.currentStatus.name,
+                item.currentStatus.note
+              ) : null;
+            goods.registeredStatus = item.registeredStatus ?
+              new GoodsStatus(
+                item.registeredStatus.id,
+                item.registeredStatus.date,
+                item.registeredStatus.name,
+                item.registeredStatus.note
+              ) : null;
+            goods.movedOutStatus = item.movedOutStatus ?
+              new GoodsStatus(
+                item.movedOutStatus.id,
+                item.movedOutStatus.date,
+                item.movedOutStatus.name,
+                item.movedOutStatus.note
+              ) : null;
+            return goods;
           }),
         count: count
       }

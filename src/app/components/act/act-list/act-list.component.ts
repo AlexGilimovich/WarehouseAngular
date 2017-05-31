@@ -5,9 +5,7 @@ import {Act} from "../act";
 import {actTypeMessages} from "../act.module";
 import {ActSearchDTO} from "../actSearchDTO";
 import {Subscription} from "rxjs";
-import {User} from "../../user/user";
 import {ActSearchService} from "../act-search/act-search.service";
-import {GoodsListContainerComponent} from "../../goods/goods-list/goods-list-container/goods-list-container.component";
 import {LoginService} from "../../login/login.service";
 
 declare var $;
@@ -23,6 +21,7 @@ export class ActListComponent implements OnInit {
   @Input() private actTypeNames;
   private searchDTO:ActSearchDTO;
   private searchSubscription:Subscription;
+  private warehouseId:number;//todo
 
 
   //pagination
@@ -41,6 +40,7 @@ export class ActListComponent implements OnInit {
               private router:Router,
               private route:ActivatedRoute,
               private loginService:LoginService) {
+    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
     this.searchSubscription = actSearchService.searchDTO$.subscribe(
       searchDTO => {
         this.searchDTO = searchDTO;
@@ -51,7 +51,7 @@ export class ActListComponent implements OnInit {
 
   ngOnInit() {
     $("body").foundation();
-    this.actService.list(this.currentPage, this.itemsOnPage).subscribe(
+    this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
         this.acts = res.acts.sort((current, next)=> {
           return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
@@ -90,7 +90,7 @@ export class ActListComponent implements OnInit {
   }
 
   private getActs(page) {
-    this.actService.list(page, this.itemsOnPage).subscribe(
+    this.actService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
       (res) => {
         this.acts = res.acts.sort((current, next)=> {
           return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
@@ -114,9 +114,11 @@ export class ActListComponent implements OnInit {
   }
 
   private search(searchDTO:ActSearchDTO, page) {
-    this.actService.search(searchDTO, page, this.itemsOnPage).subscribe(
+    this.actService.search(this.warehouseId, searchDTO, page, this.itemsOnPage).subscribe(
       (res) => {
-        this.acts = res.acts;
+        this.acts = res.acts.sort((current, next)=> {
+          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+        });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
         let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;

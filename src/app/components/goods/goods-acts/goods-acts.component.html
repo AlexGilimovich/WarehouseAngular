@@ -9,7 +9,7 @@
   </tr>
   <tr class="clickable" *ngFor="let act of acts; let i=index;" (click)="goToActDetails(act)">
     <td>
-      {{actTypeMessages.get(act.actType.name)}}
+      {{actTypeMessages.get(act.type.name)}}
     </td>
     <td>
       {{act.date| date:'dd.MM.yyyy HH:mm:ss'}}

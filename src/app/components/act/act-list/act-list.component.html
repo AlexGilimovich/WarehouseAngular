@@ -1,12 +1,12 @@
 <div>
   <table class="hover">
     <tr>
-      <th (click)="sort('date')">Дата</th>
-      <th (click)="sort('type')">Тип</th>
-      <th (click)="sort('lastName')">Фамилия</th>
-      <th (click)="sort('firstName')">Имя</th>
-      <th (click)="sort('patronymic')">Отчество</th>
-      <th (click)="sort('note')">Примечание</th>
+      <th>Дата</th>
+      <th>Тип</th>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Примечание</th>
       <!--<th (click)="sort('goods')">Товары</th>-->
     </tr>
     <tr class="clickable" *ngFor="let act of acts; let i=index;" (click)="goToDetails(act)">

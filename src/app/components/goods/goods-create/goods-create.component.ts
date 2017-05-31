@@ -1,14 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
+import {Component, OnInit} from "@angular/core";
+import {Location} from "@angular/common";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GoodsService} from "../goods.service";
 import {Goods} from "../goods";
 import {StorageType} from "../storageType";
-import {GoodsStatus} from "../goodsStatus";
 import {Unit} from "../unit";
-import {StorageCell} from "../../warehouse-scheme/storage-cell";
-import {GoodsStatusName} from "../goodsStatusName";
 import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
+import {LoginService} from "../../login/login.service";
 
 
 @Component({
@@ -18,7 +16,7 @@ import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
 })
 export class GoodsCreateComponent implements OnInit {
   private goodsForm:FormGroup;
-
+  private warehouseId:number;
 
   private units:Unit[];
   private storageTypes:StorageSpaceType[];
@@ -26,7 +24,9 @@ export class GoodsCreateComponent implements OnInit {
 
   constructor(private location:Location,
               private fb:FormBuilder,
-              private goodsService:GoodsService) {
+              private goodsService:GoodsService,
+              private loginService:LoginService) {
+    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
     this.goodsForm = this.fb.group({
       "name": ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
       "quantity": ['', Validators.compose([Validators.required])],
@@ -69,6 +69,7 @@ export class GoodsCreateComponent implements OnInit {
     goods.weight = this.goodsForm.controls['weight'].value;
     goods.price = this.goodsForm.controls['price'].value;
     goods.storageType = new StorageType(null, this.goodsForm.controls['storageType'].value);
+    goods.warehouseId = this.warehouseId;
     // goods.status = new GoodsStatus();
     // goods.status.name = this.goodsForm.controls['currentStatus'].value;
     goods.quantityUnit = new Unit(null, this.goodsForm.controls['quantityUnit'].value);
