@@ -10,7 +10,6 @@ import {ActSearchDTO} from "./actSearchDTO";
 import {Unit} from "../goods/unit";
 import {StorageType} from "../goods/storageType";
 import {Goods} from "../goods/goods";
-import {ActDTO} from "./ActDTO";
 
 const LIST_URL:string = "http://localhost:8080/web/web/act";
 const GET_URL:string = "http://localhost:8080/web/web/act/";
@@ -39,13 +38,15 @@ export class ActService {
             let act = new Act();
             act.id = item.id;
             act.date = item.date;
+            act.note = item.note;
+            act.warehouseId = item.warehouseId;
             let user = new User();
             user.id = item.user.id;
             user.lastName = item.user.lastName;
             user.firstName = item.user.firstName;
             user.patronymic = item.user.patronymic;
             act.user = user;
-            act.actType = new ActType(null, item.type)
+            act.type = new ActType(null, item.type)
             return act;
           }
         ),
@@ -64,18 +65,20 @@ export class ActService {
       let act = new Act();
       act.id = item.id;
       act.date = item.date;
+      act.note = item.note;
+      act.warehouseId = item.warehouseId;
       let user = new User();
       user.id = item.user.id;
       user.lastName = item.user.lastName;
       user.firstName = item.user.firstName;
       user.patronymic = item.user.patronymic;
       act.user = user;
-      act.actType = new ActType(null, item.type);
+      act.type = new ActType(null, item.type);
 
-      act.goods = [];
+      act.goodsList = [];
       item.goodsList.forEach(
         item=> {
-          act.goods.push(new Goods(
+          act.goodsList.push(new Goods(
             item.id,
             item.name,
             item.quantity,
@@ -92,7 +95,7 @@ export class ActService {
     })
   }
 
-  save(act:ActDTO):Observable<any> {
+  save(act:Act):Observable<any> {
     return this.httpAuthService.post(SAVE_URL, JSON.stringify(act));
   }
 
@@ -104,13 +107,15 @@ export class ActService {
           let act = new Act();
           act.id = item.id;
           act.date = item.date;
+          act.note = item.note;
+          act.warehouseId = item.warehouseId;
           let user = new User();
           user.id = item.user.id;
           user.lastName = item.user.lastName;
           user.firstName = item.user.firstName;
           user.patronymic = item.user.patronymic;
           act.user = user;
-          act.actType = new ActType(null, item.type)
+          act.type = new ActType(null, item.type)
           return act;
         }
       )
@@ -138,13 +143,15 @@ export class ActService {
             let act = new Act();
             act.id = item.id;
             act.date = item.date;
+            act.note = item.note;
+            act.warehouseId = item.warehouseId;
             let user = new User();
             user.id = item.user.id;
             user.lastName = item.user.lastName;
             user.firstName = item.user.firstName;
             user.patronymic = item.user.patronymic;
             act.user = user;
-            act.actType = new ActType(null, item.type)
+            act.type = new ActType(null, item.type)
             return act;
           }),
         count: count

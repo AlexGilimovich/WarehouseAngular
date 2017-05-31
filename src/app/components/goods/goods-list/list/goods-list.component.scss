@@ -10,8 +10,12 @@
 
 .page-current {
   background-color: #1779ba;
+  a{
+    color: white;
+  }
   a:hover {
     background-color: #1779ba;
+    color: white;
   }
 }
 

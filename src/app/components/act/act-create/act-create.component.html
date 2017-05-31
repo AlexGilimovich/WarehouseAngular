@@ -57,7 +57,7 @@
               <label for="note" class="right">Примечание:</label>
             </div>
             <div class="large-5 small-5 columns">
-              <textarea name="note" id="note" cols="30" rows="10" required></textarea>
+              <textarea name="note" id="note" cols="30" rows="10" required [formControl]="actForm.controls['note']"></textarea>
             </div>
           </div>
         </div>

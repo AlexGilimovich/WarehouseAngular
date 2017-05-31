@@ -34,7 +34,7 @@ export const actRoutes:Routes = [
     "path": "list",
     "component": ActListContainerComponent
   }, {
-    "path": "create",
+    "path": "create/:id",
     "component": ActCreateComponent
   }
 ];

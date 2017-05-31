@@ -18,7 +18,7 @@
           <b>Тип акта:</b>
         </div>
         <div class="large-10 small-10 column">
-          {{actTypeMessages.get(act?.actType.name)}}
+          {{actTypeMessages.get(act?.type.name)}}
         </div>
       </div>
 
@@ -50,7 +50,7 @@
           <b>Список товаров:</b>
         </div>
         <div class="large-10 small-10 column clickable" (click)="goToUserDetails()">
-          <app-act-goods [goodsList]="act?.goods"></app-act-goods>
+          <app-act-goods [goodsList]="act?.goodsList"></app-act-goods>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {Location} from "@angular/common";
 import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ActService} from "../act.service";
 import {ActTypeName} from "../actTypeName";
 import {actTypeMessages} from "../act.module";
-import {ActDTO} from "../ActDTO";
 import {GoodsStatusName} from "../../goods/goodsStatusName";
 import {GoodsService} from "../../goods/goods.service";
 import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
@@ -13,6 +13,7 @@ import {GoodsListComponent} from "../../goods/goods-list/list/goods-list.compone
 import {Goods} from "../../goods/goods";
 import {User} from "../../user/user";
 import {LoginService} from "../../login/login.service";
+import {Act} from "../act";
 
 @Component({
   selector: 'app-act-create',
@@ -26,6 +27,7 @@ export class ActCreateComponent implements OnInit {
   private hasSelected:boolean;
   private user:User;
   private currentDate:Date;
+  private warehouseId:string; //todo
 
   private statusNames:GoodsStatusName[];
   private storageTypes:StorageSpaceType[];
@@ -40,13 +42,20 @@ export class ActCreateComponent implements OnInit {
               private location:Location,
               private fb:FormBuilder,
               private goodsService:GoodsService,
-              private loginService:LoginService) {
+              private loginService:LoginService,
+              private router:Router,
+              private route:ActivatedRoute) {
     this.actForm = this.fb.group({
       "actType": ['', Validators.compose([Validators.required])],
-      "goods": new FormArray([], Validators.compose([goodsValidator]))
+      "goods": new FormArray([], Validators.compose([goodsValidator])),
+      "note": ['']
     });
     this.user = this.loginService.getLoggedUser();
     this.currentDate = new Date();
+
+    route.params.subscribe(params => {
+      this.warehouseId = params['id'];
+    });
   }
 
   ngOnInit() {
@@ -95,9 +104,11 @@ export class ActCreateComponent implements OnInit {
   }
 
   private save() {
-    let act:ActDTO = new ActDTO();
+    let act:Act = new Act();
     act.type = this.actForm.controls['actType'].value;
     act.goodsList = this.goodsList;
+    act.note = this.actForm.controls['note'].value;
+    act.warehouseId = this.warehouseId;
 
     this.actService.save(act).subscribe(
       res=> {

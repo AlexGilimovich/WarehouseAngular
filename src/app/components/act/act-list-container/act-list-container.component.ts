@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActTypeName} from "../actTypeName";
 import {ActService} from "../act.service";
 import {Router, ActivatedRoute} from "@angular/router";
+import {LoginService} from "../../login/login.service";
 
 
 @Component({
@@ -13,6 +14,7 @@ export class ActListContainerComponent implements OnInit {
   private actTypeNames:ActTypeName[];
 
   constructor(private actService:ActService,
+              private loginService:LoginService,
               private router:Router,
               private route:ActivatedRoute) {
   }
@@ -30,7 +32,7 @@ export class ActListContainerComponent implements OnInit {
   }
 
   private goToCreate() {
-    this.router.navigate(['../create'], {relativeTo: this.route});
+    this.router.navigate(['../create', this.loginService.getLoggedUser().warehouse.idWarehouse], {relativeTo: this.route});
   }
 
 
