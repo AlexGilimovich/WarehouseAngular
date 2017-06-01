@@ -38,10 +38,11 @@ export class WarehouseSpaceComponent implements OnInit {
 
     this.schemeService.getStorageSpace(this.id_warehouse).subscribe(data => {
       this.storageSpace = data;
-      for(var i=0; i<this.storageSpace.length; i++){
-        if(this.storageSpace[i].idStorageSpace==this.id_storage_space){
+      for (let i = 0; i < this.storageSpace.length; i++) {
+        if (this.storageSpace[i].idStorageSpace == this.id_storage_space) {//so don't create other function
+          //to REST-services
           this.selectedStorageSpace = this.storageSpace[i];
-          console.log("from cycle"+this.storageSpace[i]);
+          console.log("from cycle"+this.storageSpace[i].status);
         }
       }
       console.log("AFTER"+this.selectedStorageSpace.storageSpaceType.name);
@@ -53,6 +54,7 @@ export class WarehouseSpaceComponent implements OnInit {
     console.log(this.selectedSpaceType);
     this.space.idStorageSpace = this.id_storage_space;
     this.space.idStorageSpaceType = this.selectedSpaceType.idStorageSpaceType;
+    this.space.status = this.selectedStorageSpace.status;
     //this.space.idStorageSpace = 0;
     this.route.params.subscribe(params => { this.space.idWarehouse = params['id_warehouse']; });
     console.log("OBJECT: "+this.space);

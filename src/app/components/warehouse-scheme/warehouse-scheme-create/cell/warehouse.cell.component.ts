@@ -21,21 +21,10 @@ import {isUndefined} from "util";
   // providers: [WarehouseSchemeService]
 })
 
-/*idStorageCell: number;
-number: string;
-idStorageSpace: number;
-idGoods: number;*/
-
 /*:id_space/cell/:id_cell/edit*/
 
 export class WarehouseCellComponent implements OnInit {
   id_goods: number;
-
-  storageSpace: StorageSpace[]=[];
-  selectedStorageSpace: StorageSpace = new StorageSpace;
-
-  spaceType: StorageSpaceType[]=[];
-  selectedSpaceType: StorageSpaceType = new StorageSpaceType;
   cell: StorageCellDTO = new StorageCellDTO;
 
   constructor(private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
@@ -44,6 +33,7 @@ export class WarehouseCellComponent implements OnInit {
     console.log("!!!Constructor from cell!!!");
     this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
       this.cell.number = data[0].number;
+      this.cell.status = data[0].status;
       this.cell.idStorageCell = data[0].idStorageCell;
       console.log("FROM EDITING CELL: "+this.cell);
     });
@@ -60,9 +50,11 @@ export class WarehouseCellComponent implements OnInit {
     else this.router.navigate(['../../../../'], {relativeTo: this.route});
   }
 
-  deleteCell(id: number){
+  deleteCell(id: string){
     console.log(id);
-    //todo: realize this method
+    this.schemeService.deleteCell(id).subscribe(data => {
+      console.log(data);
+    });
   }
 
   ngOnInit(){

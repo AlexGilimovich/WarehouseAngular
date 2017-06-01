@@ -31,6 +31,8 @@ export class WarehouseCompanyService {
         const company: WarehouseCompany = new WarehouseCompany();
         company.idWarehouseCompany = item.idWarehouseCompany;
         company.name = item.name;
+        company.x = item.x;
+        company.y = item.y;
         company.status = item.status;
         return company;
       });
@@ -39,6 +41,7 @@ export class WarehouseCompanyService {
 
   save(company: WarehouseCompany) {
     if(isUndefined(company.idWarehouseCompany)){
+      company.status = false;//default - company is not active
       console.log("is save action");
     }
     const url = isUndefined(company.idWarehouseCompany) ?  Host.URL + "company/save" : Host.URL + "company/save/"+company.idWarehouseCompany;
@@ -102,6 +105,8 @@ export class WarehouseCompanyService {
         const company: WarehouseCompany = new WarehouseCompany();
         company.idWarehouseCompany = item.idWarehouseCompany;
         company.name = item.name;
+        company.x = item.x;
+        company.y = item.y;
         company.status = item.status;
         return company;
       });

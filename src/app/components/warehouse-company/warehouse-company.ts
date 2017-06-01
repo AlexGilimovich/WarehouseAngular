@@ -7,6 +7,8 @@ export class WarehouseCompany {
 
   constructor(public idWarehouseCompany?:number,
               public name?:string,
+              public x?: number,
+              public y?: number,
               public status?:boolean){
 
   }

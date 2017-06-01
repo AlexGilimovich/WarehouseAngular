@@ -60,8 +60,11 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     this.service.checkout(this.cells);
   }
 
-  deleteSpace(id: number){
+  deleteSpace(id: string){
     console.log(id);
+    this.service.deleteSpace(id).subscribe(data => {
+      console.log(data);
+    });
   }
 
   ngOnInit(){

@@ -28,7 +28,9 @@ export class WarehouseCompanyComponent implements OnInit {
 
   delete(id: string){
     console.log(id);
-    this.companyService.delete(id);
+    this.companyService.delete(id).subscribe(data => {
+      console.log(data);
+    });
   }
 
   edit(id: string){

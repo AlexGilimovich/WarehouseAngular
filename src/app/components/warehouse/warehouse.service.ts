@@ -55,6 +55,9 @@ export class WarehouseService {
         const warehouse: Warehouse = new Warehouse();
         warehouse.idWarehouse = item.idWarehouse;
         warehouse.name = item.name;
+        warehouse.x = item.x;
+        warehouse.y = item.y;
+        warehouse.status = item.status;
         warehouse.warehouseCompany = item.warehouseCompany;
         console.log(warehouse);
         return warehouse;
@@ -64,7 +67,9 @@ export class WarehouseService {
 
   save(warehouse: Warehouse) {
     if(isUndefined(warehouse.idWarehouse)){
+      warehouse.status = true; //warehouse is active after registration
       console.log("is save action");
+      console.log(warehouse.status);
     }
     const url = isUndefined(warehouse.idWarehouse) ?  Host.URL + "warehouse/save" : Host.URL + "warehouse/save/"+warehouse.idWarehouse;
     console.log("URL: "+url);
@@ -107,6 +112,9 @@ export class WarehouseService {
         const warehouse: Warehouse = new Warehouse();
         warehouse.idWarehouse = item.idWarehouse;
         warehouse.name = item.name;
+        warehouse.x = item.x;
+        warehouse.y = item.y;
+        warehouse.status = item.status;
         warehouse.warehouseCompany = item.warehouseCompany;
         return warehouse;
       });

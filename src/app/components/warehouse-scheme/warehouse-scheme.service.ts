@@ -47,6 +47,7 @@ export class WarehouseSchemeService {
         storageSpace.idStorageSpace = item.idStorageSpace;
         storageSpace.storageCellList = item.storageCellList;
         storageSpace.storageSpaceType = item.storageSpaceType;
+        storageSpace.status = item.status;
         console.log("goods" + storageSpace.storageCellList)
         return storageSpace;
       });
@@ -68,6 +69,7 @@ export class WarehouseSchemeService {
         const storageCell:StorageCell = new StorageCell();
         storageCell.number = item.number;
         storageCell.idStorageCell = item.idStorageCell;
+        storageCell.status = item.status;
         storageCell.goods = item.goods;
         console.log("httpAuthService: " + storageCell);
         return storageCell;
@@ -98,6 +100,7 @@ export class WarehouseSchemeService {
 
   saveSpace(space:StorageSpaceDTO) {
     if (isUndefined(space.idStorageSpace)) {
+      space.status = true; //default is active after creating
       console.log("is save action");
     }
     const url = isUndefined(space.idStorageSpace) ? Host.URL + "storage/save" : Host.URL + "storage/save/" + space.idStorageSpace;
@@ -131,6 +134,7 @@ export class WarehouseSchemeService {
   saveCell(cell:StorageCellDTO) {
     if (isUndefined(cell.idStorageCell)) {
       console.log("is save action");
+      cell.status = true; //default is active after creating
     }
     const url = isUndefined(cell.idStorageCell) ? Host.URL + "storage/cell/save" : Host.URL + "storage/cell/save/" + cell.idStorageCell;
     console.log("URL: " + url);
@@ -158,5 +162,39 @@ export class WarehouseSchemeService {
         }
       });
     }
+  }
+
+  deleteSpace(id: string){
+    const url = Host.URL + "storage/delete/"+id;
+
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+
+    console.log(url);
+    return this.httpAuthService.delete(url, options).map((response: Response) => {
+      if (response.text()){
+        return (response.json());
+      }
+    });
+  }
+
+  deleteCell(id: string){
+    const url = Host.URL + "storage/cell/delete/"+id;
+
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    const options = new RequestOptions({
+      headers: headers
+    });
+
+    console.log(url);
+    return this.httpAuthService.delete(url, options).map((response: Response) => {
+      if (response.text()){
+        return (response.json());
+      }
+    });
   }
 }
