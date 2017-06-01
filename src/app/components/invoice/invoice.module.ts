@@ -10,6 +10,7 @@ import {IncomingInvoiceListComponent} from './incoming-invoice/incoming-invoice-
 import {OutgoingInvoiceListComponent} from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
 import {GoodsCreateComponent} from "../goods/goods-create/goods-create.component";
 import {GoodsModule} from "../goods/goods.module";
+import { OutgoingInvoiceGoodsCreateComponent } from './outgoing-invoice/goods/outgoing-invoice-goods-create/outgoing-invoice-goods-create.component';
 
 export const invoiceRoutes: Routes = [
   {
@@ -54,7 +55,7 @@ export const invoiceRoutes: Routes = [
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent]
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, OutgoingInvoiceGoodsCreateComponent]
 })
 export class InvoiceModule {
 }

@@ -31,6 +31,9 @@ export class GoodsService {
   private goodsSource = new Subject<Goods>();
   goodsCreated$ = this.goodsSource.asObservable();
 
+  private goodsForOutgoingInvoiceSource = new Subject<Goods>();
+  goodsForOutgoingInvoice$ = this.goodsForOutgoingInvoiceSource.asObservable();
+
   public selectedForPuttingGoodsSource = new Subject<any>();
   public selectedForPuttingGoods$ = this.selectedForPuttingGoodsSource.asObservable();
 
@@ -41,6 +44,10 @@ export class GoodsService {
   //Event emitted when user finished creating goods
   public goodsCreatedEvent(goods:Goods) {
     this.goodsSource.next(goods);
+  }
+
+  goodsChosenEvent(goods: Goods) {
+    this.goodsForOutgoingInvoiceSource.next(goods);
   }
 
   list(id:string, page:number, count:number):Observable<any> {
@@ -97,6 +104,27 @@ export class GoodsService {
       }
     });
 
+  }
+
+  getAll() {
+    const url = GET_URL;
+    const headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return response.json().map(item => {
+        return new Goods(
+          item.id,
+          item.name,
+          item.quantity,
+          item.weight,
+          item.price,
+          new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+          new Unit(item.quantityUnit.id, item.quantityUnit.name),
+          new Unit(item.weightUnit.id, item.weightUnit.name),
+          new Unit(item.priceUnit.id, item.priceUnit.name)
+        );
+      });
+    });
   }
 
   get(id:number):Observable<Goods> {
@@ -328,6 +356,5 @@ export class GoodsService {
     return this.httpAuthService.put(url);
 
   }
-
 
 }

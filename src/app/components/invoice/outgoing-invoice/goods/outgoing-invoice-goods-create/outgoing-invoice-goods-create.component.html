@@ -1,0 +1,22 @@
+<form (ngSubmit)="onSubmit()">
+  <h2>Выбор товара</h2>
+  <select name="goods" [(ngModel)]="currentChosenGoods"
+          (change)="onQuantityChanged()">
+    <option *ngFor="let goods of goodsList" [ngValue]="goods">
+      {{goods.name}}
+    </option>
+  </select>
+
+  <!-- todo max -->
+  Выберите количество:
+  <input name="quantity" type="number" [(ngModel)]="quantity"
+         (change)="onQuantityChanged()">
+
+  Останется на складе:
+  <label>
+    {{leftQuantity}}
+  </label>
+
+  <input type="submit">
+</form>
+

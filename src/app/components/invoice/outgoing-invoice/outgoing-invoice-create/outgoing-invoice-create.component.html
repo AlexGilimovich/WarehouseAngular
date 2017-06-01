@@ -10,27 +10,9 @@
       <input type="date" [formControl]="invoiceForm.controls['issueDate']">
     </label>
 
-    <label>
-      Выбрать перевозчика
-      <select [formControl]="invoiceForm.controls['transportCompany']" (change)="onTransportChange()">
-        <option *ngFor="let company of transportCompanies" [ngValue]="company">
-          {{company.name}}
-        </option>
-      </select>
-    </label>
+    <button type="button" (click)="openTransportModal()">Выбрать перевозчика</button>
 
-    <input type="text" [formControl]="invoiceForm.controls['currentTransportCompany']">
-
-    <label>
-      Получатель
-      <select [formControl]="invoiceForm.controls['receiverCompany']" (change)="onReceiverChange()">
-        <option *ngFor="let company of receiverCompanies" [ngValue]="company">
-          {{company.name}}
-        </option>
-      </select>
-    </label>
-
-    <input type="text" [formControl]="invoiceForm.controls['currentReceiverCompany']">
+    <button type="button" (click)="openReceiverModal()">Выбрать получателя</button>
 
     <label>
       Номер транспортного средства
@@ -58,24 +40,101 @@
       Сумма товаров по ТТН
       <input type="number" [formControl]="invoiceForm.controls['goodsEntryCount']">
 
-      <input type="text" [formControl]="invoiceForm.controls['goodsEntryCountUnit']">
+      <select [formControl]="invoiceForm.controls['goodsEntryCountUnit']" required>
+        <option *ngFor="let unit of units" [value]="unit.name">
+          {{unit.name}}
+        </option>
+      </select>
     </label>
 
     <label>
       Количество наименований товаров по ТТН
       <input type="number" [formControl]="invoiceForm.controls['goodsQuantity']">
 
-      <input type="text" [formControl]="invoiceForm.controls['goodsQuantityUnit']">
+      <select [formControl]="invoiceForm.controls['goodsQuantityUnit']" required>
+        <option *ngFor="let unit of units" [value]="unit.name">
+          {{unit.name}}
+        </option>
+      </select>
     </label>
 
-    <!-- todo goods -->
+    <div>
+      <h2>Товары</h2>
+      <table>
+        <tr>
+          <th>Название</th>
+          <th>Количество</th>
+          <th>Цена</th>
+          <th>Вес</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let goods of goodsList">
+          <th>{{goods.name}}</th>
+          <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+          <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+          <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+          <th>
+            <button (click)="deleteGoods(goods)">
+              Удалить
+            </button>
+          </th>
+        </tr>
+      </table>
+
+      <button type="button" (click)="chooseGoods()">Выбрать товары</button>
+    </div>
 
     <input type="submit">
   </form>
 
-  <!-- todo modal
-  <button data-reveal-id="transportModel" (click)="openTransportModal()">Выбрать перевозчика</button>
-  <div id="transportModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">-->
-  <!--<a class="close-reveal-modal" aria-label="Close">&#215;</a>-->
-  <!--</div>-->
+  <div class="reveal" id="transportModal" data-reveal >
+    <button class="close-button" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <input #transportSearchParams
+           type="text" placeholder="Введите название..."
+           (keypress)="refreshTransportCompanies(transportSearchParams.value)">
+    <table>
+      <tr>
+        <th>Название</th>
+      </tr>
+      <tr *ngFor="let company of transportCompanies"
+          (click)="onTransportChosen(company)">
+        <td>
+          {{company.name}}
+        </td>
+      </tr>
+    </table>
+    <input type="button" value="ОК" (click)="saveTransport()">
+    <input type="button" value="Отмена" (click)="closeTransportModal()">
+  </div>
+
+  <div class="reveal" id="receiverModal" data-reveal >
+    <button class="close-button" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <input #receiverSearchParams
+           type="text" placeholder="Введите название..."
+           (keypress)="refreshReceiverCompanies(receiverSearchParams.value)">
+    <table>
+      <tr>
+        <th>Название</th>
+      </tr>
+      <tr *ngFor="let company of receiverCompanies"
+          (click)="onReceiverChosen(company)">
+        <td>
+          {{company.name}}
+        </td>
+      </tr>
+    </table>
+    <input type="button" value="ОК" (click)="saveReceiver()">
+    <input type="button" value="Отмена" (click)="closeReceiverModal()">
+  </div>
+
+  <div class="reveal" id="goodsModal" data-reveal >
+    <button class="close-button" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <app-outgoing-invoice-goods-create></app-outgoing-invoice-goods-create>
+  </div>
 </div>
