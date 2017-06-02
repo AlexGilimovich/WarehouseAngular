@@ -106,26 +106,27 @@ export class GoodsService {
 
   }
 
-  getAll() {
-    const url = GET_URL;
-    const headers = new Headers();
-    const options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response: Response) => {
-      return response.json().map(item => {
-        return new Goods(
-          item.id,
-          item.name,
-          item.quantity,
-          item.weight,
-          item.price,
-          new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-          new Unit(item.quantityUnit.id, item.quantityUnit.name),
-          new Unit(item.weightUnit.id, item.weightUnit.name),
-          new Unit(item.priceUnit.id, item.priceUnit.name)
-        );
-      });
-    });
-  }
+  // todo maybe use it
+  // getAll() {
+  //   const url = GET_URL;
+  //   const headers = new Headers();
+  //   const options = new RequestOptions({headers: headers});
+  //   return this.httpAuthService.get(url, options).map((response: Response) => {
+  //     return response.json().map(item => {
+  //       return new Goods(
+  //         item.id,
+  //         item.name,
+  //         item.quantity,
+  //         item.weight,
+  //         item.price,
+  //         new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
+  //         new Unit(item.quantityUnit.id, item.quantityUnit.name),
+  //         new Unit(item.weightUnit.id, item.weightUnit.name),
+  //         new Unit(item.priceUnit.id, item.priceUnit.name)
+  //       );
+  //     });
+  //   });
+  // }
 
   get(id:number):Observable<Goods> {
     const url = `${GET_URL}${id}`;

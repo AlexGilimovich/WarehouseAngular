@@ -11,27 +11,22 @@ import {Goods} from "../../../goods/goods";
 import {GoodsService} from "../../../goods/goods.service";
 import {GoodsCreateComponent} from "../../../goods/goods-create/goods-create.component";
 import {Unit} from "../../../goods/unit";
+import {CustomerChoiceComponent} from "../../../customer/customer-choice/customer-choice.component";
+import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-choice/tr-company-choice.component";
 declare const $: any;
 
 @Component({
   selector: 'app-incoming-invoice-create',
   templateUrl: './incoming-invoice-create.component.html',
   styleUrls: ['./incoming-invoice-create.component.scss'],
-  providers: [InvoiceService, TransportCompanyService,
-    WarehouseCustomerCompanyService, GoodsService]
+  providers: [InvoiceService, TransportCompanyService, GoodsService]
 })
 export class IncomingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
-  transportCompanies: TransportCompany[];
-  chosenTransport: TransportCompany;
-  supplierCompanies: WarehouseCustomerCompany[];
-  chosenSupplier: WarehouseCustomerCompany;
   goodsList: Goods[] = [];
   units: Unit[] = [];
 
   constructor(private invoiceService: InvoiceService,
-              private transportService: TransportCompanyService,
-              private customerService: WarehouseCustomerCompanyService,
               private goodsService: GoodsService,
               private formBuilder: FormBuilder,
               private router: Router) {
@@ -54,12 +49,6 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    this.transportService.getAll().subscribe(data => {
-      this.transportCompanies = data;
-    });
-    this.customerService.getAll().subscribe(data => {
-      this.supplierCompanies = data;
-    });
     this.goodsService.getUnits().subscribe(data => {
       this.units = data;
     });
@@ -72,36 +61,6 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
       this.router.navigateByUrl('invoice/incoming');
     });
-  }
-
-  refreshTransportCompanies(searchParams: string) {
-    this.transportService.search(searchParams).subscribe(data => {
-      this.transportCompanies = data;
-    });
-  }
-
-  onTransportChosen(company: TransportCompany) {
-    this.chosenTransport = company;
-  }
-
-  saveTransport() {
-    this.invoiceForm.controls['transportCompany'].setValue(this.chosenTransport);
-    this.closeTransportModal();
-  }
-
-  refreshSupplierCompanies(searchParams: string) {
-    this.customerService.search(searchParams).subscribe(data => {
-      this.supplierCompanies = data;
-    });
-  }
-
-  onSupplierChosen(supplier: WarehouseCustomerCompany) {
-    this.chosenSupplier = supplier;
-  }
-
-  saveSupplier() {
-    this.invoiceForm.controls['supplierCompany'].setValue(this.chosenSupplier);
-    this.closeSupplierModal();
   }
 
   createGoods() {
@@ -117,6 +76,16 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   deleteGoods(goods: Goods) {
     this.goodsList = this.invoiceService.deleteGoodsFromArray(this.goodsList, goods);
+  }
+
+  saveTransport(company: TransportCompany) {
+    this.invoiceForm.controls['transportCompany'].setValue(company);
+    this.closeTransportModal();
+  }
+
+  saveSupplier(supplier: WarehouseCustomerCompany) {
+    this.invoiceForm.controls['supplierCompany'].setValue(supplier);
+    this.closeSupplierModal();
   }
 
   openTransportModal() {

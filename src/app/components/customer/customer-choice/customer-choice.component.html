@@ -1,0 +1,15 @@
+<input #searchParams
+       type="text" placeholder="Введите название..."
+       (keypress)="refreshCustomers(searchParams.value)">
+<table>
+  <tr>
+    <th>Название</th>
+  </tr>
+  <tr *ngFor="let customer of customers"
+      (click)="onCustomerChosen(customer)">
+    <td>
+      {{customer.name}}
+    </td>
+  </tr>
+</table>
+<input type="button" value="ОК" (click)="saveCustomer()">

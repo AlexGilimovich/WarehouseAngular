@@ -91,44 +91,14 @@
     <button class="close-button" type="button" data-close>
       <span aria-hidden="true">&times;</span>
     </button>
-    <input #transportSearchParams
-           type="text" placeholder="Введите название..."
-           (keypress)="refreshTransportCompanies(transportSearchParams.value)">
-    <table>
-      <tr>
-        <th>Название</th>
-      </tr>
-      <tr *ngFor="let company of transportCompanies"
-          (click)="onTransportChosen(company)">
-        <td>
-          {{company.name}}
-        </td>
-      </tr>
-    </table>
-    <input type="button" value="ОК" (click)="saveTransport()">
-    <input type="button" value="Отмена" (click)="closeTransportModal()">
+    <app-tr-company-choice (company)="saveTransport($event)"></app-tr-company-choice>
   </div>
 
   <div class="reveal" id="supplierModal" data-reveal >
     <button class="close-button" type="button" data-close>
       <span aria-hidden="true">&times;</span>
     </button>
-    <input #supplierSearchParams
-           type="text" placeholder="Введите название..."
-           (keypress)="refreshSupplierCompanies(supplierSearchParams.value)">
-    <table>
-      <tr>
-        <th>Название</th>
-      </tr>
-      <tr *ngFor="let company of supplierCompanies"
-          (click)="onSupplierChosen(company)">
-        <td>
-          {{company.name}}
-        </td>
-      </tr>
-    </table>
-    <input type="button" value="ОК" (click)="saveSupplier()">
-    <input type="button" value="Отмена" (click)="closeSupplierModal()">
+    <app-customer-choice (customer)="saveSupplier($event)"></app-customer-choice>
   </div>
 
   <div class="reveal" id="goodsModal" data-reveal >

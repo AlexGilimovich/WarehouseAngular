@@ -10,7 +10,9 @@ import {IncomingInvoiceListComponent} from './incoming-invoice/incoming-invoice-
 import {OutgoingInvoiceListComponent} from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
 import {GoodsCreateComponent} from "../goods/goods-create/goods-create.component";
 import {GoodsModule} from "../goods/goods.module";
-import { OutgoingInvoiceGoodsCreateComponent } from './outgoing-invoice/goods/outgoing-invoice-goods-create/outgoing-invoice-goods-create.component';
+import { GoodsChoiceComponent } from '../goods/goods-choice/goods-choice.component';
+import {WarehouseCustomerCompanyModule} from "../customer/customer.module";
+import {TransportCompanyModule} from "../tr-company/tr-company.module";
 
 export const invoiceRoutes: Routes = [
   {
@@ -51,11 +53,13 @@ export const invoiceRoutes: Routes = [
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    GoodsModule
+    GoodsModule,
+    WarehouseCustomerCompanyModule,
+    TransportCompanyModule
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, OutgoingInvoiceGoodsCreateComponent]
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent]
 })
 export class InvoiceModule {
 }

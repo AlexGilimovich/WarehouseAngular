@@ -12,6 +12,7 @@ import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme
 import {GoodsListModule} from "./goods-list/goods-list.module";
 import {GoodsListContainerComponent} from "./goods-list/goods-list-container/goods-list-container.component";
 import {WarehouseSchemeModule} from "../warehouse-scheme/warehouse-scheme.module";
+import {GoodsChoiceComponent} from "./goods-choice/goods-choice.component";
 
 export const statusMessages:Map<string, string> = new Map([
   ["REGISTERED", "Зарегистрирован"],
@@ -80,16 +81,18 @@ export const goodsRoutes:Routes = [
     FormsModule,
     ReactiveFormsModule,
     WarehouseSchemeModule,
-    
+
     GoodsListModule],
   exports: [
-    GoodsCreateComponent
+    GoodsCreateComponent,
+    GoodsChoiceComponent
   ],
   declarations: [
     GoodsContainerComponent,
     GoodsDetailsComponent,
     // GoodsListComponent,
     GoodsCreateComponent,
+    GoodsChoiceComponent,
     // GoodsListContainerComponent,
     // GoodsStatusSearchComponent,
     // GoodsSearchComponent,

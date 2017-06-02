@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {Goods} from "../../../../goods/goods";
-import {GoodsService} from "../../../../goods/goods.service";
+import {Goods} from "../goods";
+import {GoodsService} from "../goods.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-outgoing-invoice-goods-create',
-  templateUrl: './outgoing-invoice-goods-create.component.html',
-  styleUrls: ['./outgoing-invoice-goods-create.component.scss']
+  selector: 'app-goods-choice',
+  templateUrl: './goods-choice.component.html',
+  styleUrls: ['./goods-choice.component.scss']
 })
-export class OutgoingInvoiceGoodsCreateComponent implements OnInit {
+export class GoodsChoiceComponent implements OnInit {
   goodsForm: FormGroup;
   currentChosenGoods: Goods;
   quantity: number;

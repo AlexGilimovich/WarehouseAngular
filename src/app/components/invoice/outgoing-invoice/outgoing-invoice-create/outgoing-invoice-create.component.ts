@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {TransportCompany} from "../../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../../customer/customer";
@@ -9,27 +9,22 @@ import {Router} from "@angular/router";
 import {GoodsService} from "../../../goods/goods.service";
 import {Goods} from "../../../goods/goods";
 import {Unit} from "../../../goods/unit";
+import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-choice/tr-company-choice.component";
+import {CustomerChoiceComponent} from "../../../customer/customer-choice/customer-choice.component";
 declare const $: any;
 
 @Component({
   selector: 'app-outgoing-invoice-create',
   templateUrl: './outgoing-invoice-create.component.html',
   styleUrls: ['./outgoing-invoice-create.component.scss'],
-  providers: [InvoiceService, TransportCompanyService,
-    WarehouseCustomerCompanyService, GoodsService]
+  providers: [InvoiceService, GoodsService]
 })
 export class OutgoingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
-  transportCompanies: TransportCompany[];
-  chosenTransport: TransportCompany;
-  receiverCompanies: WarehouseCustomerCompany[];
-  chosenReceiver: WarehouseCustomerCompany;
   goodsList: Goods[] = [];
   units: Unit[] = [];
 
   constructor(private invoiceService: InvoiceService,
-              private transportService: TransportCompanyService,
-              private customerService: WarehouseCustomerCompanyService,
               private goodsService: GoodsService,
               private formBuilder: FormBuilder,
               private router: Router) {
@@ -52,12 +47,6 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    this.transportService.getAll().subscribe(data => {
-      this.transportCompanies = data;
-    });
-    this.customerService.getAll().subscribe(data => {
-      this.receiverCompanies = data;
-    });
     this.goodsService.getUnits().subscribe(data => {
       this.units = data;
     });
@@ -72,33 +61,13 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
     });
   }
 
-  refreshTransportCompanies(searchParams: string) {
-    this.transportService.search(searchParams).subscribe(data => {
-      this.transportCompanies = data;
-    });
-  }
-
-  onTransportChosen(company: TransportCompany) {
-    this.chosenTransport = company;
-  }
-
-  saveTransport() {
-    this.invoiceForm.controls['transportCompany'].setValue(this.chosenTransport);
+  saveTransport(company: TransportCompany) {
+    this.invoiceForm.controls['transportCompany'].setValue(company);
     this.closeTransportModal();
   }
 
-  refreshReceiverCompanies(searchParams: string) {
-    this.customerService.search(searchParams).subscribe(data => {
-      this.receiverCompanies = data;
-    });
-  }
-
-  onReceiverChosen(receiver: WarehouseCustomerCompany) {
-    this.chosenReceiver = receiver;
-  }
-
-  saveReceiver() {
-    this.invoiceForm.controls['receiverCompany'].setValue(this.chosenReceiver);
+  saveReceiver(receiver: WarehouseCustomerCompany) {
+    this.invoiceForm.controls['receiverCompany'].setValue(receiver);
     this.closeReceiverModal();
   }
 
