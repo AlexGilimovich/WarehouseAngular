@@ -2,7 +2,7 @@
  * Created by Lenovo on 13.05.2017.
  */
 
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Response} from '@angular/http';
 
 import {WarehouseService} from "../warehouse.service";
@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
 import {marker} from "../../../util/marker";
 import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
+import {BaseChartDirective} from "ng2-charts";
 
 @Component({
   selector: 'app-warehouse',
@@ -24,6 +25,11 @@ export class WarehouseComponent implements OnInit {
   warehouse_search: Warehouse = new Warehouse;
   warehouse: Warehouse[]=[];
 
+  itemsOnPage: number = 5;
+  itemsOnPageArray: number[] = [5,10,15,20];
+  isShowDeleted: boolean = false;
+  isLastPage: boolean = false;
+
   zoom: number = 5;
   lat: number = 48.152047;
   lng: number = 15.134961;
@@ -31,12 +37,10 @@ export class WarehouseComponent implements OnInit {
   markers: marker[] = [];
   object_marker: marker = new marker;
 
-  itemsOnPage: number = 5;
-  itemsOnPageArray: number[] = [5,10,15,20];
-
   public pieChartLabels:string[] = [];
   public pieChartData:number[] = [];
   public pieChartType:string = 'pie';
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public ChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false
@@ -58,9 +62,7 @@ export class WarehouseComponent implements OnInit {
 
 
   constructor(private warehouseSchemeService: WarehouseSchemeService,private warehouseService: WarehouseService, private route:ActivatedRoute, private router:Router){
-    console.log("CHECKED");
     this.page = 1;
-    console.log("ID FROM constructor: "+this.id);
   }
 
   getData(position: number){
@@ -69,21 +71,43 @@ export class WarehouseComponent implements OnInit {
 
       this.initMapMarkers();
 
+      this.clearData();
       for (let i = 0; i < this.warehouse.length; i++) {
-        this.setUpOneValueOfChart(i);
+        //if(this.warehouse[i].status) {
+          this.setUpOneValueOfChart(i);
+        //}
       }
 
+      //this.chart.chart.update();//todo обновляется, но зачёркиваются лейблы
     });
+
+    this.warehouseService.getWarehouse(this.id, position+this.itemsOnPage, this.itemsOnPage).subscribe(data => {
+      if(data.length == 0) {
+        this.isLastPage = true;
+      }
+      else {
+        this.isLastPage = false;
+      }
+    })
+  }
+
+  private clearData() {
+    this.pieChartLabels.splice(0, this.pieChartLabels.length);
+    this.pieChartData.splice(0, this.pieChartData.length);
+    this.barChartData.splice(0, this.barChartData.length);
+    this.barChartLabels.splice(0, this.barChartLabels.length);
   }
 
   private initMapMarkers(){
     for (let i = 0; i < this.warehouse.length; i++) {
-      this.object_marker = new marker;
-      this.object_marker.name = this.warehouse[i].name;
-      this.object_marker.draggable = true;
-      this.object_marker.lat = this.warehouse[i].x;
-      this.object_marker.lng = this.warehouse[i].y;
-      this.markers.push(this.object_marker);
+      if(this.warehouse[i].status) {
+        this.object_marker = new marker;
+        this.object_marker.name = this.warehouse[i].name;
+        this.object_marker.draggable = true;
+        this.object_marker.lat = this.warehouse[i].x;
+        this.object_marker.lng = this.warehouse[i].y;
+        this.markers.push(this.object_marker);
+      }
     }
 
     if(this.warehouse.length != 0){//init first view/coordinates
@@ -97,7 +121,7 @@ export class WarehouseComponent implements OnInit {
     this.barChartLabels.push(this.warehouse[index].name);
 
     this.warehouseSchemeService.getStorageSpace(this.warehouse[index].idWarehouse).subscribe(data => {
-      console.log('Чтение данных');
+      //console.log('Чтение данных');
       let count_cell = 0;
       let free_cell = 0;
       for(let j=0; j<data.length; j++) {
@@ -108,8 +132,6 @@ export class WarehouseComponent implements OnInit {
           }
         }
       }
-      console.log(index, count_cell);
-      console.log(count_cell, free_cell);
 
       //set value to pie chart and bar chart
       this.pieChartData.splice(index, 0, count_cell);
@@ -135,21 +157,18 @@ export class WarehouseComponent implements OnInit {
 
   nextPage(){
     this.page++;
-    console.log(this.itemsOnPage);
     this.getData((this.page-1)*this.itemsOnPage);
   }
 
   prevPage(){
     this.page--;
-    console.log(this.itemsOnPage);
     this.getData((this.page-1)*this.itemsOnPage);
   }
 
   search(){
-    console.log(this.warehouse_search.name);
     this.warehouse_search.warehouseCompany = new WarehouseCompany;
     this.warehouse_search.warehouseCompany.idWarehouseCompany = this.id;
-    console.log(this.warehouse_search.warehouseCompany.idWarehouseCompany);
+
     this.warehouseService.search(this.warehouse_search).subscribe(data => {
       this.warehouse = data;
     });
@@ -157,8 +176,6 @@ export class WarehouseComponent implements OnInit {
 
   ngOnInit(){
     this.route.params.subscribe(params => { this.id = params['id']; });
-    console.log("open method get data warehouse customer");
-    console.log(this.id);
     this.getData(0);
   }
 
@@ -168,23 +185,42 @@ export class WarehouseComponent implements OnInit {
 
   delete(id_warehouse: number) {
     console.log("delte warehouse with id: "+id_warehouse);
+    for(let i=0; i<this.warehouse.length; i++) {
+      if(this.warehouse[i].idWarehouse==id_warehouse) {
+        this.warehouse[i].status = false;
+        let idx = this.pieChartLabels.indexOf(this.warehouse[i].name);
+        if (idx != -1) {
+          console.log("delete labels with id "+ idx);
+          this.pieChartLabels.splice(idx, 1);// Второй параметр - число элементов, которые необходимо удалить
+        }
+        break;
+      }
+    }
     this.warehouseService.delete(id_warehouse).subscribe(data => {
       console.log(data);
     });
   }
 
   registration(id: string){
-    console.log("registration action for warehouse with id:"+id);
-
     this.router.navigate(['./registration'], {relativeTo: this.route});
   }
 
   findSpace(id: string){
-    console.log("call findSpace(id: String)");
-    console.log(id);
     this.router.navigate([id, 'scheme'], {relativeTo: this.route});
   }
 
+  restore(id_warehouse: number){
+    console.log("restore warehouse with id: "+id_warehouse);
+    for(let i=0; i<this.warehouse.length; i++) {
+      if(this.warehouse[i].idWarehouse == id_warehouse) {
+        this.warehouse[i].status = true;
+        break;
+      }
+    }
+    this.warehouseService.delete(id_warehouse).subscribe(data => {
+      console.log(data);
+    });
+  }
 
   // events
   public chartClicked(e:any):void {

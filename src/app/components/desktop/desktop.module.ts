@@ -16,6 +16,8 @@ import {WarehouseCompanyComponent} from "../warehouse-company/warehouse-company-
 import {CustomerListComponent} from "../customer/customer-list/customer-list.component";
 import {IncomingInvoiceListComponent} from "../invoice/incoming-invoice/incoming-invoice-list/incoming-invoice-list.component";
 import {TransportCompanyListComponent} from "../tr-company/tr-company-list/tr-company-list.component";
+import {warehouseRoutes} from "../warehouse/warehouse.module";
+import {warehouseCompanyRoutes} from "../warehouse-company/warehouse-company.module";
 
 export const desktopRoutes:Routes = [
   {
@@ -41,10 +43,10 @@ export const desktopRoutes:Routes = [
     path: "invoices",
     component: IncomingInvoiceListComponent
   },
-  {
+  /*{
     path: "warehousecompany/:id/warehouse",
     component: WarehouseComponent
-  },
+  },*/
   {
     path: "customers",
     component: CustomerListComponent
@@ -58,6 +60,10 @@ export const desktopRoutes:Routes = [
     component: FinanceComponent
   },
   {
+    path: 'warehousecompany/:id',
+    children: warehouseRoutes
+  },
+  {
     path: 'warehousecompany/:id/warehouse/:id_warehouse/scheme',
     children: warehouseSchemeRoutes
   },
@@ -67,7 +73,7 @@ export const desktopRoutes:Routes = [
   // },
   {
     path: "serviceUsers",
-    component: WarehouseCompanyComponent
+    children: warehouseCompanyRoutes
   },
   {
     path: "transportCompanies",

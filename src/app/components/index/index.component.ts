@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {marker} from "../../util/marker";
+import {WarehouseCompanyService} from "../warehouse-company/warehouse-company.service";
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  styleUrls: ['./index.component.scss'],
+  providers: [WarehouseCompanyService]
 })
 export class IndexComponent implements OnInit {
   zoom: number = 5;
@@ -86,10 +88,12 @@ export class IndexComponent implements OnInit {
     }
   ]
 
-  constructor() {
+  constructor(private companyService: WarehouseCompanyService) {
   }
 
   ngOnInit() {
-
+    /*this.companyService.getCompany().subscribe(data => {
+      console.log(data);
+    });*///todo authorization -> break all principle
   }
 }

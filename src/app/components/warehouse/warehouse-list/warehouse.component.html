@@ -12,8 +12,12 @@
     .sebm-google-map-container {
       height: 350px;
     }
+
+    .switch {
+      color: black;
+    }
   </style>
-  </head>
+</head>
 <body>
 <h1 style="text-align: center">Склады</h1>
 <!--<a [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
@@ -28,13 +32,21 @@
   </li>
 </ul>-->
 <div class="input-group">
-  <input class="input-group-field" (keyup)="search()" name="name" [(ngModel)]="warehouse_search.name" placeholder="Название склада...">
+  <input class="input-group-field" (keyup)="search()" name="name" [(ngModel)]="warehouse_search.name"
+         placeholder="Название склада...">
   <div class="input-group-button">
     <input type="submit" class="button" (click)="search()" value="Поиск">
   </div>
 </div>
 <p class="help-text" id="passwordHelpText">Начните вводить название склада</p>
 
+<div class="switch">
+  Показывать удалённые
+  <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch" [(ngModel)]="isShowDeleted">
+  <label class="switch-paddle" for="exampleSwitch">&nbsp; <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+    <span class="show-for-sr">Download Kittens</span>
+  </label>
+</div>
 
 <a><i class="right fi-x icon"></i></a>
 <a><i class="right fi-pencil icon"></i></a>
@@ -53,20 +65,31 @@
   </thead>
   <tbody>
   <tr *ngFor="let company of warehouse">
-    <td><input type="checkbox" value="{{company?.idWarehouse}}"></td>
-    <td>{{company?.idWarehouse}}</td>
-    <td>
+    <td *ngIf="company.status || isShowDeleted"><input type="checkbox" value="{{company?.idWarehouse}}"></td>
+    <td *ngIf="company.status || isShowDeleted">{{company?.idWarehouse}}</td>
+    <td *ngIf="company.status || isShowDeleted">
       <a (click)="findSpace(company.idWarehouse)">{{company?.name}}</a>
     </td>
-    <td><a (click)="edit(company?.idWarehouse)"><i class="fi-pencil icon"></i></a></td>
-    <td><a (click)="delete(company?.idWarehouse)"><i class="fi-x icon"></i></a></td>
+    <td *ngIf="company.status || isShowDeleted">
+      <a (click)="edit(company?.idWarehouse)"><i class="fi-pencil icon"></i></a>
+    </td>
+    <td *ngIf="company.status">
+      <a (click)="delete(company?.idWarehouse)"><i class="fi-x icon"></i></a>
+    </td>
+    <td *ngIf="!company.status && isShowDeleted">
+      <a (click)="restore(company?.idWarehouse)"><i class="fi-trash icon"></i></a>
+    </td>
   </tr>
   </tbody>
 </table>
 <ul class="pagination text-center" role="navigation" aria-label="Pagination">
-  <li class="pagination-previous disabled" (click)="prevPage()" aria-label="Prev page"></li>
+  <li *ngIf="page!=1" class="pagination-previous">
+    <a (click)="prevPage()" aria-label="Prev page"></a>
+  </li>
+  <li *ngIf="page==1" class="pagination-previous disabled" aria-label="Prev page"></li>
   <li class="current"><span class="show-for-sr">Вы на странице</span>{{page}}</li>
-  <li class="pagination-next"><a (click)="nextPage()" aria-label="Next page"></a></li>
+  <li *ngIf="!isLastPage" class="pagination-next"><a (click)="nextPage()" aria-label="Next page"></a></li>
+  <li *ngIf="isLastPage" class="pagination-next disabled" aria-label="Next page"></li>
 
   <div class="item-counter">
     <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getData(0)">
@@ -76,7 +99,7 @@
   <h5 class="item-counter">Отображать по:</h5>
 
 </ul>
-<div style="display: block" *ngIf="isDataAvailable">
+<div class="chart" style="display: block" *ngIf="isDataAvailable">
   <canvas baseChart
           [data]="pieChartData"
           [labels]="pieChartLabels"
@@ -88,7 +111,7 @@
 </div>
 
 <div>
-  <div style="display: block" *ngIf="isDataAvailable">
+  <div class="chart" style="display: block" *ngIf="isDataAvailable">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
@@ -114,8 +137,8 @@
       (markerClick)="clickedMarker(m, i)"
       [latitude]="m.lat"
       [longitude]="m.lng"
-      [markerDraggable] = "m.draggable"
-      (dragEnd) = "markerDragEnd(m , $event)"
+      [markerDraggable]="m.draggable"
+      (dragEnd)="markerDragEnd(m , $event)"
     >
       <sebm-google-map-info-window>
         <strong>{{m.name}}</strong>

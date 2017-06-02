@@ -20,6 +20,11 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   id_type: number;
   isPutAction: boolean;
 
+  isShowDeletedSpace: boolean = false;
+  isShowDeletedCell: boolean = false;
+  showNotificationSuccess: boolean = false;
+  showNotificationError: boolean = false;
+
   constructor(private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
     console.log("CHECKED");
     route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
@@ -28,6 +33,14 @@ export class WarehouseSchemeInfoComponent implements OnInit {
       this.isPutAction = true;
     }
     console.log("ID FROM constructor WarehouseSchemeInfoComponent: "+this.id_warehouse);
+  }
+
+  closeNotificationSuccess(){
+    this.showNotificationSuccess = false;
+  }
+
+  closeNotificationError(){
+    this.showNotificationError = false;
   }
 
   addSpace(id_warehouse: number){
@@ -51,6 +64,12 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   putInCell(cell: StorageCell){
+    for(let i=0; i<this.cells.length; i++) {
+      if(this.cells[i].idStorageCell == cell.idStorageCell) {
+        this.cells.splice(i, 1);
+        return;
+      }
+    }
     this.cells.push(cell);
     console.log("ID: "+cell.idStorageCell);
   }
@@ -60,11 +79,53 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     this.service.checkout(this.cells);
   }
 
-  deleteSpace(id: string){
+  deleteSpace(id: number){
+    this.showNotificationSuccess = true;//todo make it real
     console.log(id);
+    for(let i=0; i<this.storageSpace.length; i++) {
+      if(this.storageSpace[i].idStorageSpace == id) {
+        this.storageSpace[i].status = false;
+        break;
+      }
+    }
     this.service.deleteSpace(id).subscribe(data => {
       console.log(data);
     });
+  }
+
+  restoreSpace(id: number){//todo or union it in the one method
+    console.log(id);
+    for(let i=0; i<this.storageSpace.length; i++) {
+      if(this.storageSpace[i].idStorageSpace == id) {
+        this.storageSpace[i].status = true;
+        break;
+      }
+    }
+    this.service.deleteSpace(id).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  /**
+   * return css-class for determined storage type
+   **/
+  getClassSpace(space: StorageSpace){
+    if(space.storageSpaceType.name == 'Холодильная камера') return 'icecamera';
+    if(space.storageSpaceType.name == 'Отапливаемое помещение') return 'heated';
+    if(space.storageSpaceType.name == 'Неотапливаемое помещение') return 'noheated';
+    if(space.storageSpaceType.name == 'Открытая площадка') return 'open';
+    if(space.storageSpaceType.name == 'Камера глубокой заморозки') return 'icedeepcamera';
+  }
+
+  getClass(id_cell: number){
+    let isSelected: boolean=false;
+    for(let i=0; i<this.cells.length; i++) {
+      if(this.cells[i].idStorageCell == id_cell) {
+        isSelected = true;
+        break;
+      }
+    }
+    return isSelected ? 'cell-selected' : 'cell-disable';
   }
 
   ngOnInit(){

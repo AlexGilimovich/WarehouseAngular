@@ -164,7 +164,7 @@ export class WarehouseSchemeService {
     }
   }
 
-  deleteSpace(id: string){
+  deleteSpace(id: number){
     const url = Host.URL + "storage/delete/"+id;
 
     const headers = new Headers();
