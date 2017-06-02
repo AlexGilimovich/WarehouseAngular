@@ -14,12 +14,12 @@
     <th (click)="sort('status')">Статус</th>
     <th (click)="sort('storageCell')">Ячейка</th>
   </tr>
-  <tr *ngFor="let goods of goodsList;let i=index;" (click)="addToSelected(goods)">
+  <tr *ngFor="let goods of goodsList;let i=index;" (click)="addToSelected(goods)" class="clickable">
     <td *ngIf="isEditable">
-      <input  type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
+      <input type="checkbox" [(ngModel)]="goods.selected" value="{{goods.goods.id}}"
              (change)="selectOneEvent($event)">
     </td>
-    <td class="clickable" >
+    <td>
       <span (click)="goToDetails(goods.goods.id)">{{goods.goods.name}}</span>
     </td>
     <td>
@@ -44,7 +44,8 @@
       {{goods.goods.weightUnit.name}}
     </td>
     <td>
-      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.currentStatus?.name" [disabled]="!isEditable"
+      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.currentStatus?.name"
+              [disabled]="!isEditable"
               (ngModel)="goods.goods.currentStatus.name" (change)="statusChangedEvent($event, goods)">
         <option *ngFor="let statusName of statusNames" [value]="statusName.name">
           {{statusMessages.get(statusName.name)}}

@@ -21,12 +21,12 @@ import {WarehouseCreateComponent} from "./components/warehouse/warehouse-create/
 import {WarehouseComponent} from "./components/warehouse/warehouse-list/warehouse.component";
 import {WarehouseService} from "./components/warehouse/warehouse.service";
 import {AgmCoreModule} from "angular2-google-maps/core";
-import {LocalStorageModule} from "angular-2-local-storage";
 import {FinanceModule} from "./components/finance/finance.module";
 import {ChartsModule} from "ng2-charts";
 import {SpinnerModule} from "angular2-spinner/dist";
 import {DesktopComponent} from "./components/desktop/desktop.component";
 import {DesktopModule, desktopRoutes} from "./components/desktop/desktop.module";
+import {Ng2Webstorage} from "ng2-webstorage/dist/app";
 
 
 const globalRoutes:Routes = [
@@ -93,10 +93,7 @@ const globalRoutes:Routes = [
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB8C9_ZetYZUMduJ2TOXBkHr8yulXfo1WU'
     }),
-    LocalStorageModule.withConfig({
-      prefix: 'my-app',
-      storageType: 'localStorage'
-    }),
+    Ng2Webstorage,
     ChartsModule,
     BrowserModule,
     FormsModule,

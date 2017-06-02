@@ -5,22 +5,30 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {Warehouse} from "../warehouse/warehouse";
 import {WarehouseCompany} from "../warehouse-company/warehouse-company";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {Role} from "../user/role";
-import {LocalStorageService} from "angular-2-local-storage";
+import {SessionStorage, SessionStorageService, LocalStorageService} from "ng2-webstorage";
 
 const URL:string = "http://localhost:8080/web/web/login";
 
 @Injectable()
 export class LoginService {
+
+  @SessionStorage()
   private authenticatedUser:User;
 
   constructor(private http:Http,
-              private localStorageService:LocalStorageService) {
-    this.authenticatedUser = new User();
-    this.authenticatedUser.login = "root";
-    this.authenticatedUser.password = "root";
-    this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
+              private localStorageService:LocalStorageService,
+              private sessionStorageService:SessionStorageService) {
+    let user = <User>sessionStorageService.retrieve("authenticatedUser");
+    if (user) {
+      this.authenticatedUser = User.create(user);
+    }
+
+    // this.authenticatedUser = new User();
+    // this.authenticatedUser.login = "root";
+    // this.authenticatedUser.password = "root";
+    // this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
 
   }
 
@@ -30,8 +38,8 @@ export class LoginService {
 
 
   public checkLocalStorage():User {
-    if (this.localStorageService.get("user")) {
-      this.authenticatedUser = <User>this.localStorageService.get("user");
+    if (this.localStorageService.retrieve("user")) {
+      this.authenticatedUser = <User>this.localStorageService.retrieve("user");
       return this.authenticatedUser;
     }
   }
@@ -78,7 +86,7 @@ export class LoginService {
         }
         this.authenticatedUser = user;
         if (rememberMe) {
-          this.localStorageService.add("user", user);
+          this.localStorageService.store("user", user);
         }
         return user.roles;
       }
@@ -88,7 +96,7 @@ export class LoginService {
   public logout(user:User):Observable<boolean> {
     return Observable.create(
       observer=> {
-        this.localStorageService.remove("user");
+        this.localStorageService.clear("user");
         return observer.next(true);
       }
     )

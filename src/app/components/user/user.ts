@@ -23,6 +23,26 @@ export class User {
 
   }
 
+  public static create(user) {
+    let newUser = new User;
+    newUser.id = user.id;
+    newUser.lastName = user.lastName;
+    newUser.login = user.login;
+    newUser.password = user.password;
+    newUser.firstName = user.firstName;
+    newUser.patronymic = user.patronymic
+    newUser.dateOfBirth = user.dateOfBirth;
+    newUser.email = user.email;
+    newUser.city = user.city;
+    newUser.street = user.street;
+    newUser.house = user.house;
+    newUser.apartment = user.apartment;
+    newUser.roles = user.roles;
+    newUser.warehouse = user.warehouse;
+    newUser.warehouseCompany = user.warehouseCompany;
+    return newUser;
+  }
+
   // public hasRole(role:Role):boolean {
   //   for (let r of this.roles)
   //     if (r.role === role.role) return true;

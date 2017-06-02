@@ -59,6 +59,10 @@
             <div class="large-5 small-5 columns">
               <textarea name="note" id="note" cols="30" rows="10" required
                         [formControl]="actForm.controls['note']"></textarea>
+              <div class="callout alert"
+                   *ngIf="actForm.controls['note'].hasError('required') && actForm.get('note').touched">
+                Поле "Примечание" не может быть пустым
+              </div>
             </div>
           </div>
         </div>
