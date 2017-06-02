@@ -6,6 +6,7 @@ import {TransportCompanyService} from "./tr-company.service";
 import { TransportCompanyCreateComponent } from './tr-company-create/tr-company-create.component';
 import { TransportCompanyDetailsComponent } from './tr-company-details/tr-company-details.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { TransportCompanyChoiceComponent } from './tr-company-choice/tr-company-choice.component';
 
 export const transportCompanyRoutes: Routes = [
   {
@@ -30,7 +31,8 @@ export const transportCompanyRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [TransportCompanyListComponent, TransportCompanyCreateComponent, TransportCompanyDetailsComponent],
+  exports: [TransportCompanyChoiceComponent],
+  declarations: [TransportCompanyListComponent, TransportCompanyCreateComponent, TransportCompanyDetailsComponent, TransportCompanyChoiceComponent],
   providers: [TransportCompanyService]
 })
 export class TransportCompanyModule { }
