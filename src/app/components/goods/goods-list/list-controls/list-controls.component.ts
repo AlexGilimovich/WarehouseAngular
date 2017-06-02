@@ -12,6 +12,7 @@ export class ListControlsComponent implements OnInit {
   @Output() private onOpenStatusModal = new EventEmitter();
   @Input() private hasChanged:boolean = false;
   @Input() private hasSelected:boolean = false;
+  
 
   constructor() {
   }

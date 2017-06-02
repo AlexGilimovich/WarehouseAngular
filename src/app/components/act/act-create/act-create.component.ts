@@ -22,14 +22,17 @@ import {Act} from "../act";
 })
 export class ActCreateComponent implements OnInit {
   private actTypeNames:ActTypeName[];
-  private goodsList:Goods[] = [];
+  private selectedGoodsList:Goods[] = [];
   private selectedIdList:string[] = [];
   private hasSelected:boolean;
   private user:User;
   private currentDate:Date;
   private warehouseId:string; //todo
 
-  private statusNames:GoodsStatusName[];
+  private goodsList:any[] = [];
+  private totalGoodsCount:number;
+
+  private statusNames:GoodsStatusName[] = [];
   private storageTypes:StorageSpaceType[];
   private units:Unit[];
   @ViewChild(GoodsListComponent)
@@ -70,7 +73,21 @@ export class ActCreateComponent implements OnInit {
     );
     this.goodsService.getStatusNames().subscribe(
       (res) => {
-        this.statusNames = res;
+        res.forEach(
+          item=> {
+            if (item.name != 'MOVED_OUT' &&
+              item.name != 'STOLEN' &&
+              item.name != 'SEIZED' &&
+              item.name != 'TRANSPORT_COMPANY_MISMATCH' &&
+              item.name != 'LOST_BY_TRANSPORT_COMPANY' &&
+              item.name != 'RECYCLED' &&
+              item.name != 'LOST_BY_WAREHOUSE_COMPANY') {
+              this.statusNames.push(item);
+            }
+          }
+        );
+
+
         this.statusNames.push(new GoodsStatusName(null, ''));
       },
       (err)=> {
@@ -97,6 +114,54 @@ export class ActCreateComponent implements OnInit {
         console.error(err);
       }
     );
+    this.goodsService.actApplicableList(this.warehouseId, 1, 10).subscribe(
+      (res) => {
+        res.goods.forEach(
+          goods => {
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
+          }
+        );
+        this.totalGoodsCount = res.count;
+      },
+      (err:any) => {
+        console.error(err);
+      }
+    );
+  }
+
+
+  private getGoods(object) {
+    this.goodsList = [];
+    this.goodsService.actApplicableList(this.warehouseId, object.page, object.itemsOnPage).subscribe(
+      (res) => {
+        res.goods.forEach(
+          goods=> {
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
+          }
+        );
+        this.totalGoodsCount = res.count;
+      },
+      (err:any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private search(object) {
+    this.goodsList = [];
+    this.goodsService.search(object.searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
+      (res:any) => {
+        (<Goods[]>res.goods).forEach(
+          goods=> {
+            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
+          }
+        );
+        this.totalGoodsCount = res.count;
+      },
+      (err:any) => {
+        console.error(err);
+      }
+    );
   }
 
   private close() {
@@ -106,7 +171,7 @@ export class ActCreateComponent implements OnInit {
   private save() {
     let act:Act = new Act();
     act.type = this.actForm.controls['actType'].value;
-    act.goodsList = this.goodsList;
+    act.goodsList = this.selectedGoodsList;
     act.note = this.actForm.controls['note'].value;
     act.warehouseId = this.warehouseId;
 
@@ -120,46 +185,53 @@ export class ActCreateComponent implements OnInit {
     )
   }
 
-  private addGoods() {
-    let selectedGoods:Goods[] = this.goodsListComponent.getSelectedGoods().filter(
-      item=> {
-        return !this.isAlreadySelected(item.id);
-      }
-    ).map(
-      item=> {
-        let goods = new Goods();
-        goods.id = item.id;
-        goods.name = item.name;
-        goods.quantity = item.quantity;
-        goods.quantityUnit = item.quantityUnit;
-        goods.weight = item.weight;
-        goods.weightUnit = item.weightUnit;
-        goods.price = item.price;
-        goods.priceUnit = item.priceUnit;
-        goods.storageType = item.storageType;
-        return goods;
-      }
-    );
-    this.goodsList = this.goodsList.concat(selectedGoods);
-    selectedGoods.forEach(
-      (item, index)=> {
-        (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));
-        this.selectedIdList.push(item.id);
-      }
-    )
-  }
+  // private addGoods() {
+  //   let selectedGoods:Goods[] = this.goodsListComponent.getSelectedGoods().filter(
+  //     item=> {
+  //       return !this.isAlreadySelected(item.id);
+  //     }
+  //   ).map(
+  //     item=> {
+  //       let goods = new Goods();
+  //       goods.id = item.id;
+  //       goods.name = item.name;
+  //       goods.quantity = item.quantity;
+  //       goods.quantityUnit = item.quantityUnit;
+  //       goods.weight = item.weight;
+  //       goods.weightUnit = item.weightUnit;
+  //       goods.price = item.price;
+  //       goods.priceUnit = item.priceUnit;
+  //       goods.storageType = item.storageType;
+  //       return goods;
+  //     }
+  //   );
+  //   this.selectedGoodsList = this.selectedGoodsList.concat(selectedGoods);
+  //   selectedGoods.forEach(
+  //     (item, index)=> {
+  //       (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));
+  //       this.selectedIdList.push(item.id);
+  //     }
+  //   )
+  // }
 
   private isAlreadySelected(goods) {
     return this.selectedIdList.includes(goods);
   }
 
   private onSelected(event) {
-    this.hasSelected = event;
-
+    // this.hasSelected = event;
+    if (this.isAlreadySelected(event.goods.id)) {
+      return;
+    } else {
+      this.selectedGoodsList.push(event.goods);
+      this.selectedGoodsList = this.selectedGoodsList.slice(0);//copy of array so in act-goods component will be detected changes
+      (<FormArray>this.actForm.controls['goods']).push(new FormControl(event.goods.id));
+      this.selectedIdList.push(event.goods.id);
+    }
   }
 
   private onRemoved(goods:Goods) {
-    this.goodsList.splice(this.goodsList.findIndex(
+    this.selectedGoodsList.splice(this.selectedGoodsList.findIndex(
       item=> {
         return item.id == goods.id;
       }

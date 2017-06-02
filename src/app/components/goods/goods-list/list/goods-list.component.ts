@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy, OnChanges} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {GoodsService} from "../../goods.service";
 import {GoodsStatusName} from "../../goodsStatusName";
@@ -15,12 +15,15 @@ declare var $:any;
   templateUrl: './goods-list.component.html',
   styleUrls: ['./goods-list.component.scss']
 })
-export class GoodsListComponent implements OnInit {
+export class GoodsListComponent implements OnInit, OnChanges {
   private warehouseId;
-  private goodsList:any[] = [];
+  @Input() private goodsList:any[];
   @Input() private statusNames:GoodsStatusName[];
+  @Output() private onGetPage = new EventEmitter<any>();
+  @Output() private onSearch = new EventEmitter<any>();
   @Output() private onChanged = new EventEmitter<boolean>();
   @Output() private onSelected = new EventEmitter<boolean>();
+  @Output() private onAddToSelected = new EventEmitter<Goods>();
   private statusMessages = statusMessages;
   //status which set to all selected goods
   private batchStatus = {name: '', note: ''};
@@ -31,14 +34,16 @@ export class GoodsListComponent implements OnInit {
 
   private sortingDirection = "UP";
 
-  @Input() private isEditable = true;
+  @Input() private isEditable = false;
   private isStatusEditable = true;
 
   //pagination
+  @Input() private totalItemsCount:number;
+
   private itemsOnPageArray = [10, 20];
   private currentPage:number = 1;
   private itemsOnPage:number = this.itemsOnPageArray[0];
-  private totalItemsCount;
+  // private totalItemsCount;
   private pageArray;
   private totalPageCount;
   private displayedPageCount = 7;//constant: number of pages in pagination
@@ -61,32 +66,12 @@ export class GoodsListComponent implements OnInit {
 
   ngOnInit() {
     $("body").foundation();
-    this.goodsService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe(
-      (res) => {
-        res.goods.forEach(
-          goods => {
-            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
-          }
-        );
-        this.totalItemsCount = res.count;
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(pages / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(pages / 2))
-            return e - Math.floor(pages / 2) + i;
-          else
-            return this.totalPageCount - (pages - 1) + i;
-        }).filter(val=>val > 0);
-      },
-      (err:any) => {
-        console.error(err);
-      }
-    );
-  }
-  
 
+  }
+
+  public addToSelected(goods:Goods) {
+    this.onAddToSelected.emit(goods);
+  }
 
   public getSelectedGoods():Goods[] {
     return this.goodsList.filter(
@@ -98,6 +83,21 @@ export class GoodsListComponent implements OnInit {
         return item.goods;
       }
     )
+  }
+
+  ngOnChanges() {
+    if (this.goodsList) {
+      this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+      let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+      this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
+        if (e < Math.ceil(pages / 2) + 1) {
+          return i + 1;
+        } else if (e < this.totalPageCount - Math.floor(pages / 2))
+          return e - Math.floor(pages / 2) + i;
+        else
+          return this.totalPageCount - (pages - 1) + i;
+      }).filter(val=>val > 0);
+    }
   }
 
   public getPage(page:number, searchDTO?:GoodsSearchDTO) {
@@ -115,55 +115,32 @@ export class GoodsListComponent implements OnInit {
   }
 
   private getGoods(page) {
-    this.goodsService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
-      (res) => {
-        res.goods.forEach(
-          goods=> {
-            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
-          }
-        );
-        this.totalItemsCount = res.count;
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(displayedPageCount / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
-            return e - Math.floor(displayedPageCount / 2) + i;
-          else
-            return this.totalPageCount - (displayedPageCount - 1) + i;
-        }).filter(val=>val > 0);
-      },
-      (err:any) => {
-        console.error(err);
-      }
-    );
+    this.onGetPage.emit({page: page, itemsOnPage: this.itemsOnPage});
+    this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+    let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+    this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+      if (e < Math.ceil(displayedPageCount / 2) + 1) {
+        return i + 1;
+      } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+        return e - Math.floor(displayedPageCount / 2) + i;
+      else
+        return this.totalPageCount - (displayedPageCount - 1) + i;
+    }).filter(val=>val > 0);
   }
 
+
   private search(searchDTO:GoodsSearchDTO, page) {
-    this.goodsService.search(searchDTO, this.warehouseId, page, this.itemsOnPage).subscribe(
-      (res) => {
-        res.goods.forEach(
-          goods=> {
-            this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
-          }
-        );
-        this.totalItemsCount = res.count;
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(displayedPageCount / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
-            return e - Math.floor(displayedPageCount / 2) + i;
-          else
-            return this.totalPageCount - (displayedPageCount - 1) + i;
-        }).filter(val=>val > 0);
-      },
-      (err:any) => {
-        console.error(err);
-      }
-    );
+    this.onSearch.emit({searchDTO: searchDTO, page: page, itemsOnPage: this.itemsOnPage});
+    this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+    let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+    this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+      if (e < Math.ceil(displayedPageCount / 2) + 1) {
+        return i + 1;
+      } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+        return e - Math.floor(displayedPageCount / 2) + i;
+      else
+        return this.totalPageCount - (displayedPageCount - 1) + i;
+    }).filter(val=>val > 0);
   }
 
   private goToDetails(id:string):void {
@@ -283,8 +260,6 @@ export class GoodsListComponent implements OnInit {
     this.goodsService.selectedForPuttingGoodsSource.next(goods.goods);
     this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
   }
-
-
 
 
   public openStatusModal():void {

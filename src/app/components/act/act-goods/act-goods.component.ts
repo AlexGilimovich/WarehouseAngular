@@ -56,12 +56,6 @@ export class ActGoodsComponent implements OnInit, OnChanges {
           this.goodsList[index].price = this.round(event.target.value / this.goodsInitialState[index].quantity* this.goodsInitialState[index].price,2).toString();
         }
         break;
-      // case "weight":
-      //   event.target.value > this.goodsInitialState[index].weight ? event.target.value = this.goodsInitialState[index].weight : event.target.value;
-      //   break;
-      // case "price":
-      //   event.target.value > this.goodsInitialState[index].price ? event.target.value = this.goodsInitialState[index].price : event.target.value;
-      //   break;
       default:
         break;
 

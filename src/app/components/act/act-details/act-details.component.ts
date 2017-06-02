@@ -35,7 +35,7 @@ export class ActDetailsComponent implements OnInit {
     )
   }
 
-  private back(){
+  private close(){
     this.location.back();
   }
 

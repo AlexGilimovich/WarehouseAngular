@@ -20,12 +20,13 @@ export class GoodsSearchComponent implements OnInit {
   @Input() private statusNames:GoodsStatusName[];
   @Input() private units:Unit[];
   @Input() private storageTypes:StorageSpaceType[];
+  @Input() private statusSearcheable:boolean = true;
   private unitMessages = unitMessages;
   private storageTypeMessages = storageTypeMessages;
   private searchDTO:GoodsSearchDTO;
   private subscription:Subscription;
   private subscriptionValidation:Subscription;
-  private isValid: boolean = true;
+  private isValid:boolean = true;
 
   constructor(private searchService:SearchService) {
     this.searchDTO = new GoodsSearchDTO();

@@ -70,6 +70,12 @@ export class LoginService {
               str.warehouse.warehouseCompany.name,
               str.warehouse.warehouseCompany.status
             ));
+        if (str.warehouseCompany !== null) {
+          user.warehouseCompany = new WarehouseCompany(str.warehouseCompany.idWarehouseCompany,
+            str.warehouseCompany.name,
+            str.warehouseCompany.status
+          );
+        }
         this.authenticatedUser = user;
         if (rememberMe) {
           this.localStorageService.add("user", user);

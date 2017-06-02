@@ -58,7 +58,7 @@ export class GoodsService {
       let count:string = response.headers.get("x-total-count");
       return {
         goods: (<any>response.json()).map(
-          item=> {
+          (item:any)=> {
             let goods = new Goods();
             goods.id = item.id;
             goods.name = item.name;
@@ -78,12 +78,178 @@ export class GoodsService {
               }
             )
             goods.currentStatus = item.currentStatus ?
-                new GoodsStatus(
-                  item.currentStatus.id,
-                  item.currentStatus.date,
-                  item.currentStatus.name,
-                  item.currentStatus.note
-                ) : null;
+              new GoodsStatus(
+                item.currentStatus.id,
+                item.currentStatus.date,
+                item.currentStatus.name,
+                item.currentStatus.note
+              ) : null;
+            goods.registeredStatus = item.registeredStatus ?
+              new GoodsStatus(
+                item.registeredStatus.id,
+                item.registeredStatus.date,
+                item.registeredStatus.name,
+                item.registeredStatus.note
+              ) : null;
+            goods.movedOutStatus = item.movedOutStatus ?
+              new GoodsStatus(
+                item.movedOutStatus.id,
+                item.movedOutStatus.date,
+                item.movedOutStatus.name,
+                item.movedOutStatus.note
+              ) : null;
+            return goods;
+          }),
+        count: count
+      }
+    });
+
+  }
+  invoiceList(id:string):Observable<any> {
+    const url:string = `${LIST_URL}${"/invoice/"}${id}}`;
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response:Response)=> {
+      let count:string = response.headers.get("x-total-count");
+      return {
+        goods: (<any>response.json()).map(
+          (item:any)=> {
+            let goods = new Goods();
+            goods.id = item.id;
+            goods.name = item.name;
+            goods.quantity = item.quantity;
+            goods.weight = item.weight;
+            goods.price = item.price;
+            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+            goods.cells = item.cells.map(
+              item=> {
+                let storageCell = new StorageCell();
+                storageCell.number = item.number;
+                storageCell.idStorageCell = item.idStorageCell;
+                return storageCell;
+              }
+            )
+            goods.currentStatus = item.currentStatus ?
+              new GoodsStatus(
+                item.currentStatus.id,
+                item.currentStatus.date,
+                item.currentStatus.name,
+                item.currentStatus.note
+              ) : null;
+            goods.registeredStatus = item.registeredStatus ?
+              new GoodsStatus(
+                item.registeredStatus.id,
+                item.registeredStatus.date,
+                item.registeredStatus.name,
+                item.registeredStatus.note
+              ) : null;
+            goods.movedOutStatus = item.movedOutStatus ?
+              new GoodsStatus(
+                item.movedOutStatus.id,
+                item.movedOutStatus.date,
+                item.movedOutStatus.name,
+                item.movedOutStatus.note
+              ) : null;
+            return goods;
+          }),
+        count: count
+      }
+    });
+
+  }
+
+  storedList(id:string, page:number, count:number):Observable<any> {
+    const url:string = `${LIST_URL}${"/"}${id}${"/stored"}${"?page="}${page}${"&count="}${count}`;
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response:Response)=> {
+      let count:string = response.headers.get("x-total-count");
+      return {
+        goods: (<any>response.json()).map(
+          (item:any)=> {
+            let goods = new Goods();
+            goods.id = item.id;
+            goods.name = item.name;
+            goods.quantity = item.quantity;
+            goods.weight = item.weight;
+            goods.price = item.price;
+            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+            goods.cells = item.cells.map(
+              item=> {
+                let storageCell = new StorageCell();
+                storageCell.number = item.number;
+                storageCell.idStorageCell = item.idStorageCell;
+                return storageCell;
+              }
+            )
+            goods.currentStatus = item.currentStatus ?
+              new GoodsStatus(
+                item.currentStatus.id,
+                item.currentStatus.date,
+                item.currentStatus.name,
+                item.currentStatus.note
+              ) : null;
+            goods.registeredStatus = item.registeredStatus ?
+              new GoodsStatus(
+                item.registeredStatus.id,
+                item.registeredStatus.date,
+                item.registeredStatus.name,
+                item.registeredStatus.note
+              ) : null;
+            goods.movedOutStatus = item.movedOutStatus ?
+              new GoodsStatus(
+                item.movedOutStatus.id,
+                item.movedOutStatus.date,
+                item.movedOutStatus.name,
+                item.movedOutStatus.note
+              ) : null;
+            return goods;
+          }),
+        count: count
+      }
+    });
+  }
+
+  actApplicableList(id:string, page:number, count:number):Observable<any> {
+    const url:string = `${LIST_URL}${"/"}${id}${"/act_applicable"}${"?page="}${page}${"&count="}${count}`;
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response:Response)=> {
+      let count:string = response.headers.get("x-total-count");
+      return {
+        goods: (<any>response.json()).map(
+          (item:any)=> {
+            let goods = new Goods();
+            goods.id = item.id;
+            goods.name = item.name;
+            goods.quantity = item.quantity;
+            goods.weight = item.weight;
+            goods.price = item.price;
+            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+            goods.cells = item.cells.map(
+              item=> {
+                let storageCell = new StorageCell();
+                storageCell.number = item.number;
+                storageCell.idStorageCell = item.idStorageCell;
+                return storageCell;
+              }
+            )
+            goods.currentStatus = item.currentStatus ?
+              new GoodsStatus(
+                item.currentStatus.id,
+                item.currentStatus.date,
+                item.currentStatus.name,
+                item.currentStatus.note
+              ) : null;
             goods.registeredStatus = item.registeredStatus ?
               new GoodsStatus(
                 item.registeredStatus.id,
@@ -133,7 +299,7 @@ export class GoodsService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response) => {
-      const item = response.json();
+      const item = <any>response.json();
       let goods = new Goods();
       goods.id = item.id;
       goods.name = item.name;
@@ -261,7 +427,7 @@ export class GoodsService {
       let count:string = response.headers.get("x-total-count");
       return {
         goods: (<any>response.json()).map(
-          item=> {
+          (item:any)=> {
             let goods = new Goods();
             goods.id = item.id;
             goods.name = item.name;

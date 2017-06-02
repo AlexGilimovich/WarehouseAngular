@@ -1,5 +1,6 @@
 import {Role} from "./role";
 import {Warehouse} from "../warehouse/warehouse";
+import {WarehouseCompany} from "../warehouse-company/warehouse-company";
 
 export class User {
   public id:number;
@@ -16,6 +17,8 @@ export class User {
   public apartment:string;
   public roles:Role[];
   public warehouse:Warehouse;
+  public warehouseCompany:WarehouseCompany;
+
   constructor() {
 
   }

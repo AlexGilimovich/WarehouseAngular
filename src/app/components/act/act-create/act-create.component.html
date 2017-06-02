@@ -1,7 +1,7 @@
 <div class="callout">
-  <button class="close-button" type="button" (click)="close()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <!--<button class="close-button" type="button" (click)="close()">-->
+    <!--<span aria-hidden="true">&times;</span>-->
+  <!--</button>-->
   <div class="form-container">
     <form class="form" [formGroup]="actForm" (ngSubmit)="save()">
       <div class="row">
@@ -57,12 +57,12 @@
               <label for="note" class="right">Примечание:</label>
             </div>
             <div class="large-5 small-5 columns">
-              <textarea name="note" id="note" cols="30" rows="10" required [formControl]="actForm.controls['note']"></textarea>
+              <textarea name="note" id="note" cols="30" rows="10" required
+                        [formControl]="actForm.controls['note']"></textarea>
             </div>
           </div>
         </div>
       </div>
-
 
 
       <div class="row">
@@ -72,7 +72,10 @@
               Выбранные товары:
             </div>
             <div class="large-10 small-10 columns">
-              <app-act-goods [isEditable]="true" [goodsList]="goodsList" *ngIf="goodsList?.length > 0" (onRemoved)="onRemoved($event)"></app-act-goods>
+              <app-act-goods *ngIf="selectedGoodsList?.length > 0"
+                             [isEditable]="true"
+                             [goodsList]="selectedGoodsList"
+                             (onRemoved)="onRemoved($event)"></app-act-goods>
               <div class="callout alert"
                    *ngIf="actForm.controls['goods'].hasError('noSelectedGoods')">
                 Нет выбранных товаров
@@ -92,14 +95,22 @@
                     <li class="accordion-item" data-accordion-item>
                       <a class="accordion-title">Параметры поиска</a>
                       <div class="accordion-content" data-tab-content>
-                        <app-goods-search [statusNames]="statusNames" [storageTypes]="storageTypes"
+                        <app-goods-search [statusNames]="statusNames"
+                                          [storageTypes]="storageTypes"
+                                          [statusSearcheable]="false"
                                           [units]="units"></app-goods-search>
                       </div>
                     </li>
                   </ul>
                 </div>
                 <div class="large-12 small-12 columns">
-                  <app-goods-list [isEditable]="false" [statusNames]="statusNames" (onSelected)="onSelected($event)" ></app-goods-list>
+                  <app-goods-list [isEditable]="false"
+                                  [statusNames]="statusNames"
+                                  [goodsList]="goodsList"
+                                  [totalItemsCount]="totalGoodsCount"
+                                  (onGetPage)="getGoods($event)"
+                                  (onSearch)="search($event)"
+                                  (onAddToSelected)="onSelected($event)"></app-goods-list>
                 </div>
               </div>
             </div>
@@ -110,13 +121,15 @@
 
       <div class="row">
         <div class="large-12 small-12 columns button-right">
-          <button class="button" type="button" (click)="addGoods()" [disabled]="!hasSelected">
+          <button class="button" type="button" (click)="addGoods()" [disabled]="!hasSelected" *ngIf="false">
             <span aria-hidden="true">
               <i class="fi-plus"></i> Добавить выбранные
             </span>
           </button>
 
           <input class="button" type="submit" [disabled]="!actForm.valid" value="Сохранить">
+          <input class="button" type="button" value="Отмена" (click)="close()">
+
         </div>
       </div>
     </form>

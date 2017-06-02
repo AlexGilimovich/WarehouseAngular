@@ -6,7 +6,8 @@
           <!-- Accordion tab title -->
           <a class="accordion-title">Параметры поиска</a>
           <div class="accordion-content" data-tab-content>
-            <app-goods-search [statusNames]="statusNames" [storageTypes]="storageTypes"
+            <app-goods-search [statusNames]="statusNames"
+                              [storageTypes]="storageTypes"
                               [units]="units"></app-goods-search>
           </div>
         </li>
@@ -15,12 +16,17 @@
   </div>
   <div class="row">
     <div class="large-12 small-12 columns">
-    <app-goods-list [statusNames]="statusNames" (onChanged)="onChanged($event)"
-                    (onSelected)="onSelected($event)" [isEditable]=true></app-goods-list>
-  </div>
+      <app-goods-list [statusNames]="statusNames"
+                      [goodsList]="goodsList"
+                      [totalItemsCount]="totalGoodsCount"
+                      (onGetPage)="getGoods($event)"
+                      (onSearch)="search($event)"
+                      (onSelected)="onSelected($event)"
+                      [isEditable]="isEditable"></app-goods-list>
+    </div>
   </div>
 
-  <app-list-controls (onSaveChanges)="saveChanges()"
+  <app-list-controls *ngIf="isEditable" (onSaveChanges)="saveChanges()"
                      (onCancelChanges)="cancelChanges()"
                      (onOpenStatusModal)="batchStatusUpdate()"
                      [hasChanged]="hasChanged"

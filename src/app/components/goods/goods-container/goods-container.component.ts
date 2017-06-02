@@ -1,7 +1,6 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
 import {Subscription} from "rxjs";
-import {StorageCell} from "../../warehouse-scheme/storage-cell";
 import {GoodsService} from "../goods.service";
 
 @Component({
@@ -43,6 +42,7 @@ export class GoodsContainerComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
   }
+
 
   private putInStorage(goods) {
     // this.goodsService.putInStorage(this.goodsList.filter(
