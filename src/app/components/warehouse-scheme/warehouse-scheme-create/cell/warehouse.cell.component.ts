@@ -30,6 +30,10 @@ export class WarehouseCellComponent implements OnInit {
   constructor(private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
     route.params.subscribe(params => { this.cell.idStorageSpace = params['id_space']; });
     route.params.subscribe(params => { this.cell.idStorageCell = params['id_cell']; });
+    if(isUndefined(this.cell.idStorageCell)) {
+      console.log("ID is undefined!");
+      this.cell.idStorageCell = 0;
+    }
     console.log("!!!Constructor from cell!!!");
     this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
       this.cell.number = data[0].number;

@@ -8,26 +8,6 @@
     .switch {
       color: black;
     }
-
-    .notification {
-      background-color: #3adb76;
-      opacity: 0.9;
-      font-size: 150%;
-      height: 10%;
-      position: absolute;
-      right: 0%;
-      bottom: 0%;
-    }
-
-    .error {
-      background-color: crimson;
-      opacity: 0.9;
-      font-size: 150%;
-      height: 10%;
-      position: absolute;
-      right: 0%;
-      bottom: 0%;
-    }
   </style>
 
 </head>
@@ -67,11 +47,12 @@
         <div *ngIf="cell.status || isShowDeletedCell">
           <div [ngSwitch]="true">
             <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable"
+               ngClass="{{isDeleted(cell)}}"
                (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
             <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell"
                (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
             <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
-               ngClass="{{getClass(cell?.idStorageCell)}}"
+               ngClass="{{getClassCellSelected(cell?.idStorageCell)}}"
                (click)="putInCell(cell)">{{cell?.number}}</a>
             <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
           </div>

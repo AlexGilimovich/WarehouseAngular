@@ -22,10 +22,10 @@
       <button type="button" class="success button" (click)="createCell()">
         Сохранить
       </button>
-      <button *ngIf="cell.status" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
+      <button *ngIf="cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
         Удалить
       </button>
-      <button *ngIf="!cell.status" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
+      <button *ngIf="!cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
         Восстановить
       </button>
     </div>

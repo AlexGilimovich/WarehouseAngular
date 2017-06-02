@@ -110,6 +110,7 @@ export class WarehouseSchemeInfoComponent implements OnInit {
    * return css-class for determined storage type
    **/
   getClassSpace(space: StorageSpace){
+    if(!space.status && this.isShowDeletedSpace) return 'deleted';
     if(space.storageSpaceType.name == 'Холодильная камера') return 'icecamera';
     if(space.storageSpaceType.name == 'Отапливаемое помещение') return 'heated';
     if(space.storageSpaceType.name == 'Неотапливаемое помещение') return 'noheated';
@@ -117,7 +118,7 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     if(space.storageSpaceType.name == 'Камера глубокой заморозки') return 'icedeepcamera';
   }
 
-  getClass(id_cell: number){
+  getClassCellSelected(id_cell: number){
     let isSelected: boolean=false;
     for(let i=0; i<this.cells.length; i++) {
       if(this.cells[i].idStorageCell == id_cell) {
@@ -126,6 +127,10 @@ export class WarehouseSchemeInfoComponent implements OnInit {
       }
     }
     return isSelected ? 'cell-selected' : 'cell-disable';
+  }
+
+  isDeleted(cell: StorageCell) {
+    return !cell.status ? 'deleted' : 'cell-disable';
   }
 
   ngOnInit(){

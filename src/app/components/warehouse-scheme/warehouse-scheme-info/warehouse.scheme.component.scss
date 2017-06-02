@@ -3,11 +3,6 @@ $green: random(256)-1;
 $blue: random(128)-1;
 $alpha: random(100)/100;
 
-.delete{
-  right: 0%;
-  top: 0%;
-}
-
 #space {
   background-color: #66ffff;
   float: left;
@@ -30,6 +25,18 @@ $alpha: random(100)/100;
 .cell-disable {
   text-align: center;
   background-color: white;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-delete {
+  text-align: center;
+  background-color: #5b5a5a;
   height: auto;
   width: 20%;
   float: left;
@@ -79,9 +86,36 @@ $alpha: random(100)/100;
   opacity: 0.8;
 }
 
+.deleted {
+  background-color: #5b5a5a;
+  float: left;
+  margin: 5%;
+  opacity: 0.8;
+}
+
 .noheated {
   background-color: #00ff00;
   float: left;
   margin: 5%;
   opacity: 0.8;
+}
+
+.notification {
+  background-color: #3adb76;
+  opacity: 0.9;
+  font-size: 150%;
+  height: 10%;
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
+}
+
+.error {
+  background-color: crimson;
+  opacity: 0.9;
+  font-size: 150%;
+  height: 10%;
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
 }
