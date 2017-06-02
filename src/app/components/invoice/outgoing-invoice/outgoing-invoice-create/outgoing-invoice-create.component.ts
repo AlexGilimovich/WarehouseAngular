@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ComponentRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {TransportCompany} from "../../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../../customer/customer";
@@ -11,6 +11,8 @@ import {Goods} from "../../../goods/goods";
 import {Unit} from "../../../goods/unit";
 import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-choice/tr-company-choice.component";
 import {CustomerChoiceComponent} from "../../../customer/customer-choice/customer-choice.component";
+import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.directive";
+import {GoodsChoiceComponent} from "../../../goods/goods-choice/goods-choice.component";
 declare const $: any;
 
 @Component({
@@ -23,6 +25,8 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
   units: Unit[] = [];
+  @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
+  goodsModal: ComponentRef<GoodsChoiceComponent>;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -104,10 +108,12 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
 
   openGoodsModal() {
     $('#goodsModal').foundation('open');
+    this.goodsModal = this.goodsAnchor.chooseGoods();
   }
 
   closeGoodsModal() {
     $('#goodsModal').foundation('close');
+    this.goodsModal.destroy();
   }
 
 }

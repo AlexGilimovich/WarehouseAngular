@@ -13,6 +13,7 @@ import {GoodsListModule} from "./goods-list/goods-list.module";
 import {GoodsListContainerComponent} from "./goods-list/goods-list-container/goods-list-container.component";
 import {WarehouseSchemeModule} from "../warehouse-scheme/warehouse-scheme.module";
 import {GoodsChoiceComponent} from "./goods-choice/goods-choice.component";
+import { GoodsModalAnchorDirective } from './goods-modal-anchor.directive';
 
 export const statusMessages:Map<string, string> = new Map([
   ["REGISTERED", "Зарегистрирован"],
@@ -85,7 +86,8 @@ export const goodsRoutes:Routes = [
     GoodsListModule],
   exports: [
     GoodsCreateComponent,
-    GoodsChoiceComponent
+    GoodsChoiceComponent,
+    GoodsModalAnchorDirective
   ],
   declarations: [
     GoodsContainerComponent,
@@ -97,7 +99,8 @@ export const goodsRoutes:Routes = [
     // GoodsStatusSearchComponent,
     // GoodsSearchComponent,
     StatusHistoryComponent,
-    GoodsActsComponent],
+    GoodsActsComponent,
+    GoodsModalAnchorDirective],
   providers: [
     GoodsService
     ],

@@ -102,9 +102,9 @@
   </div>
 
   <div class="reveal" id="goodsModal" data-reveal >
-    <button class="close-button" type="button" data-close>
+    <button class="close-button" type="button" data-close (click)="closeGoodsModal()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <app-goods-choice></app-goods-choice>
+    <div appGoodsModalAnchor></div>
   </div>
 </div>
