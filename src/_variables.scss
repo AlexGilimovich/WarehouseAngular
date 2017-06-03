@@ -5,7 +5,7 @@ $global-flexbox: true;
 $background-color: #BEEEFF;
 
 //$topbar-background: #2c3840;
-$topbar-background: #e7e7e7;
+$topbar-background: #f1f1f1;
 $global-font-size: 90%;
 
 $input-font-size: 1rem;
@@ -16,3 +16,8 @@ $global-width: rem-calc(1200);
 
 $menu-margin: 10px;
 
+$accordion-title-font-size: 1rem;
+
+$accordion-item-background-hover: #f1f1f1;
+$accordion-plusminus: false;
+$accordion-content-border: solid 1px darkgray;

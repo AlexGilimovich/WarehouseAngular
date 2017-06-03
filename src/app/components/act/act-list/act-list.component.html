@@ -34,7 +34,7 @@
 
   </table>
 
-  <ul class="pagination text-center" *ngIf="pageArray?.length>1">
+  <ul class="pagination text-center" >
     <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span
       [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
     <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">

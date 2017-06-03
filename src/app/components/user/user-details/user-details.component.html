@@ -1,277 +1,299 @@
-<div class="callout" data-closable>
-  <!--<button class="close-button" type="button" data-close (click)="close()">-->
-    <!--<span aria-hidden="true">&times;</span>-->
-  <!--</button>-->
+<div class="main-container">
+
   <div class="form-container">
     <form class="form" [formGroup]="userForm" (ngSubmit)="save(userForm)">
+
       <div class="row">
-        <div class="large-8 small-10 columns">
+        <div class="large-6 small-6 columns">
           <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="lastName" class="right">Фамилия:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="lastName" name="lastName" type="text" [formControl]="userForm?.controls['lastName']" required/>
-
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['lastName'].hasError('required') && userForm?.get('lastName').touched">
-                Поле "Фамилия" не может быть пустым
-              </div>
-              <div class="callout alert"
-                   *ngIf="!userForm?.controls['lastName'].valid && !userForm?.controls['lastName'].hasError('required') && userForm?.get('lastName').touched">
-                Фамилия может содержать только буквы
-              </div>
-
-            </div>
-            <div class="large-3 small-3 columns">
-              <small><i>обязательное поле</i></small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="firstName" class="right">Имя:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="firstName" name="firstName" type="text" [formControl]="userForm?.controls['firstName']"/>
-
-              <div class="callout alert"
-                   *ngIf="!userForm?.controls['firstName'].valid && userForm?.get('firstName').touched && !userForm?.get('firstName').empty">
-                Имя может содержать только буквы
+            <div class="large-11 small-11 columns ">
+              <div class="head">
+                <h6><b>Персональные данные</b></h6>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="patronymic" class="right">Отчество:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="patronymic" name="patronymic" type="text" [formControl]="userForm?.controls['patronymic']"/>
 
-              <div class="callout alert"
-                   *ngIf="!userForm?.controls['patronymic'].valid && userForm?.get('patronymic').touched && !userForm?.get('patronymic').empty">
-                Отчество может содержать только буквы
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="lastName" class="right">Фамилия: <br>
+                    <small><i>обязательное поле</i></small>
+                  </label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="lastName" name="lastName" type="text" [formControl]="userForm?.controls['lastName']"
+                         required/>
+
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['lastName'].hasError('required') && userForm?.get('lastName').touched">
+                    Поле "Фамилия" не может быть пустым
+                  </div>
+                  <div class="callout alert"
+                       *ngIf="!userForm?.controls['lastName'].valid && !userForm?.controls['lastName'].hasError('required') && userForm?.get('lastName').touched">
+                    Фамилия может содержать только буквы
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="firstName" class="right">Имя:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="firstName" name="firstName" type="text" [formControl]="userForm?.controls['firstName']"/>
+
+                  <div class="callout alert"
+                       *ngIf="!userForm?.controls['firstName'].valid && userForm?.get('firstName').touched && !userForm?.get('firstName').empty">
+                    Имя может содержать только буквы
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="patronymic" class="right">Отчество:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="patronymic" name="patronymic" type="text"
+                         [formControl]="userForm?.controls['patronymic']"/>
+
+                  <div class="callout alert"
+                       *ngIf="!userForm?.controls['patronymic'].valid && userForm?.get('patronymic').touched && !userForm?.get('patronymic').empty">
+                    Отчество может содержать только буквы
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="dateOfBirth" class="right">Дата рождения:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="dateOfBirth" name="dateOfBirth" type="text" placeholder="ДД.ММ.ГГГГ"
+                         [formControl]="userForm?.controls['dateOfBirth']"/>
+
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['dateOfBirth'].hasError('invalidFormat') && userForm?.get('dateOfBirth').touched">
+                    Некорректно введена дата рождения. Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
+                  </div>
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['dateOfBirth'].hasError('inFuture') && userForm?.controls['dateOfBirth'].touched">
+                    Дата рождения не может быть в будущем
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns">
+                  <label for="email" class="right">Email:</label>
+                </div>
+                <div class="large-8 small-8 columns">
+                  <input id="email" name="email" type="email" [formControl]="userForm?.controls['email']"/>
+                  <div class="callout alert"
+                       *ngIf="!userForm?.controls['email'].valid && userForm?.get('email').touched && !userForm?.get('email').empty">
+                    Некорректный email адрес
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="large-8 small-10 columns">
+
+
+        <div class="large-6 small-6 columns">
           <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="dateOfBirth" class="right">Дата рождения:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="dateOfBirth" name="dateOfBirth" type="text" placeholder="ДД.ММ.ГГГГ"
-                     [formControl]="userForm?.controls['dateOfBirth']"/>
-
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['dateOfBirth'].hasError('invalidFormat') && userForm?.get('dateOfBirth').touched">
-                Некорректно введена дата рождения. Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
-              </div>
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['dateOfBirth'].hasError('inFuture') && userForm?.controls['dateOfBirth'].touched">
-                Дата рождения не может быть в будущем
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="email" class="right">Email:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="email" name="email" type="email" [formControl]="userForm?.controls['email']"/>
-              <div class="callout alert"
-                   *ngIf="!userForm?.controls['email'].valid && userForm?.get('email').touched && !userForm?.get('email').empty">
-                Некорректный email адрес
+            <div class="large-11 small-11 columns ">
+              <div class="head">
+                <h6><b>Данные аккаунта</b></h6>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="large-8 small-10 columns">
           <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="login" class="right">Логин:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="login" name="login" type="text" [formControl]="userForm?.controls['login']"/>
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['login'].hasError('isOccupied') && userForm?.get('login').touched">
-                Логин занят
-              </div>
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['login'].hasError('pattern')  && userForm?.get('login').touched">
-                Логин может содержать только буквы и цифры
-              </div>
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['login'].hasError('required') && userForm?.get('login').touched">
-                Поле "Логин" не может быть пустым
-              </div>
-            </div>
-            <div class="large-3 small-3 columns" *ngIf="id==undefined">
-              <div class="spinner" *ngIf="isLoginCheckRequest">
-                <spinner [size]="30" [tickness]="1"></spinner>
-              </div>
-              <small><i>обязательное поле</i></small>
-
-            </div>
-
-          </div>
-        </div>
-      </div>
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="login" class="right">Логин: <br>
+                    <small><i>обязательное поле</i></small>
+                  </label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="login" name="login" type="text" [formControl]="userForm?.controls['login']"/>
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['login'].hasError('isOccupied') && userForm?.get('login').touched">
+                    Логин занят
+                  </div>
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['login'].hasError('pattern')  && userForm?.get('login').touched">
+                    Логин может содержать только буквы и цифры
+                  </div>
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['login'].hasError('required') && userForm?.get('login').touched">
+                    Поле "Логин" не может быть пустым
+                  </div>
+                </div>
+                <div class="large-1 small-1 columns" *ngIf="id==undefined">
+                  <div class="spinner" *ngIf="isLoginCheckRequest">
+                    <spinner [size]="30" [tickness]="2"></spinner>
+                  </div>
 
 
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="password" class="right">Пароль:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="password" name="password" type="password" [formControl]="userForm?.controls['password']"/>
+                </div>
 
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['password'].hasError('minlength') && userForm?.get('password').touched">
-                Пароль должен содержать не менее 5 символов
               </div>
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['password'].hasError('required')&& userForm?.get('password').touched">
-                Поле "Пароль" не может быть пустым
-              </div>
-            </div>
-            <div class="large-3 small-3 columns" *ngIf="id==undefined">
-              <small><i>обязательное поле</i></small>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <hr>
-      <div class="row head">
-        <div class="large-8 small-10 columns">
-          <div class="large-6 large-offset-3 small-6 small-offset-3 columns">
-            <h4>Адрес проживания:</h4>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="city" class="right">Город:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="city" name="city" type="text" [formControl]="userForm?.controls['city']"/>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="street" class="right">Улица:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="street" name="street" type="text" [formControl]="userForm?.controls['street']"/>
+          <div class="row ">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns ">
+                  <label for="password" class="right">Пароль:
+                    <br>
+                    <small><i>обязательное поле</i></small>
+                  </label>
+                </div>
+                <div class="large-8 small-8 columns ">
+                  <input id="password" name="password" type="password" [formControl]="userForm?.controls['password']"/>
+
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['password'].hasError('minlength') && userForm?.get('password').touched">
+                    Пароль должен содержать не менее 5 символов
+                  </div>
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['password'].hasError('required')&& userForm?.get('password').touched">
+                    Поле "Пароль" не может быть пустым
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="large-8 small-10 columns">
+        <div class="large-6 small-6 columns bordered">
+
           <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="house" class="right">Дом:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="house" name="house" type="text" [formControl]="userForm?.controls['house']"/>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="apartment" class="right">Квартира:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="apartment" name="apartment" type="text" [formControl]="userForm?.controls['apartment']"/>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <hr>
-      <div class="row head">
-        <div class="large-8 small-10 columns">
-          <div class="large-6 large-offset-3 small-6 small-offset-3 columns">
-            <h4>Рабочие данные:</h4>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="warehouse" class="right">Склад:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <select id="warehouse" [formControl]="userForm?.controls['warehouse']">
-                <option *ngFor="let warehouse of warehouseList" [value]="warehouse.idWarehouse">
-                  {{warehouse.name}}
-                </option>
-              </select>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="large-8 small-10 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label>Должность:</label>
-            </div>
-            <div class="large-6 small-6 columns" formArrayName="roles">
-
-              <div *ngFor="let role of roles; let i = index;">
-                <input type="checkbox" name="roles" (change)="updateRole(role, $event)"
-                       [checked]="role.checked"
-                       formControlName='{{i}}'><label>{{rolesMessages.get(role.role.role)}}</label>
-              </div>
-
-              <div class="callout alert"
-                   *ngIf="userForm?.controls['roles'].hasError('noRole') && userForm?.get('roles').touched">
-                Как минимум одна роль должна быть выбрана
+            <div class="large-11 small-11 columns ">
+              <div class="head">
+                <h6><b>Адрес проживания</b></h6>
               </div>
             </div>
-            <div class="large-3 small-3 columns">
-              <small><i>Как минимум одна роль должна быть выбрана</i></small>
+          </div>
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="city" class="right">Город:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="city" name="city" type="text" [formControl]="userForm?.controls['city']"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="street" class="right">Улица:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="street" name="street" type="text" [formControl]="userForm?.controls['street']"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="house" class="right">Дом:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <input id="house" name="house" type="text" [formControl]="userForm?.controls['house']"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns">
+                  <label for="apartment" class="right">Квартира:</label>
+                </div>
+                <div class="large-8 small-8 columns">
+                  <input id="apartment" name="apartment" type="text" [formControl]="userForm?.controls['apartment']"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="large-6 small-6 columns">
+          <div class="row">
+            <div class="large-11 small-11 columns ">
+              <div class="head">
+                <h6><b>Рабочие данные</b></h6>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns border-bottom">
+                  <label for="warehouse" class="right">Склад:</label>
+                </div>
+                <div class="large-8 small-8 columns border-bottom">
+                  <select id="warehouse" [formControl]="userForm?.controls['warehouse']">
+                    <option *ngFor="let warehouse of warehouseList" [value]="warehouse.idWarehouse">
+                      {{warehouse.name}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-12 small-12 columns">
+              <div class="row">
+                <div class="large-3 small-3 columns">
+                  <label>Должность: <br>
+                    <small><i>Как минимум одна должность должна быть выбрана</i></small>
+                  </label>
+                </div>
+                <div class="large-8 small-8 columns" formArrayName="roles">
+
+                  <div *ngFor="let role of roles; let i = index;">
+                    <input type="checkbox" name="roles" (change)="updateRole(role, $event)"
+                           [checked]="role.checked"
+                           formControlName='{{i}}'><label>{{rolesMessages.get(role.role.role)}}</label>
+                  </div>
+
+                  <div class="callout alert"
+                       *ngIf="userForm?.controls['roles'].hasError('noRole') && userForm?.get('roles').touched">
+                    Как минимум одна роль должна быть выбрана
+                  </div>
+                </div>
+                <!--<div class="large-3 small-3 columns">-->
+                <!--<small><i>Как минимум одна роль должна быть выбрана</i></small>-->
+                <!--</div>-->
+              </div>
             </div>
           </div>
         </div>

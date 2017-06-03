@@ -1,15 +1,15 @@
 .form-container {
   margin-top: 50px;
 }
+
 .button-right {
   text-align: right;
 
 }
 
-
 .cell-container {
   display: table;
-  border-collapse:collapse;
+  border-collapse: collapse;
   margin-bottom: 20px;
   .cell-item {
     vertical-align: middle;
@@ -18,5 +18,14 @@
     width: 40px;
     height: 40px;
     border: 1px solid black;
+  }
+  float: left;
+}
+
+.buttons {
+  display: inline-block;
+  float: right;
+  button {
+    height: 40px;
   }
 }

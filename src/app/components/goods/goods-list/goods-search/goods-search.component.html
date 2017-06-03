@@ -176,14 +176,13 @@
 
   <div class="row">
     <div class="large-12  small-12 columns button-right">
-      <input class="button" type="button" (click)="clear()" value="Очистить">
-
-
       <button class="button" type="submit" [disabled]="!isValid">
         <span aria-hidden="true">
           <i class="fi-magnifying-glass"></i> Поиск
         </span>
       </button>
+      <input class="button" type="button" (click)="clear()" value="Очистить">
+
     </div>
   </div>
 </form>

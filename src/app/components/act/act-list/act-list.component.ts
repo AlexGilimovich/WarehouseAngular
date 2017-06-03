@@ -54,7 +54,7 @@ export class ActListComponent implements OnInit {
     this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
         this.acts = res.acts.sort((current, next)=> {
-          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+          return (new Date(current.date) < new Date(next.date)) ? 1 : -1;
         });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
@@ -93,7 +93,7 @@ export class ActListComponent implements OnInit {
     this.actService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
       (res) => {
         this.acts = res.acts.sort((current, next)=> {
-          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+          return (new Date(current.date) < new Date(next.date)) ? 1 : -1;
         });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
@@ -117,7 +117,7 @@ export class ActListComponent implements OnInit {
     this.actService.search(this.warehouseId, searchDTO, page, this.itemsOnPage).subscribe(
       (res) => {
         this.acts = res.acts.sort((current, next)=> {
-          return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
+          return (new Date(current.date) < new Date(next.date)) ? 1 : -1;
         });
         this.totalItemsCount = res.count;
         this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
