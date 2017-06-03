@@ -9,3 +9,24 @@
 .with-margin {
   margin-bottom: 10px;
 }
+
+.signal {
+  select {
+    border: solid 1px red;
+    animation-name: highlight-border;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+  }
+
+}
+
+@keyframes highlight-border {
+  0% {
+    border: solid 1px red;
+  }
+  50% {
+    border: 1px solid #cacaca;
+  }
+}
+
+

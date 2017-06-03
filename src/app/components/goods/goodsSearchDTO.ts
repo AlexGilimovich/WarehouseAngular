@@ -19,6 +19,7 @@ export class GoodsSearchDTO {
   public incomingInvoiceId:string;
   public outgoingInvoiceId:string;
   public actApplicable:boolean = false;
+  public actType:string;
 
   constructor() {
 

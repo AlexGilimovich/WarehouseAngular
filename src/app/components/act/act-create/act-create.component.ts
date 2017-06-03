@@ -14,6 +14,7 @@ import {Goods} from "../../goods/goods";
 import {User} from "../../user/user";
 import {LoginService} from "../../login/login.service";
 import {Act} from "../act";
+import {GoodsSearchDTO} from "../../goods/goodsSearchDTO";
 
 @Component({
   selector: 'app-act-create',
@@ -28,6 +29,7 @@ export class ActCreateComponent implements OnInit {
   private user:User;
   private currentDate:Date;
   private warehouseId:string; //todo
+
 
   private goodsList:any[] = [];
   private totalGoodsCount:number;
@@ -116,10 +118,31 @@ export class ActCreateComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.actApplicableList(this.warehouseId, 1, 10).subscribe(
+    // this.goodsService.actApplicableList(this.warehouseId, 1, 10).subscribe(
+    //   (res) => {
+    //     res.goods.forEach(
+    //       goods => {
+    //         this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
+    //       }
+    //     );
+    //     this.totalGoodsCount = res.count;
+    //   },
+    //   (err:any) => {
+    //     console.error(err);
+    //   }
+    // );
+  }
+
+
+  private getGoods(object) {
+    this.goodsList = [];
+    let searchDTO = new GoodsSearchDTO();
+    searchDTO.actApplicable = true;
+    searchDTO.actType = this.actForm.get('actType').value;
+    this.goodsService.search(searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
       (res) => {
         res.goods.forEach(
-          goods => {
+          goods=> {
             this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
         );
@@ -131,12 +154,14 @@ export class ActCreateComponent implements OnInit {
     );
   }
 
-
-  private getGoods(object) {
+  private searchByActType() {
     this.goodsList = [];
-    this.goodsService.actApplicableList(this.warehouseId, object.page, object.itemsOnPage).subscribe(
-      (res) => {
-        res.goods.forEach(
+    let searchDTO = new GoodsSearchDTO();
+    searchDTO.actApplicable = true;
+    searchDTO.actType = this.actForm.get('actType').value;
+    this.goodsService.search(searchDTO, this.warehouseId, 1, 10).subscribe(
+      (res:any) => {
+        (<Goods[]>res.goods).forEach(
           goods=> {
             this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
@@ -152,6 +177,7 @@ export class ActCreateComponent implements OnInit {
   private search(object) {
     this.goodsList = [];
     object.searchDTO.actApplicable = true;
+    object.searchDTO.actType = this.actForm.get('actType').value;
     this.goodsService.search(object.searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
       (res:any) => {
         (<Goods[]>res.goods).forEach(
@@ -188,41 +214,16 @@ export class ActCreateComponent implements OnInit {
     )
   }
 
-  // private addGoods() {
-  //   let selectedGoods:Goods[] = this.goodsListComponent.getSelectedGoods().filter(
-  //     item=> {
-  //       return !this.isAlreadySelected(item.id);
-  //     }
-  //   ).map(
-  //     item=> {
-  //       let goods = new Goods();
-  //       goods.id = item.id;
-  //       goods.name = item.name;
-  //       goods.quantity = item.quantity;
-  //       goods.quantityUnit = item.quantityUnit;
-  //       goods.weight = item.weight;
-  //       goods.weightUnit = item.weightUnit;
-  //       goods.price = item.price;
-  //       goods.priceUnit = item.priceUnit;
-  //       goods.storageType = item.storageType;
-  //       return goods;
-  //     }
-  //   );
-  //   this.selectedGoodsList = this.selectedGoodsList.concat(selectedGoods);
-  //   selectedGoods.forEach(
-  //     (item, index)=> {
-  //       (<FormArray>this.actForm.controls['goods']).insert(index, new FormControl(item.id));
-  //       this.selectedIdList.push(item.id);
-  //     }
-  //   )
-  // }
 
   private isAlreadySelected(goods) {
     return this.selectedIdList.includes(goods);
   }
 
   private onSelected(event) {
-    // this.hasSelected = event;
+    if (!this.actForm.get('actType').value){
+      return;
+    }
+
     if (this.isAlreadySelected(event.goods.id)) {
       return;
     } else {
