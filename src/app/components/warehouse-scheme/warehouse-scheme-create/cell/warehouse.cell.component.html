@@ -13,14 +13,14 @@
     </div>
 
     <div class="row columns">
+      <button type="button" class="success button" (click)="createCell()">
+        Сохранить
+      </button>
       <button type="button" class="primary button">
         Отмена
       </button>
-      <button type="button" class="secondary button">
+      <button type="reset" class="secondary button">
         Очистить
-      </button>
-      <button type="button" class="success button" (click)="createCell()">
-        Сохранить
       </button>
       <button *ngIf="cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
         Удалить

@@ -64,7 +64,7 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   putInCell(cell: StorageCell){
-    for(let i=0; i<this.cells.length; i++) {
+    for(let i = 0; i < this.cells.length; i++) {
       if(this.cells[i].idStorageCell == cell.idStorageCell) {
         this.cells.splice(i, 1);
         return;
