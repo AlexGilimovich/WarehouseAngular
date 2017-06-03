@@ -12,7 +12,7 @@ import {Act} from "../../act/act";
 import {ActService} from "../../act/act.service";
 import {StorageType} from "../storageType";
 import {StorageCell} from "../../warehouse-scheme/storage-cell";
-import {Location} from '@angular/common';
+import {Location} from "@angular/common";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 
 @Component({
@@ -25,13 +25,14 @@ export class GoodsDetailsComponent implements OnInit {
   private statuses:GoodsStatus[];
   private acts:Act[];
   private id:number;
-  private statusNames:GoodsStatusName[];
+  private statusNames:GoodsStatusName[] = [];
   private units:Unit[];
   private storageTypes:StorageSpaceType[];
   private goodsForm:FormGroup;
   private hasRights:boolean = true;//todo check
   private statusMessages = statusMessages;
   private warehouseId;
+  private isEditable:boolean = true;
 
   private cells:StorageCell[] = [];
 
@@ -75,13 +76,12 @@ export class GoodsDetailsComponent implements OnInit {
       (goods:Goods) => {
         this.goods = goods;
         this.cells = goods.cells;
-        this.fillForm();
+        this.fillForm(this.checkIfEditable(goods));
         this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
           (statuses) => {
             this.statuses = statuses.sort((current, next)=> {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
-
           },
           (err)=> {
             console.error(err);
@@ -92,6 +92,15 @@ export class GoodsDetailsComponent implements OnInit {
             this.acts = acts.sort((current, next)=> {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
+          },
+          (err)=> {
+            console.error(err);
+          }
+        );
+        this.goodsService.getStatusNames().subscribe(
+          (res) => {
+            this.statusNames = this.filterStatusNames(res);
+            this.statusNames.push(new GoodsStatusName(null, ''));
           },
           (err)=> {
             console.error(err);
@@ -122,23 +131,83 @@ export class GoodsDetailsComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getStatusNames().subscribe(
-      (res) => {
-        this.statusNames = res;
-        this.statusNames.push(new GoodsStatusName(null, ''));
-      },
-      (err)=> {
-        console.error(err);
-      }
+
+  }
+
+  private checkIfEditable(goods:Goods):boolean {
+    return !(goods.currentStatus.name == 'MOVED_OUT' ||
+      goods.currentStatus.name == 'STOLEN' ||
+      goods.currentStatus.name == 'SEIZED' ||
+      goods.currentStatus.name == 'TRANSPORT_COMPANY_MISMATCH' ||
+      goods.currentStatus.name == 'RECYCLED' ||
+      goods.currentStatus.name == 'LOST_BY_TRANSPORT_COMPANY' ||
+      goods.currentStatus.name == 'LOST_BY_WAREHOUSE_COMPANY'
     );
   }
+
+  private filterStatusNames(statusNames:GoodsStatusName[]):GoodsStatusName[] {
+
+    switch (this.goods.currentStatus.name) {
+      case 'REGISTERED':
+        return statusNames.filter(item=> {
+          return item.name == 'REGISTERED' || item.name == 'CHECKED' || item.name == 'TRANSPORT_COMPANY_MISMATCH' || item.name == 'LOST_BY_TRANSPORT_COMPANY'
+        });
+      case 'CHECKED':
+        return statusNames.filter(item=> {
+          return item.name == 'CHECKED' || item.name == 'STORED'
+        });
+      case 'STORED':
+        return statusNames.filter(item=> {
+          return item.name != 'CHECKED' && item.name != 'REGISTERED' && item.name != 'RELEASE_ALLOWED' && item.name != 'MOVED_OUT' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'TRANSPORT_COMPANY_MISMATCH'
+        });
+      case 'STOLEN':
+        return statusNames.filter(item=> {
+          return item.name == 'STOLEN'
+        });
+      case 'SEIZED':
+        return statusNames.filter(item=> {
+          return item.name == 'SEIZED'
+        });
+      case 'TRANSPORT_COMPANY_MISMATCH':
+        return statusNames.filter(item=> {
+          return item.name == 'TRANSPORT_COMPANY_MISMATCH'
+        });
+      case 'LOST_BY_TRANSPORT_COMPANY':
+        return statusNames.filter(item=> {
+          return item.name == 'LOST_BY_TRANSPORT_COMPANY'
+        });
+      case 'LOST_BY_WAREHOUSE_COMPANY':
+        return statusNames.filter(item=> {
+          return item.name == 'LOST_BY_WAREHOUSE_COMPANY'
+        });
+      case 'RECYCLED':
+        return statusNames.filter(item=> {
+          return item.name == 'RECYCLED'
+        });
+      case 'WITHDRAWN':
+        return statusNames.filter(item=> {
+          return item.name != 'REGISTERED' && item.name != 'CHECKED' && item.name != 'TRANSPORT_COMPANY_MISMATCH' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'MOVED_OUT'
+        });
+      case 'RELEASE_ALLOWED':
+        return statusNames.filter(item=> {
+          return item.name == 'RELEASE_ALLOWED' || item.name == 'MOVED_OUT' || item.name == 'STORED'
+        });
+      case 'MOVED_OUT':
+        return statusNames.filter(item=> {
+          return item.name == 'MOVED_OUT'
+        });
+      default:
+        break;
+    }
+
+  }
+
 
   private goToStorageView() {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
     this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
 
   }
-
 
 
   private removeFromStorage() {
@@ -148,7 +217,7 @@ export class GoodsDetailsComponent implements OnInit {
           (goods:Goods) => {
             this.goods = goods;
             this.cells = goods.cells;
-            this.fillForm();
+            this.fillForm(this.checkIfEditable(goods));
             this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
               (statuses) => {
                 this.statuses = statuses.sort((current, next)=> {
@@ -180,7 +249,8 @@ export class GoodsDetailsComponent implements OnInit {
 
   }
 
-  private fillForm():void {
+  private fillForm(isEditable:boolean):void {
+    this.isEditable = isEditable;
     this.goodsForm.controls['name'].setValue(this.goods.name);
     this.goodsForm.controls['quantity'].setValue(this.goods.quantity);
     this.goodsForm.controls['quantityUnit'].setValue(this.goods.quantityUnit.name);
@@ -190,13 +260,29 @@ export class GoodsDetailsComponent implements OnInit {
     this.goodsForm.controls['priceUnit'].setValue(this.goods.priceUnit.name);
     this.goodsForm.controls['storageType'].setValue(this.goods.storageType.name);
     this.goodsForm.controls['currentStatus'].setValue(this.goods.currentStatus ? this.goods.currentStatus.name : null);
+    if (!isEditable) {
+      this.goodsForm.controls['name'].disable();
+      this.goodsForm.controls['quantity'].disable();
+      this.goodsForm.controls['quantityUnit'].disable();
+      this.goodsForm.controls['weight'].disable();
+      this.goodsForm.controls['weightUnit'].disable();
+      this.goodsForm.controls['price'].disable();
+      this.goodsForm.controls['priceUnit'].disable();
+      this.goodsForm.controls['storageType'].disable();
+      this.goodsForm.controls['currentStatus'].disable();
+    }
+
 
   }
 
   private close() {
-    if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
-    // this.router.navigate(['../../../list'], {relativeTo: this.route});
+    if (this.isEditable) {
+      if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?")) {
+        this.location.back();
+      }
+    } else {
       this.location.back();
+    }
   }
 
   private save():void {

@@ -97,6 +97,7 @@ export class GoodsListComponent implements OnInit, OnChanges {
         else
           return this.totalPageCount - (pages - 1) + i;
       }).filter(val=>val > 0);
+      
     }
   }
 
@@ -379,6 +380,27 @@ export class GoodsListComponent implements OnInit, OnChanges {
         else
           this.goodsList.sort((current, next)=> {
             return (next.goods.cells[0] ? next.goods.cells[0].number : '').toLowerCase().localeCompare((current.goods.cells[0] ? current.goods.cells[0].number : '').toLowerCase());
+          });
+        break;
+
+      case "registeredDate":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (current.goods.registeredStatus ? current.goods.registeredStatus.date : '').toLowerCase().localeCompare((next.goods.registeredStatus ? next.goods.registeredStatus.date : '').toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (next.goods.registeredStatus ? next.goods.registeredStatus.date : '').toLowerCase().localeCompare((current.registeredStatus ? current.goods.registeredStatus.date : '').toLowerCase());
+          });
+        break;
+      case "registeredDate":
+        if (this.sortingDirection == "UP")
+          this.goodsList.sort((current, next)=> {
+            return (current.goods.movedOutStatus ? current.goods.movedOutStatus.date : '').toLowerCase().localeCompare((next.goods.movedOutStatus ? next.goods.movedOutStatus.date : '').toLowerCase());
+          });
+        else
+          this.goodsList.sort((current, next)=> {
+            return (next.goods.movedOutStatus ? next.goods.movedOutStatus.date : '').toLowerCase().localeCompare((current.movedOutStatus ? current.goods.movedOutStatus.date : '').toLowerCase());
           });
         break;
 
