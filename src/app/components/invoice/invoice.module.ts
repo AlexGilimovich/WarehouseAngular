@@ -13,6 +13,7 @@ import {GoodsModule} from "../goods/goods.module";
 import { GoodsChoiceComponent } from '../goods/goods-choice/goods-choice.component';
 import {WarehouseCustomerCompanyModule} from "../customer/customer.module";
 import {TransportCompanyModule} from "../tr-company/tr-company.module";
+import {InvoiceService} from "./invoice.service";
 
 export const invoiceRoutes: Routes = [
   {
@@ -60,7 +61,8 @@ export const invoiceRoutes: Routes = [
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
     IncomingInvoiceListComponent, OutgoingInvoiceListComponent],
-  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent]
+  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
+  providers:[InvoiceService]
 })
 export class InvoiceModule {
 }

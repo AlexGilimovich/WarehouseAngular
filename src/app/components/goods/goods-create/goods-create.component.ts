@@ -79,7 +79,7 @@ export class GoodsCreateComponent implements OnInit {
   }
 
   private close() {
-    if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
+    // if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
       this.location.back();
   }
 

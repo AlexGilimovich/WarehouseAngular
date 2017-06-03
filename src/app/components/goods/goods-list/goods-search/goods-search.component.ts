@@ -1,4 +1,6 @@
-import {Component, OnInit, Input} from "@angular/core";
+import {Component, OnInit, Input } from "@angular/core";
+import {DatePipe} from "@angular/common";
+
 import {SearchService} from "./search.service";
 import {Subscription} from "rxjs";
 import {GoodsStatusName} from "../../goodsStatusName";
@@ -7,6 +9,9 @@ import {StorageSpaceType} from "../../../warehouse-scheme/storage-space-type";
 import {GoodsSearchDTO} from "../../goodsSearchDTO";
 import {unitMessages, storageTypeMessages, statusMessages} from "../../goods.module";
 import {GoodsStatusSearchDTO} from "../../goodsStatusSearchDTO";
+import {IncomingInvoice} from "../../../invoice/incoming-invoice/incoming-invoice";
+import {OutgoingInvoice} from "../../../invoice/outgoing-invoice/outgoing-invoice";
+import {InvoiceService} from "../../../invoice/invoice.service";
 
 declare var $:any;
 
@@ -27,8 +32,11 @@ export class GoodsSearchComponent implements OnInit {
   private subscription:Subscription;
   private subscriptionValidation:Subscription;
   private isValid:boolean = true;
+  private incomingInvoices:IncomingInvoice[] = [];
+  private outgoingInvoices:OutgoingInvoice[] = [];
 
-  constructor(private searchService:SearchService) {
+  constructor(private searchService:SearchService,
+              private invoiceService:InvoiceService) {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
     this.subscription = searchService.removeStatusEvent$.subscribe(
@@ -46,6 +54,16 @@ export class GoodsSearchComponent implements OnInit {
 
   ngOnInit() {
     $("body").foundation();
+    this.invoiceService.getAllIncoming().subscribe(
+      res=> {
+        this.incomingInvoices = res;
+      }
+    );
+    this.invoiceService.getAllOutgoing().subscribe(
+      res=> {
+        this.outgoingInvoices = res;
+      }
+    );
   }
 
   private addStatus() {
