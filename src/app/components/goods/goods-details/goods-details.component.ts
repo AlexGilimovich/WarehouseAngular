@@ -158,7 +158,8 @@ export class GoodsDetailsComponent implements OnInit {
         });
       case 'STORED':
         return statusNames.filter(item=> {
-          return item.name != 'CHECKED' && item.name != 'REGISTERED' && item.name != 'RELEASE_ALLOWED' && item.name != 'MOVED_OUT' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'TRANSPORT_COMPANY_MISMATCH'
+          return item.name == 'STORED' || item.name == 'WITHDRAWN'
+          // return item.name != 'CHECKED' && item.name != 'REGISTERED' && item.name != 'RELEASE_ALLOWED' && item.name != 'MOVED_OUT' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'TRANSPORT_COMPANY_MISMATCH'
         });
       case 'STOLEN':
         return statusNames.filter(item=> {
@@ -186,7 +187,8 @@ export class GoodsDetailsComponent implements OnInit {
         });
       case 'WITHDRAWN':
         return statusNames.filter(item=> {
-          return item.name != 'REGISTERED' && item.name != 'CHECKED' && item.name != 'TRANSPORT_COMPANY_MISMATCH' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'MOVED_OUT'
+          return item.name == 'WITHDRAWN' || item.name == 'STORED'|| item.name == 'RELEASE_ALLOWED'
+          // return item.name != 'REGISTERED' && item.name != 'CHECKED' && item.name != 'TRANSPORT_COMPANY_MISMATCH' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'MOVED_OUT'
         });
       case 'RELEASE_ALLOWED':
         return statusNames.filter(item=> {

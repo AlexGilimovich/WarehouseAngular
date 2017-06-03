@@ -81,6 +81,8 @@ export class ActCreateComponent implements OnInit {
               item.name != 'TRANSPORT_COMPANY_MISMATCH' &&
               item.name != 'LOST_BY_TRANSPORT_COMPANY' &&
               item.name != 'RECYCLED' &&
+              item.name != 'CHECKED' &&
+              item.name != 'RELEASE_ALLOWED' &&
               item.name != 'LOST_BY_WAREHOUSE_COMPANY') {
               this.statusNames.push(item);
             }
@@ -149,6 +151,7 @@ export class ActCreateComponent implements OnInit {
 
   private search(object) {
     this.goodsList = [];
+    object.searchDTO.actApplicable = true;
     this.goodsService.search(object.searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
       (res:any) => {
         (<Goods[]>res.goods).forEach(
@@ -223,7 +226,8 @@ export class ActCreateComponent implements OnInit {
     if (this.isAlreadySelected(event.goods.id)) {
       return;
     } else {
-      this.selectedGoodsList.push(event.goods);
+      let newGoods = <Goods>{...event.goods};
+      this.selectedGoodsList.push(newGoods);
       this.selectedGoodsList = this.selectedGoodsList.slice(0);//copy of array so in act-goods component will be detected changes
       (<FormArray>this.actForm.controls['goods']).push(new FormControl(event.goods.id));
       this.selectedIdList.push(event.goods.id);

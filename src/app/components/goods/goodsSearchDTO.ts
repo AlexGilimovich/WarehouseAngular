@@ -18,6 +18,8 @@ export class GoodsSearchDTO {
   public statuses:GoodsStatusSearchDTO[];
   public incomingInvoiceId:string;
   public outgoingInvoiceId:string;
+  public actApplicable:boolean = false;
+
   constructor() {
 
   }
