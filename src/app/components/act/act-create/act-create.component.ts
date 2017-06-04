@@ -118,19 +118,6 @@ export class ActCreateComponent implements OnInit {
         console.error(err);
       }
     );
-    // this.goodsService.actApplicableList(this.warehouseId, 1, 10).subscribe(
-    //   (res) => {
-    //     res.goods.forEach(
-    //       goods => {
-    //         this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
-    //       }
-    //     );
-    //     this.totalGoodsCount = res.count;
-    //   },
-    //   (err:any) => {
-    //     console.error(err);
-    //   }
-    // );
   }
 
 
@@ -154,7 +141,14 @@ export class ActCreateComponent implements OnInit {
     );
   }
 
+  private emptySelectedList() {
+    this.selectedGoodsList = [];
+    this.selectedIdList = [];
+    this.actForm.controls['goods'] = new FormArray([], Validators.compose([goodsValidator]));
+  }
+
   private searchByActType() {
+    this.emptySelectedList();
     this.goodsList = [];
     let searchDTO = new GoodsSearchDTO();
     searchDTO.actApplicable = true;
@@ -220,7 +214,7 @@ export class ActCreateComponent implements OnInit {
   }
 
   private onSelected(event) {
-    if (!this.actForm.get('actType').value){
+    if (!this.actForm.get('actType').value) {
       return;
     }
 
