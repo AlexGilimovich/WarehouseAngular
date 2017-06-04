@@ -61,7 +61,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
     invoice.goods = this.goodsList;
     console.log(invoice);
     this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
-      this.router.navigateByUrl('invoice/incoming');
+      this.router.navigateByUrl('invoice/outgoing');
     });
   }
 

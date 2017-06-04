@@ -13,9 +13,15 @@ import {GoodsModule} from "../goods/goods.module";
 import { GoodsChoiceComponent } from '../goods/goods-choice/goods-choice.component';
 import {WarehouseCustomerCompanyModule} from "../customer/customer.module";
 import {TransportCompanyModule} from "../tr-company/tr-company.module";
+import { InvoiceContainerComponent } from './invoice-container/invoice-container.component';
 import {InvoiceService} from "./invoice.service";
 
 export const invoiceRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: 'incoming',
+    pathMatch: 'full'
+  },
   {
     path: 'incoming',
     component: IncomingInvoiceListComponent,
@@ -60,9 +66,8 @@ export const invoiceRoutes: Routes = [
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent],
-  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
-  providers:[InvoiceService]
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent],
+  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent]
 })
 export class InvoiceModule {
 }

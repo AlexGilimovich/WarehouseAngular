@@ -1,0 +1,7 @@
+export enum InvoiceStatus {
+  REGISTERED,
+  CHECKED,
+  COMPLETED,
+  RELEASE_ALLOWED,
+  MOVED_OUT
+}

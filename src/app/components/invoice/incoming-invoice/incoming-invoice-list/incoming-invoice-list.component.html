@@ -5,15 +5,12 @@
       <th>Дата выписки</th>
       <th>Отправитель</th>
       <th>Перевозчик</th>
-      <th>Диспетчер</th>
       <th>Статус</th>
       <th></th>
     </tr>
-    <tr *ngFor="let invoice of invoices">
+    <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
       <td>
-        <a [routerLink]="['/invoice/incoming', invoice.id]" >
-          {{invoice.number}}
-        </a>
+        {{invoice.number}}
       </td>
       <td>
         {{invoice.issueDate}}
@@ -23,9 +20,6 @@
       </td>
       <td>
         {{invoice.transportCompany.name}}
-      </td>
-      <td>
-        {{invoice.dispatcher}}
       </td>
       <td>
         {{invoice.status}}
@@ -40,6 +34,8 @@
 
   <!-- todo create pagination -->
 
-  <a routerLink='new'>Создать</a>
+  <!--<div *ngIf="isDispatcher()">-->
+    <input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">
+  <!--</div>-->
 
 </div>

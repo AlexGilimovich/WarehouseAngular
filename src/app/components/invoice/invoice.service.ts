@@ -10,6 +10,7 @@ import {Goods} from "../goods/goods";
 import {ActivatedRoute} from "@angular/router";
 import {OutgoingInvoice} from "./outgoing-invoice/outgoing-invoice";
 import {Observable} from "rxjs/Observable";
+import {InvoiceStatus} from "./invoice-status";
 
 const path = Host.getURL() + 'invoice';
 
@@ -20,8 +21,7 @@ export class InvoiceService {
               private loginService: LoginService) { }
 
   getLoggedUser(){
-    const dispatcher = this.loginService.getLoggedUser();
-    return this.buildFullName(dispatcher);
+    return this.loginService.getLoggedUser();
   }
 
   getAllIncoming(page?: number, count?: number) {
@@ -120,6 +120,27 @@ export class InvoiceService {
     const url = path + '/outgoing/' + invoice.id;
     const body = JSON.stringify(invoice);
     return this.updateInvoice(url, body);
+  }
+
+  updateInvoiceStatus(id: number, status: InvoiceStatus) {
+    const url = path + '/' + id + '?status=' + InvoiceStatus[status];
+    const headers = new Headers();
+    // const params = new URLSearchParams();
+    // params.set('status', InvoiceStatus[status]);
+    //
+    const options = new RequestOptions({
+      headers: headers
+      // params: params
+    });
+
+    // todo remove cause is not used
+    const body = '';
+
+    return this.httpAuthService.put(url, body, options).map((response: Response) => {
+      if (response.text()) {
+        return (response.json());
+      }
+    });
   }
 
   delete(id: number) {
@@ -254,8 +275,7 @@ export class InvoiceService {
     invoice.goodsEntryCount = item.goodsEntryCount;
     invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
     invoice.status = item.status;
-    invoice.dispatcher = item.dispatcher;
-    invoice.registrationDate = item.registrationDate;
+    invoice.goods = item.goods;
     return invoice;
   }
 

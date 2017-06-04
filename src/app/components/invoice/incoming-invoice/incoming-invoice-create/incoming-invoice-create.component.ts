@@ -8,7 +8,7 @@ import {TransportCompanyService} from "../../../tr-company/tr-company.service";
 import {WarehouseCustomerCompanyService} from "../../../customer/customer.service";
 import {TransportCompany} from "../../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../../customer/customer";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Goods} from "../../../goods/goods";
 import {GoodsService} from "../../../goods/goods.service";
@@ -17,6 +17,7 @@ import {Unit} from "../../../goods/unit";
 import {CustomerChoiceComponent} from "../../../customer/customer-choice/customer-choice.component";
 import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-choice/tr-company-choice.component";
 import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.directive";
+import {Location} from "@angular/common";
 declare const $: any;
 
 @Component({
@@ -35,21 +36,21 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
               private formBuilder: FormBuilder,
-              private router: Router) {
+              private location: Location) {
     this.invoiceForm = this.formBuilder.group({
-      'number': [''],
+      'number': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
       'issueDate': [''],
       'transportCompany': [''],
       'supplierCompany': [''],
-      'transportNumber': [''],
-      'transportName': [''],
+      'transportNumber': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
+      'transportName': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
       // todo invisible driver if not auto
       'driver': [],
       'description': [''],
-      'goodsEntryCount': [0],
-      'goodsEntryCountUnit': [''],
-      'goodsQuantity': [0],
-      'goodsQuantityUnit': ['']
+      'goodsEntryCount': ['', Validators.compose([Validators.required])],
+      'goodsEntryCountUnit': ['', Validators.compose([Validators.required])],
+      'goodsQuantity': ['', Validators.compose([Validators.required])],
+      'goodsQuantityUnit': ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -65,7 +66,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     invoice.goods = this.goodsList;
     console.log(invoice);
     this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
-      this.router.navigateByUrl('invoice/incoming');
+      this.location.back();
     });
   }
 

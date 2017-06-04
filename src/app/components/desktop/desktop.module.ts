@@ -18,6 +18,8 @@ import {IncomingInvoiceListComponent} from "../invoice/incoming-invoice/incoming
 import {TransportCompanyListComponent} from "../tr-company/tr-company-list/tr-company-list.component";
 import {warehouseRoutes} from "../warehouse/warehouse.module";
 import {warehouseCompanyRoutes} from "../warehouse-company/warehouse-company.module";
+import {invoiceRoutes} from "../invoice/invoice.module";
+import {InvoiceContainerComponent} from "../invoice/invoice-container/invoice-container.component";
 
 export const desktopRoutes:Routes = [
   {
@@ -41,7 +43,8 @@ export const desktopRoutes:Routes = [
   },
   {
     path: "invoices",
-    component: IncomingInvoiceListComponent
+    component: InvoiceContainerComponent,
+    children: invoiceRoutes
   },
   /*{
     path: "warehousecompany/:id/warehouse",
