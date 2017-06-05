@@ -6,6 +6,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 import { CustomerDetailsComponent } from './customer-details/customer-details.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { CustomerChoiceComponent } from './customer-choice/customer-choice.component';
+import { CustomerContainerComponent } from './customer-container/customer-container.component';
 
 export const customerRoutes: Routes = [
   {
@@ -32,6 +33,7 @@ export const customerRoutes: Routes = [
   exports: [
     CustomerChoiceComponent
   ],
-  declarations: [CustomerCreateComponent, CustomerListComponent, CustomerDetailsComponent, CustomerChoiceComponent]
+  declarations: [CustomerCreateComponent, CustomerListComponent, CustomerDetailsComponent,
+    CustomerChoiceComponent, CustomerContainerComponent]
 })
 export class WarehouseCustomerCompanyModule { }

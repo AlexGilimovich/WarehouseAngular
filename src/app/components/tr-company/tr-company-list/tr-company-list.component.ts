@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TransportCompanyService} from "../tr-company.service";
 import {TransportCompany} from "../tr-company";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-tr-company-list',
@@ -13,7 +13,8 @@ export class TransportCompanyListComponent implements OnInit {
   companies: TransportCompany[] = [];
 
   constructor(private transportService: TransportCompanyService,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.transportService.getAll().subscribe(data => {
@@ -22,13 +23,11 @@ export class TransportCompanyListComponent implements OnInit {
   }
 
   goToDetails(id: number) {
-    if (id != null) {
-      this.router.navigateByUrl('tr-company/' + id);
-    }
+    this.router.navigate(['../', id], {relativeTo: this.route});
   }
 
   createCompany() {
-    this.router.navigateByUrl('tr-company/new');
+    this.router.navigate(['../new'], {relativeTo: this.route});
   }
 
   delete(company: TransportCompany) {

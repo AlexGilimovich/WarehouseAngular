@@ -3,6 +3,7 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router, ActivatedRoute, Params } from "@angular/router";
 import {WarehouseCustomerCompany} from "../customer";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-customer-details',
@@ -17,7 +18,8 @@ export class CustomerDetailsComponent implements OnInit {
   constructor(private customerService: WarehouseCustomerCompanyService,
               private router: Router,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private location: Location) {
     this.customerForm = this.formBuilder.group({
       'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
     });
@@ -34,7 +36,7 @@ export class CustomerDetailsComponent implements OnInit {
   onSubmit(form: FormGroup) {
     const customer = this.customerService.mapCustomerFromForm(form, this.id);
     this.customerService.update(customer).subscribe(success => {
-      this.router.navigateByUrl('customer');
+      this.location.back();
     });
   }
 

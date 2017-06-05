@@ -20,6 +20,10 @@ import {warehouseRoutes} from "../warehouse/warehouse.module";
 import {warehouseCompanyRoutes} from "../warehouse-company/warehouse-company.module";
 import {invoiceRoutes} from "../invoice/invoice.module";
 import {InvoiceContainerComponent} from "../invoice/invoice-container/invoice-container.component";
+import {CustomerContainerComponent} from "../customer/customer-container/customer-container.component";
+import {customerRoutes} from "../customer/customer.module";
+import {TransportCompanyContainerComponent} from "../tr-company/tr-company-container/tr-company-container.component";
+import {transportCompanyRoutes} from "../tr-company/tr-company.module";
 
 export const desktopRoutes:Routes = [
   {
@@ -52,7 +56,8 @@ export const desktopRoutes:Routes = [
   },*/
   {
     path: "customers",
-    component: CustomerListComponent
+    component: CustomerContainerComponent,
+    children: customerRoutes
   },
   // {
   //   path: "reports",
@@ -80,7 +85,8 @@ export const desktopRoutes:Routes = [
   },
   {
     path: "transportCompanies",
-    component: TransportCompanyListComponent
+    component: TransportCompanyContainerComponent,
+    children: transportCompanyRoutes
   },
   // {
   //   path: "emails",

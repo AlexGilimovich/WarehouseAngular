@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {TransportCompanyService} from "../tr-company.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-tr-company-details',
@@ -16,7 +17,8 @@ export class TransportCompanyDetailsComponent implements OnInit {
   constructor(private transportService: TransportCompanyService,
               private router: Router,
               private route: ActivatedRoute,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private location: Location) {
     this.companyForm = this.formBuilder.group({
       'isTrusted': '',
       'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
@@ -36,7 +38,7 @@ export class TransportCompanyDetailsComponent implements OnInit {
   onSubmit(companyForm: FormGroup) {
     const company = this.transportService.mapCompanyFromForm(companyForm, this.id);
     this.transportService.update(company).subscribe(success => {
-      this.router.navigateByUrl('tr-company');
+      this.location.back();
     });
   }
 

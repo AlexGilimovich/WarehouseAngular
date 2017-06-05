@@ -3,6 +3,7 @@ import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-customer-create',
@@ -15,7 +16,8 @@ export class CustomerCreateComponent implements OnInit {
 
   constructor(private customerService: WarehouseCustomerCompanyService,
               private router: Router,
-              private formBuiler: FormBuilder) {
+              private formBuiler: FormBuilder,
+              private location: Location) {
     this.customerForm = formBuiler.group({
       'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
     });
@@ -27,7 +29,7 @@ export class CustomerCreateComponent implements OnInit {
   onSubmit(form: FormGroup) {
     const customer = this.customerService.mapCustomerFromForm(form);
     this.customerService.save(customer).subscribe(success => {
-      this.router.navigateByUrl('customer');
+      this.location.back();
     });
   }
 

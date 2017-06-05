@@ -67,7 +67,8 @@ export const invoiceRoutes: Routes = [
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
     IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent],
-  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent]
+  entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
+  providers: [InvoiceService]
 })
 export class InvoiceModule {
 }

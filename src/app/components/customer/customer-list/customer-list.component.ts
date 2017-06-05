@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ROUTER_PROVIDERS} from "@angular/router/src/router_module";
 
 @Component({
@@ -13,7 +13,8 @@ import {ROUTER_PROVIDERS} from "@angular/router/src/router_module";
 export class CustomerListComponent implements OnInit {
   customers: WarehouseCustomerCompany[] = [];
   constructor(private customerService: WarehouseCustomerCompanyService,
-              private router: Router) {}
+              private router: Router,
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.customerService.getAll().subscribe(data => {
@@ -22,13 +23,11 @@ export class CustomerListComponent implements OnInit {
   }
 
   goToDetails(id: number) {
-    if (id != null) {
-      this.router.navigateByUrl('customer/' + id);
-    }
+    this.router.navigate(['../', id], {relativeTo: this.route});
   }
 
   createCustomer() {
-    this.router.navigateByUrl('customer/new');
+    this.router.navigate(['../new'], {relativeTo: this.route});
   }
 
   delete(customer: WarehouseCustomerCompany) {
