@@ -34,22 +34,7 @@ export class UserListComponent implements OnInit {
   ngOnInit() {
     this.userService.list(this.currentPage, this.itemsOnPage).subscribe(
       (res) => {
-        res.users.forEach(
-          user=> {
-            this.users.push({"user": user, "selected": false});
-          }
-        );
-        this.totalItemsCount = res.count;
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(pages / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(pages / 2))
-            return e - Math.floor(pages / 2) + i;
-          else
-            return this.totalPageCount - (pages - 1) + i;
-        }).filter(val=>val > 0);
+        this.handleUserListResponse(res);
       },
       (err:any) => {
         console.error(err);
@@ -69,28 +54,36 @@ export class UserListComponent implements OnInit {
     this.users = [];
     this.currentPage = page;
     this.userService.list(page, this.itemsOnPage).subscribe(
-      (res) => {
-        res.users.forEach(
-          user=> {
-            this.users.push({"user": user, "selected": false});
-          }
-        );
-        this.totalItemsCount = res.count;
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(displayedPageCount / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
-            return e - Math.floor(displayedPageCount / 2) + i;
-          else
-            return this.totalPageCount - (displayedPageCount - 1) + i;
-        }).filter(val=>val > 0);
+      (res:any) => {
+        this.handleUserListResponse(res);
       },
       (err:any) => {
         console.error(err);
       }
     );
+  }
+
+  private handleUserListResponse(res:any):void {
+    res.users.forEach(
+      user=> {
+        this.users.push({"user": user, "selected": false});
+      }
+    );
+    this.totalItemsCount = res.count;
+    this.paginate();
+  }
+
+  private paginate():void {
+    this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+    let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+    this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
+      if (e < Math.ceil(displayedPageCount / 2) + 1) {
+        return i + 1;
+      } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
+        return e - Math.floor(displayedPageCount / 2) + i;
+      else
+        return this.totalPageCount - (displayedPageCount - 1) + i;
+    }).filter(val=>val > 0);
   }
 
   private goToDetails(id:string):void {
@@ -140,64 +133,53 @@ export class UserListComponent implements OnInit {
   private sort(fieldName:string) {
     switch (fieldName) {
       case "lastName":
-        if (this.sortingDirection == "UP")
-          this.users.sort((current, next)=> {
-            return (<string>current.user.lastName).toLowerCase().localeCompare((<string>next.user.lastName).toLowerCase());
-          });
-        else
-          this.users.sort((current, next)=> {
-            return (<string>next.user.lastName).toLowerCase().localeCompare((<string>current.user.lastName).toLowerCase());
-          });
+        this.sortStrings("lastName");
         break;
       case "firstName":
-        if (this.sortingDirection == "UP")
-          this.users.sort((current, next)=> {
-            return (<string>current.user.firstName).toLowerCase().localeCompare((<string>next.user.firstName).toLowerCase());
-          });
-        else
-          this.users.sort((current, next)=> {
-            return (<string>next.user.firstName).toLowerCase().localeCompare((<string>current.user.firstName).toLowerCase());
-          });
+        this.sortStrings("firstName");
         break;
       case "patronymic":
-        if (this.sortingDirection == "UP")
-          this.users.sort((current, next)=> {
-            return (<string>current.user.patronymic).toLowerCase().localeCompare((<string>next.user.patronymic).toLowerCase());
-          });
-        else
-          this.users.sort((current, next)=> {
-            return (<string>next.user.patronymic).toLowerCase().localeCompare((<string>current.user.patronymic).toLowerCase());
-          });
+        this.sortStrings("patronymic");
         break;
       case "warehouse":
-        if (this.sortingDirection == "UP")
-          this.users.sort((current, next)=> {
-            return (current.user.warehouse ? current.user.warehouse.name : '').toLowerCase().localeCompare((next.user.warehouse ? next.user.warehouse.name : '').toLowerCase());
-          });
-        else
-          this.users.sort((current, next)=> {
-            return (next.user.warehouse ? next.user.warehouse.name : '').toLowerCase().localeCompare((current.user.warehouse ? current.user.warehouse.name : '').toLowerCase());
-          });
+        this.sortStrings("warehouse", "name");
         break;
-
       case "role":
         if (this.sortingDirection == "UP")
-          this.users.sort((current, next)=> {
-            return (<string>current.user.roles[0].role).toLowerCase().localeCompare((<string>next.user.roles[0].role).toLowerCase());
-          });
-        else
-          this.users.sort((current, next)=> {
-            return (<string>next.user.roles[0].role).toLowerCase().localeCompare((<string>current.user.roles[0].role).toLowerCase());
-          });
+          this.sortStrings("roles", "0", "role");
         break;
-
       default:
         break;
     }
-
     if (this.sortingDirection == "UP")
       this.sortingDirection = "DOWN"
     else this.sortingDirection = "UP"
+  }
+
+
+  private sortStrings(...name:string[]):void {
+    if (this.sortingDirection == "UP") {
+      this.users.sort((current, next)=> {
+        let c = current.user;
+        let n = next.user;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return c.toLowerCase().localeCompare(n.toLowerCase());
+      });
+    }
+    else {
+      this.users.sort((current, next)=> {
+        let c = current.user;
+        let n = next.user;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return n.toLowerCase().localeCompare(c.toLowerCase());
+      });
+    }
   }
 
 

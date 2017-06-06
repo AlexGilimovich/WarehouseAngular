@@ -112,7 +112,7 @@
                               [statusNames]="statusNames"
                               [goodsList]="goodsList"
                               [totalItemsCount]="totalGoodsCount"
-                              [paginate]="invoiceId?false:true"
+                              [pagination]="invoiceId?false:true"
                               (onGetPage)="getGoods($event)"
                               (onSearch)="search($event)"
                               (onAddToSelected)="onSelected($event)"></app-goods-list>

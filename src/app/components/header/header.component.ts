@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   }
 
   private goToUserDetails() {
-    this.router.navigate(['./user/details', this.loginService.getLoggedUser().id], {relativeTo: this.route});
+    this.router.navigate(['./users/details', this.loginService.getLoggedUser().id], {relativeTo: this.route});
 
   }
 

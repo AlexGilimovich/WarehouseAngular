@@ -24,8 +24,8 @@ table {
   .clickable {
     cursor: pointer;
   }
-
 }
+
 .cell-container {
   display: table;
   border-collapse:collapse;
@@ -40,6 +40,7 @@ table {
   }
 }
 
-.centered{
+.date-column{
+  width: 110px;
   text-align: center;
 }

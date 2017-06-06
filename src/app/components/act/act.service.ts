@@ -33,21 +33,8 @@ export class ActService {
     return this.httpAuthService.get(url, options).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
       return {
-        acts: (<any>response.json()).map(
-          item=> {
-            let act = new Act();
-            act.id = item.id;
-            act.date = item.date;
-            act.note = item.note;
-            act.warehouseId = item.warehouseId;
-            let user = new User();
-            user.id = item.user.id;
-            user.lastName = item.user.lastName;
-            user.firstName = item.user.firstName;
-            user.patronymic = item.user.patronymic;
-            act.user = user;
-            act.type = new ActType(null, item.type)
-            return act;
+        acts: (<any>response.json()).map(item=> {
+            return this.mapResponseItemToAct(item);
           }
         ),
         count: count
@@ -61,33 +48,11 @@ export class ActService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response) => {
-      const item = response.json();
-      let act = new Act();
-      act.id = item.id;
-      act.date = item.date;
-      act.note = item.note;
-      act.warehouseId = item.warehouseId;
-      let user = new User();
-      user.id = item.user.id;
-      user.lastName = item.user.lastName;
-      user.firstName = item.user.firstName;
-      user.patronymic = item.user.patronymic;
-      act.user = user;
-      act.type = new ActType(null, item.type);
+      const item:any = response.json();
+      let act = this.mapResponseItemToAct(item);
       act.goodsList = [];
-      item.goodsList.forEach(
-        item=> {
-          let goods = new Goods();
-          goods.id = item.id;
-          goods.name = item.name;
-          goods.quantity = item.quantity;
-          goods.weight = item.weight;
-          goods.price = item.price;
-          goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-          goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-          goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-          goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-          act.goodsList.push(goods);
+      item.goodsList.forEach(item=> {
+          act.goodsList.push(this.mapResponseItemToGoods(item));
         }
       )
       return act;
@@ -101,21 +66,8 @@ export class ActService {
   public getActsForGoods(goodsId):Observable<Act[]> {
     const url:string = `${GET_ACTS_FOR_GOODS_URL}${"/"}${goodsId}`;
     return this.httpAuthService.get(url).map((response:Response) => {
-      return response.json().map(
-        item => {
-          let act = new Act();
-          act.id = item.id;
-          act.date = item.date;
-          act.note = item.note;
-          act.warehouseId = item.warehouseId;
-          let user = new User();
-          user.id = item.user.id;
-          user.lastName = item.user.lastName;
-          user.firstName = item.user.firstName;
-          user.patronymic = item.user.patronymic;
-          act.user = user;
-          act.type = new ActType(null, item.type)
-          return act;
+      return response.json().map(item => {
+          return this.mapResponseItemToAct(item);
         }
       )
     })
@@ -123,8 +75,7 @@ export class ActService {
 
   getActTypes():Observable<ActTypeName[]> {
     return this.httpAuthService.get(GET_ACTS_TYPES_URL).map((response:Response) => {
-      return response.json().map(
-        item => {
+      return response.json().map(item => {
           return new ActTypeName(item.id, item.name);
         }
       )
@@ -136,27 +87,42 @@ export class ActService {
     const url:string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
     return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
-      console.log(response.headers);//todo delete
       return {
-        acts: (<any>response.json()).map(
-          item=> {
-            let act = new Act();
-            act.id = item.id;
-            act.date = item.date;
-            act.note = item.note;
-            act.warehouseId = item.warehouseId;
-            let user = new User();
-            user.id = item.user.id;
-            user.lastName = item.user.lastName;
-            user.firstName = item.user.firstName;
-            user.patronymic = item.user.patronymic;
-            act.user = user;
-            act.type = new ActType(null, item.type)
-            return act;
-          }),
+        acts: (<any>response.json()).map(item=> {
+          return this.mapResponseItemToAct(item);
+        }),
         count: count
       }
     });
+  }
 
+  private mapResponseItemToAct(item:any):Act {
+    let act = new Act();
+    act.id = item.id;
+    act.date = item.date;
+    act.note = item.note;
+    act.warehouseId = item.warehouseId;
+    let user = new User();
+    user.id = item.user.id;
+    user.lastName = item.user.lastName;
+    user.firstName = item.user.firstName;
+    user.patronymic = item.user.patronymic;
+    act.user = user;
+    act.type = new ActType(null, item.type)
+    return act;
+  }
+
+  private mapResponseItemToGoods(item:any):Goods {
+    let goods = new Goods();
+    goods.id = item.id;
+    goods.name = item.name;
+    goods.quantity = item.quantity;
+    goods.weight = item.weight;
+    goods.price = item.price;
+    goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+    goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+    goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+    goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+    return goods;
   }
 }

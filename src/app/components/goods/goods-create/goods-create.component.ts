@@ -42,10 +42,7 @@ export class GoodsCreateComponent implements OnInit {
   ngOnInit() {
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
-        this.storageTypes = res;
-        let emptyType = new StorageSpaceType();
-        emptyType.name = '';
-        this.storageTypes.push(emptyType);
+        this.storageTypes = [...res, new StorageSpaceType(null, '')];
       },
       (err)=> {
         console.error(err);
@@ -53,8 +50,7 @@ export class GoodsCreateComponent implements OnInit {
     );
     this.goodsService.getUnits().subscribe(
       (res) => {
-        this.units = res;
-        this.units.push(new Unit(null, ''));
+        this.units = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);
@@ -80,7 +76,7 @@ export class GoodsCreateComponent implements OnInit {
 
   private close() {
     // if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
-      this.location.back();
+    this.location.back();
   }
 
 }

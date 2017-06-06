@@ -26,6 +26,7 @@ const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
 const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
 const REMOVE_FROM_STORAGE_URL = "http://localhost:8080/web/web/goods/remove/";
+
 @Injectable()
 export class GoodsService {
   private goodsSource = new Subject<Goods>();
@@ -107,10 +108,9 @@ export class GoodsService {
     return this.httpAuthService.get(url, options).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
       return {
-        goods: (<any>response.json()).map(
-          (item:any)=> {
-            return this.mapResponseItemToGoods(item);
-          }),
+        goods: (<any>response.json()).map((item:any)=> {
+          return this.mapResponseItemToGoods(item);
+        }),
         count: count
       }
     });

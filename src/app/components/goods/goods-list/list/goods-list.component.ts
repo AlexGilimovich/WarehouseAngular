@@ -35,8 +35,7 @@ export class GoodsListComponent implements OnInit, OnChanges {
   private sortingDirection = "UP";
 
   @Input() private isEditable = false;
-  @Input() private paginate = true;
-  private isStatusEditable = true;
+  @Input() private pagination = true;
 
   //pagination
   @Input() private totalItemsCount:number;
@@ -67,39 +66,16 @@ export class GoodsListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     $("body").foundation();
-
   }
 
   public addToSelected(goods:Goods) {
     this.onAddToSelected.emit(goods);
   }
 
-  public getSelectedGoods():Goods[] {
-    return this.goodsList.filter(
-      item=> {
-        return item.selected;
-      }
-    ).map(
-      item=> {
-        return item.goods;
-      }
-    )
-  }
 
   ngOnChanges() {
-    if (this.paginate) {
-      if (this.goodsList) {
-        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-        let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-        this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
-          if (e < Math.ceil(pages / 2) + 1) {
-            return i + 1;
-          } else if (e < this.totalPageCount - Math.floor(pages / 2))
-            return e - Math.floor(pages / 2) + i;
-          else
-            return this.totalPageCount - (pages - 1) + i;
-        }).filter(val=>val > 0);
-      }
+    if (this.pagination && this.goodsList) {
+      this.paginate();
     }
   }
 
@@ -108,9 +84,12 @@ export class GoodsListComponent implements OnInit, OnChanges {
     this.goodsList = [];
     this.currentPage = page;
     if (!searchDTO) {
-      if (!this.searchDTO)
+      if (!this.searchDTO) {
         this.getGoods(page);
-      else this.search(this.searchDTO, page);
+      }
+      else {
+        this.search(this.searchDTO, page);
+      }
     } else {
       this.searchDTO = searchDTO;
       this.search(this.searchDTO, page);
@@ -119,21 +98,16 @@ export class GoodsListComponent implements OnInit, OnChanges {
 
   private getGoods(page) {
     this.onGetPage.emit({page: page, itemsOnPage: this.itemsOnPage});
-    this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-    let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-    this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
-      if (e < Math.ceil(displayedPageCount / 2) + 1) {
-        return i + 1;
-      } else if (e < this.totalPageCount - Math.floor(displayedPageCount / 2))
-        return e - Math.floor(displayedPageCount / 2) + i;
-      else
-        return this.totalPageCount - (displayedPageCount - 1) + i;
-    }).filter(val=>val > 0);
+    this.paginate();
   }
 
 
   private search(searchDTO:GoodsSearchDTO, page) {
     this.onSearch.emit({searchDTO: searchDTO, page: page, itemsOnPage: this.itemsOnPage});
+    this.paginate();
+  }
+
+  private paginate():void {
     this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
     let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
     this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
@@ -147,7 +121,10 @@ export class GoodsListComponent implements OnInit, OnChanges {
   }
 
   private goToDetails(id:string):void {
-    this.router.navigate(['../../goods/details', id], {relativeTo: this.route, queryParams: {warehouseId: this.warehouseId}});
+    this.router.navigate(['../../goods/details', id], {
+      relativeTo: this.route,
+      queryParams: {warehouseId: this.warehouseId}
+    });
   }
 
 
@@ -231,14 +208,14 @@ export class GoodsListComponent implements OnInit, OnChanges {
         item.changed = false;
         item.newStatus.name = '';
         item.newStatus.note = '';
-        if (item.goods.status)
+        if (item.goods.status) {
           $(`${'#statusName_'}${index}${' option[value='}${item.goods.status.name}${']'}`).prop('selected', true);
-        else
+        } else {
           $(`${'#statusName_'}${index}${' option[value=""]'}`).prop('selected', true);
+        }
       }
     )
     this.onChanged.emit(false);
-
   }
 
 
@@ -254,13 +231,13 @@ export class GoodsListComponent implements OnInit, OnChanges {
     )
     this.doUpdate();
     $('#statusModal').foundation('close');
-
   }
 
   private goToStorageView(goods) {
-    if (!this.isEditable) return;
-    this.goodsService.selectedForPuttingGoodsSource.next(goods.goods);
-    this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    if (this.isEditable) {
+      this.goodsService.selectedForPuttingGoodsSource.next(goods.goods);
+      this.router.navigate(['../typespace', goods.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    }
   }
 
 
@@ -275,144 +252,125 @@ export class GoodsListComponent implements OnInit, OnChanges {
   private sort(fieldName:string):void {
     switch (fieldName) {
       case "name":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (<string>current.goods.name).toLowerCase().localeCompare((<string>next.goods.name).toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (<string>next.goods.name).toLowerCase().localeCompare((<string>current.goods.name).toLowerCase());
-          });
+        debugger;
+        this.sortStrings(fieldName);
         break;
-
       case "storageType":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (<string>current.goods.storageType.name).toLowerCase().localeCompare((<string>next.goods.storageType.name).toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (<string>next.goods.storageType.name).toLowerCase().localeCompare((<string>current.goods.storageType.name).toLowerCase());
-          });
+        this.sortStrings("storageType", "name");
         break;
-
       case "quantity":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return current.goods.quantity - next.goods.quantity;
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return next.goods.quantity - current.goods.quantity;
-          });
+        this.sortNumbers("quantity");
         break;
-
       case "quantityUnit":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (<string>current.goods.quantityUnit.name).toLowerCase().localeCompare((<string>next.goods.quantityUnit.name).toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (<string>next.goods.quantityUnit.name).toLowerCase().localeCompare((<string>current.goods.quantityUnit.name).toLowerCase());
-          });
+        this.sortStrings("quantityUnit", "name");
         break;
-
       case "price":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return current.goods.price - next.goods.price;
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return next.goods.price - current.goods.price;
-          });
+        this.sortNumbers("price");
         break;
-
       case "priceUnit":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (<string>current.goods.priceUnit.name).toLowerCase().localeCompare((<string>next.goods.priceUnit.name).toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (<string>next.goods.priceUnit.name).toLowerCase().localeCompare((<string>current.goods.priceUnit.name).toLowerCase());
-          });
+        this.sortStrings("priceUnit", "name");
         break;
-
       case "weight":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return current.goods.weight - next.goods.weight;
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return next.goods.weight - current.goods.weight;
-          });
+        this.sortNumbers("weight");
         break;
-
       case "weightUnit":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (<string>current.goods.weightUnit.name).toLowerCase().localeCompare((<string>next.goods.weightUnit.name).toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (<string>next.goods.weightUnit.name).toLowerCase().localeCompare((<string>current.goods.weightUnit.name).toLowerCase());
-          });
+        this.sortStrings("weightUnit", "name");
         break;
-
       case "status":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (current.goods.status ? statusMessages.get(current.goods.status.name) : '').toLowerCase().localeCompare((next.goods.status ? statusMessages.get(next.goods.status.name) : '').toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (next.goods.status ? statusMessages.get(next.goods.status.name) : '').toLowerCase().localeCompare((current.goods.status ? statusMessages.get(current.goods.status.name) : '').toLowerCase());
-          });
+        this.sortStatuses("currentStatus", "name");
         break;
-
       case "storageCell":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (current.goods.cells[0] ? current.goods.cells[0].number : '').toLowerCase().localeCompare((next.goods.cells[0] ? next.goods.cells[0].number : '').toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (next.goods.cells[0] ? next.goods.cells[0].number : '').toLowerCase().localeCompare((current.goods.cells[0] ? current.goods.cells[0].number : '').toLowerCase());
-          });
+        debugger;
+        this.sortNumbers("cells", "0", "number");
         break;
 
       case "registeredDate":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (current.goods.registeredStatus ? current.goods.registeredStatus.date : '').toLowerCase().localeCompare((next.goods.registeredStatus ? next.goods.registeredStatus.date : '').toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (next.goods.registeredStatus ? next.goods.registeredStatus.date : '').toLowerCase().localeCompare((current.registeredStatus ? current.goods.registeredStatus.date : '').toLowerCase());
-          });
+        this.sortNumbers("registeredStatus", "date");
         break;
       case "registeredDate":
-        if (this.sortingDirection == "UP")
-          this.goodsList.sort((current, next)=> {
-            return (current.goods.movedOutStatus ? current.goods.movedOutStatus.date : '').toLowerCase().localeCompare((next.goods.movedOutStatus ? next.goods.movedOutStatus.date : '').toLowerCase());
-          });
-        else
-          this.goodsList.sort((current, next)=> {
-            return (next.goods.movedOutStatus ? next.goods.movedOutStatus.date : '').toLowerCase().localeCompare((current.movedOutStatus ? current.goods.movedOutStatus.date : '').toLowerCase());
-          });
+        this.sortNumbers("movedOutStatus", "date");
         break;
-
       default:
         break;
     }
-
     if (this.sortingDirection == "UP")
       this.sortingDirection = "DOWN"
     else this.sortingDirection = "UP"
   }
 
 
+  private sortStatuses(...name:string[]):void {
+    if (this.sortingDirection == "UP") {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return statusMessages.get(c).toLowerCase().localeCompare(statusMessages.get(n).toLowerCase());
+      });
+    }
+    else {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return statusMessages.get(n).toLowerCase().localeCompare(statusMessages.get(c).toLowerCase());
+      });
+    }
+  }
+
+  private sortStrings(...name:string[]):void {
+    if (this.sortingDirection == "UP") {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return c.toLowerCase().localeCompare(n.toLowerCase());
+      });
+    }
+    else {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : '';
+          n = n ? n[item] : '';
+        })
+        return n.toLowerCase().localeCompare(c.toLowerCase());
+      });
+    }
+  }
+
+  private sortNumbers(...name:string[]):void {
+    if (this.sortingDirection == "UP") {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : -1;
+          n = n ? n[item] : -1;
+        })
+        return c - n;
+      });
+    }
+    else {
+      this.goodsList.sort((current, next)=> {
+        let c = current.goods;
+        let n = next.goods;
+        name.forEach((item:string)=> {
+          c = c ? c[item] : -1;
+          n = n ? n[item] : -1;
+        })
+        return n - c;
+      });
+    }
+  }
 }

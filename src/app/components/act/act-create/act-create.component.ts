@@ -40,8 +40,6 @@ export class ActCreateComponent implements OnInit {
   private statusNames:GoodsStatusName[] = [];
   private storageTypes:StorageSpaceType[];
   private units:Unit[];
-  @ViewChild(GoodsListComponent)
-  private goodsListComponent:GoodsListComponent;
 
   private actTypeMessages = actTypeMessages;
   private actForm:FormGroup;
@@ -92,8 +90,7 @@ export class ActCreateComponent implements OnInit {
     );
     this.goodsService.getStatusNames().subscribe(
       (res) => {
-        this.statusNames = res.filter(
-          item=> {
+        this.statusNames = [...res.filter(item=> {
             return item.name != 'MOVED_OUT' &&
               item.name != 'STOLEN' &&
               item.name != 'SEIZED' &&
@@ -104,8 +101,7 @@ export class ActCreateComponent implements OnInit {
               item.name != 'RELEASE_ALLOWED' &&
               item.name != 'LOST_BY_WAREHOUSE_COMPANY';
           }
-        );
-        this.statusNames.push(new GoodsStatusName(null, ''));
+        ), new GoodsStatusName(null, '')];
       },
       (err)=> {
         console.error(err);

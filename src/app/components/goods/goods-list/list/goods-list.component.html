@@ -54,10 +54,10 @@
         </option>
       </select>
     </td>
-    <td class="centered">
+    <td class="date-column">
       {{goods.goods.registeredStatus?.date | date:'dd.MM.yyyy'}}
     </td>
-    <td class="centered">
+    <td class="date-column">
       {{goods.goods.movedOutStatus?.date | date:'dd.MM.yyyy'}}
     </td>
     <td (click)="goToStorageView(goods)">

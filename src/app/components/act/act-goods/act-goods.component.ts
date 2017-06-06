@@ -19,13 +19,11 @@ export class ActGoodsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
   }
 
   ngOnChanges() {
-    if (this.goodsList)
-      this.goodsInitialState = this.goodsList.map(
-        item=> {
+    if (this.goodsList) {
+      this.goodsInitialState = this.goodsList.map(item=> {
           return {
             quantity: item.quantity,
             weight: item.weight,
@@ -33,6 +31,7 @@ export class ActGoodsComponent implements OnInit, OnChanges {
           }
         }
       )
+    }
   }
 
 
@@ -44,21 +43,14 @@ export class ActGoodsComponent implements OnInit, OnChanges {
     this.onRemoved.emit(goods);
   }
 
-  private limitValue(event, index:number, field:string):void {
-    switch (field) {
-      case "quantity":
-        event.target.value > this.goodsInitialState[index].quantity ? event.target.value = this.goodsInitialState[index].quantity : event.target.value;
-        if (event.target.value == this.goodsInitialState[index].quantity) {
-          this.goodsList[index].weight = this.goodsInitialState[index].weight;
-          this.goodsList[index].price = this.goodsInitialState[index].price;
-        } else {
-          this.goodsList[index].weight = this.round(event.target.value / this.goodsInitialState[index].quantity* this.goodsInitialState[index].weight,3).toString();
-          this.goodsList[index].price = this.round(event.target.value / this.goodsInitialState[index].quantity* this.goodsInitialState[index].price,2).toString();
-        }
-        break;
-      default:
-        break;
-
+  private limitValue(input, index:number):void {
+    input.value > this.goodsInitialState[index].quantity ? input.value = this.goodsInitialState[index].quantity : input.value;
+    if (input.value == this.goodsInitialState[index].quantity) {
+      this.goodsList[index].weight = this.goodsInitialState[index].weight;
+      this.goodsList[index].price = this.goodsInitialState[index].price;
+    } else {
+      this.goodsList[index].weight = this.round(input.value / this.goodsInitialState[index].quantity * this.goodsInitialState[index].weight, 3).toString();
+      this.goodsList[index].price = this.round(input.value / this.goodsInitialState[index].quantity * this.goodsInitialState[index].price, 2).toString();
     }
   }
 
