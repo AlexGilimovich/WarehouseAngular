@@ -25,10 +25,10 @@ export class LoginService {
       this.authenticatedUser = User.create(user);
     }
 
-    this.authenticatedUser = new User();
-    this.authenticatedUser.login = "root";
-    this.authenticatedUser.password = "root";
-    this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
+    // this.authenticatedUser = new User();
+    // this.authenticatedUser.login = "root";
+    // this.authenticatedUser.password = "root";
+    // this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
 
   }
 

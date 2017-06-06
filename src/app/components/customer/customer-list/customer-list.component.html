@@ -1,21 +1,31 @@
-<table class="hover">
-  <tr>
-    <th>Название</th>
-    <th></th>
-  </tr>
-  <tr *ngFor="let customer of customers">
-    <td class="clickable" (click)="goToDetails(customer.id)">
-        {{customer.name}}
-    </td>
-    <td>
-      <button (click)="delete(customer)">
-        Удалить
-      </button>
-    </td>
-  </tr>
-</table>
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <table class="hover">
+      <thead>
+      <tr>
+        <th>Название</th>
+        <!--<th></th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let customer of customers">
+        <td class="clickable" (click)="goToDetails(customer.id)">
+          {{customer.name}}
+        </td>
+        <!--<td>-->
+        <!--<i class="fi-x icon" (click)="delete(customer)"></i>-->
+        <!--</td>-->
+      </tr>
+      </tbody>
+    </table>
 
-<!-- todo create pagination -->
+    <!-- todo create pagination -->
+  </div>
+</div>
 
-<input type="button" class="button" value="Создать"
-       (click)="createCustomer()">
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <input type="button" class="button" value="Создать"
+           (click)="createCustomer()">
+  </div>
+</div>

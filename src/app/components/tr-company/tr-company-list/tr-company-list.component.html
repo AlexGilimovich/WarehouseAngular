@@ -1,28 +1,36 @@
-<table class="hover">
-  <tr>
-    <th>Название</th>
-    <th>Доверенный</th>
-    <th></th>
-  </tr>
-  <tr *ngFor="let company of companies">
-    <td class="clickable" (click)="goToDetails(company.id)">
-      {{company.name}}
-    </td>
-    <td>
-      <span *ngIf="company.isTrusted; else notTrusted">Да</span>
-      <ng-template #notTrusted>
-        <span>Нет</span>
-      </ng-template>
-    </td>
-    <td>
-      <button (click)="delete(company)">
-        Удалить
-      </button>
-    </td>
-  </tr>
-</table>
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <table class="hover">
+      <thead>
+      <tr>
+        <th>Название</th>
+        <th>Доверенный</th>
+        <!--<th></th>-->
+      </tr>
+      </thead>
+      <tr *ngFor="let company of companies">
+        <td class="clickable" (click)="goToDetails(company.id)">
+          {{company.name}}
+        </td>
+        <td>
+          <span *ngIf="company.isTrusted; else notTrusted">Да</span>
+          <ng-template #notTrusted>
+            <span>Нет</span>
+          </ng-template>
+        </td>
+        <!--<td>-->
+        <!--<i class="fi-x icon" (click)="delete(company)"></i>-->
+        <!--</td>-->
+      </tr>
+    </table>
 
-<!-- todo create pagination -->
+    <!-- todo create pagination -->
+  </div>
+</div>
 
-<input type="button" class="button" value="Создать"
-       (click)="createCompany()">
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <input type="button" class="button" value="Создать"
+           (click)="createCompany()">
+  </div>
+</div>

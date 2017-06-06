@@ -1,13 +1,17 @@
-<div>
+<div class="row">
+  <div class="large-12 small-12 columns">
   <table class="hover">
+    <thead>
     <tr>
       <th>Номер ТТН</th>
       <th>Дата выписки</th>
       <th>Отправитель</th>
       <th>Перевозчик</th>
       <th>Статус</th>
-      <th></th>
+      <!--<th></th>-->
     </tr>
+    </thead>
+    <tbody>
     <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
       <td>
         {{invoice.number}}
@@ -24,18 +28,23 @@
       <td>
         {{invoice.status}}
       </td>
-      <td>
-        <button (click)="delete(invoice)">
-          Удалить
-        </button>
-      </td>
+      <!--<td>-->
+      <!--<button (click)="delete(invoice)">-->
+      <!--Удалить-->
+      <!--</button>-->
+      <!--</td>-->
     </tr>
+    </tbody>
   </table>
 
   <!-- todo create pagination -->
+  </div>
+</div>
 
-  <!--<div *ngIf="isDispatcher()">-->
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <!--<div *ngIf="isDispatcher()">-->
     <input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">
-  <!--</div>-->
-
+    <!--</div>-->
+  </div>
 </div>
