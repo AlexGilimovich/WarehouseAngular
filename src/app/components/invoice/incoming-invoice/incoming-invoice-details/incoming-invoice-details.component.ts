@@ -16,7 +16,7 @@ import {Location} from "@angular/common";
   selector: 'app-incoming-invoice-details',
   templateUrl: './incoming-invoice-details.component.html',
   styleUrls: ['./incoming-invoice-details.component.scss'],
-  providers: [InvoiceService, LoginService]
+  providers: [InvoiceService]
 })
 export class IncomingInvoiceDetailsComponent implements OnInit {
   id: number;
@@ -70,9 +70,9 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
   createMismatchAct() {
     // todo redirect to act creation page
     // this.router.navigateByUrl();
-
-    const status = InvoiceStatus.CHECKED;
-    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe();
+    this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse],{queryParams: {invoiceId: this.id}, relativeTo:this.route});
+    // const status = InvoiceStatus.CHECKED;//todo moved this logic into act create component
+    // this.invoiceService.updateInvoiceStatus(this.id, status).subscribe();
   }
 
   finishCompleting(){

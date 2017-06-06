@@ -28,7 +28,7 @@ export class WarehouseSchemeService {
 
   checkout(cell:StorageCell[]) {
     this.cellSource.next(cell);
-    this.location.back();
+    // this.location.back();
   }
 
   getStorageSpace(id:number):Observable<StorageSpace[]> {

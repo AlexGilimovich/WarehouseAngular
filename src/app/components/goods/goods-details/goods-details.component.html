@@ -159,12 +159,12 @@
                 </div>
               </div>
               <div class="buttons">
-                <button class="button" type="button" (click)="goToStorageView()" [disabled]="!isEditable">
+                <button class="button" type="button" (click)="goToStorageView()" [disabled]="!isChecked()">
                 <span aria-hidden="true">
                   Переместить
                 </span>
                 </button>
-                <button class="button" type="button" (click)="removeFromStorage()" [disabled]="!isEditable">
+                <button class="button" type="button" (click)="removeFromStorage()" [disabled]="!isInStorage()">
                 <span aria-hidden="true">
                   Освободить ячейки
                 </span>

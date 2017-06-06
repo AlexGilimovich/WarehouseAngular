@@ -32,7 +32,7 @@ export class GoodsDetailsComponent implements OnInit {
   private hasRights:boolean = true;//todo check
   private statusMessages = statusMessages;
   private warehouseId;
-  private isEditable:boolean = true;
+  private isEditable:boolean = false;
 
   private cells:StorageCell[] = [];
 
@@ -99,8 +99,7 @@ export class GoodsDetailsComponent implements OnInit {
         );
         this.goodsService.getStatusNames().subscribe(
           (res) => {
-            this.statusNames = this.filterStatusNames(res);
-            this.statusNames.push(new GoodsStatusName(null, ''));
+            this.statusNames = [...res, new GoodsStatusName(null, '')];
           },
           (err)=> {
             console.error(err);
@@ -113,10 +112,7 @@ export class GoodsDetailsComponent implements OnInit {
     );
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
-        this.storageTypes = res;
-        let emptyType = new StorageSpaceType();
-        emptyType.name = '';
-        this.storageTypes.push(emptyType);
+        this.storageTypes = [...res, new StorageSpaceType(null, '')];
       },
       (err)=> {
         console.error(err);
@@ -124,8 +120,7 @@ export class GoodsDetailsComponent implements OnInit {
     );
     this.goodsService.getUnits().subscribe(
       (res) => {
-        this.units = res;
-        this.units.push(new Unit(null, ''));
+        this.units = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);
@@ -145,74 +140,87 @@ export class GoodsDetailsComponent implements OnInit {
     );
   }
 
-  private filterStatusNames(statusNames:GoodsStatusName[]):GoodsStatusName[] {
-
-    switch (this.goods.currentStatus.name) {
-      case 'REGISTERED':
-        return statusNames.filter(item=> {
-          return item.name == 'REGISTERED' || item.name == 'CHECKED' || item.name == 'TRANSPORT_COMPANY_MISMATCH' || item.name == 'LOST_BY_TRANSPORT_COMPANY'
-        });
-      case 'CHECKED':
-        return statusNames.filter(item=> {
-          return item.name == 'CHECKED' || item.name == 'STORED'
-        });
-      case 'STORED':
-        return statusNames.filter(item=> {
-          return item.name == 'STORED' || item.name == 'WITHDRAWN'
-          // return item.name != 'CHECKED' && item.name != 'REGISTERED' && item.name != 'RELEASE_ALLOWED' && item.name != 'MOVED_OUT' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'TRANSPORT_COMPANY_MISMATCH'
-        });
-      case 'STOLEN':
-        return statusNames.filter(item=> {
-          return item.name == 'STOLEN'
-        });
-      case 'SEIZED':
-        return statusNames.filter(item=> {
-          return item.name == 'SEIZED'
-        });
-      case 'TRANSPORT_COMPANY_MISMATCH':
-        return statusNames.filter(item=> {
-          return item.name == 'TRANSPORT_COMPANY_MISMATCH'
-        });
-      case 'LOST_BY_TRANSPORT_COMPANY':
-        return statusNames.filter(item=> {
-          return item.name == 'LOST_BY_TRANSPORT_COMPANY'
-        });
-      case 'LOST_BY_WAREHOUSE_COMPANY':
-        return statusNames.filter(item=> {
-          return item.name == 'LOST_BY_WAREHOUSE_COMPANY'
-        });
-      case 'RECYCLED':
-        return statusNames.filter(item=> {
-          return item.name == 'RECYCLED'
-        });
-      case 'WITHDRAWN':
-        return statusNames.filter(item=> {
-          return item.name == 'WITHDRAWN' || item.name == 'STORED'|| item.name == 'RELEASE_ALLOWED'
-          // return item.name != 'REGISTERED' && item.name != 'CHECKED' && item.name != 'TRANSPORT_COMPANY_MISMATCH' && item.name != 'LOST_BY_TRANSPORT_COMPANY' && item.name != 'MOVED_OUT'
-        });
-      case 'RELEASE_ALLOWED':
-        return statusNames.filter(item=> {
-          return item.name == 'RELEASE_ALLOWED' || item.name == 'MOVED_OUT' || item.name == 'STORED'
-        });
-      case 'MOVED_OUT':
-        return statusNames.filter(item=> {
-          return item.name == 'MOVED_OUT'
-        });
-      default:
-        break;
+  private isChecked():boolean {
+    if (this.goods) {
+      return this.goods.currentStatus.name == 'CHECKED';
+    } else {
+      return false;
     }
-
   }
 
+  private isInStorage():boolean {
+    if (this.goods) {
+      return this.goods.cells.length > 0;
+    } else {
+      return false;
+    }
+  }
 
-  private goToStorageView() {
+  // private filterStatusNames(statusNames:GoodsStatusName[]):GoodsStatusName[] {
+  //
+  //   switch (this.goods.currentStatus.name) {
+  //     case 'REGISTERED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'REGISTERED' || item.name == 'CHECKED' || item.name == 'TRANSPORT_COMPANY_MISMATCH' || item.name == 'LOST_BY_TRANSPORT_COMPANY'
+  //       });
+  //     case 'CHECKED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'CHECKED' || item.name == 'STORED'
+  //       });
+  //     case 'STORED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'STORED' || item.name == 'WITHDRAWN'
+  //       });
+  //     case 'STOLEN':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'STOLEN'
+  //       });
+  //     case 'SEIZED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'SEIZED'
+  //       });
+  //     case 'TRANSPORT_COMPANY_MISMATCH':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'TRANSPORT_COMPANY_MISMATCH'
+  //       });
+  //     case 'LOST_BY_TRANSPORT_COMPANY':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'LOST_BY_TRANSPORT_COMPANY'
+  //       });
+  //     case 'LOST_BY_WAREHOUSE_COMPANY':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'LOST_BY_WAREHOUSE_COMPANY'
+  //       });
+  //     case 'RECYCLED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'RECYCLED'
+  //       });
+  //     case 'WITHDRAWN':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'WITHDRAWN' || item.name == 'STORED'|| item.name == 'RELEASE_ALLOWED'
+  //       });
+  //     case 'RELEASE_ALLOWED':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'RELEASE_ALLOWED' || item.name == 'MOVED_OUT' || item.name == 'STORED'
+  //       });
+  //     case 'MOVED_OUT':
+  //       return statusNames.filter(item=> {
+  //         return item.name == 'MOVED_OUT'
+  //       });
+  //     default:
+  //       break;
+  //   }
+
+  // }
+
+  private goToStorageView():void {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
     this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
 
   }
 
-
-  private removeFromStorage() {
+  private removeFromStorage():void {
+    debugger;
     this.goodsService.removeFromStorage(this.goods).subscribe(
       res=> {
         this.goodsService.get(this.id).subscribe(
@@ -262,6 +270,7 @@ export class GoodsDetailsComponent implements OnInit {
     this.goodsForm.controls['priceUnit'].setValue(this.goods.priceUnit.name);
     this.goodsForm.controls['storageType'].setValue(this.goods.storageType.name);
     this.goodsForm.controls['currentStatus'].setValue(this.goods.currentStatus ? this.goods.currentStatus.name : null);
+    this.goodsForm.controls['currentStatus'].disable();
     if (!isEditable) {
       this.goodsForm.controls['name'].disable();
       this.goodsForm.controls['quantity'].disable();
@@ -271,7 +280,6 @@ export class GoodsDetailsComponent implements OnInit {
       this.goodsForm.controls['price'].disable();
       this.goodsForm.controls['priceUnit'].disable();
       this.goodsForm.controls['storageType'].disable();
-      this.goodsForm.controls['currentStatus'].disable();
     }
 
 

@@ -35,6 +35,7 @@ export class GoodsListComponent implements OnInit, OnChanges {
   private sortingDirection = "UP";
 
   @Input() private isEditable = false;
+  @Input() private paginate = true;
   private isStatusEditable = true;
 
   //pagination
@@ -86,18 +87,19 @@ export class GoodsListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.goodsList) {
-      this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
-      let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-      this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
-        if (e < Math.ceil(pages / 2) + 1) {
-          return i + 1;
-        } else if (e < this.totalPageCount - Math.floor(pages / 2))
-          return e - Math.floor(pages / 2) + i;
-        else
-          return this.totalPageCount - (pages - 1) + i;
-      }).filter(val=>val > 0);
-      
+    if (this.paginate) {
+      if (this.goodsList) {
+        this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
+        let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
+        this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
+          if (e < Math.ceil(pages / 2) + 1) {
+            return i + 1;
+          } else if (e < this.totalPageCount - Math.floor(pages / 2))
+            return e - Math.floor(pages / 2) + i;
+          else
+            return this.totalPageCount - (pages - 1) + i;
+        }).filter(val=>val > 0);
+      }
     }
   }
 
@@ -145,8 +147,7 @@ export class GoodsListComponent implements OnInit, OnChanges {
   }
 
   private goToDetails(id:string):void {
-    // this.router.navigate(['../details', this.warehouseId, id], {relativeTo: this.route});
-    this.router.navigate(['../details', id], {relativeTo: this.route, queryParams: {warehouseId: this.warehouseId}});
+    this.router.navigate(['../../goods/details', id], {relativeTo: this.route, queryParams: {warehouseId: this.warehouseId}});
   }
 
 

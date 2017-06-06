@@ -7,11 +7,11 @@
 
   .login-window {
     position: absolute;
-    width: 20%;
+    width: 400px;
     height: auto;
     min-height: 40%;
     top: 20%;
-    left: 40%;
+    left: calc((100% - 400px)/2);
     text-align: left;
     border: solid 1px;
     background-color: white;

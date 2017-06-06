@@ -46,11 +46,11 @@ export class GoodsService {
     this.goodsSource.next(goods);
   }
 
-  goodsChosenEvent(goods: Goods) {
+  goodsChosenEvent(goods:Goods) {
     this.goodsForOutgoingInvoiceSource.next(goods);
   }
 
-  list(id:string, page:number, count:number):Observable<any> {
+  list(id:string, page?:number, count?:number):Observable<any> {
     const url:string = `${LIST_URL}${"/"}${id}${"/list"}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
@@ -59,54 +59,16 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
-            let goods = new Goods();
-            goods.id = item.id;
-            goods.name = item.name;
-            goods.quantity = item.quantity;
-            goods.weight = item.weight;
-            goods.price = item.price;
-            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-            goods.cells = item.cells.map(
-              item=> {
-                let storageCell = new StorageCell();
-                storageCell.number = item.number;
-                storageCell.idStorageCell = item.idStorageCell;
-                return storageCell;
-              }
-            )
-            goods.currentStatus = item.currentStatus ?
-              new GoodsStatus(
-                item.currentStatus.id,
-                item.currentStatus.date,
-                item.currentStatus.name,
-                item.currentStatus.note
-              ) : null;
-            goods.registeredStatus = item.registeredStatus ?
-              new GoodsStatus(
-                item.registeredStatus.id,
-                item.registeredStatus.date,
-                item.registeredStatus.name,
-                item.registeredStatus.note
-              ) : null;
-            goods.movedOutStatus = item.movedOutStatus ?
-              new GoodsStatus(
-                item.movedOutStatus.id,
-                item.movedOutStatus.date,
-                item.movedOutStatus.name,
-                item.movedOutStatus.note
-              ) : null;
-            return goods;
+            return this.mapResponseItemToGoods(item);
           }),
         count: count
       }
     });
 
   }
-  invoiceList(id:string):Observable<any> {
-    const url:string = `${LIST_URL}${"/invoice/"}${id}}`;
+
+  invoiceList(id:number):Observable<any> {
+    const url:string = `${LIST_URL}${"/invoice/"}${id}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
@@ -114,54 +76,15 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
-            let goods = new Goods();
-            goods.id = item.id;
-            goods.name = item.name;
-            goods.quantity = item.quantity;
-            goods.weight = item.weight;
-            goods.price = item.price;
-            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-            goods.cells = item.cells.map(
-              item=> {
-                let storageCell = new StorageCell();
-                storageCell.number = item.number;
-                storageCell.idStorageCell = item.idStorageCell;
-                return storageCell;
-              }
-            )
-            goods.currentStatus = item.currentStatus ?
-              new GoodsStatus(
-                item.currentStatus.id,
-                item.currentStatus.date,
-                item.currentStatus.name,
-                item.currentStatus.note
-              ) : null;
-            goods.registeredStatus = item.registeredStatus ?
-              new GoodsStatus(
-                item.registeredStatus.id,
-                item.registeredStatus.date,
-                item.registeredStatus.name,
-                item.registeredStatus.note
-              ) : null;
-            goods.movedOutStatus = item.movedOutStatus ?
-              new GoodsStatus(
-                item.movedOutStatus.id,
-                item.movedOutStatus.date,
-                item.movedOutStatus.name,
-                item.movedOutStatus.note
-              ) : null;
-            return goods;
+            return this.mapResponseItemToGoods(item);
           }),
         count: count
       }
     });
-
   }
 
-  storedList(id:string, page:number, count:number):Observable<any> {
+
+  storedList(id:string, page?:number, count?:number):Observable<any> {
     const url:string = `${LIST_URL}${"/"}${id}${"/stored"}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
@@ -170,53 +93,14 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
-            let goods = new Goods();
-            goods.id = item.id;
-            goods.name = item.name;
-            goods.quantity = item.quantity;
-            goods.weight = item.weight;
-            goods.price = item.price;
-            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-            goods.cells = item.cells.map(
-              item=> {
-                let storageCell = new StorageCell();
-                storageCell.number = item.number;
-                storageCell.idStorageCell = item.idStorageCell;
-                return storageCell;
-              }
-            )
-            goods.currentStatus = item.currentStatus ?
-              new GoodsStatus(
-                item.currentStatus.id,
-                item.currentStatus.date,
-                item.currentStatus.name,
-                item.currentStatus.note
-              ) : null;
-            goods.registeredStatus = item.registeredStatus ?
-              new GoodsStatus(
-                item.registeredStatus.id,
-                item.registeredStatus.date,
-                item.registeredStatus.name,
-                item.registeredStatus.note
-              ) : null;
-            goods.movedOutStatus = item.movedOutStatus ?
-              new GoodsStatus(
-                item.movedOutStatus.id,
-                item.movedOutStatus.date,
-                item.movedOutStatus.name,
-                item.movedOutStatus.note
-              ) : null;
-            return goods;
+            return this.mapResponseItemToGoods(item);
           }),
         count: count
       }
     });
   }
 
-  actApplicableList(id:string, page:number, count:number):Observable<any> {
+  actApplicableList(id:string, page?:number, count?:number):Observable<any> {
     const url:string = `${LIST_URL}${"/"}${id}${"/act_applicable"}${"?page="}${page}${"&count="}${count}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
@@ -225,46 +109,7 @@ export class GoodsService {
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
-            let goods = new Goods();
-            goods.id = item.id;
-            goods.name = item.name;
-            goods.quantity = item.quantity;
-            goods.weight = item.weight;
-            goods.price = item.price;
-            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-            goods.cells = item.cells.map(
-              item=> {
-                let storageCell = new StorageCell();
-                storageCell.number = item.number;
-                storageCell.idStorageCell = item.idStorageCell;
-                return storageCell;
-              }
-            )
-            goods.currentStatus = item.currentStatus ?
-              new GoodsStatus(
-                item.currentStatus.id,
-                item.currentStatus.date,
-                item.currentStatus.name,
-                item.currentStatus.note
-              ) : null;
-            goods.registeredStatus = item.registeredStatus ?
-              new GoodsStatus(
-                item.registeredStatus.id,
-                item.registeredStatus.date,
-                item.registeredStatus.name,
-                item.registeredStatus.note
-              ) : null;
-            goods.movedOutStatus = item.movedOutStatus ?
-              new GoodsStatus(
-                item.movedOutStatus.id,
-                item.movedOutStatus.date,
-                item.movedOutStatus.name,
-                item.movedOutStatus.note
-              ) : null;
-            return goods;
+            return this.mapResponseItemToGoods(item);
           }),
         count: count
       }
@@ -272,74 +117,12 @@ export class GoodsService {
 
   }
 
-  // todo maybe use it
-  // getAll() {
-  //   const url = GET_URL;
-  //   const headers = new Headers();
-  //   const options = new RequestOptions({headers: headers});
-  //   return this.httpAuthService.get(url, options).map((response: Response) => {
-  //     return response.json().map(item => {
-  //       return new Goods(
-  //         item.id,
-  //         item.name,
-  //         item.quantity,
-  //         item.weight,
-  //         item.price,
-  //         new StorageType(item.storageType.idStorageSpaceType, item.storageType.name),
-  //         new Unit(item.quantityUnit.id, item.quantityUnit.name),
-  //         new Unit(item.weightUnit.id, item.weightUnit.name),
-  //         new Unit(item.priceUnit.id, item.priceUnit.name)
-  //       );
-  //     });
-  //   });
-  // }
-
   get(id:number):Observable<Goods> {
     const url = `${GET_URL}${id}`;
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response) => {
-      const item = <any>response.json();
-      let goods = new Goods();
-      goods.id = item.id;
-      goods.name = item.name;
-      goods.quantity = item.quantity;
-      goods.weight = item.weight;
-      goods.price = item.price;
-      goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-      goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-      goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-      goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-      goods.cells = item.cells.map(
-        item=> {
-          let storageCell = new StorageCell();
-          storageCell.number = item.number;
-          storageCell.idStorageCell = item.idStorageCell;
-          return storageCell;
-        }
-      )
-      goods.currentStatus = item.currentStatus ?
-        new GoodsStatus(
-          item.currentStatus.id,
-          item.currentStatus.date,
-          item.currentStatus.name,
-          item.currentStatus.note
-        ) : null;
-      goods.registeredStatus = item.registeredStatus ?
-        new GoodsStatus(
-          item.registeredStatus.id,
-          item.registeredStatus.date,
-          item.registeredStatus.name,
-          item.registeredStatus.note
-        ) : null;
-      goods.movedOutStatus = item.movedOutStatus ?
-        new GoodsStatus(
-          item.movedOutStatus.id,
-          item.movedOutStatus.date,
-          item.movedOutStatus.name,
-          item.movedOutStatus.note
-        ) : null;
-      return goods;
+      return this.mapResponseItemToGoods(<any>response.json());
     })
   }
 
@@ -378,19 +161,22 @@ export class GoodsService {
             let status:GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
             this.httpAuthService.post(url, JSON.stringify(status)).subscribe(
               resp=> {
-                if (--counter == 0)
+                if (--counter == 0) {
                   observer.next();
+                  observer.complete();
+                }
               },
               error=> {
-                if (--counter == 0)
+                if (--counter == 0) {
                   observer.next();
+                  observer.complete();
+                }
               }
             )
           }
         );
       }
     )
-
   }
 
   getUnits():Observable<Unit[]> {
@@ -421,53 +207,14 @@ export class GoodsService {
   }
 
 
-  search(dto:GoodsSearchDTO, id:string, page:number, count:number):Observable<any> {
+  search(dto:GoodsSearchDTO, id:string, page?:number, count?:number):Observable<any> {
     const url:string = `${SEARCH_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
     return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
       let count:string = response.headers.get("x-total-count");
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
-            let goods = new Goods();
-            goods.id = item.id;
-            goods.name = item.name;
-            goods.quantity = item.quantity;
-            goods.weight = item.weight;
-            goods.price = item.price;
-            goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
-            goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
-            goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
-            goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
-            goods.cells = item.cells.map(
-              item=> {
-                let storageCell = new StorageCell();
-                storageCell.number = item.number;
-                storageCell.idStorageCell = item.idStorageCell;
-                return storageCell;
-              }
-            )
-            goods.currentStatus = item.currentStatus ?
-              new GoodsStatus(
-                item.currentStatus.id,
-                item.currentStatus.date,
-                item.currentStatus.name,
-                item.currentStatus.note
-              ) : null;
-            goods.registeredStatus = item.registeredStatus ?
-              new GoodsStatus(
-                item.registeredStatus.id,
-                item.registeredStatus.date,
-                item.registeredStatus.name,
-                item.registeredStatus.note
-              ) : null;
-            goods.movedOutStatus = item.movedOutStatus ?
-              new GoodsStatus(
-                item.movedOutStatus.id,
-                item.movedOutStatus.date,
-                item.movedOutStatus.name,
-                item.movedOutStatus.note
-              ) : null;
-            return goods;
+            return this.mapResponseItemToGoods(item);
           }),
         count: count
       }
@@ -511,17 +258,56 @@ export class GoodsService {
             observer.error("Failed to update cells" + error);
           }
         )
-
-
       }
     )
   }
 
   public removeFromStorage(goods):Observable<any> {
-    let counter:number = goods.length;
     const url:string = `${REMOVE_FROM_STORAGE_URL}${goods.id}`;
     return this.httpAuthService.put(url);
+  }
 
+  private mapResponseItemToGoods(item:any):Goods {
+    let goods = new Goods();
+    goods.id = item.id;
+    goods.name = item.name;
+    goods.quantity = item.quantity;
+    goods.weight = item.weight;
+    goods.price = item.price;
+    goods.storageType = new StorageType(item.storageType.idStorageSpaceType, item.storageType.name);
+    goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
+    goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
+    goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+    goods.cells = item.cells.map(
+      item=> {
+        let storageCell = new StorageCell();
+        storageCell.number = item.number;
+        storageCell.idStorageCell = item.idStorageCell;
+        return storageCell;
+      }
+    )
+    goods.currentStatus = item.currentStatus ?
+      new GoodsStatus(
+        item.currentStatus.id,
+        item.currentStatus.date,
+        item.currentStatus.name,
+        item.currentStatus.note
+      ) : null;
+    goods.registeredStatus = item.registeredStatus ?
+      new GoodsStatus(
+        item.registeredStatus.id,
+        item.registeredStatus.date,
+        item.registeredStatus.name,
+        item.registeredStatus.note
+      ) : null;
+    goods.movedOutStatus = item.movedOutStatus ?
+      new GoodsStatus(
+        item.movedOutStatus.id,
+        item.movedOutStatus.date,
+        item.movedOutStatus.name,
+        item.movedOutStatus.note
+      ) : null;
+    return goods;
   }
 
 }

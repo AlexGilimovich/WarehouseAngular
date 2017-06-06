@@ -48,26 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    let user:User = this.loginService.checkLocalStorage();
-    if (user) {
-      this.requestInProgress = true;
-      this.loginService.login(user.login, user.password, true).subscribe(
-        res=> {
-          this.requestInProgress = false;
-          this.navigate(user.roles);
-
-        },
-        error=> {
-          this.requestInProgress = false;
-          if (error.status == 401)
-            this.errors = {serverNotAvailableError: false, invalidCredentialsError: true};
-          else if (error.status == 0)
-            this.errors = {serverNotAvailableError: true, invalidCredentialsError: false};
-        }
-      );
-
-
-    }
+   
   }
 
   private resetError() {
