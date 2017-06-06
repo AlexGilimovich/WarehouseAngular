@@ -39,7 +39,11 @@ export class ActCreateComponent implements OnInit {
 
   private statusNames:GoodsStatusName[] = [];
   private storageTypes:StorageSpaceType[];
-  private units:Unit[];
+  private quantityUnits:Unit[];
+  private weightUnits:Unit[];
+  private priceUnits:Unit[];
+
+
 
   private actTypeMessages = actTypeMessages;
   private actForm:FormGroup;
@@ -115,9 +119,25 @@ export class ActCreateComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getUnits().subscribe(
+    this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.units = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getWeightUnits().subscribe(
+      (res) => {
+        this.weightUnits = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);
@@ -128,7 +148,7 @@ export class ActCreateComponent implements OnInit {
   private getGoodsForInvoice() {
     this.goodsService.invoiceList(this.invoiceId).subscribe(
       (res:any) => {
-        this.handleResponse(res);
+        this.handleGoodsListResponse(res);
       },
       (err:any) => {
         console.error(err);
@@ -141,7 +161,7 @@ export class ActCreateComponent implements OnInit {
     if (this.invoiceId) {
       this.goodsService.invoiceList(this.invoiceId).subscribe(
         (res:any) => {
-          this.handleResponse(res);
+          this.handleGoodsListResponse(res);
         },
         (err:any) => {
           console.error(err);
@@ -153,7 +173,7 @@ export class ActCreateComponent implements OnInit {
       searchDTO.actType = this.actForm.get('actType').value;
       this.goodsService.search(searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
         (res:any) => {
-          this.handleResponse(res);
+          this.handleGoodsListResponse(res);
         },
         (err:any) => {
           console.error(err);
@@ -170,7 +190,7 @@ export class ActCreateComponent implements OnInit {
       searchDTO.actType = this.actForm.get('actType').value;
       this.goodsService.search(searchDTO, this.warehouseId, 1, 10).subscribe(
         (res:any) => {
-          this.handleResponse(res);
+          this.handleGoodsListResponse(res);
         },
         (err:any) => {
           console.error(err);
@@ -185,7 +205,7 @@ export class ActCreateComponent implements OnInit {
     object.searchDTO.actType = this.actForm.get('actType').value;
     this.goodsService.search(object.searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
       (res:any) => {
-        this.handleResponse(res);
+        this.handleGoodsListResponse(res);
       },
       (err:any) => {
         console.error(err);
@@ -264,7 +284,7 @@ export class ActCreateComponent implements OnInit {
     );
   }
 
-  private handleResponse(res:any) {
+  private handleGoodsListResponse(res:any) {
     this.goodsList = res.goods.map(
       item=> {
         return {goods: item, selected: false, changed: false, newStatus: {}};

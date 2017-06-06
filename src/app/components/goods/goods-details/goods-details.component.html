@@ -38,7 +38,7 @@
             </div>
             <div class="large-3 small-3 columns">
               <select name="quantityUnit" id="quantityUnit" [formControl]="goodsForm.controls['quantityUnit']" required>
-                <option *ngFor="let unit of units" [value]="unit.name">
+                <option *ngFor="let unit of quantityUnits" [value]="unit.name">
                   {{unit.name}}
                 </option>
               </select>
@@ -66,7 +66,7 @@
             </div>
             <div class="large-3 small-3 columns">
               <select name="priceUnit" id="priceUnit" [formControl]="goodsForm.controls['priceUnit']" required>
-                <option *ngFor="let unit of units" [value]="unit.name">
+                <option *ngFor="let unit of priceUnits" [value]="unit.name">
                   {{unit.name}}
                 </option>
               </select>
@@ -95,7 +95,7 @@
             </div>
             <div class="large-3 small-3 columns">
               <select name="weightUnit" id="weightUnit" [formControl]="goodsForm.controls['weightUnit']" required>
-                <option *ngFor="let unit of units" [value]="unit.name">
+                <option *ngFor="let unit of weightUnits" [value]="unit.name">
                   {{unit.name}}
                 </option>
               </select>

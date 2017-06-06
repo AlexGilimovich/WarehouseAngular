@@ -41,7 +41,7 @@
       <input type="number" [formControl]="invoiceForm.controls['goodsEntryCount']">
 
       <select [formControl]="invoiceForm.controls['goodsEntryCountUnit']" required>
-        <option *ngFor="let unit of units" [value]="unit.name">
+        <option *ngFor="let unit of priceUnits" [value]="unit.name">
           {{unit.name}}
         </option>
       </select>
@@ -52,7 +52,7 @@
       <input type="number" [formControl]="invoiceForm.controls['goodsQuantity']">
 
       <select [formControl]="invoiceForm.controls['goodsQuantityUnit']" required>
-        <option *ngFor="let unit of units" [value]="unit.name">
+        <option *ngFor="let unit of quantityUnits" [value]="unit.name">
           {{unit.name}}
         </option>
       </select>

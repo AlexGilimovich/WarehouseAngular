@@ -24,7 +24,8 @@ declare const $: any;
 export class OutgoingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
-  units: Unit[] = [];
+  quantityUnits:Unit[] = [];
+  priceUnits:Unit[] = [];
   @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
   goodsModal: ComponentRef<GoodsChoiceComponent>;
 
@@ -51,9 +52,22 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    this.goodsService.getUnits().subscribe(data => {
-      this.units = data;
-    });
+    this.goodsService.getQuantityUnits().subscribe(
+      (res) => {
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
   }
 
   onSubmit(form: FormGroup) {

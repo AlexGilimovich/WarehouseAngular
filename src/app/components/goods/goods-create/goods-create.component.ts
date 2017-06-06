@@ -18,7 +18,10 @@ export class GoodsCreateComponent implements OnInit {
   private goodsForm:FormGroup;
   private warehouseId:number;
 
-  private units:Unit[];
+  private quantityUnits:Unit[];
+  private weightUnits:Unit[];
+  private priceUnits:Unit[];
+
   private storageTypes:StorageSpaceType[];
 
 
@@ -48,9 +51,25 @@ export class GoodsCreateComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getUnits().subscribe(
+    this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.units = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getWeightUnits().subscribe(
+      (res) => {
+        this.weightUnits = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);

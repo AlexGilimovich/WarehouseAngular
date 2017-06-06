@@ -24,7 +24,10 @@ export class GoodsListContainerComponent implements OnInit {
   private goodsList:any[] = [];
   private totalGoodsCount:number;
   private statusNames:GoodsStatusName[];
-  private units:Unit[];
+  private quantityUnits:Unit[];
+  private priceUnits:Unit[];
+  private weightUnits:Unit[];
+
   private storageTypes:StorageSpaceType[];
   private warehouseId;
 
@@ -55,10 +58,25 @@ export class GoodsListContainerComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getUnits().subscribe(
+    this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.units = res;
-        this.units.push(new Unit(null, ''));
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getWeightUnits().subscribe(
+      (res) => {
+        this.weightUnits = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);

@@ -106,7 +106,6 @@ export class IndexComponent implements OnInit {
   }
   private login():void{
     let user:User = this.loginService.checkLocalStorage();
-    debugger;
     if (user) {
       this.loginService.login(user.login, user.password, true).subscribe(
         res=> {

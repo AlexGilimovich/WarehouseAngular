@@ -20,7 +20,9 @@ const LIST_URL:string = "http://localhost:8080/web/web/goods";
 const GET_URL:string = "http://localhost:8080/web/web/goods/";
 const SAVE_URL:string = "http://localhost:8080/web/web/goods/save";
 const GET_STATUS_NAMES_URL:string = "http://localhost:8080/web/web/goods/statuses";
-const GET_UNITS_URL:string = "http://localhost:8080/web/web/goods/units";
+const GET_QUANTITY_UNITS_URL:string = "http://localhost:8080/web/web/goods/quant_units";
+const GET_PRICE_UNITS_URL:string = "http://localhost:8080/web/web/goods/price_units";
+const GET_WEIGHT_UNITS_URL:string = "http://localhost:8080/web/web/goods/weight_units";
 const GET_STORAGE_SPACE_TYPES_URL:string = "http://localhost:8080/web/web/goods/storageTypes";
 const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
@@ -179,10 +181,34 @@ export class GoodsService {
     )
   }
 
-  getUnits():Observable<Unit[]> {
+  getQuantityUnits():Observable<Unit[]> {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(GET_UNITS_URL, options).map((response:Response) => {
+    return this.httpAuthService.get(GET_QUANTITY_UNITS_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          return new Unit(item.id, item.name);
+        }
+      )
+    })
+  }
+
+  getPriceUnits():Observable<Unit[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_PRICE_UNITS_URL, options).map((response:Response) => {
+      return response.json().map(
+        item => {
+          return new Unit(item.id, item.name);
+        }
+      )
+    })
+  }
+
+  getWeightUnits():Observable<Unit[]> {
+    let headers:Headers = new Headers();
+    let options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(GET_WEIGHT_UNITS_URL, options).map((response:Response) => {
       return response.json().map(
         item => {
           return new Unit(item.id, item.name);

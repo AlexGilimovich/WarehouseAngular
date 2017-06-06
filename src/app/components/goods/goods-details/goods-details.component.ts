@@ -26,7 +26,10 @@ export class GoodsDetailsComponent implements OnInit {
   private acts:Act[];
   private id:number;
   private statusNames:GoodsStatusName[] = [];
-  private units:Unit[];
+  private quantityUnits:Unit[];
+  private priceUnits:Unit[];
+  private weightUnits:Unit[];
+
   private storageTypes:StorageSpaceType[];
   private goodsForm:FormGroup;
   private hasRights:boolean = true;//todo check
@@ -118,9 +121,25 @@ export class GoodsDetailsComponent implements OnInit {
         console.error(err);
       }
     );
-    this.goodsService.getUnits().subscribe(
+    this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.units = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getWeightUnits().subscribe(
+      (res) => {
+        this.weightUnits = [...res, new Unit(null, '')];
       },
       (err)=> {
         console.error(err);

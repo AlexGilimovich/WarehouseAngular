@@ -18,7 +18,7 @@ import {CustomerChoiceComponent} from "../../../customer/customer-choice/custome
 import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-choice/tr-company-choice.component";
 import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.directive";
 import {Location} from "@angular/common";
-declare const $: any;
+declare const $:any;
 
 @Component({
   selector: 'app-incoming-invoice-create',
@@ -27,16 +27,17 @@ declare const $: any;
   providers: [InvoiceService, TransportCompanyService, GoodsService]
 })
 export class IncomingInvoiceCreateComponent implements OnInit {
-  invoiceForm: FormGroup;
-  goodsList: Goods[] = [];
-  units: Unit[] = [];
-  @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
-  goodsModal: ComponentRef<GoodsCreateComponent>;
+  invoiceForm:FormGroup;
+  goodsList:Goods[] = [];
+  quantityUnits:Unit[] = [];
+  priceUnits:Unit[] = [];
+  @ViewChild(GoodsModalAnchorDirective) goodsAnchor:GoodsModalAnchorDirective;
+  goodsModal:ComponentRef<GoodsCreateComponent>;
 
-  constructor(private invoiceService: InvoiceService,
-              private goodsService: GoodsService,
-              private formBuilder: FormBuilder,
-              private location: Location) {
+  constructor(private invoiceService:InvoiceService,
+              private goodsService:GoodsService,
+              private formBuilder:FormBuilder,
+              private location:Location) {
     this.invoiceForm = this.formBuilder.group({
       'number': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
       'issueDate': [''],
@@ -56,12 +57,25 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    this.goodsService.getUnits().subscribe(data => {
-      this.units = data;
-    });
+    this.goodsService.getQuantityUnits().subscribe(
+      (res) => {
+        this.quantityUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
+    this.goodsService.getPriceUnits().subscribe(
+      (res) => {
+        this.priceUnits = [...res, new Unit(null, '')];
+      },
+      (err)=> {
+        console.error(err);
+      }
+    );
   }
 
-  onSubmit(form: FormGroup) {
+  onSubmit(form:FormGroup) {
     const invoice = this.invoiceService.mapIncomingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
     console.log(invoice);
@@ -72,7 +86,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   createGoods() {
     this.openGoodsModal();
-    let goods: Goods;
+    let goods:Goods;
     const subscription = this.goodsService.goodsCreated$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
@@ -81,16 +95,16 @@ export class IncomingInvoiceCreateComponent implements OnInit {
     });
   }
 
-  deleteGoods(goods: Goods) {
+  deleteGoods(goods:Goods) {
     this.goodsList = this.invoiceService.deleteGoodsFromArray(this.goodsList, goods);
   }
 
-  saveTransport(company: TransportCompany) {
+  saveTransport(company:TransportCompany) {
     this.invoiceForm.controls['transportCompany'].setValue(company);
     this.closeTransportModal();
   }
 
-  saveSupplier(supplier: WarehouseCustomerCompany) {
+  saveSupplier(supplier:WarehouseCustomerCompany) {
     this.invoiceForm.controls['supplierCompany'].setValue(supplier);
     this.closeSupplierModal();
   }

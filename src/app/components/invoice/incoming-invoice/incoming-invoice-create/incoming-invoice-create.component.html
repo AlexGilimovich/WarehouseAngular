@@ -170,7 +170,7 @@
             <div class="large-3 small-3 columns">
               <select name="goodsEntryCountUnit" id="goodsEntryCountUnit"
                       [formControl]="invoiceForm.controls['goodsEntryCountUnit']" required>
-                <option *ngFor="let unit of units" [value]="unit.name">
+                <option *ngFor="let unit of priceUnits" [value]="unit.name">
                   {{unit.name}}
                 </option>
               </select>
@@ -200,7 +200,7 @@
             <div class="large-3 small-3 columns">
               <select name="goodsQuantityUnit" id="goodsQuantityUnit"
                       [formControl]="invoiceForm.controls['goodsQuantityUnit']" required>
-                <option *ngFor="let unit of units" [value]="unit.name">
+                <option *ngFor="let unit of quantityUnits" [value]="unit.name">
                   {{unit.name}}
                 </option>
               </select>
