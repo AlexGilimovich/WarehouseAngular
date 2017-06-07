@@ -21,8 +21,6 @@ import {isUndefined} from "util";
   // providers: [WarehouseSchemeService]
 })
 
-/*:id_space/cell/:id_cell/edit*/
-
 export class WarehouseCellComponent implements OnInit {
   id_goods: number;
   cell: StorageCellDTO = new StorageCellDTO;
@@ -50,8 +48,12 @@ export class WarehouseCellComponent implements OnInit {
     this.schemeService.saveCell(this.cell).subscribe(data => {
       //this.warehouseCompany = data;
     });
-    if(isUndefined(this.cell.idStorageCell)) this.router.navigate(['../../../'], {relativeTo: this.route});
-    else this.router.navigate(['../../../../'], {relativeTo: this.route});
+    if(isUndefined(this.cell.idStorageCell)) {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    }
+    else {
+      this.router.navigate(['../../../'], {relativeTo: this.route});
+    }
   }
 
   deleteCell(id: string){
@@ -59,6 +61,7 @@ export class WarehouseCellComponent implements OnInit {
     this.schemeService.deleteCell(id).subscribe(data => {
       console.log(data);
     });
+    this.router.navigate(['../../'], {relativeTo: this.route});
   }
 
   ngOnInit(){

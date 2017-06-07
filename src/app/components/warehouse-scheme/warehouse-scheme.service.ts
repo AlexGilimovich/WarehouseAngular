@@ -132,11 +132,11 @@ export class WarehouseSchemeService {
   }
 
   saveCell(cell:StorageCellDTO) {
-    if (isUndefined(cell.idStorageCell)) {
+    if (cell.idStorageCell==0) {
       console.log("is save action");
       cell.status = true; //default is active after creating
     }
-    const url = isUndefined(cell.idStorageCell) ? Host.URL + "storage/cell/save" : Host.URL + "storage/cell/save/" + cell.idStorageCell;
+    const url = cell.idStorageCell==0 ? Host.URL + "storage/cell/save" : Host.URL + "storage/cell/save/" + cell.idStorageCell;
     console.log("URL: " + url);
     const body = JSON.stringify(cell);
     const headers = new Headers();
@@ -147,7 +147,7 @@ export class WarehouseSchemeService {
     });
     console.log(body);
 
-    if (isUndefined(cell.idStorageCell)) {
+    if (cell.idStorageCell==0) {
       return this.httpAuthService.post(url, body, options).map((response:Response) => {
         if (response.text()) {
           console.log(response.json());
