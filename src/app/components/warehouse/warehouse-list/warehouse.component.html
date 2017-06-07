@@ -99,19 +99,20 @@
   <h5 class="item-counter">Отображать по:</h5>
 
 </ul>
-<div class="chart" style="display: block" *ngIf="isDataAvailable">
-  <canvas baseChart
-          [data]="pieChartData"
-          [labels]="pieChartLabels"
-          [chartType]="pieChartType"
-          [options]="ChartOptions"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)">
-  </canvas>
-</div>
 
-<div>
-  <div class="chart" style="display: block" *ngIf="isDataAvailable">
+
+<div class="row">
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="ChartOptions"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
@@ -119,7 +120,8 @@
             [legend]="barChartLegend"
             [chartType]="barChartType"
             (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
+            (chartClick)="chartClicked($event)">
+    </canvas>
   </div>
 </div>
 
