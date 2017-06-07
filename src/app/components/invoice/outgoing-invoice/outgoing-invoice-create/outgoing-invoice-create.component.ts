@@ -1,5 +1,5 @@
 import {Component, ComponentRef, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TransportCompany} from "../../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../../customer/customer";
 import {InvoiceService} from "../../invoice.service";
@@ -13,6 +13,7 @@ import {TransportCompanyChoiceComponent} from "../../../tr-company/tr-company-ch
 import {CustomerChoiceComponent} from "../../../customer/customer-choice/customer-choice.component";
 import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.directive";
 import {GoodsChoiceComponent} from "../../../goods/goods-choice/goods-choice.component";
+import {Location} from '@angular/common';
 declare const $: any;
 
 @Component({
@@ -24,58 +25,39 @@ declare const $: any;
 export class OutgoingInvoiceCreateComponent implements OnInit {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
-  quantityUnits:Unit[] = [];
-  priceUnits:Unit[] = [];
+  goodsEntryCount: number;
   @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
   goodsModal: ComponentRef<GoodsChoiceComponent>;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
               private formBuilder: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private location: Location) {
     this.invoiceForm = this.formBuilder.group({
-      'number': [''],
-      'issueDate': [''],
-      'transportCompany': [''],
-      'receiverCompany': [''],
-      'transportNumber': [''],
-      'transportName': [''],
+      'number': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
+      'issueDate': ['', Validators.compose([Validators.required])],
+      'transportCompany': ['', Validators.compose([Validators.required])],
+      'receiverCompany': ['', Validators.compose([Validators.required])],
+      'transportNumber': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
+      'transportName': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
       // todo invisible driver if not auto
       'driver': [],
-      'description': [''],
-      'goodsEntryCount': [0],
-      'goodsEntryCountUnit': [''],
-      'goodsQuantity': [0],
-      'goodsQuantityUnit': ['']
+      'description': ['']
     });
   }
 
   ngOnInit() {
     $('body').foundation();
-    this.goodsService.getQuantityUnits().subscribe(
-      (res) => {
-        this.quantityUnits = [...res, new Unit(null, '')];
-      },
-      (err)=> {
-        console.error(err);
-      }
-    );
-    this.goodsService.getPriceUnits().subscribe(
-      (res) => {
-        this.priceUnits = [...res, new Unit(null, '')];
-      },
-      (err)=> {
-        console.error(err);
-      }
-    );
   }
 
   onSubmit(form: FormGroup) {
     const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
+    invoice.goodsEntryCount = this.goodsEntryCount;
     console.log(invoice);
     this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
-      this.router.navigateByUrl('invoice/outgoing');
+      this.location.back();
     });
   }
 
@@ -95,6 +77,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
     const subscription = this.goodsService.goodsForOutgoingInvoice$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
+      this.changeGoodsEntryCount();
       this.closeGoodsModal();
       subscription.unsubscribe();
     });
@@ -130,4 +113,11 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
     this.goodsModal.destroy();
   }
 
+  private changeGoodsEntryCount() {
+    let count = 0;
+    this.goodsList.forEach(item => {
+      count += Number(item.price);
+    });
+    this.goodsEntryCount = count;
+  }
 }

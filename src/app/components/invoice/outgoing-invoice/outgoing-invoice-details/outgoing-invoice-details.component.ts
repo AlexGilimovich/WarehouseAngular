@@ -7,6 +7,9 @@ import {TransportCompanyService} from "../../../tr-company/tr-company.service";
 import {WarehouseCustomerCompanyService} from "../../../customer/customer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {OutgoingInvoice} from "../outgoing-invoice";
+import {InvoiceStatus} from "../../invoice-status";
+import {Goods} from "../../../goods/goods";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-outgoing-invoice-details',
@@ -17,18 +20,17 @@ import {OutgoingInvoice} from "../outgoing-invoice";
 export class OutgoingInvoiceDetailsComponent implements OnInit {
   id: number;
   invoiceForm: FormGroup;
-  transportCompanies: TransportCompany[];
-  receiverCompanies: WarehouseCustomerCompany[];
-  defaultTransport: TransportCompany;
-  defaultReceiver: WarehouseCustomerCompany;
-  // @ViewChild('transportModal') transportModal: ElementRef;
+  goodsList: Goods[];
+  status: InvoiceStatus;
+  invoiceStatus = InvoiceStatus;
 
   constructor(private invoiceService: InvoiceService,
               private transportService: TransportCompanyService,
               private customerService: WarehouseCustomerCompanyService,
               private formBuilder: FormBuilder,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private location: Location) {
     this.invoiceForm = this.formBuilder.group({
       'number': [''],
       'issueDate': [''],
@@ -41,29 +43,18 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
       // todo invisible driver if not auto
       'driver': [],
       'description': [''],
-      'goodsEntryCount': [0],
-      'goodsEntryCountUnit': [''],
-      'goodsQuantity': [0],
-      'goodsQuantityUnit': ['']
-      // todo goods
+      'goodsEntryCount': ['']
     });
-    this.defaultTransport = new TransportCompany;
-    this.defaultReceiver = new WarehouseCustomerCompany;
   }
 
   ngOnInit() {
     this.id = this.invoiceService.parseIdParam(this.route);
     this.invoiceService.getOutgoingInvoiceById(this.id).subscribe(data => {
       const invoice = data;
-      console.log(invoice);
       this.mapFormFromInvoice(invoice);
-    });
-    // todo add search by elastic in modal
-    this.transportService.getAll().subscribe(data => {
-      this.transportCompanies = data;
-    });
-    this.customerService.getAll().subscribe(data => {
-      this.receiverCompanies = data;
+      this.goodsList = invoice.goods;
+      this.status = InvoiceStatus[invoice.status];
+      console.log(invoice);
     });
   }
 
@@ -71,16 +62,8 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form, this.id);
     console.log(invoice);
     this.invoiceService.updateOutgoingInvoice(invoice).subscribe(data => {
-      this.router.navigateByUrl('invoice/outgoing');
+      this.location.back();
     });
-  }
-
-  onTransportChange() {
-    this.invoiceForm.controls['currentTransportCompany'].setValue(this.invoiceForm.controls['transportCompany'].value.name);
-  }
-
-  onReceiverChange() {
-    this.invoiceForm.controls['currentReceiverCompany'].setValue(this.invoiceForm.controls['receiverCompany'].value.name);
   }
 
   private mapFormFromInvoice(invoice: OutgoingInvoice) {
@@ -95,13 +78,6 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     }
     this.invoiceForm.controls['description'].setValue(invoice.description);
     this.invoiceForm.controls['goodsEntryCount'].setValue(invoice.goodsEntryCount);
-    this.invoiceForm.controls['goodsEntryCountUnit'].setValue(invoice.goodsEntryCountUnit);
-    this.invoiceForm.controls['goodsQuantity'].setValue(invoice.goodsQuantity);
-    this.invoiceForm.controls['goodsQuantityUnit'].setValue(invoice.goodsQuantityUnit);
-    // todo goods
-
-    this.defaultTransport = invoice.transportCompany;
-    this.defaultReceiver = invoice.receiverCompany;
   }
 
 }

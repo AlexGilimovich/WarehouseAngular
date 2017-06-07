@@ -1,87 +1,67 @@
 <div>
-  <form [formGroup]="invoiceForm"
-        (ngSubmit)="onSubmit(invoiceForm)">
+  <h4>Описание накладной</h4>
+  <form [formGroup]="invoiceForm">
     <label>
-      Номер ТТН
-      <input type="text" [formControl]="invoiceForm.controls['number']">
+      Номер ТТН: {{invoiceForm.controls['number'].value}}
     </label>
 
     <label>
-      Дата выписки ТТН
-      <input type="date" [formControl]="invoiceForm.controls['issueDate']">
+      Дата выписки ТТН: {{invoiceForm.controls['issueDate'].value}}
     </label>
 
     <label>
-      Выбрать перевозчика
-      <select [formControl]="invoiceForm.controls['transportCompany']"
-              (change)="onTransportChange()">
-        <option *ngFor="let company of transportCompanies"
-                [ngValue]="company"
-                [selected]="defaultTransport.id === company.id">
-          {{company.name}}
-        </option>
-      </select>
-    </label>
-
-    <input type="text" [formControl]="invoiceForm.controls['currentTransportCompany']">
-
-    <label>
-      Получатель
-      <select [formControl]="invoiceForm.controls['receiverCompany']" (change)="onReceiverChange()">
-        <option *ngFor="let company of receiverCompanies"
-                [ngValue]="company"
-                [selected]="defaultReceiver.id === company.id">
-          {{company.name}}
-        </option>
-      </select>
-    </label>
-
-    <input type="text" [formControl]="invoiceForm.controls['currentReceiverCompany']">
-
-    <label>
-      Номер транспортного средства
-      <input type="text" [formControl]="invoiceForm.controls['transportNumber']">
+      Перевозчик: {{invoiceForm.controls['transportCompany'].value.name}}
     </label>
 
     <label>
-      Название транспортного средства
-      <input type="text" [formControl]="invoiceForm.controls['transportName']">
-    </label>
-
-    <!-- todo
-    <label>
-      Водитель
-      <input type="text" [formControl]="invoiceForm.controls['driver']">
-    </label>
-    -->
-
-    <label>
-      Описание
-      <textarea [formControl]="invoiceForm.controls['description']"></textarea>
+      Получатель: {{invoiceForm.controls['receiverCompany'].value.name}}
     </label>
 
     <label>
-      Сумма товаров по ТТН
-      <input type="number" [formControl]="invoiceForm.controls['goodsEntryCount']">
-
-      <input type="text" [formControl]="invoiceForm.controls['goodsEntryCountUnit']">
+      Номер транспортного средства: {{invoiceForm.controls['transportNumber'].value}}
     </label>
 
     <label>
-      Количество наименований товаров по ТТН
-      <input type="number" [formControl]="invoiceForm.controls['goodsQuantity']">
-
-      <input type="text" [formControl]="invoiceForm.controls['goodsQuantityUnit']">
+      Название транспортного средства: {{invoiceForm.controls['transportName'].value}}
     </label>
 
-    <!-- todo goods -->
+    <label>
+      Описание: {{invoiceForm.controls['description'].value}}
+    </label>
 
-    <input type="submit">
+    <label>
+      Общая цена: {{invoiceForm.controls['goodsEntryCount'].value}}
+    </label>
+
+    <div>
+      <h4>Товары</h4>
+      <table>
+        <tr>
+          <th>Название</th>
+          <th>Количество</th>
+          <th>Цена</th>
+          <th>Вес</th>
+        </tr>
+        <tr *ngFor="let goods of goodsList">
+          <th>{{goods.name}}</th>
+          <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+          <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+          <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+        </tr>
+      </table>
+    </div>
+    <!--<div [ngSwitch]="status">-->
+      <!--<div *ngSwitchCase="invoiceStatus.REGISTERED">-->
+        <!--&lt;!&ndash;<div *ngIf="isController()">&ndash;&gt;-->
+        <!--<input type="button" class="button" (click)="finishChecking()" value="Завершить проверку">-->
+        <!--<input type="button" class="button alert" (click)="createMismatchAct()" value="Оформить акт несоответствия">-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</div>-->
+      <!--<div *ngSwitchCase="invoiceStatus.CHECKED">-->
+        <!--&lt;!&ndash;<div *ngIf="isDispatcher()">&ndash;&gt;-->
+        <!--<input type="button" class="button" (click)="finishCompleting()" value="Завершить оформление">-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
   </form>
-
-  <!-- todo modal
-  <button data-reveal-id="transportModel" (click)="openTransportModal()">Выбрать перевозчика</button>
-  <div id="transportModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">-->
-  <!--<a class="close-reveal-modal" aria-label="Close">&#215;</a>-->
-  <!--</div>-->
 </div>

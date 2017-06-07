@@ -41,10 +41,7 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
       // todo invisible driver if not auto
       'driver': [],
       'description': [''],
-      'goodsEntryCount': [0],
-      'goodsEntryCountUnit': [''],
-      'goodsQuantity': [0],
-      'goodsQuantityUnit': ['']
+      'goodsEntryCount': ['']
     });
   }
 
@@ -52,7 +49,6 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
     this.id = this.invoiceService.parseIdParam(this.route);
     this.invoiceService.getIncomingInvoiceById(this.id).subscribe(data => {
       const invoice = data;
-      console.log(invoice);
       this.mapFormFromInvoice(invoice);
       this.goodsList = invoice.goods;
       this.status = InvoiceStatus[invoice.status];
@@ -103,9 +99,6 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
     }
     this.invoiceForm.controls['description'].setValue(invoice.description);
     this.invoiceForm.controls['goodsEntryCount'].setValue(invoice.goodsEntryCount);
-    this.invoiceForm.controls['goodsEntryCountUnit'].setValue(invoice.goodsEntryCountUnit);
-    this.invoiceForm.controls['goodsQuantity'].setValue(invoice.goodsQuantity);
-    this.invoiceForm.controls['goodsQuantityUnit'].setValue(invoice.goodsQuantityUnit);
   }
 
 }

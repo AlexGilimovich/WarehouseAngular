@@ -1,45 +1,44 @@
-<div>
-  <table class="hover">
-    <tr>
-      <th>Номер ТТН</th>
-      <th>Дата выписки</th>
-      <th>Получатель</th>
-      <th>Перевозчик</th>
-      <th>Менеджер</th>
-      <th>Статус</th>
-      <th></th>
-    </tr>
-    <tr *ngFor="let invoice of invoices">
-      <td>
-        <a [routerLink]="['/invoice/outgoing', invoice.id]" >
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <table class="hover">
+      <thead>
+      <tr>
+        <th>Номер ТТН</th>
+        <th>Дата выписки</th>
+        <th>Отправитель</th>
+        <th>Перевозчик</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
+        <td>
           {{invoice.number}}
-        </a>
-      </td>
-      <td>
-        {{invoice.issueDate}}
-      </td>
-      <td>
-        {{invoice.receiverCompany.name}}
-      </td>
-      <td>
-        {{invoice.transportCompany.name}}
-      </td>
-      <td>
-        {{invoice.manager}}
-      </td>
-      <td>
-        {{invoice.status}}
-      </td>
-      <td>
-        <button (click)="delete(invoice)">
-          Удалить
-        </button>
-      </td>
-    </tr>
-  </table>
+        </td>
+        <td>
+          {{invoice.issueDate}}
+        </td>
+        <td>
+          {{invoice.receiverCompany.name}}
+        </td>
+        <td>
+          {{invoice.transportCompany.name}}
+        </td>
+        <td>
+          {{invoice.status}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
 
-  <!-- todo create pagination -->
-
-  <a routerLink='new'>Создать</a>
-
+    <!-- todo create pagination -->
+  </div>
 </div>
+
+<!--<div class="row">-->
+  <!--<div class="large-12 small-12 columns">-->
+    <!--&lt;!&ndash;<div *ngIf="isDispatcher()">&ndash;&gt;-->
+    <!--<input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+  <!--</div>-->
+<!--</div>-->

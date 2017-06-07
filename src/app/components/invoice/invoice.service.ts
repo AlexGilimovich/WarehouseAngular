@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpAuthService} from "../login/httpAuth.service";
-import {IncomingInvoice} from "./incoming-invoice/incoming-invoice";
-import {RequestOptions, Response, Headers} from "@angular/http";
-import {LoginService} from "../login/login.service";
-import {User} from "../user/user";
-import {Host} from "../../util/host";
-import {FormGroup} from "@angular/forms";
-import {Goods} from "../goods/goods";
-import {ActivatedRoute} from "@angular/router";
-import {OutgoingInvoice} from "./outgoing-invoice/outgoing-invoice";
-import {Observable} from "rxjs/Observable";
-import {InvoiceStatus} from "./invoice-status";
+import {HttpAuthService} from '../login/httpAuth.service';
+import {IncomingInvoice} from './incoming-invoice/incoming-invoice';
+import {RequestOptions, Response, Headers} from '@angular/http';
+import {LoginService} from '../login/login.service';
+import {User} from '../user/user';
+import {Host} from '../../util/host';
+import {FormGroup} from '@angular/forms';
+import {Goods} from '../goods/goods';
+import {ActivatedRoute} from '@angular/router';
+import {OutgoingInvoice} from './outgoing-invoice/outgoing-invoice';
+import {Observable} from 'rxjs/Observable';
+import {InvoiceStatus} from './invoice-status';
 
 const path = Host.getURL() + 'invoice';
 
@@ -20,7 +20,7 @@ export class InvoiceService {
   constructor(private httpAuthService: HttpAuthService,
               private loginService: LoginService) { }
 
-  getLoggedUser(){
+  getLoggedUser() {
     return this.loginService.getLoggedUser();
   }
 
@@ -125,12 +125,8 @@ export class InvoiceService {
   updateInvoiceStatus(id: number, status: InvoiceStatus) {
     const url = path + '/' + id + '?status=' + InvoiceStatus[status];
     const headers = new Headers();
-    // const params = new URLSearchParams();
-    // params.set('status', InvoiceStatus[status]);
-    //
     const options = new RequestOptions({
       headers: headers
-      // params: params
     });
 
     // todo remove cause is not used
@@ -168,7 +164,7 @@ export class InvoiceService {
     return id;
   }
 
-  private saveInvoice(url: string, body: string){
+  private saveInvoice(url: string, body: string) {
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
     const options = new RequestOptions({
@@ -225,10 +221,6 @@ export class InvoiceService {
       invoice.driver = form.controls['driver'].value;
     }
     invoice.description = form.controls['description'].value;
-    invoice.goodsEntryCount = form.controls['goodsEntryCount'].value;
-    invoice.goodsEntryCountUnit = form.controls['goodsEntryCountUnit'].value;
-    invoice.goodsQuantity = form.controls['goodsQuantity'].value;
-    invoice.goodsQuantityUnit = form.controls['goodsQuantityUnit'].value;
     return invoice;
   }
 
@@ -247,13 +239,6 @@ export class InvoiceService {
       invoice.driver = form.controls['driver'].value;
     }
     invoice.description = form.controls['description'].value;
-    invoice.goodsEntryCount = form.controls['goodsEntryCount'].value;
-    invoice.goodsEntryCountUnit = form.controls['goodsEntryCountUnit'].value;
-    invoice.goodsQuantity = form.controls['goodsQuantity'].value;
-    invoice.goodsQuantityUnit = form.controls['goodsQuantityUnit'].value;
-
-    // todo remove mock goods
-    invoice.goods = [];
     return invoice;
   }
 
@@ -270,10 +255,7 @@ export class InvoiceService {
       invoice.driver = item.driver;
     }
     invoice.description = item.description;
-    invoice.goodsQuantity = item.goodsQuantity;
-    invoice.goodsQuantityUnit = item.goodsQuantityUnit;
     invoice.goodsEntryCount = item.goodsEntryCount;
-    invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
     invoice.status = item.status;
     invoice.goods = item.goods;
     return invoice;
@@ -292,13 +274,9 @@ export class InvoiceService {
       invoice.driver = item.driver;
     }
     invoice.description = item.description;
-    invoice.goodsQuantity = item.goodsQuantity;
-    invoice.goodsQuantityUnit = item.goodsQuantityUnit;
     invoice.goodsEntryCount = item.goodsEntryCount;
-    invoice.goodsEntryCountUnit = item.goodsEntryCountUnit;
     invoice.status = item.status;
-    invoice.manager = item.manager;
-    invoice.registrationDate = item.registrationDate;
+    invoice.goods = item.goods;
     return invoice;
   }
 

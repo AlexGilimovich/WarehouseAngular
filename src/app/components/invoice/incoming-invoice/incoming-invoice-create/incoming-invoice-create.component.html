@@ -1,6 +1,6 @@
 <div class="callout">
   <div class="form-container">
-    <h4>Создание входящей накладной</h4>
+    <h4>Создание выходной накладной</h4>
     <form class="form" [formGroup]="invoiceForm" (ngSubmit)="onSubmit(invoiceForm)">
       <div class="row">
         <div class="large-9 small-9 columns">
@@ -31,12 +31,15 @@
               <label for="issueDate" class="right">Дата выписки:</label>
             </div>
             <div class="large-9 small-9 columns">
+              <!--<input type="text" id="issueDate" name="issueDate" class="span2"-->
+                     <!--data-date-format="mm/dd/yyyy" [formControl]="invoiceForm.controls['issueDate']"-->
+                     <!--required>-->
               <input id="issueDate" name="issueDate" type="date" [formControl]="invoiceForm.controls['issueDate']"
                      required/>
-              <!--<div class="callout alert"-->
-              <!--*ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">-->
-              <!--Поле "Номер ТТН" не может быть пустым-->
-              <!--</div>-->
+              <div class="callout alert"
+                   *ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">
+                Поле "Дата выписки" не может быть пустым
+              </div>
               <!--<div class="callout alert"-->
               <!--*ngIf="!invoiceForm.controls['issueDate'].valid && !invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.controls['issueDate'].touched">-->
               <!--Наименование может содержать только буквы и цифры-->
@@ -54,15 +57,12 @@
                 {{invoiceForm.controls['transportCompany'].value.name}}</label>
             </div>
             <div class="large-9 small-9 columns button-right">
-              <input type="button" class="button" (click)="openTransportModal()" value="Выбрать перевозчика">
+              <input type="button" class="button" (click)="openTransportModal()" value="Выбрать перевозчика" required>
+              <div class="callout alert"
+                   *ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">
+                Поле "Перевозчик" не может быть пустым
+              </div>
             </div>
-            <!--<div class="large-9 small-9 columns">-->
-            <!--<input id="transportCompany" name="transportCompany" type="text" [formControl]="invoiceForm.controls['transportCompany']" required/>-->
-            <!--<div class="callout alert"-->
-            <!--*ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">-->
-            <!--Поле "Перевозчик" не может быть пустым-->
-            <!--</div>-->
-            <!--</div>-->
           </div>
         </div>
       </div>
@@ -75,15 +75,12 @@
                 {{invoiceForm.controls['supplierCompany'].value.name}}</label>
             </div>
             <div class="large-9 small-9 columns button-right">
-              <input type="button" class="button" (click)="openSupplierModal()" value="Выбрать отправителя">
+              <input type="button" class="button" (click)="openSupplierModal()" value="Выбрать отправителя" required>
+              <div class="callout alert"
+                   *ngIf="invoiceForm.controls['supplierCompany'].hasError('required') && invoiceForm.get('supplierCompany').touched">
+                Поле "Отправитель" не может быть пустым
+              </div>
             </div>
-            <!--<div class="large-9 small-9 columns">-->
-            <!--<input id="transportCompany" name="transportCompany" type="text" [formControl]="invoiceForm.controls['transportCompany']" required/>-->
-            <!--<div class="callout alert"-->
-            <!--*ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">-->
-            <!--Поле "Перевозчик" не может быть пустым-->
-            <!--</div>-->
-            <!--</div>-->
           </div>
         </div>
       </div>
@@ -157,64 +154,21 @@
         <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
-              <label for="goodsEntryCount" class="right">Сумма товаров:</label>
+              <label for="goodsEntryCount" class="right">
+                Общая цена:
+              </label>
             </div>
-            <div class="large-6 small-6 columns">
-              <input id="goodsEntryCount" name="goodsEntryCount" type="number"
-                     [formControl]="invoiceForm.controls['goodsEntryCount']" required/>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['goodsEntryCount'].hasError('required') && invoiceForm.get('goodsEntryCount').touched">
-                Поле "Сумма товаров" не может быть пустым
-              </div>
-            </div>
-            <div class="large-3 small-3 columns">
-              <select name="goodsEntryCountUnit" id="goodsEntryCountUnit"
-                      [formControl]="invoiceForm.controls['goodsEntryCountUnit']" required>
-                <option *ngFor="let unit of priceUnits" [value]="unit.name">
-                  {{unit.name}}
-                </option>
-              </select>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['goodsEntryCountUnit'].hasError('required') && invoiceForm.get('goodsEntryCountUnit').touched">
-                Поле не может быть пустым
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="goodsQuantity" class="right">Количество товаров:</label>
-            </div>
-            <div class="large-6 small-6 columns">
-              <input id="goodsQuantity" name="goodsQuantity" type="number"
-                     [formControl]="invoiceForm.controls['goodsQuantity']" required/>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['goodsQuantity'].hasError('required') && invoiceForm.get('goodsQuantity').touched">
-                Поле "Количество товаров" не может быть пустым
-              </div>
-            </div>
-            <div class="large-3 small-3 columns">
-              <select name="goodsQuantityUnit" id="goodsQuantityUnit"
-                      [formControl]="invoiceForm.controls['goodsQuantityUnit']" required>
-                <option *ngFor="let unit of quantityUnits" [value]="unit.name">
-                  {{unit.name}}
-                </option>
-              </select>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['goodsQuantityUnit'].hasError('required') && invoiceForm.get('goodsQuantityUnit').touched">
-                Поле не может быть пустым
-              </div>
+            <div class="large-9 small-9 columns">
+              <span id="goodsEntryCount">
+                {{goodsEntryCount}}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <div>
-        <h4>Товары</h4>
+        <h2>Товары</h2>
         <table>
           <tr>
             <th>Название</th>

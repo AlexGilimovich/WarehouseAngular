@@ -1,11 +1,12 @@
 <input #searchParams
        type="text" placeholder="Введите название..."
-       (keypress)="refreshCompanies(searchParams.value)">
+       (keydown)="refreshCompanies(searchParams.value)">
 <table>
   <tr>
     <th>Название</th>
   </tr>
   <tr *ngFor="let company of companies"
+      [ngClass]="{'highlight': company == chosenCompany}"
       (click)="onCompanyChosen(company)">
     <td>
       {{company.name}}

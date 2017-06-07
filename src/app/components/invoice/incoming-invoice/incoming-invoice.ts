@@ -15,10 +15,7 @@ export class IncomingInvoice {
   transportName: string;
   driver?: Driver;
   description: string;
-  goodsQuantity: number;
   goodsEntryCount: number;
-  goodsQuantityUnit: Unit;
-  goodsEntryCountUnit: Unit;
   dispatcher?: string;
   goods: Goods[];
   status?: string;

@@ -11,9 +11,12 @@ import {TransportCompanyService} from "../tr-company.service";
 export class TransportCompanyChoiceComponent implements OnInit {
   companies: TransportCompany[];
   chosenCompany: TransportCompany;
+  maySearch: boolean;
   @Output('company') company = new EventEmitter<TransportCompany>();
 
-  constructor(private transportService: TransportCompanyService) { }
+  constructor(private transportService: TransportCompanyService) {
+    this.maySearch = true;
+  }
 
   ngOnInit() {
     this.transportService.getAll().subscribe(data => {
@@ -22,9 +25,12 @@ export class TransportCompanyChoiceComponent implements OnInit {
   }
 
   refreshCompanies(searchParams: string) {
-    this.transportService.search(searchParams).subscribe(data => {
-      this.companies = data;
-    });
+    if (this.maySearch) {
+      this.forbidSearching();
+      this.transportService.search(searchParams).subscribe(data => {
+        this.companies = data;
+      });
+    }
   }
 
   onCompanyChosen(company: TransportCompany) {
@@ -33,6 +39,13 @@ export class TransportCompanyChoiceComponent implements OnInit {
 
   saveCompany() {
     this.company.emit(this.chosenCompany);
+  }
+
+  private forbidSearching() {
+    this.maySearch = false;
+    setTimeout(() => {
+      this.maySearch = true;
+    }, 1000);
   }
 
 }

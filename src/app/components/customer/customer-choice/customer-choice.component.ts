@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {WarehouseCustomerCompany} from "../customer";
-import {WarehouseCustomerCompanyService} from "../customer.service";
+import {Component, EventEmitter, OnInit, OnDestroy, Output} from '@angular/core';
+import {WarehouseCustomerCompany} from '../customer';
+import {WarehouseCustomerCompanyService} from '../customer.service';
 
 @Component({
   selector: 'app-customer-choice',
@@ -8,12 +8,16 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
   styleUrls: ['./customer-choice.component.scss'],
   providers: [WarehouseCustomerCompanyService]
 })
-export class CustomerChoiceComponent implements OnInit {
+export class CustomerChoiceComponent implements OnInit, OnDestroy{
   customers: WarehouseCustomerCompany[];
   chosenCustomer: WarehouseCustomerCompany;
+  maySearch: boolean;
+  searchParams: string;
   @Output('customer') customer = new EventEmitter<WarehouseCustomerCompany>();
 
-  constructor(private customerService: WarehouseCustomerCompanyService) { }
+  constructor(private customerService: WarehouseCustomerCompanyService) {
+    this.maySearch = true;
+  }
 
   ngOnInit() {
     this.customerService.getAll().subscribe(data => {
@@ -21,10 +25,17 @@ export class CustomerChoiceComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.searchParams = '';
+  }
+
   refreshCustomers(searchParams: string) {
-    this.customerService.search(searchParams).subscribe(data => {
-      this.customers = data;
-    });
+    if (this.maySearch) {
+      this.forbidSearching();
+      this.customerService.search(searchParams).subscribe(data => {
+        this.customers = data;
+      });
+    }
   }
 
   onCustomerChosen(customer: WarehouseCustomerCompany) {
@@ -33,6 +44,13 @@ export class CustomerChoiceComponent implements OnInit {
 
   saveCustomer() {
     this.customer.emit(this.chosenCustomer);
+  }
+
+  private forbidSearching() {
+    this.maySearch = false;
+    setTimeout(() => {
+      this.maySearch = true;
+    }, 1000);
   }
 
 }

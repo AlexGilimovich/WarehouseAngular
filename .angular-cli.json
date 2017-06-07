@@ -20,12 +20,14 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "../node_modules/foundation-icons/foundation-icons.scss"
+        "../node_modules/foundation-icons/foundation-icons.scss",
+        "../node_modules/foundation-datepicker/scss/foundation-datepicker.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/foundation-sites/dist/js/foundation.min.js",
-        "../node_modules/chart.js/dist/Chart.bundle.min.js"
+        "../node_modules/chart.js/dist/Chart.bundle.min.js",
+        "../node_modules/foundation-datepicker/js/foundation-datepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -12,10 +12,7 @@ export class OutgoingInvoice {
   transportName: string;
   driver?: Driver;
   description: string;
-  goodsQuantity: number;
   goodsEntryCount: number;
-  goodsQuantityUnit: string;
-  goodsEntryCountUnit: string;
   manager?: string;
   goods: Goods[];
   status?: string;

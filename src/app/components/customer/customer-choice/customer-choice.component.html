@@ -1,11 +1,12 @@
-<input #searchParams
+<input [value]="searchParams.value" #searchParams
        type="text" placeholder="Введите название..."
-       (keypress)="refreshCustomers(searchParams.value)">
+       (keydown)="refreshCustomers(searchParams.value)">
 <table>
   <tr>
     <th>Название</th>
   </tr>
   <tr *ngFor="let customer of customers"
+      [ngClass]="{'highlight': customer == chosenCustomer}"
       (click)="onCustomerChosen(customer)">
     <td>
       {{customer.name}}
