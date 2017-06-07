@@ -19,32 +19,41 @@ export class WarehouseCompanyCreateComponent implements OnInit {
   id: number;
   warehouseCompany = new WarehouseCompany;
   user: User=new User;
+  email:string;
+  isRegistration: boolean;
 
   constructor(private companyService: WarehouseCompanyService, private router:Router, private route:ActivatedRoute){
     console.log("CHECKED from created component");
-    route.params.subscribe(params => { this.id = params['id']; });
-    if(!isUndefined(this.id)) {
-      console.log("id  determined");
-      this.companyService.getCompanyById(this.id).subscribe(data => {
-        this.warehouseCompany = data[0];
-      });
-    }
   }
 
   registration(warehouseCompany: WarehouseCompany){
+    console.log(this.email);
     console.log(warehouseCompany);
-    this.companyService.save(warehouseCompany).subscribe(data => {
+    this.companyService.save(warehouseCompany, this.email).subscribe(data => {
       this.user.id = data.id;
       this.user.login = data.login;
       this.user.password = data.password;
       console.log(this.user);
     });
-    if(isUndefined(this.id)) this.router.navigate(['../'], {relativeTo: this.route});
-    else this.router.navigate(['../../'], {relativeTo: this.route});
+    if(isUndefined(this.id)) {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../../../'], {relativeTo: this.route});
+    }
   }
 
   ngOnInit(){
     console.log("registration page redirect");
     $("body").foundation();
+    this.route.params.subscribe(params => { this.id = params['id']; });
+    if(!isUndefined(this.id)) {
+      console.log("id  determined");
+      this.isRegistration = false;
+      this.companyService.getCompanyById(this.id).subscribe(data => {
+        this.warehouseCompany = data[0];
+      });
+    } else {
+      this.isRegistration = true;
+    }
   }
 }

@@ -61,12 +61,12 @@ export class WarehouseCompanyService {
     });
   }
 
-  save(company: WarehouseCompany) {
+  save(company: WarehouseCompany, email:string) {
     if(isUndefined(company.idWarehouseCompany)){
       company.status = false;//default - company is not active
       console.log("is save action");
     }
-    const url = isUndefined(company.idWarehouseCompany) ?  Host.URL + "company/save" : Host.URL + "company/save/"+company.idWarehouseCompany;
+    const url = isUndefined(company.idWarehouseCompany) ?  Host.URL + "company/save/"+email : Host.URL + "company/save/"+company.idWarehouseCompany;
     console.log("URL: "+url);
     const body = JSON.stringify(company);
     const headers = new Headers();

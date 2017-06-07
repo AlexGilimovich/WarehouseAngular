@@ -6,6 +6,11 @@
         <input type="text" name="name" placeholder="Наименование компании..." [(ngModel)]="warehouseCompany.name">
       </label>
     </div>
+    <div class="row columns" *ngIf="isRegistration">
+      <label>eMail владельца
+        <input type="text" name="name" placeholder="example@host.com" [(ngModel)]="email">
+      </label>
+    </div>
     <div class="row columns">
       <label>Координаты X
         <input type="text" name="x" placeholder="Координаты x по карте..." [(ngModel)]="warehouseCompany.x">

@@ -6,7 +6,7 @@
   <div class="row">
     <div class="large-2 small-2 column side-menu">
       <ul class="menu vertical">
-        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='serviceUsers'}"><a (click)="navigateToPage('serviceUsers')">Пользователи сервиса</a></li>
+        <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='serviceUsers'}"><a (click)="navigateToPage('serviceUsers')">О компании</a></li>
         <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='adminReports'}"><a (click)="navigateToPage('adminReports')">Отчеты</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='warehouses'}"><a (click)="navigateToPage('warehouses')">Склады</a></li>
         <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='customers'}"><a (click)="navigateToPage('customers')">Клиенты</a></li>
