@@ -39,6 +39,28 @@ export class WarehouseCompanyService {
     });
   }
 
+  getAllCompany(): Observable<WarehouseCompany[]> {
+    const url = Host.URL+'company/all';
+    const headers = new Headers();
+    const params = new URLSearchParams();
+
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return (response.json()).map(item => {
+        const company: WarehouseCompany = new WarehouseCompany();
+        company.name = item.name;
+        company.x = item.x;
+        company.y = item.y;
+        company.status = item.status;
+        return company;
+      });
+    });
+  }
+
   save(company: WarehouseCompany) {
     if(isUndefined(company.idWarehouseCompany)){
       company.status = false;//default - company is not active
