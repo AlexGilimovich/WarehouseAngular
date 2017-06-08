@@ -49,7 +49,7 @@ export class WarehouseCompanyService {
       params: params
     });
 
-    return this.httpAuthService.get(url, options).map((response: Response) => {
+    return this.http.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
         const company: WarehouseCompany = new WarehouseCompany();
         company.name = item.name;
