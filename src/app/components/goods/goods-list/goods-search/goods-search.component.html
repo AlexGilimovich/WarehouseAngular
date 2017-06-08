@@ -60,7 +60,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="quantityUnit" id="quantityUnit" [(ngModel)]="searchDTO.quantityUnit">
-        <option *ngFor="let unit of units" [value]="unit.name">
+        <option *ngFor="let unit of quantityUnits" [value]="unit.name">
           {{unit.name}}
         </option>
       </select>
@@ -86,7 +86,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="priceUnit" id="priceUnit" [(ngModel)]="searchDTO.priceUnit">
-        <option *ngFor="let unit of units" [value]="unit.name">
+        <option *ngFor="let unit of priceUnits" [value]="unit.name">
           {{unit.name}}
         </option>
       </select>
@@ -112,7 +112,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="weightUnit" id="weightUnit" [(ngModel)]="searchDTO.weightUnit">
-        <option *ngFor="let unit of units" [value]="unit.name">
+        <option *ngFor="let unit of weightUnits" [value]="unit.name">
           {{unit.name}}
         </option>
       </select>

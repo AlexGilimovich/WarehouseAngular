@@ -73,7 +73,6 @@ export class ActCreateComponent implements OnInit {
 
     route.queryParams.subscribe(
       params=> {
-        debugger;
         this.invoiceId = params['invoiceId'];
         this.goodsId = params['goodsId'];
         if (this.invoiceId) {
@@ -229,7 +228,6 @@ export class ActCreateComponent implements OnInit {
         if (this.invoiceId) {
           this.invoiceService.updateInvoiceStatus(this.invoiceId, InvoiceStatus.CHECKED).subscribe(
             resp=> {
-              debugger;
               this.location.back();
             },
             error=> {

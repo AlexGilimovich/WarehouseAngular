@@ -15,6 +15,8 @@ const GET_ROLES_URL:string = "http://localhost:8080/web/web/user/roles";
 const SAVE_URL:string = "http://localhost:8080/web/web/user/save";
 const DELETE_URL:string = "http://localhost:8080/web/web/user/delete";
 const CHECK_LOGIN_URL:string = "http://localhost:8080/web/web/user/is_occupied?loginName=";
+const HEADER_X_TOTAL_COUNT = "x-total-count";
+
 
 @Injectable()
 export class UserService {
@@ -26,7 +28,7 @@ export class UserService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         users: (<any>response.json()).map(item=> {
             return this.mapResponseItemToUser(item);

@@ -169,7 +169,7 @@
 
                   <div class="callout alert"
                        *ngIf="userForm?.controls['password'].hasError('minlength') && userForm?.get('password').touched">
-                    Пароль должен содержать не менее 5 символов
+                    Пароль должен содержать не менее 4 символов
                   </div>
                   <div class="callout alert"
                        *ngIf="userForm?.controls['password'].hasError('required')&& userForm?.get('password').touched">

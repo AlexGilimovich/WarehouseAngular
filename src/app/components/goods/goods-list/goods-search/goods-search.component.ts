@@ -23,7 +23,9 @@ declare var $:any;
 export class GoodsSearchComponent implements OnInit {
   private statusMessages = statusMessages;
   @Input() private statusNames:GoodsStatusName[];
-  @Input() private units:Unit[];
+  @Input() private quantityUnits:Unit[];
+  @Input() private weightUnits:Unit[];
+  @Input() private priceUnits:Unit[];
   @Input() private storageTypes:StorageSpaceType[];
   @Input() private statusSearcheable:boolean = true;
   private unitMessages = unitMessages;

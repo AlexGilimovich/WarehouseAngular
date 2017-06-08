@@ -28,6 +28,7 @@ const UPDATE_STATUS_URL:string = "http://localhost:8080/web/web/goods/status/";
 const SEARCH_URL:string = "http://localhost:8080/web/web/goods/search";
 const GET_STATUSES_URL:string = "http://localhost:8080/web/web/goods/status";
 const REMOVE_FROM_STORAGE_URL = "http://localhost:8080/web/web/goods/remove/";
+const HEADER_X_TOTAL_COUNT = "x-total-count";
 
 @Injectable()
 export class GoodsService {
@@ -58,7 +59,7 @@ export class GoodsService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
@@ -75,7 +76,7 @@ export class GoodsService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
@@ -92,7 +93,7 @@ export class GoodsService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {
@@ -108,7 +109,7 @@ export class GoodsService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map((item:any)=> {
           return this.mapResponseItemToGoods(item);
@@ -236,7 +237,7 @@ export class GoodsService {
   search(dto:GoodsSearchDTO, id:string, page?:number, count?:number):Observable<any> {
     const url:string = `${SEARCH_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
     return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item:any)=> {

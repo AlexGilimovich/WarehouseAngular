@@ -17,6 +17,7 @@ const SAVE_URL:string = "http://localhost:8080/web/web/act/save";
 const GET_ACTS_FOR_GOODS_URL:string = "http://localhost:8080/web/web/act/acts";
 const GET_ACTS_TYPES_URL:string = "http://localhost:8080/web/web/act/acts";
 const SEARCH_URL:string = "http://localhost:8080/web/web/act/search/";
+const HEADER_X_TOTAL_COUNT = "x-total-count";
 
 @Injectable()
 export class ActService {
@@ -31,7 +32,7 @@ export class ActService {
     let headers:Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         acts: (<any>response.json()).map(item=> {
             return this.mapResponseItemToAct(item);
@@ -86,7 +87,7 @@ export class ActService {
   search(warehouseId:number, dto:ActSearchDTO, page:number, count:number):Observable<any> {
     const url:string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
     return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
-      let count:string = response.headers.get("x-total-count");
+      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         acts: (<any>response.json()).map(item=> {
           return this.mapResponseItemToAct(item);
