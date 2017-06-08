@@ -49,6 +49,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
+    this.configureDatepicker();
   }
 
   onSubmit(form: FormGroup) {
@@ -112,6 +113,25 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
     $('#goodsModal').foundation('close');
     this.goodsModal.destroy();
   }
+
+  private configureDatepicker() {
+    $(document).ready(() => {
+      $('#issueDate').fdatepicker({
+        format: 'dd/mm/yyyy',
+        disableDblClickSelection: true,
+        leftArrow: '<<',
+        rightArrow: '>>'
+      }).on('changeDate', element => {
+        const date = element.date;
+        this.setIssueDate(date);
+      });
+    });
+  }
+
+  private setIssueDate(date: Date) {
+    this.invoiceForm.controls['issueDate'].setValue(date);
+  }
+
 
   private changeGoodsEntryCount() {
     let count = 0;

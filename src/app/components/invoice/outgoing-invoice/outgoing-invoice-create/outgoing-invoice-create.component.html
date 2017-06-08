@@ -23,7 +23,6 @@
         </div>
       </div>
 
-      <!-- todo custom datepicker -->
       <div class="row">
         <div class="large-9 small-9 columns">
           <div class="row">
@@ -31,19 +30,13 @@
               <label for="issueDate" class="right">Дата выписки:</label>
             </div>
             <div class="large-9 small-9 columns">
-              <!--<input type="text" id="issueDate" name="issueDate" class="span2"-->
-              <!--data-date-format="mm/dd/yyyy" [formControl]="invoiceForm.controls['issueDate']"-->
-              <!--required>-->
-              <input id="issueDate" name="issueDate" type="date" [formControl]="invoiceForm.controls['issueDate']"
-                     required/>
+              <input type="text" id="issueDate" name="issueDate" class="span2"
+                     [formControl]="invoiceForm.controls['issueDate']"
+                     required>
               <div class="callout alert"
                    *ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">
-                Поле "Дата выписки" не может быть пустым
+                Поле "Номер ТТН" не может быть пустым
               </div>
-              <!--<div class="callout alert"-->
-              <!--*ngIf="!invoiceForm.controls['issueDate'].valid && !invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.controls['issueDate'].touched">-->
-              <!--Наименование может содержать только буквы и цифры-->
-              <!--</div>-->
             </div>
           </div>
         </div>

@@ -8,11 +8,10 @@ import {WarehouseCustomerCompanyService} from '../customer.service';
   styleUrls: ['./customer-choice.component.scss'],
   providers: [WarehouseCustomerCompanyService]
 })
-export class CustomerChoiceComponent implements OnInit, OnDestroy{
+export class CustomerChoiceComponent implements OnInit {
   customers: WarehouseCustomerCompany[];
   chosenCustomer: WarehouseCustomerCompany;
   maySearch: boolean;
-  searchParams: string;
   @Output('customer') customer = new EventEmitter<WarehouseCustomerCompany>();
 
   constructor(private customerService: WarehouseCustomerCompanyService) {
@@ -23,10 +22,6 @@ export class CustomerChoiceComponent implements OnInit, OnDestroy{
     this.customerService.getAll().subscribe(data => {
       this.customers = data;
     });
-  }
-
-  ngOnDestroy() {
-    this.searchParams = '';
   }
 
   refreshCustomers(searchParams: string) {

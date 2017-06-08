@@ -54,12 +54,7 @@ export class IncomingInvoiceCreateComponent implements OnInit {
 
   ngOnInit() {
     $('body').foundation();
-    // $('body').fdatepicker();
-    // // $(function () {
-    //   $('#issueDate').fdatepicker({
-    //     closeButton: true
-    //   });
-    // // });
+    this.configureDatepicker();
   }
 
   onSubmit(form: FormGroup) {
@@ -122,6 +117,24 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   closeGoodsModal(subscription?: Subscription) {
     $('#goodsModal').foundation('close');
     this.goodsModal.destroy();
+  }
+
+  private configureDatepicker() {
+    $(document).ready(() => {
+      $('#issueDate').fdatepicker({
+        format: 'dd/mm/yyyy',
+        disableDblClickSelection: true,
+        leftArrow: '<<',
+        rightArrow: '>>'
+      }).on('changeDate', element => {
+        const date = element.date;
+        this.setIssueDate(date);
+      });
+    });
+  }
+
+  private setIssueDate(date: Date) {
+    this.invoiceForm.controls['issueDate'].setValue(date);
   }
 
   private changeGoodsEntryCount() {
