@@ -48,7 +48,6 @@ export class WarehouseSchemeService {
         storageSpace.storageCellList = item.storageCellList;
         storageSpace.storageSpaceType = item.storageSpaceType;
         storageSpace.status = item.status;
-        console.log("goods" + storageSpace.storageCellList)
         return storageSpace;
       });
     });
@@ -71,7 +70,6 @@ export class WarehouseSchemeService {
         storageCell.idStorageCell = item.idStorageCell;
         storageCell.status = item.status;
         storageCell.goods = item.goods;
-        console.log("httpAuthService: " + storageCell);
         return storageCell;
       });
     });

@@ -5,6 +5,7 @@ import {User} from "../user/user";
 import {LoginService} from "../login/login.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../user/role";
+import {MapView} from "../../util/map";
 
 
 @Component({
@@ -14,13 +15,7 @@ import {Role} from "../user/role";
   providers: [WarehouseCompanyService]
 })
 export class IndexComponent implements OnInit {
-  zoom:number = 5;
-  lat:number = 48.152047;
-  lng:number = 15.134961;
-
-  isDataAvailable: boolean = false;
-  markers: marker[] = [];
-  object_marker: marker = new marker;
+  map: MapView = new MapView;
 
   constructor(private companyService:WarehouseCompanyService,
               private loginService:LoginService,
@@ -30,23 +25,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     this.companyService.getAllCompany().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        if(data[i].status) {
-          this.object_marker = new marker;
-          this.object_marker.name = data[i].name;
-          this.object_marker.draggable = true;
-          this.object_marker.lat = data[i].x;
-          this.object_marker.lng = data[i].y;
-          this.markers.push(this.object_marker);
-        }
-      }
-
-      if(data.length != 0){//init first view/coordinates
-        this.lat == this.markers[0].lat;
-        this.lng == this.markers[0].lng;
-      }
-      this.isDataAvailable = true;
-     console.log(data);
+      this.map.init(data);
      });
   }
 

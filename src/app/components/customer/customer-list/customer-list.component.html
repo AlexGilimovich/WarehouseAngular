@@ -1,3 +1,10 @@
+<style>
+  .sebm-google-map-container {
+    height: 600px;
+  }
+</style>
+
+<body>
 <div class="row">
   <div class="large-12 small-12 columns">
     <table class="hover">
@@ -29,3 +36,28 @@
            (click)="createCustomer()">
   </div>
 </div>
+
+<div id="map_container" *ngIf="mapView.isDataAvailable">
+  <!--MAP FROM ANGULAR2-->
+  <sebm-google-map
+    [latitude]="mapView.lat"
+    [longitude]="mapView.lng"
+    [zoom]="mapView.zoom"
+    [disableDefaultUI]=false
+    [zoomControl]=false>
+    <sebm-google-map-marker
+      *ngFor="let m of mapView.markers; let i = index"
+
+      [latitude]="m.lat"
+      [longitude]="m.lng"
+      [markerDraggable]="m.draggable"
+
+    >
+      <sebm-google-map-info-window>
+        <strong>{{m.name}}</strong>
+      </sebm-google-map-info-window>
+    </sebm-google-map-marker>
+  </sebm-google-map>
+  <!--END OF MAP FROM ANGULAR2-->
+</div>
+</body>

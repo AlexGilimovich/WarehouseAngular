@@ -64,9 +64,6 @@
         <!--    Start Navigation Menu    -->
         <section class="top-bar-section right" id="mean_nav">
           <ul class="right navbar">
-            <!--<a [routerLink]="['../warehousecompany']" [routerLinkActive]="['active']">
-              WAREHOUSE COMPANY
-            </a>-->
             <li><b><a href="#services">сервис</a></b></li>
             <li><b><a [routerLink]="['../warehousecompany/registration']" [routerLinkActive]="['active']">Регистрация</a></b></li>
             <li><b><a href="#about">о нас</a></b></li>
@@ -163,7 +160,7 @@
 
 
 <!--  Start Map Section  -->
-<section class="map" id="connect" *ngIf="isDataAvailable">
+<section class="map" id="connect" *ngIf="map.isDataAvailable">
 
   <!--    Start Map Shadow    -->
   <div class="shadow"></div>
@@ -172,14 +169,14 @@
   <div id="map_container">
     <!--MAP FROM ANGULAR2-->
     <sebm-google-map
-      [latitude]="lat"
-      [longitude]="lng"
-      [zoom]="zoom"
+      [latitude]="map.lat"
+      [longitude]="map.lng"
+      [zoom]="map.zoom"
     [disableDefaultUI]=false
     [zoomControl]=false
     (mapClick)="mapClicked($event)">
       <sebm-google-map-marker
-        *ngFor="let m of markers; let i = index"
+        *ngFor="let m of map.markers; let i = index"
         (markerClick)="clickedMarker(m, i)"
         [latitude]="m.lat"
         [longitude]="m.lng"

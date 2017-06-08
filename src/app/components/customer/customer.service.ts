@@ -151,6 +151,8 @@ export class WarehouseCustomerCompanyService {
     const customer = new WarehouseCustomerCompany();
     customer.id = item.id;
     customer.name = item.name;
+    customer.x = item.x;
+    customer.y = item.y;
     return customer;
   }
 }

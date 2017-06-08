@@ -28,13 +28,7 @@ export class WarehouseCompanyService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const company: WarehouseCompany = new WarehouseCompany();
-        company.idWarehouseCompany = item.idWarehouseCompany;
-        company.name = item.name;
-        company.x = item.x;
-        company.y = item.y;
-        company.status = item.status;
-        return company;
+        return this.parse(item);
       });
     });
   }
@@ -56,7 +50,7 @@ export class WarehouseCompanyService {
         company.x = item.x;
         company.y = item.y;
         company.status = item.status;
-        return company;
+        return company;//don't use parse so incapsulate idCompany
       });
     });
   }
@@ -124,15 +118,19 @@ export class WarehouseCompanyService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const company: WarehouseCompany = new WarehouseCompany();
-        company.idWarehouseCompany = item.idWarehouseCompany;
-        company.name = item.name;
-        company.x = item.x;
-        company.y = item.y;
-        company.status = item.status;
-        return company;
+        return this.parse(item);
       });
     });
+  }
+
+  private parse(item: any){
+    const company: WarehouseCompany = new WarehouseCompany();
+    company.idWarehouseCompany = item.idWarehouseCompany;
+    company.name = item.name;
+    company.x = item.x;
+    company.y = item.y;
+    company.status = item.status;
+    return company;
   }
 
 }

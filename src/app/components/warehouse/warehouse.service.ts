@@ -27,14 +27,7 @@ export class WarehouseService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const warehouse: Warehouse = new Warehouse();
-        warehouse.idWarehouse = item.idWarehouse;
-        warehouse.name = item.name;
-        warehouse.status = item.status;
-        warehouse.x = item.x;
-        warehouse.y = item.y;
-        warehouse.warehouseCompany = item.warehouseCompany;
-        return warehouse;
+        return this.parse(item);
       });
     });
   }
@@ -52,15 +45,7 @@ export class WarehouseService {
 
     return this.httpAuthService.post(url, body, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const warehouse: Warehouse = new Warehouse();
-        warehouse.idWarehouse = item.idWarehouse;
-        warehouse.name = item.name;
-        warehouse.x = item.x;
-        warehouse.y = item.y;
-        warehouse.status = item.status;
-        warehouse.warehouseCompany = item.warehouseCompany;
-        console.log(warehouse);
-        return warehouse;
+        return this.parse(item);
       });
     });
   }
@@ -109,20 +94,12 @@ export class WarehouseService {
 
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
-        const warehouse: Warehouse = new Warehouse();
-        warehouse.idWarehouse = item.idWarehouse;
-        warehouse.name = item.name;
-        warehouse.x = item.x;
-        warehouse.y = item.y;
-        warehouse.status = item.status;
-        warehouse.warehouseCompany = item.warehouseCompany;
-        return warehouse;
+        return this.parse(item);
       });
     });
   }
 
   delete(id: number){
-
     const url = Host.URL + "warehouse/delete/"+id;
     console.log("URL: "+url);
 
@@ -137,6 +114,16 @@ export class WarehouseService {
           return (response.json());
         }
       });
+  }
 
+  private parse(item: any){
+    const warehouse: Warehouse = new Warehouse();
+    warehouse.idWarehouse = item.idWarehouse;
+    warehouse.name = item.name;
+    warehouse.x = item.x;
+    warehouse.y = item.y;
+    warehouse.status = item.status;
+    warehouse.warehouseCompany = item.warehouseCompany;
+    return warehouse;
   }
 }

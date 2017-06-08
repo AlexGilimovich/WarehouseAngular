@@ -12,6 +12,7 @@ import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
 import {marker} from "../../../util/marker";
 import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
 import {BaseChartDirective} from "ng2-charts";
+import {MapView} from "../../../util/map";
 
 @Component({
   selector: 'app-warehouse',
@@ -30,12 +31,7 @@ export class WarehouseComponent implements OnInit {
   isShowDeleted: boolean = false;
   isLastPage: boolean = false;
 
-  zoom: number = 5;
-  lat: number = 48.152047;
-  lng: number = 15.134961;
-
-  markers: marker[] = [];
-  object_marker: marker = new marker;
+  map: MapView = new MapView;
 
   public pieChartLabels:string[] = [];
   public pieChartData:number[] = [];
@@ -69,7 +65,7 @@ export class WarehouseComponent implements OnInit {
     this.warehouseService.getWarehouse(this.id, position, this.itemsOnPage).subscribe(data => {
       this.warehouse = data;
 
-      this.initMapMarkers();
+      this.map.init(this.warehouse);
 
       this.clearData();
       for (let i = 0; i < this.warehouse.length; i++) {
@@ -96,24 +92,6 @@ export class WarehouseComponent implements OnInit {
     this.pieChartData.splice(0, this.pieChartData.length);
     this.barChartData.splice(0, this.barChartData.length);
     this.barChartLabels.splice(0, this.barChartLabels.length);
-  }
-
-  private initMapMarkers(){
-    for (let i = 0; i < this.warehouse.length; i++) {
-      if(this.warehouse[i].status) {
-        this.object_marker = new marker;
-        this.object_marker.name = this.warehouse[i].name;
-        this.object_marker.draggable = true;
-        this.object_marker.lat = this.warehouse[i].x;
-        this.object_marker.lng = this.warehouse[i].y;
-        this.markers.push(this.object_marker);
-      }
-    }
-
-    if(this.warehouse.length != 0){//init first view/coordinates
-      this.lat == this.markers[0].lat;
-      this.lng == this.markers[0].lng;
-    }
   }
 
   private setUpOneValueOfChart(index: number){

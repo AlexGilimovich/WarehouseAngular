@@ -20,17 +20,7 @@
 </head>
 <body>
 <h1 style="text-align: center">Склады</h1>
-<!--<a [routerLink]="['../../registration']" [routerLinkActive]="['active']" (click)="registration(id)">Добавить склад</a>
-<ul>
-  <li *ngFor="let company of warehouse">
-    <p>Номер склада: {{company?.idWarehouse}}</p>
-    <a (click)="edit(company?.idWarehouse)">Изменить</a>
-    <a (click)="delete(company?.idWarehouse)">Удалить</a>
-    <p>Наименование: <a [routerLink]="['./scheme']" [routerLinkActive]="['active']"
-                        (click)="findSpace(company.idWarehouse)">{{company?.name}}</a></p>
 
-  </li>
-</ul>-->
 <div class="input-group">
   <input class="input-group-field" (keyup)="search()" name="name" [(ngModel)]="warehouse_search.name"
          placeholder="Название склада...">
@@ -125,17 +115,17 @@
   </div>
 </div>
 
-<div id="map_container" *ngIf="isDataAvailable">
+<div id="map_container" *ngIf="map.isDataAvailable">
   <!--MAP FROM ANGULAR2-->
   <sebm-google-map
-    [latitude]="lat"
-    [longitude]="lng"
-    [zoom]="zoom"
+    [latitude]="map.lat"
+    [longitude]="map.lng"
+    [zoom]="map.zoom"
     [disableDefaultUI]=false
     [zoomControl]=false
     (mapClick)="mapClicked($event)">
     <sebm-google-map-marker
-      *ngFor="let m of markers; let i = index"
+      *ngFor="let m of map.markers; let i = index"
       (markerClick)="clickedMarker(m, i)"
       [latitude]="m.lat"
       [longitude]="m.lng"

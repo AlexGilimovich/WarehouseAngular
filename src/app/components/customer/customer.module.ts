@@ -7,6 +7,7 @@ import { CustomerDetailsComponent } from './customer-details/customer-details.co
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { CustomerChoiceComponent } from './customer-choice/customer-choice.component';
 import { CustomerContainerComponent } from './customer-container/customer-container.component';
+import {AgmCoreModule} from "angular2-google-maps/core";
 
 export const customerRoutes: Routes = [
   {
@@ -25,6 +26,9 @@ export const customerRoutes: Routes = [
 
 @NgModule({
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8C9_ZetYZUMduJ2TOXBkHr8yulXfo1WU'
+    }),
     RouterModule,
     CommonModule,
     FormsModule,
