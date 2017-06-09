@@ -28,8 +28,7 @@ export class IndexComponent implements OnInit {
       this.map.init(data);
      });
   }
-
-  private login():void {
+  private login():void{
     let user:User = this.loginService.checkLocalStorage();
     if (user) {
       this.loginService.login(user.login, user.password, true).subscribe(
