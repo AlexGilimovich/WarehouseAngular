@@ -24,7 +24,10 @@ import {CustomerContainerComponent} from "../customer/customer-container/custome
 import {customerRoutes} from "../customer/customer.module";
 import {TransportCompanyContainerComponent} from "../tr-company/tr-company-container/tr-company-container.component";
 import {transportCompanyRoutes} from "../tr-company/tr-company.module";
+
 import { EmailComponent } from "../email/email.component";
+import { ReportContainerComponent } from "../report/report-container/report-container.component";
+import { ReportModule, reportRoutes } from "../report/report.module";
 
 export const desktopRoutes:Routes = [
   {
@@ -60,10 +63,11 @@ export const desktopRoutes:Routes = [
     component: CustomerContainerComponent,
     children: customerRoutes
   },
-  // {
-  //   path: "reports",
-  //   component: ReportsComponent
-  // },
+  {
+    path: "reports",
+    component: ReportContainerComponent,
+    children: reportRoutes
+  },
   {
     path: "finances",
     component: FinanceComponent
@@ -108,7 +112,8 @@ export const desktopRoutes:Routes = [
     ActModule,
     GoodsModule,
     UserModule,
-    HeaderModule
+    HeaderModule,
+    ReportModule
   ],
   declarations: [DesktopComponent]
 })
