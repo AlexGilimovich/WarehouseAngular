@@ -7,12 +7,14 @@ import {GoodsListComponent} from "./list/goods-list.component";
 import {SearchService} from "./goods-search/search.service";
 import {GoodsListContainerComponent} from "./goods-list-container/goods-list-container.component";
 import { ListControlsComponent } from './list-controls/list-controls.component';
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartsModule
   ],
   exports: [
     GoodsListContainerComponent,

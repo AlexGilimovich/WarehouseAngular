@@ -34,5 +34,48 @@
 
 </div>
 
-
+<div class="row" style="height: 301px">
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [data]="pieChartDataTypeStorage"
+            [labels]="pieChartLabelsTypeStorage"
+            [chartType]="pieChartType"
+            [options]="ChartOptions"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+  <!--<div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [data]="pieChartDataStatus"
+            [labels]="pieChartLabelsStatus"
+            [options]="ChartOptions"
+            [chartType]="pieChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [datasets]="pieChartDataStatus"
+            [labels]="pieChartLabelsStatus"
+            [options]="ChartOptions"
+            [legend]=""
+            [chartType]=""
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>-->
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabelsStatus"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+</div>
 
