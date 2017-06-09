@@ -15,10 +15,52 @@ import {ActivatedRoute, Router} from "@angular/router";
   providers: [WarehouseCompanyService]
 })
 export class WarehouseCompanyComponent implements OnInit {
-
   warehouseCompany: WarehouseCompany[]=[];
+  searchWarehouseCompany: WarehouseCompany = new WarehouseCompany;
+
+  page: number;
+
+  itemsOnPage: number = 5;
+  itemsOnPageArray: number[] = [5,10,15,20];
+  isShowDeleted: boolean = false;
+  isLastPage: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private companyService: WarehouseCompanyService, private router:Router, private route:ActivatedRoute){}
+
+  ngOnInit(){
+    this.page = 1;
+    this.getData(0);
+  }
+
+  getData(position: number){
+    this.companyService.getCompany(position, this.itemsOnPage).subscribe(data => {
+      this.warehouseCompany = data;
+      if(this.warehouseCompany.length > 1) {
+        this.isAdmin = true;
+      }
+      //this.map.init(this.warehouse);
+    });
+
+    this.companyService.getCompany(position+this.itemsOnPage, this.itemsOnPage).subscribe(data => {
+      if(data.length == 0) {
+        this.isLastPage = true;
+      }
+      else {
+        this.isLastPage = false;
+      }
+    })
+  }
+
+  nextPage(){
+    this.page++;
+    this.getData((this.page-1)*this.itemsOnPage);
+  }
+
+  prevPage(){
+    this.page--;
+    this.getData((this.page-1)*this.itemsOnPage);
+  }
 
   findWarehouse(id: string){
     console.log("call findWarehouse(id: String)");
@@ -26,9 +68,22 @@ export class WarehouseCompanyComponent implements OnInit {
     this.router.navigate(['./', id, 'warehouse'], {relativeTo: this.route});
   }
 
-  delete(id: string){
-    console.log(id);
-    this.companyService.delete(id).subscribe(data => {
+  delete(idWarehouseCompany: number){
+    this.changeStatus(idWarehouseCompany);
+  }
+
+  restore(idWarehouseCompany: number){
+    this.changeStatus(idWarehouseCompany);
+  }
+
+  private changeStatus(idWarehouseCompany: number){
+    for(let i=0; i<this.warehouseCompany.length; i++) {
+      if(this.warehouseCompany[i].idWarehouseCompany == idWarehouseCompany) {
+        this.warehouseCompany[i].status = !this.warehouseCompany[i].status;
+        break;
+      }
+    }
+    this.companyService.delete(idWarehouseCompany).subscribe(data => {
       console.log(data);
     });
   }
@@ -38,9 +93,8 @@ export class WarehouseCompanyComponent implements OnInit {
     this.router.navigate(['./edit', id], {relativeTo: this.route});
   }
 
-  ngOnInit(){
-    console.log("open method get data warehouse customer");
-    this.companyService.getCompany().subscribe(data => {
+  search(){
+    this.companyService.search(this.searchWarehouseCompany).subscribe(data => {
       this.warehouseCompany = data;
     });
   }

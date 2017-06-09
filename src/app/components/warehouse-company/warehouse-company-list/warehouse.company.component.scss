@@ -6,3 +6,18 @@ i {
     opacity: 0.8;
   }
 }
+
+.right {
+  text-align: right;
+  float: right;
+}
+
+.item-counter {
+  display: inline-block;
+  float: right;
+  margin-right: 25px;
+  select {
+    font-size: 1em;
+    height: 32px;
+  }
+}
