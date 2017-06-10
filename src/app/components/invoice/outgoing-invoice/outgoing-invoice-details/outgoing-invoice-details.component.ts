@@ -51,6 +51,7 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     this.id = this.invoiceService.parseIdParam(this.route);
     this.invoiceService.getOutgoingInvoiceById(this.id).subscribe(data => {
       const invoice = data;
+      console.log(invoice);
       this.mapFormFromInvoice(invoice);
       this.goodsList = invoice.goods;
       this.status = InvoiceStatus[invoice.status];

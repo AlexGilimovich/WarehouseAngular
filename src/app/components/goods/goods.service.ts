@@ -89,9 +89,19 @@ export class GoodsService {
 
 
   storedList(id:string, page?:number, count?:number):Observable<any> {
-    const url:string = `${LIST_URL}${"/"}${id}${"/stored"}${"?page="}${page}${"&count="}${count}`;
-    let headers:Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const url = `${LIST_URL}${'/'}${id}${'/stored'}`;
+    const headers = new Headers();
+    const params = new URLSearchParams();
+    if (page != null) {
+      params.set('page', page.toString());
+    }
+    if (count != null) {
+      params.set('count', count.toString());
+    }
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
     return this.httpAuthService.get(url, options).map((response:Response)=> {
       let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {

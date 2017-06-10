@@ -20,10 +20,6 @@ export class InvoiceService {
   constructor(private httpAuthService: HttpAuthService,
               private loginService: LoginService) { }
 
-  getLoggedUser() {
-    return this.loginService.getLoggedUser();
-  }
-
   getAllIncoming(page?: number, count?: number) {
     const url = path + '/incoming';
     const headers = new Headers();
