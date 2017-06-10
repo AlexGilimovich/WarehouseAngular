@@ -10,27 +10,37 @@ import {IncomingInvoiceListComponent} from './incoming-invoice/incoming-invoice-
 import {OutgoingInvoiceListComponent} from './outgoing-invoice/outgoing-invoice-list/outgoing-invoice-list.component';
 import {GoodsCreateComponent} from "../goods/goods-create/goods-create.component";
 import {GoodsModule} from "../goods/goods.module";
-import { GoodsChoiceComponent } from '../goods/goods-choice/goods-choice.component';
+import {GoodsChoiceComponent} from '../goods/goods-choice/goods-choice.component';
 import {WarehouseCustomerCompanyModule} from "../customer/customer.module";
 import {TransportCompanyModule} from "../tr-company/tr-company.module";
-import { InvoiceContainerComponent } from './invoice-container/invoice-container.component';
+import {InvoiceContainerComponent} from './invoice-container/invoice-container.component';
 import {InvoiceService} from "./invoice.service";
+import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
 export const invoiceRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'incoming',
+    redirectTo: 'list',
     pathMatch: 'full'
   },
   {
-    path: 'incoming',
-    component: IncomingInvoiceListComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'outgoing',
-    component: OutgoingInvoiceListComponent,
-    pathMatch: 'full'
+    path: 'list',
+    component: InvoiceListComponent,
+    children: [{
+      path: '',
+      children: [
+        {
+          path: 'incoming',
+          component: IncomingInvoiceListComponent,
+          pathMatch: 'full'
+        },
+        {
+          path: 'outgoing',
+          component: OutgoingInvoiceListComponent,
+          pathMatch: 'full'
+        },
+      ]
+    }]
   },
   {
     path: 'incoming/new',
@@ -47,10 +57,6 @@ export const invoiceRoutes: Routes = [
   {
     path: 'outgoing/:id',
     component: OutgoingInvoiceDetailsComponent
-  },
-  {
-    path: 'incoming/goods/new',
-    component: GoodsCreateComponent
   }
 ];
 
@@ -66,7 +72,7 @@ export const invoiceRoutes: Routes = [
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent],
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent, InvoiceListComponent],
   entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
   providers: [InvoiceService]
 })

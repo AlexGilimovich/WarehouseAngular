@@ -26,17 +26,21 @@ export class OutgoingInvoiceListComponent implements OnInit {
   }
 
   createOutgoingInvoice() {
-    this.router.navigate(['../outgoing/new'], {relativeTo: this.route});
+    this.router.navigate(['../../outgoing/new'], {relativeTo: this.route});
   }
 
   goToDetails(id: number) {
-    this.router.navigate(['../outgoing/', id], {relativeTo: this.route});
+    this.router.navigate(['../../outgoing/', id], {relativeTo: this.route});
   }
 
   delete(invoice: OutgoingInvoice) {
     this.invoiceService.delete(invoice.id).subscribe(success => {
       this.invoices = this.invoiceService.removeOutgoingInvoiceFromArray(this.invoices, invoice);
     });
+  }
+
+  isManager() {
+    return this.loginService.getLoggedUser().hasRole('ROLE_MANAGER');
   }
 
 }

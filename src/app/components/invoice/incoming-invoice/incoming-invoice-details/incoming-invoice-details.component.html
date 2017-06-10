@@ -1,4 +1,4 @@
-<div>
+<div class="form-container">
   <h4>Описание накладной</h4>
   <form [formGroup]="invoiceForm">
     <label>
@@ -51,16 +51,16 @@
       </table>
     </div>
     <div [ngSwitch]="status">
-      <div *ngSwitchCase="invoiceStatus.REGISTERED">
-        <!--<div *ngIf="isController()">-->
+      <div *ngSwitchCase="invoiceStatus.REGISTERED_INCOMING">
+        <div *ngIf="isController()">
           <input type="button" class="button" (click)="finishChecking()" value="Завершить проверку">
           <input type="button" class="button alert" (click)="createMismatchAct()" value="Оформить акт несоответствия">
-        <!--</div>-->
+        </div>
       </div>
       <div *ngSwitchCase="invoiceStatus.CHECKED">
-        <!--<div *ngIf="isDispatcher()">-->
+        <div *ngIf="isManager()">
           <input type="button" class="button" (click)="finishCompleting()" value="Завершить оформление">
-        <!--</div>-->
+        </div>
       </div>
     </div>
   </form>

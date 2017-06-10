@@ -27,11 +27,11 @@ export class IncomingInvoiceListComponent implements OnInit {
   }
 
   createIncomingInvoice() {
-    this.router.navigate(['../incoming/new'], {relativeTo: this.route});
+    this.router.navigate(['../../incoming/new'], {relativeTo: this.route});
   }
 
   goToDetails(id: number) {
-    this.router.navigate(['../incoming/', id], {relativeTo: this.route});
+    this.router.navigate(['../../incoming/', id], {relativeTo: this.route});
   }
 
   delete(invoice: IncomingInvoice) {
@@ -41,8 +41,7 @@ export class IncomingInvoiceListComponent implements OnInit {
   }
 
   isDispatcher() {
-    console.log(this.loginService.getLoggedUser().roles);
-    // return this.loginService.getLoggedUser().hasRole('ROLE_DISPATCHER');
+    return this.loginService.getLoggedUser().hasRole('ROLE_DISPATCHER');
   }
 
 }

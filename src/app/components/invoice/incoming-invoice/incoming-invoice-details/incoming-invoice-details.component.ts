@@ -64,7 +64,6 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
   }
 
   createMismatchAct() {
-    // todo redirect to act creation page
     // this.router.navigateByUrl();
     this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse],{queryParams: {invoiceId: this.id}, relativeTo:this.route});
     // const status = InvoiceStatus.CHECKED;//todo moved this logic into act create component
@@ -79,8 +78,8 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
     });
   }
 
-  isDispatcher() {
-    return this.loginService.getLoggedUser().hasRole('ROLE_DISPATCHER');
+  isManager() {
+    return this.loginService.getLoggedUser().hasRole('ROLE_MANAGER');
   }
 
   isController() {

@@ -1,50 +1,50 @@
 <div class="row">
   <div class="large-12 small-12 columns">
-  <table class="hover">
-    <thead>
-    <tr>
-      <th>Номер ТТН</th>
-      <th>Дата выписки</th>
-      <th>Отправитель</th>
-      <th>Перевозчик</th>
-      <th>Статус</th>
-      <!--<th></th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
-      <td>
-        {{invoice.number}}
-      </td>
-      <td>
-        {{invoice.issueDate}}
-      </td>
-      <td>
-        {{invoice.supplierCompany.name}}
-      </td>
-      <td>
-        {{invoice.transportCompany.name}}
-      </td>
-      <td>
-        {{invoice.status}}
-      </td>
-      <!--<td>-->
-      <!--<button (click)="delete(invoice)">-->
-      <!--Удалить-->
-      <!--</button>-->
-      <!--</td>-->
-    </tr>
-    </tbody>
-  </table>
+    <table class="hover">
+      <thead>
+      <tr>
+        <th>Номер ТТН</th>
+        <th>Дата выписки</th>
+        <th>Отправитель</th>
+        <th>Перевозчик</th>
+        <th>Статус</th>
+        <!--<th></th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
+        <td>
+          {{invoice.number}}
+        </td>
+        <td>
+          {{invoice.issueDate}}
+        </td>
+        <td>
+          {{invoice.supplierCompany.name}}
+        </td>
+        <td>
+          {{invoice.transportCompany.name}}
+        </td>
+        <td>
+          {{invoice.status}}
+        </td>
+        <!--<td>-->
+        <!--<button (click)="delete(invoice)">-->
+        <!--Удалить-->
+        <!--</button>-->
+        <!--</td>-->
+      </tr>
+      </tbody>
+    </table>
 
-  <!-- todo create pagination -->
+    <!-- todo create pagination -->
   </div>
 </div>
 
-<div class="row">
-  <div class="large-12 small-12 columns">
-    <!--<div *ngIf="isDispatcher()">-->
-    <input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">
-    <!--</div>-->
+<div *ngIf="isDispatcher()">
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">
+    </div>
   </div>
 </div>

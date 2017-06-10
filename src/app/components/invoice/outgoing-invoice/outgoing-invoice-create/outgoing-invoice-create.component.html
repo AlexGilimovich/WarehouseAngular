@@ -1,200 +1,198 @@
-<div class="callout">
-  <div class="form-container">
-    <h4>Создание входящей накладной</h4>
-    <form class="form" [formGroup]="invoiceForm" (ngSubmit)="onSubmit(invoiceForm)">
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="number" class="right">Номер ТТН:</label>
+<div class="form-container">
+  <h4>Создание выходящей накладной</h4>
+  <form class="form" [formGroup]="invoiceForm" (ngSubmit)="onSubmit(invoiceForm)">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Номер ТТН:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="number" name="number" type="text" [formControl]="invoiceForm.controls['number']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
+              Поле "Номер ТТН" не может быть пустым
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="number" name="number" type="text" [formControl]="invoiceForm.controls['number']" required/>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
-                Поле "Номер ТТН" не может быть пустым
-              </div>
-              <div class="callout alert"
-                   *ngIf="!invoiceForm.controls['number'].valid && !invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
-                Наименование может содержать только буквы и цифры
-              </div>
+            <div class="callout alert"
+                 *ngIf="!invoiceForm.controls['number'].valid && !invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
+              Наименование может содержать только буквы и цифры
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="issueDate" class="right">Дата выписки:</label>
-            </div>
-            <div class="large-9 small-9 columns">
-              <input type="text" id="issueDate" name="issueDate" class="span2"
-                     [formControl]="invoiceForm.controls['issueDate']"
-                     required>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">
-                Поле "Номер ТТН" не может быть пустым
-              </div>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="issueDate" class="right">Дата выписки:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input type="text" id="issueDate" name="issueDate" class="span2"
+                   [formControl]="invoiceForm.controls['issueDate']"
+                   required>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">
+              Поле "Номер ТТН" не может быть пустым
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="number" class="right">Перевозчик:
-                {{invoiceForm.controls['transportCompany'].value.name}}</label>
-            </div>
-            <div class="large-9 small-9 columns button-right">
-              <input type="button" class="button" (click)="openTransportModal()" value="Выбрать перевозчика" required>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">
-                Поле "Перевозчик" не может быть пустым
-              </div>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Перевозчик:
+              {{invoiceForm.controls['transportCompany'].value.name}}</label>
+          </div>
+          <div class="large-9 small-9 columns button-right">
+            <input type="button" class="button" (click)="openTransportModal()" value="Выбрать перевозчика" required>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">
+              Поле "Перевозчик" не может быть пустым
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="number" class="right">Получатель:
-                {{invoiceForm.controls['receiverCompany'].value.name}}</label>
-            </div>
-            <div class="large-9 small-9 columns button-right">
-              <input type="button" class="button" (click)="openReceiverModal()" value="Выбрать получателя" required>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['receiverCompany'].hasError('required') && invoiceForm.get('receiverCompany').touched">
-                Поле "Получатель" не может быть пустым
-              </div>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Получатель:
+              {{invoiceForm.controls['receiverCompany'].value.name}}</label>
+          </div>
+          <div class="large-9 small-9 columns button-right">
+            <input type="button" class="button" (click)="openReceiverModal()" value="Выбрать получателя" required>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['receiverCompany'].hasError('required') && invoiceForm.get('receiverCompany').touched">
+              Поле "Получатель" не может быть пустым
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="number" class="right">Номер транспортного средства:</label>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Номер транспортного средства:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="transportNumber" name="transportNumber" type="text"
+                   [formControl]="invoiceForm.controls['transportNumber']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
+              Поле "Номер транспорного средства" не может быть пустым
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="transportNumber" name="transportNumber" type="text"
-                     [formControl]="invoiceForm.controls['transportNumber']" required/>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
-                Поле "Номер транспорного средства" не может быть пустым
-              </div>
-              <div class="callout alert"
-                   *ngIf="!invoiceForm.controls['transportNumber'].valid && !invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
-                Номер транспортного средства может содержать только буквы, цифры
-              </div>
+            <div class="callout alert"
+                 *ngIf="!invoiceForm.controls['transportNumber'].valid && !invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
+              Номер транспортного средства может содержать только буквы, цифры
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="number" class="right">Название транспортного средства:</label>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Название транспортного средства:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="transportName" name="transportName" type="text"
+                   [formControl]="invoiceForm.controls['transportName']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
+              Поле "Название транспорного средства" не может быть пустым
             </div>
-            <div class="large-9 small-9 columns">
-              <input id="transportName" name="transportName" type="text"
-                     [formControl]="invoiceForm.controls['transportName']" required/>
-              <div class="callout alert"
-                   *ngIf="invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
-                Поле "Название транспорного средства" не может быть пустым
-              </div>
-              <div class="callout alert"
-                   *ngIf="!invoiceForm.controls['transportName'].valid && !invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
-                Название транспортного средства может содержать только буквы, цифры
-              </div>
+            <div class="callout alert"
+                 *ngIf="!invoiceForm.controls['transportName'].valid && !invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
+              Название транспортного средства может содержать только буквы, цифры
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- todo
-      <label>
-        Водитель
-        <input type="text" [formControl]="invoiceForm.controls['driver']">
-      </label>
-      -->
+    <!-- todo
+    <label>
+      Водитель
+      <input type="text" [formControl]="invoiceForm.controls['driver']">
+    </label>
+    -->
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="description" class="right">Описание:</label>
-            </div>
-            <div class="large-9 small-9 columns">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="description" class="right">Описание:</label>
+          </div>
+          <div class="large-9 small-9 columns">
                 <textarea id="description" name="description"
                           [formControl]="invoiceForm.controls['description']"></textarea>
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns">
-          <div class="row">
-            <div class="large-3 small-3 columns">
-              <label for="goodsEntryCount" class="right">
-                Общая цена:
-              </label>
-            </div>
-            <div class="large-9 small-9 columns">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="goodsEntryCount" class="right">
+              Общая цена:
+            </label>
+          </div>
+          <div class="large-9 small-9 columns">
               <span id="goodsEntryCount">
                 {{goodsEntryCount}}
               </span>
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div>
-        <h2>Товары</h2>
-        <table>
-          <tr>
-            <th>Название</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Вес</th>
-            <th></th>
-          </tr>
-          <tr *ngFor="let goods of goodsList">
-            <th>{{goods.name}}</th>
-            <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
-            <th>{{goods.price}} {{goods.priceUnit.name}}</th>
-            <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
-            <th>
-              <button (click)="deleteGoods(goods)">
-                Удалить
-              </button>
-            </th>
-          </tr>
-        </table>
+    <div>
+      <h4>Товары</h4>
+      <table>
+        <tr>
+          <th>Название</th>
+          <th>Количество</th>
+          <th>Цена</th>
+          <th>Вес</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let goods of goodsList">
+          <th>{{goods.name}}</th>
+          <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+          <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+          <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+          <th>
+            <button (click)="deleteGoods(goods)">
+              Удалить
+            </button>
+          </th>
+        </tr>
+      </table>
 
-        <div class="large-9 small-9 columns button-right">
-          <input type="button" class="button secondary" (click)="chooseGoods()" value="Выбрать товар">
-        </div>
+      <div class="large-9 small-9 columns button-right">
+        <input type="button" class="button secondary" (click)="chooseGoods()" value="Выбрать товар">
       </div>
+    </div>
 
-      <div class="row">
-        <div class="large-9 small-9 columns button-right">
-          <input class="button" type="submit" [disabled]="!invoiceForm.valid" value="Сохранить">
-        </div>
+    <div class="row">
+      <div class="large-9 small-9 columns button-right">
+        <input class="button" type="submit" [disabled]="!invoiceForm.valid" value="Сохранить">
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 <div class="reveal" id="transportModal" data-reveal>

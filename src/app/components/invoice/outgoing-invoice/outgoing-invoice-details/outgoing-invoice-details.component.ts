@@ -10,12 +10,14 @@ import {OutgoingInvoice} from "../outgoing-invoice";
 import {InvoiceStatus} from "../../invoice-status";
 import {Goods} from "../../../goods/goods";
 import {Location} from "@angular/common";
+import {LoginService} from "../../../login/login.service";
 
 @Component({
   selector: 'app-outgoing-invoice-details',
   templateUrl: './outgoing-invoice-details.component.html',
   styleUrls: ['./outgoing-invoice-details.component.scss'],
-  providers: [InvoiceService, WarehouseCustomerCompanyService, TransportCompanyService]
+  providers: [InvoiceService, WarehouseCustomerCompanyService,
+    TransportCompanyService, LoginService]
 })
 export class OutgoingInvoiceDetailsComponent implements OnInit {
   id: number;
@@ -25,10 +27,8 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
   invoiceStatus = InvoiceStatus;
 
   constructor(private invoiceService: InvoiceService,
-              private transportService: TransportCompanyService,
-              private customerService: WarehouseCustomerCompanyService,
+              private loginService: LoginService,
               private formBuilder: FormBuilder,
-              private router: Router,
               private route: ActivatedRoute,
               private location: Location) {
     this.invoiceForm = this.formBuilder.group({
@@ -54,16 +54,29 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
       this.mapFormFromInvoice(invoice);
       this.goodsList = invoice.goods;
       this.status = InvoiceStatus[invoice.status];
-      console.log(invoice);
     });
   }
 
-  onSubmit(form: FormGroup) {
-    const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form, this.id);
-    console.log(invoice);
-    this.invoiceService.updateOutgoingInvoice(invoice).subscribe(data => {
+  allowRelease() {
+    const status = InvoiceStatus.RELEASE_ALLOWED;
+    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
       this.location.back();
     });
+  }
+
+  allowMovingOut() {
+    const status = InvoiceStatus.MOVED_OUT;
+    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
+      this.location.back();
+    });
+  }
+
+  isDispatcher() {
+    return this.loginService.getLoggedUser().hasRole('ROLE_DISPATCHER');
+  }
+
+  isController() {
+    return this.loginService.getLoggedUser().hasRole('ROLE_CONTROLLER');
   }
 
   private mapFormFromInvoice(invoice: OutgoingInvoice) {

@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="large-9 small-9 column">
+      <ul class="menu horizontal">
+        <li [ngClass]="{'active':currentPage == 'incoming'}">
+          <a (click)="navigateToPage('incoming')">Входящие</a>
+        </li>
+        <li [ngClass]="{'active':currentPage == 'outgoing'}">
+          <a (click)="navigateToPage('outgoing')">Выходящие</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

@@ -1,4 +1,4 @@
-<div>
+<div class="form-container">
   <h4>Описание накладной</h4>
   <form [formGroup]="invoiceForm">
     <label>
@@ -50,18 +50,17 @@
         </tr>
       </table>
     </div>
-    <!--<div [ngSwitch]="status">-->
-      <!--<div *ngSwitchCase="invoiceStatus.REGISTERED">-->
-        <!--&lt;!&ndash;<div *ngIf="isController()">&ndash;&gt;-->
-        <!--<input type="button" class="button" (click)="finishChecking()" value="Завершить проверку">-->
-        <!--<input type="button" class="button alert" (click)="createMismatchAct()" value="Оформить акт несоответствия">-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</div>-->
-      <!--<div *ngSwitchCase="invoiceStatus.CHECKED">-->
-        <!--&lt;!&ndash;<div *ngIf="isDispatcher()">&ndash;&gt;-->
-        <!--<input type="button" class="button" (click)="finishCompleting()" value="Завершить оформление">-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</div>-->
-    <!--</div>-->
+    <div [ngSwitch]="status">
+      <div *ngSwitchCase="invoiceStatus.REGISTERED_OUTGOING">
+        <div *ngIf="isController()">
+          <input type="button" class="button" (click)="allowRelease()" value="Разрешить выпуск">
+        </div>
+      </div>
+      <div *ngSwitchCase="invoiceStatus.RELEASE_ALLOWED">
+        <div *ngIf="isDispatcher()">
+          <input type="button" class="button" (click)="allowMovingOut()" value="Разрешить вывоз">
+        </div>
+      </div>
+    </div>
   </form>
 </div>

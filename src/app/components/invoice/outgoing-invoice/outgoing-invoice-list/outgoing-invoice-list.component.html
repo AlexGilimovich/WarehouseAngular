@@ -35,10 +35,10 @@
   </div>
 </div>
 
-<!--<div class="row">-->
-  <!--<div class="large-12 small-12 columns">-->
-    <!--&lt;!&ndash;<div *ngIf="isDispatcher()">&ndash;&gt;-->
-    <!--<input class="button" type="button" (click)="createIncomingInvoice()" value="Создать">-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-  <!--</div>-->
-<!--</div>-->
+<div *ngIf="isManager()">
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <input class="button" type="button" (click)="createOutgoingInvoice()" value="Создать">
+    </div>
+  </div>
+</div>
