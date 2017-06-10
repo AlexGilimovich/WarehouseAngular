@@ -11,48 +11,48 @@ import {Unit} from "../goods/unit";
 import {StorageType} from "../goods/storageType";
 import {Goods} from "../goods/goods";
 
-const LIST_URL:string = "http://localhost:8080/web/web/act/list/";
-const GET_URL:string = "http://localhost:8080/web/web/act/";
-const SAVE_URL:string = "http://localhost:8080/web/web/act/save";
-const GET_ACTS_FOR_GOODS_URL:string = "http://localhost:8080/web/web/act/acts";
-const GET_ACTS_TYPES_URL:string = "http://localhost:8080/web/web/act/acts";
-const SEARCH_URL:string = "http://localhost:8080/web/web/act/search/";
+const LIST_URL: string = 'http://localhost:8080/web/web/act/list/';
+const GET_URL: string = "http://localhost:8080/web/web/act/";
+const SAVE_URL: string = "http://localhost:8080/web/web/act/save";
+const GET_ACTS_FOR_GOODS_URL: string = "http://localhost:8080/web/web/act/acts";
+const GET_ACTS_TYPES_URL: string = "http://localhost:8080/web/web/act/acts";
+const SEARCH_URL: string = "http://localhost:8080/web/web/act/search/";
 const HEADER_X_TOTAL_COUNT = "x-total-count";
 
 @Injectable()
 export class ActService {
   private searchSource = new Subject<ActSearchDTO>();
 
-  constructor(private httpAuthService:HttpAuthService) {
+  constructor(private httpAuthService: HttpAuthService) {
   }
 
 
-  list(warehouseId:number, page:number, count:number):Observable<any> {
-    const url:string = `${LIST_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
-    let headers:Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
+  list(warehouseId: number, page: number, count: number): Observable<any> {
+    const url = `${LIST_URL}${warehouseId}${'?page='}${page}${'&count='}${count}`;
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
-        acts: (<any>response.json()).map(item=> {
+        acts: (<any>response.json()).map(item => {
             return this.mapResponseItemToAct(item);
           }
         ),
         count: count
-      }
+      };
     });
   }
 
 
-  get(id:number):Observable<Act> {
+  get(id: number): Observable<Act> {
     const url = `${GET_URL}${id}`;
-    let headers:Headers = new Headers();
+    let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response:Response) => {
-      const item:any = response.json();
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const item: any = response.json();
       let act = this.mapResponseItemToAct(item);
       act.goodsList = [];
-      item.goodsList.forEach(item=> {
+      item.goodsList.forEach(item => {
           act.goodsList.push(this.mapResponseItemToGoods(item));
         }
       )
@@ -60,22 +60,22 @@ export class ActService {
     })
   }
 
-  save(act:Act):Observable<any> {
+  save(act: Act): Observable<any> {
     return this.httpAuthService.post(SAVE_URL, JSON.stringify(act));
   }
 
-  public getActsForGoods(goodsId):Observable<Act[]> {
-    const url:string = `${GET_ACTS_FOR_GOODS_URL}${"/"}${goodsId}`;
-    return this.httpAuthService.get(url).map((response:Response) => {
+  public getActsForGoods(goodsId): Observable<Act[]> {
+    const url: string = `${GET_ACTS_FOR_GOODS_URL}${"/"}${goodsId}`;
+    return this.httpAuthService.get(url).map((response: Response) => {
       return response.json().map(item => {
           return this.mapResponseItemToAct(item);
         }
-      )
-    })
+      );
+    });
   }
 
-  getActTypes():Observable<ActTypeName[]> {
-    return this.httpAuthService.get(GET_ACTS_TYPES_URL).map((response:Response) => {
+  getActTypes(): Observable<ActTypeName[]> {
+    return this.httpAuthService.get(GET_ACTS_TYPES_URL).map((response: Response) => {
       return response.json().map(item => {
           return new ActTypeName(item.id, item.name);
         }
@@ -84,12 +84,12 @@ export class ActService {
   }
 
 
-  search(warehouseId:number, dto:ActSearchDTO, page:number, count:number):Observable<any> {
-    const url:string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
-    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response:Response)=> {
-      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
+  search(warehouseId: number, dto: ActSearchDTO, page: number, count: number): Observable<any> {
+    const url: string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
+    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response)=> {
+      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
-        acts: (<any>response.json()).map(item=> {
+        acts: (<any>response.json()).map(item => {
           return this.mapResponseItemToAct(item);
         }),
         count: count
@@ -97,7 +97,7 @@ export class ActService {
     });
   }
 
-  private mapResponseItemToAct(item:any):Act {
+  private mapResponseItemToAct(item: any): Act {
     let act = new Act();
     act.id = item.id;
     act.date = item.date;
@@ -113,7 +113,7 @@ export class ActService {
     return act;
   }
 
-  private mapResponseItemToGoods(item:any):Goods {
+  private mapResponseItemToGoods(item: any): Goods {
     let goods = new Goods();
     goods.id = item.id;
     goods.name = item.name;

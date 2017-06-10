@@ -1,8 +1,8 @@
 export class PriceDTO {
 
-  public idStorageSpaceType:string;
-  public dailyPrice:string;
-  public comment:string;
+  public idStorageSpaceType: number;
+  public dailyPrice: string;
+  public comment: string;
 
   constructor() {
   }

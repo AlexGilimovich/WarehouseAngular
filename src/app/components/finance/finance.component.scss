@@ -4,6 +4,20 @@
     display: inline;
   }
 }
-.main-container{
+
+.main-container {
   padding-top: 20px;
+}
+
+.border-bottom {
+  border-bottom: solid 1px lightgray;
+  margin-bottom: 10px;
+}
+
+.modal-content {
+  margin-top: 20px;
+}
+
+.centered {
+  text-align: center;
 }

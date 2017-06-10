@@ -3,8 +3,8 @@
  */
 export class StorageSpaceType {
 
-  constructor(public idStorageSpaceType?:number,
-              public name?:string){
+  constructor(public idStorageSpaceType?: number,
+              public name?: string) {
 
   }
 }
