@@ -1,5 +1,5 @@
 import {
-  Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnInit, ViewChild,
+  Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {IncomingInvoice} from '../incoming-invoice';
@@ -28,7 +28,7 @@ declare const $: any;
   styleUrls: ['./incoming-invoice-create.component.scss'],
   providers: [InvoiceService, TransportCompanyService, GoodsService]
 })
-export class IncomingInvoiceCreateComponent implements OnInit {
+export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
   goodsEntryCount: number;
@@ -53,8 +53,19 @@ export class IncomingInvoiceCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('inited');
+    // $('#transportModal').foundation();
+    // $('#supplierModal').foundation();
+    // $('#goodsModal').foundation();
     $('body').foundation();
     this.configureDatepicker();
+  }
+
+  ngOnDestroy() {
+    console.log('destroyed');
+    // $('#transportModal').foundation = null;
+    // $('#supplierModal').foundation = null;
+    // $('#goodsModal').foundation = null;
   }
 
   onSubmit(form: FormGroup) {

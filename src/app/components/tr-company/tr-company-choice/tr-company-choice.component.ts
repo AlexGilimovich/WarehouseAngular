@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
 
@@ -8,7 +8,7 @@ import {TransportCompanyService} from "../tr-company.service";
   styleUrls: ['./tr-company-choice.component.scss'],
   providers: [TransportCompanyService]
 })
-export class TransportCompanyChoiceComponent implements OnInit {
+export class TransportCompanyChoiceComponent implements OnInit, OnDestroy{
   companies: TransportCompany[];
   chosenCompany: TransportCompany;
   maySearch: boolean;
@@ -22,6 +22,10 @@ export class TransportCompanyChoiceComponent implements OnInit {
     this.transportService.getAll().subscribe(data => {
       this.companies = data;
     });
+  }
+
+  ngOnDestroy() {
+    this.companies = [];
   }
 
   refreshCompanies(searchParams: string) {
@@ -38,7 +42,10 @@ export class TransportCompanyChoiceComponent implements OnInit {
   }
 
   saveCompany() {
-    this.company.emit(this.chosenCompany);
+    if (this.chosenCompany != null) {
+      this.company.emit(this.chosenCompany);
+      this.chosenCompany = null;
+    }
   }
 
   private forbidSearching() {

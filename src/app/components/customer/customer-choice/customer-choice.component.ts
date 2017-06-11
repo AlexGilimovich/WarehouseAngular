@@ -8,7 +8,7 @@ import {WarehouseCustomerCompanyService} from '../customer.service';
   styleUrls: ['./customer-choice.component.scss'],
   providers: [WarehouseCustomerCompanyService]
 })
-export class CustomerChoiceComponent implements OnInit {
+export class CustomerChoiceComponent implements OnInit, OnDestroy{
   customers: WarehouseCustomerCompany[];
   chosenCustomer: WarehouseCustomerCompany;
   maySearch: boolean;
@@ -22,6 +22,10 @@ export class CustomerChoiceComponent implements OnInit {
     this.customerService.getAll().subscribe(data => {
       this.customers = data;
     });
+  }
+
+  ngOnDestroy() {
+    this.customers = [];
   }
 
   refreshCustomers(searchParams: string) {
@@ -38,7 +42,10 @@ export class CustomerChoiceComponent implements OnInit {
   }
 
   saveCustomer() {
-    this.customer.emit(this.chosenCustomer);
+    if (this.chosenCustomer != null) {
+      this.customer.emit(this.chosenCustomer);
+      this.chosenCustomer = null;
+    }
   }
 
   private forbidSearching() {
