@@ -7,6 +7,7 @@ import { ReceiptReportComponent } from './receipt-report/receipt-report.componen
 import { ReportContainerComponent } from './report-container/report-container.component';
 import { RouterModule, Routes } from "@angular/router";
 import { ReportService } from "./report.service";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 export const reportRoutes: Routes = [
 	{
@@ -30,7 +31,9 @@ export const reportRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule, 
+    FormsModule, 
+    ReactiveFormsModule
   ],
   declarations: [EmployeesLossReportComponent, LossReportComponent, ProfitReportComponent, ReceiptReportComponent, ReportContainerComponent],
   providers: [ReportService]
