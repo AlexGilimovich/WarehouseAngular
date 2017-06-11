@@ -1,11 +1,11 @@
 <div class="translucent-form-overlay">
   <form method="post">
     <h3>Добавление ячейки</h3>
-    <!--<div class="row columns">
-      <label>В ячейке находится
-        <input type="text" name="name" placeholder="Номер ячейки..." [(ngModel)]="cell.number" disabled>
+    <div class="row columns">
+      <label>В ячейке:
+        <b>{{goods != null ? goods.name : 'нету товара'}}</b>
       </label>
-    </div>-->
+    </div>
     <div class="row columns">
       <label>Номер ячейки
         <input type="text" name="name" placeholder="Номер ячейки..." [(ngModel)]="cell.number">
@@ -22,10 +22,10 @@
       <button type="reset" class="secondary button">
         Очистить
       </button>
-      <button *ngIf="cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
+      <button *ngIf="cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="changeStatus(cell.idStorageCell)">
         Удалить
       </button>
-      <button *ngIf="!cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="deleteCell(cell.idStorageCell)">
+      <button *ngIf="!cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="changeStatus(cell.idStorageCell)">
         Восстановить
       </button>
     </div>

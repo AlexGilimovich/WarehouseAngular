@@ -1,12 +1,12 @@
 #space {
   background-color: #66ffff;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .cell {
-  background-color: #5d5d5d;
+  color: black;
   text-align: center;
   height: auto;
   width: 20%;
@@ -20,6 +20,7 @@
 .cell-disable {
   text-align: center;
   background-color: white;
+  color: black;
   height: auto;
   width: 20%;
   float: left;
@@ -56,61 +57,41 @@
 .icecamera {
   background-color: #69D9FF;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .heated {
   background-color: #FFE29A;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .open {
   background-color: #FFA1B5 ;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .icedeepcamera {
   background-color: #93D9D9;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .deleted {
   background-color: #F1F2F4;
   float: left;
-  margin: 5px;
+  margin: 2%;
   opacity: 0.8;
 }
 
 .noheated {
   background-color: #86C7F3 ;
   float: left;
-  margin: 5%;
+  margin: 2%;
   opacity: 0.8;
-}
-
-.notification {
-  background-color: #3adb76;
-  opacity: 0.9;
-  font-size: 150%;
-  height: 10%;
-  position: absolute;
-  right: 0%;
-  bottom: 0%;
-}
-
-.error {
-  background-color: crimson;
-  opacity: 0.9;
-  font-size: 150%;
-  height: 10%;
-  position: absolute;
-  right: 0%;
-  bottom: 0%;
 }

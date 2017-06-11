@@ -30,16 +30,16 @@ export class WarehouseCompanyCreateComponent implements OnInit {
     console.log(this.email);
     console.log(warehouseCompany);
     this.companyService.save(warehouseCompany, this.email).subscribe(data => {
-      this.user.id = data.id;
+      /*this.user.id = data.id;
       this.user.login = data.login;
-      this.user.password = data.password;
+      this.user.password = data.password;*/
       console.log(this.user);
+      if(isUndefined(this.id)) {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      } else {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      }
     });
-    if(isUndefined(this.id)) {
-      this.router.navigate(['../../'], {relativeTo: this.route});
-    } else {
-      this.router.navigate(['../../../'], {relativeTo: this.route});
-    }
   }
 
   ngOnInit(){

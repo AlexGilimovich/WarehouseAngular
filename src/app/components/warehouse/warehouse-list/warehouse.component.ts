@@ -44,7 +44,6 @@ export class WarehouseComponent implements OnInit {
 
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
-    //maintainAspectRatio: false,
     responsive: true
   };
   public barChartLabels:string[] = [];

@@ -18,7 +18,7 @@ export class MapView {
       if(isUndefined(data[i].status) || data[i].status) {
         this.object_marker = new marker;
         this.object_marker.name = data[i].name;
-        this.object_marker.draggable = true;
+        this.object_marker.draggable = false;
         this.object_marker.lat = data[i].x;
         this.object_marker.lng = data[i].y;
         this.markers.push(this.object_marker);

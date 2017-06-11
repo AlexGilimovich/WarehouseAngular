@@ -19,7 +19,6 @@ import {Subject} from "rxjs/Subject";
 @Injectable()
 export class WarehouseSchemeService {
   public cellSource = new Subject<StorageCell[]>();
-
   public cartItems$ = this.cellSource.asObservable();
 
   constructor(private http:Http, private httpAuthService:HttpAuthService,

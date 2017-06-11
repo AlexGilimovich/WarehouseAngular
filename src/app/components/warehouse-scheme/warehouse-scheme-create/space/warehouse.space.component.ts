@@ -31,10 +31,27 @@ export class WarehouseSpaceComponent implements OnInit {
   space: StorageSpaceDTO = new StorageSpaceDTO;
 
   constructor(private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
-    route.params.subscribe(params => { this.id = params['id']; });
-    route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
-    route.params.subscribe(params => { this.id_storage_space = params['id_space']; });
-    console.log("ID STORAGE SAPCE"+this.id_storage_space);
+  }
+
+  createSpace(){
+    this.space.idStorageSpace = this.id_storage_space;
+    this.space.idStorageSpaceType = this.selectedSpaceType.idStorageSpaceType;
+    this.space.status = this.selectedStorageSpace.status;
+    this.route.params.subscribe(params => { this.space.idWarehouse = params['id_warehouse']; });
+
+    this.schemeService.saveSpace(this.space).subscribe(data => {
+      if(isUndefined(this.id_storage_space)) {
+        this.router.navigate(['../'], {relativeTo: this.route});
+      } else {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      }
+    });
+  }
+
+  ngOnInit(){
+    this.route.params.subscribe(params => { this.id = params['id']; });
+    this.route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
+    this.route.params.subscribe(params => { this.id_storage_space = params['id_space']; });
 
     this.schemeService.getStorageSpace(this.id_warehouse).subscribe(data => {
       this.storageSpace = data;
@@ -42,31 +59,10 @@ export class WarehouseSpaceComponent implements OnInit {
         if (this.storageSpace[i].idStorageSpace == this.id_storage_space) {//so don't create other function
           //to REST-services
           this.selectedStorageSpace = this.storageSpace[i];
-          console.log("from cycle"+this.storageSpace[i].status);
         }
       }
-      console.log("AFTER"+this.selectedStorageSpace.storageSpaceType.name);
     });
 
-  }
-
-  createSpace(){
-    console.log(this.selectedSpaceType);
-    this.space.idStorageSpace = this.id_storage_space;
-    this.space.idStorageSpaceType = this.selectedSpaceType.idStorageSpaceType;
-    this.space.status = this.selectedStorageSpace.status;
-    //this.space.idStorageSpace = 0;
-    this.route.params.subscribe(params => { this.space.idWarehouse = params['id_warehouse']; });
-    console.log("OBJECT: "+this.space);
-    this.schemeService.saveSpace(this.space).subscribe(data => {
-      //this.warehouseCompany = data;
-    });
-    if(isUndefined(this.id_storage_space)) this.router.navigate(['../'], {relativeTo: this.route});
-    else this.router.navigate(['../../'], {relativeTo: this.route});
-  }
-
-  ngOnInit(){
-    console.log("INIT SPACE method");
     this.schemeService.getAllSpaceType().subscribe(data => {
       this.spaceType = data;
     });
