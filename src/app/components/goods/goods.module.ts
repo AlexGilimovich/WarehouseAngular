@@ -16,7 +16,7 @@ import {GoodsChoiceComponent} from "./goods-choice/goods-choice.component";
 import { GoodsModalAnchorDirective } from './goods-modal-anchor.directive';
 
 export const statusMessages:Map<string, string> = new Map([
-  ["REGISTERED_INCOMING", "Зарегистрирован"],
+  ["REGISTERED", "Зарегистрирован"],
   ["CHECKED", "Проверка завершена"],
   ["STORED", "Принят на хранение"],
   ["LOST_BY_TRANSPORT_COMPANY", "Утерян перевозчиком"],

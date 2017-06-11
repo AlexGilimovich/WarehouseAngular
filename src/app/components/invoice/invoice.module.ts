@@ -17,6 +17,15 @@ import {InvoiceContainerComponent} from './invoice-container/invoice-container.c
 import {InvoiceService} from "./invoice.service";
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 
+export const invoiceStatuses: Map<string, string> = new Map([
+  ["REGISTERED_INCOMING", "Зарегистрирован"],
+  ["REGISTERED_OUTGOING", "Зарегистрирован"],
+  ["CHECKED", "Проверка завершена"],
+  ["COMPLETED", "Оформление завершено"],
+  ["RELEASE_ALLOWED", "Выпуск разрешен"],
+  ["MOVED_OUT", "Вывоз разрешен"]
+]);
+
 export const invoiceRoutes: Routes = [
   {
     path: '',
