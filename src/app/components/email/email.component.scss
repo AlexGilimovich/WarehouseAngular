@@ -1,0 +1,32 @@
+.container {
+  padding-top: 20px;
+}
+
+.button-right {
+  text-align: right;
+}
+
+.input-color {
+  padding: 0;
+}
+
+.configuration {
+  border: solid 1px lightgray;
+  margin: 20px;
+  padding: 20px;
+}
+
+.list {
+  list-style-type: none;
+  li {
+    cursor: -webkit-grab;
+  }
+}
+
+.email-body {
+  border: solid 1px lightgrey;
+  height: auto;
+  width: 784px;
+  padding: 8px;
+  margin-bottom: 16px;
+}

@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="row">
+    <div class="column large-2 small-2">
+      <label for="subject" class="right">Получатели:</label>
+    </div>
+    <div class="column large-1 small-1" (click)="toggleUserSelection()">
+      <input class="button hollow" type="button" value="+">
+    </div>
+    <div class="column large-4 small-4" [hidden]="!userSelecting">
+      <select #userSelector multiple name="users" id="users" size="10">
+        <option *ngFor="let user of users" [value]="user.id">{{user.lastName}} {{user.firstName}}
+          {{user.patronymic}}
+        </option>
+      </select>
+    </div>
+    <div class="column large-1 small-1" *ngIf="userSelecting">
+      <input class="button hollow" type="button" value=">>" (click)="addUsers(userSelector)">
+    </div>
+    <div class="column large-4 small-4" *ngIf="userSelecting">
+      <ul class="list">
+        <li *ngFor="let user of selectedUsers" (click)="removeFromSelected(user)">
+              <span data-tooltip aria-haspopup="true" class="top" data-disable-hover="false" tabindex="2"
+                    title="Кликните, чтобы удалить">
+                {{user.lastName}} {{user.firstName}} {{user.patronymic}}
+              </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="column large-2 small-2">
+      <label for="template" class="right">Шаблон:</label>
+    </div>
+    <div class="column large-9 small-9">
+      <select name="template" id="template" [(ngModel)]="template.type" (change)="changeTemplateType()">
+        <option *ngFor="let t of templates" [value]="t.type">
+          {{templateNamesMessages.get(t.type)}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column large-2 small-2">
+      <label for="subject" class="right">Тема:</label>
+    </div>
+    <div class="column large-9 small-9">
+      <input id="subject" name="subject" type="text" [(ngModel)]="template.subject">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column large-2 small-2">
+      <label for="subject" class="right">Цвет фона:</label>
+    </div>
+    <div class="column large-2 small-2">
+      <input class="input-color" type="color" id="background" name="background"
+             [(ngModel)]="template.backgroundColor">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column large-2 small-2">
+      <label for="textarea-body" class="right" *ngIf="!template.body">Текст:</label>
+      <label for="div-body" class="right" *ngIf="template.body">Текст:</label>
+    </div>
+    <div class="column large-9 small-9">
+      <textarea id="textarea-body" name="body" [(ngModel)]="template.body" cols="30" rows="20"
+                *ngIf="!template.body"></textarea>
+      <div #body id="div-body" class="email-body" [innerHTML]="template.body" *ngIf="template.body"></div>
+    </div>
+  </div>
+
+  <div class="column large-11 medium-11 small-11">
+    <div class="button-right">
+      <label for="picture" class="button">Загрузить изображение</label>
+      <input type="file" name="picture" id="picture" class="show-for-sr">
+      <input class="button" type="button" value="Отправить" (click)="sendEmail()">
+    </div>
+  </div>
+
+</div>
+
+
+

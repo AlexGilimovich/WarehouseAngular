@@ -24,6 +24,7 @@ import {CustomerContainerComponent} from "../customer/customer-container/custome
 import {customerRoutes} from "../customer/customer.module";
 import {TransportCompanyContainerComponent} from "../tr-company/tr-company-container/tr-company-container.component";
 import {transportCompanyRoutes} from "../tr-company/tr-company.module";
+import { EmailComponent } from "../email/email.component";
 
 export const desktopRoutes:Routes = [
   {
@@ -88,10 +89,10 @@ export const desktopRoutes:Routes = [
     component: TransportCompanyContainerComponent,
     children: transportCompanyRoutes
   },
-  // {
-  //   path: "emails",
-  //   component: EmailComponent
-  // },
+  {
+    path: "emails",
+    component: EmailComponent
+  },
   // {
   //   path: "settings",
   //   component: SettingsComponent

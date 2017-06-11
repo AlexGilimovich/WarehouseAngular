@@ -40,7 +40,9 @@ export class FinanceComponent implements OnInit {
   private getPriceListFromServer(): void {
     this.financeService.getPriceList().subscribe(
       res => {
-        this.priceList = res;
+        this.priceList = res.sort((current, next) => {
+          return current.startTime < next.startTime ? 1 : -1;
+        });
       }
     );
   }

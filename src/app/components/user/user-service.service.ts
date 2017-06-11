@@ -1,34 +1,39 @@
-import {Injectable} from "@angular/core";
-import {User} from "./user";
-import {Response, Headers, RequestOptions} from "@angular/http";
-import {Observable} from "rxjs";
-import {Role} from "./role";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
-import {HttpAuthService} from "../login/httpAuth.service";
-import {Warehouse} from "../warehouse/warehouse";
-import {WarehouseCompany} from "../warehouse-company/warehouse-company";
+import { Injectable } from '@angular/core';
+import { User } from './user';
+import { Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Role } from './role';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { HttpAuthService } from '../login/httpAuth.service';
+import { Warehouse } from '../warehouse/warehouse';
+import { WarehouseCompany } from '../warehouse-company/warehouse-company';
 
-const LIST_URL:string = "http://localhost:8080/web/web/user";
-const GET_URL:string = "http://localhost:8080/web/web/user/";
-const GET_ROLES_URL:string = "http://localhost:8080/web/web/user/roles";
-const SAVE_URL:string = "http://localhost:8080/web/web/user/save";
-const DELETE_URL:string = "http://localhost:8080/web/web/user/delete";
-const CHECK_LOGIN_URL:string = "http://localhost:8080/web/web/user/is_occupied?loginName=";
+const LIST_URL: string = "http://localhost:8080/web/web/user";
+const GET_URL: string = "http://localhost:8080/web/web/user/";
+const GET_ROLES_URL: string = "http://localhost:8080/web/web/user/roles";
+const SAVE_URL: string = "http://localhost:8080/web/web/user/save";
+const DELETE_URL: string = "http://localhost:8080/web/web/user/delete";
+const CHECK_LOGIN_URL: string = "http://localhost:8080/web/web/user/is_occupied?loginName=";
 const HEADER_X_TOTAL_COUNT = "x-total-count";
 
 
 @Injectable()
 export class UserService {
-  constructor(private httpAuthService:HttpAuthService) {
+  constructor(private httpAuthService: HttpAuthService) {
   }
 
-  list(page:number, count:number):Observable<any> {
-    const url:string = `${LIST_URL}${"?page="}${page}${"&count="}${count}`;
-    let headers:Headers = new Headers();
+  list(page?: number, count?: number): Observable<any> {
+    let url: string;
+    if (page && count) {
+      url = `${LIST_URL}${'?page='}${page}${'&count='}${count}`;
+    } else {
+      url = LIST_URL;
+    }
+    let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
+    return this.httpAuthService.get(url, options).map((response: Response)=> {
+      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         users: (<any>response.json()).map(item=> {
             return this.mapResponseItemToUser(item);
@@ -39,19 +44,19 @@ export class UserService {
     })
   }
 
-  get(id:number):Observable<User> {
+  get(id: number): Observable<User> {
     const url = `${GET_URL}${id}`;
-    let headers:Headers = new Headers();
+    let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response:Response) => {
+    return this.httpAuthService.get(url, options).map((response: Response) => {
       return this.mapResponseItemToUser(response.json());
     })
   }
 
-  getRoles():Observable<Role[]> {
-    let headers:Headers = new Headers();
+  getRoles(): Observable<Role[]> {
+    let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(GET_ROLES_URL, options).map((response:Response) => {
+    return this.httpAuthService.get(GET_ROLES_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
           return new Role(item.role)
@@ -60,9 +65,9 @@ export class UserService {
     })
   }
 
-  save(user:User):Observable<any> {
+  save(user: User): Observable<any> {
     let url = SAVE_URL;
-    let headers:Headers = new Headers();
+    let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     if (user.id != undefined) {
       url = `${SAVE_URL}${"/"}${user.id}`;
@@ -72,7 +77,7 @@ export class UserService {
     }
   }
 
-  remove(users:User[]):Observable<any> {
+  remove(users: User[]): Observable<any> {
     return Observable.create(observer=> {
         let counter = users.length;
         users.forEach(user=> {
@@ -96,12 +101,12 @@ export class UserService {
 
   }
 
-  private removeUser(user:User):Observable<any> {
+  private removeUser(user: User): Observable<any> {
     let url = `${DELETE_URL}${"/"}${user.id}`;
     return this.httpAuthService.delete(url);
   }
 
-  public checkLoginNameExists(loginName:string):Observable<string> {
+  public checkLoginNameExists(loginName: string): Observable<string> {
     return this.httpAuthService.get(`${CHECK_LOGIN_URL}${loginName}`).map(
       (resp)=> {
         return resp.json().status;
@@ -110,7 +115,7 @@ export class UserService {
   }
 
 
-  private mapResponseItemToUser(item:any):User {
+  private mapResponseItemToUser(item: any): User {
     let user = new User();
     user.id = item.id;
     user.lastName = item.lastName;

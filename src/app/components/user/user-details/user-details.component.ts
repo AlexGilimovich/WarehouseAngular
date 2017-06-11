@@ -1,14 +1,14 @@
-import {Component, OnInit} from "@angular/core";
-import {DatePipe, Location} from "@angular/common";
-import {Warehouse} from "../../warehouse/warehouse";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from "@angular/forms";
-import {UserService} from "../user-service.service";
-import {User} from "../user";
-import {rolesMessages} from "../user.module";
-import {WarehouseService} from "../../warehouse/warehouse.service";
-import {LoginService} from "../../login/login.service";
-import {Observable} from "rxjs/Rx";
+import { Component, OnInit } from '@angular/core';
+import { DatePipe, Location } from '@angular/common';
+import { Warehouse } from '../../warehouse/warehouse';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { UserService } from '../user-service.service';
+import { User } from '../user';
+import { rolesMessages } from '../user.module';
+import { WarehouseService } from '../../warehouse/warehouse.service';
+import { LoginService } from '../../login/login.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-user-details',
@@ -16,23 +16,23 @@ import {Observable} from "rxjs/Rx";
   styleUrls: ['./user-details.component.scss']
 })
 export class UserDetailsComponent implements OnInit {
-  private currentUser:User;
-  private id:number;
+  private currentUser: User;
+  private id: number;
   private rolesMessages = rolesMessages;
-  private roles:any[];
-  private userForm:FormGroup;
-  private warehouseList:Warehouse[];
+  private roles: any[];
+  private userForm: FormGroup;
+  private warehouseList: Warehouse[];
   private hasRights = true//todo
   private isLoginCheckRequest = false;
 
-  constructor(private warehouseService:WarehouseService,
-              private userService:UserService,
-              private router:Router,
-              private route:ActivatedRoute,
-              private fb:FormBuilder,
-              private datePipe:DatePipe,
-              private location:Location,
-              private loginService:LoginService) {
+  constructor(private warehouseService: WarehouseService,
+              private userService: UserService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private fb: FormBuilder,
+              private datePipe: DatePipe,
+              private location: Location,
+              private loginService: LoginService) {
     route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -71,7 +71,7 @@ export class UserDetailsComponent implements OnInit {
 
     if (this.id != undefined) {
       this.userService.get(this.id).subscribe(
-        (currentUser:User) => {
+        (currentUser: User) => {
           this.currentUser = currentUser;
           this.userService.getRoles().subscribe(
             //check roles on form
@@ -85,7 +85,7 @@ export class UserDetailsComponent implements OnInit {
                     if (role.role == 'ROLE_ADMIN') {
                       if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
                         this.roles.push({role: role, checked: false});
-                    } else{
+                    } else {
                       this.roles.push({role: role, checked: false});
                     }
                   }
@@ -99,18 +99,18 @@ export class UserDetailsComponent implements OnInit {
           );
           //list warehouses on form
           this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
-            (warehouseList:Warehouse[]) => {
+            (warehouseList: Warehouse[]) => {
               this.warehouseList = warehouseList;
               if (this.currentUser.warehouse)
                 this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
             },
-            (err:any) => {
+            (err: any) => {
               console.log(err);
             }
           );
           this.fillForm();
         },
-        (err:any) => {
+        (err: any) => {
           console.log(err);
         }
       );
@@ -119,10 +119,10 @@ export class UserDetailsComponent implements OnInit {
       this.userForm.controls['login'].setAsyncValidators([this.validateLogin.bind(this)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(4)])]);
       this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
-        (warehouseList:Warehouse[]) => {
+        (warehouseList: Warehouse[]) => {
           this.warehouseList = warehouseList;
         },
-        (err:any) => {
+        (err: any) => {
           console.log(err);
         }
       );
@@ -130,11 +130,11 @@ export class UserDetailsComponent implements OnInit {
         (res) => {
           this.roles = new Array();
           res.forEach(
-            role=> {
+            role => {
               if (role.role == 'ROLE_ADMIN') {
                 if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
                   this.roles.push({role: role, checked: false});
-              } else{
+              } else {
                 this.roles.push({role: role, checked: false});
               }
             }
@@ -149,7 +149,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
 
-  private fillForm():void {
+  private fillForm(): void {
     this.userForm.controls['lastName'].setValue(this.currentUser.lastName);
     this.userForm.controls['login'].setValue(this.currentUser.login);
     this.userForm.controls['password'].setValue(this.currentUser.password);
@@ -163,22 +163,22 @@ export class UserDetailsComponent implements OnInit {
     this.userForm.controls['apartment'].setValue(this.currentUser.apartment);
   }
 
-  private addRoleControls():void {
+  private addRoleControls(): void {
     this.roles.forEach(
-      (res, index)=> {
+      (res, index) => {
         (<FormArray>this.userForm.controls['roles']).insert(index, new FormControl(res.checked));
       }
-    )
+    );
   }
 
 
-  private updateRole(role, event):void {
+  private updateRole(role, event): void {
     role.checked = event.target.checked;
   }
 
 
-  private save(userForm:FormGroup):void {
-    let user:User = new User();
+  private save(userForm: FormGroup): void {
+    let user: User = new User();
     user.id = this.id;
     user.lastName = userForm.controls['lastName'].value;
     user.login = userForm.controls['login'].value;
@@ -202,7 +202,7 @@ export class UserDetailsComponent implements OnInit {
       }
     );
     user.warehouse = this.findWarehouseById(userForm.controls['warehouse'].value);
-    this.userService.save(user).subscribe(res=> {
+    this.userService.save(user).subscribe(res => {
         if (this.id != undefined)
           this.router.navigate(['../../list'], {relativeTo: this.route});
         else
@@ -215,7 +215,7 @@ export class UserDetailsComponent implements OnInit {
 
   }
 
-  private close():void {
+  private close(): void {
     this.location.back();
     // if (this.id != undefined)
     //   this.router.navigate(['../../list'], {relativeTo: this.route});
@@ -224,10 +224,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   //find warehouse in loaded warehouseList by id
-  private findWarehouseById(id:string):Warehouse {
-    let warehouse:Warehouse;
+  private findWarehouseById(id: string): Warehouse {
+    let warehouse: Warehouse;
     this.warehouseList.forEach(
-      (result:Warehouse)=> {
+      (result: Warehouse)=> {
         if (id == result.idWarehouse.toString())
           warehouse = result;
       })
@@ -235,7 +235,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
 
-  public validateLogin(c:FormControl) {
+  public validateLogin(c: FormControl) {
     if (!c.value) {
       return Observable.create(
         observer=> {
@@ -268,11 +268,11 @@ export class UserDetailsComponent implements OnInit {
 
 }
 
-function dateValidator(c:FormControl) {
+function dateValidator(c: FormControl) {
   if (!c.value) {
     return true;
   }
-  let errors:any = {};
+  let errors: any = {};
   if (!isValidDate(c.value)) {
     errors.invalidFormat = true;
   } else {
@@ -302,11 +302,11 @@ function isValidDate(strDate) {
     composedDate.getFullYear() == dateParts[2];
 }
 
-function emailValidator(c:FormControl) {
+function emailValidator(c: FormControl) {
   if (!c.value) {
     return true;
   }
-  let errors:any = {};
+  let errors: any = {};
   if (!c.value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
     errors.invalid = true;
   }
@@ -314,9 +314,9 @@ function emailValidator(c:FormControl) {
 }
 
 
-function rolesValidator(array:FormArray) {
-  let errors:any = {};
-  let hasRole:boolean = false;
+function rolesValidator(array: FormArray) {
+  let errors: any = {};
+  let hasRole: boolean = false;
 
   array.controls.forEach(
     item=> {
