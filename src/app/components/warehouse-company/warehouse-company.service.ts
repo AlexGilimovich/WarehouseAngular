@@ -70,7 +70,7 @@ export class WarehouseCompanyService {
     console.log(body);
 
     if (isUndefined(company.idWarehouseCompany)) {
-      return this.httpAuthService.post(url, body, options).map((response: Response) => {
+      return this.http.post(url, body, options).map((response: Response) => {
         if (response.text()) {
           return (response.json());
         }
