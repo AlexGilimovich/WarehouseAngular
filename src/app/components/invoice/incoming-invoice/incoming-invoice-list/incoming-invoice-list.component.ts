@@ -4,6 +4,7 @@ import {InvoiceService} from "../../invoice.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginService} from "../../../login/login.service";
 import {Role} from "../../../user/role";
+import {invoiceStatuses} from "../../invoice.module";
 
 @Component({
   selector: 'app-incoming-invoice-list',
@@ -13,6 +14,7 @@ import {Role} from "../../../user/role";
 })
 export class IncomingInvoiceListComponent implements OnInit {
   invoices: IncomingInvoice[] = [];
+  invoiceStatuses: Map<string, string>;
 
   constructor(private invoiceService: InvoiceService,
               private router: Router,
@@ -21,6 +23,7 @@ export class IncomingInvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.invoiceStatuses = invoiceStatuses;
     this.invoiceService.getAllIncoming().subscribe(data => {
        this.invoices = data;
     });

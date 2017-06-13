@@ -3,6 +3,7 @@ import {InvoiceService} from "../../invoice.service";
 import {OutgoingInvoice} from "../outgoing-invoice";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginService} from "../../../login/login.service";
+import {invoiceStatuses} from "../../invoice.module";
 
 @Component({
   selector: 'app-outgoing-invoice-list',
@@ -12,6 +13,7 @@ import {LoginService} from "../../../login/login.service";
 })
 export class OutgoingInvoiceListComponent implements OnInit {
   invoices: OutgoingInvoice[] = [];
+  invoiceStatuses: Map<string, string>;
 
   constructor(private invoiceService: InvoiceService,
               private router: Router,
@@ -20,6 +22,7 @@ export class OutgoingInvoiceListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.invoiceStatuses = invoiceStatuses;
     this.invoiceService.getAllOutgoing().subscribe(data => {
       this.invoices = data;
     });

@@ -7,6 +7,7 @@ import { Response} from '@angular/http';
 import {WarehouseCompanyService} from "../warehouse-company.service";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MapView} from "../../../util/map";
 
 @Component({
   selector: 'app-warehouse-company',
@@ -18,6 +19,7 @@ export class WarehouseCompanyComponent implements OnInit {
   warehouseCompany: WarehouseCompany[]=[];
   searchWarehouseCompany: WarehouseCompany = new WarehouseCompany;
 
+  map: MapView = new MapView;
   page: number;
 
   itemsOnPage: number = 5;
@@ -31,6 +33,9 @@ export class WarehouseCompanyComponent implements OnInit {
   ngOnInit(){
     this.page = 1;
     this.getData(0);
+    this.companyService.getAllCompany().subscribe(data => {
+      this.map.init(data);
+    });
   }
 
   getData(position: number){

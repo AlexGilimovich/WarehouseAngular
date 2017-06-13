@@ -23,9 +23,6 @@ export class CustomerListComponent implements OnInit {
     this.customerService.getAll().subscribe(data => {
       this.customers = data;
       this.mapView.init(data);
-      console.log(data);
-      console.log(this.mapView.isDataAvailable);
-      console.log(this.mapView.markers);
     });
   }
 

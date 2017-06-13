@@ -22,25 +22,9 @@ export class WarehouseSchemeInfoComponent implements OnInit {
 
   isShowDeletedSpace: boolean = false;
   isShowDeletedCell: boolean = false;
-  showNotificationSuccess: boolean = false;
-  showNotificationError: boolean = false;
 
   constructor(private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
     console.log("CHECKED");
-    route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
-    route.params.subscribe(params => { this.id_type = params['id_type']; });
-    if(!isUndefined(this.id_warehouse) && !isUndefined(this.id_type)) {
-      this.isPutAction = true;
-    }
-    console.log("ID FROM constructor WarehouseSchemeInfoComponent: "+this.id_warehouse);
-  }
-
-  closeNotificationSuccess(){
-    this.showNotificationSuccess = false;
-  }
-
-  closeNotificationError(){
-    this.showNotificationError = false;
   }
 
   addSpace(id_warehouse: number){
@@ -74,13 +58,12 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     console.log("ID: "+cell.idStorageCell);
   }
 
-  submitPut(){
+  submitPut() {
     console.log("Submiting action");
     this.service.checkout(this.cells);
   }
 
-  deleteSpace(id: number){
-    this.showNotificationSuccess = true;//todo make it real
+  deleteSpace(id: number) {
     console.log(id);
     for(let i=0; i<this.storageSpace.length; i++) {
       if(this.storageSpace[i].idStorageSpace == id) {
@@ -134,7 +117,12 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   ngOnInit(){
-    console.log("open method get data warehouse company");
+    this.route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
+    this.route.params.subscribe(params => { this.id_type = params['id_type']; });
+    if(!isUndefined(this.id_warehouse) && !isUndefined(this.id_type)) {
+      this.isPutAction = true;
+    }
+
     this.service.getStorageSpace(this.id_warehouse).subscribe(data => {
       this.storageSpace = data;
     });

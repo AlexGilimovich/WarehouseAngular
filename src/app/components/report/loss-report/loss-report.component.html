@@ -1,0 +1,45 @@
+<div class="callout">
+  <div class="form-container">
+    <h4>Сгенерировать отчет об убытках компании</h4>
+    <form class="form" [formGroup]="lossReportForm" (ngSubmit)="getLossReport()">
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="startDate" class="right">Начало периода:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="startDate" name="issueDate" type="date" formControlName="startDate"/>
+              <div class="callout alert"
+               *ngIf="lossReportForm.controls['startDate'].hasError('required') && lossReportForm.get('startDate').touched">
+                  Поле "Начало периода" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="endDate" class="right">Конец периода:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="endDate" name="issueDate" type="date" formControlName="endDate"/>
+              <div class="callout alert"
+                 *ngIf="lossReportForm.controls['endDate'].hasError('required') && lossReportForm.get('endDate').touched">
+                  Поле "Конец периода" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-9 small-9 columns button-right">
+          <input class="button" type="submit" value="Сгенерировать" [disabled]="!lossReportForm.valid">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<p>Form value: {{ lossReportForm.value | json }}</p>

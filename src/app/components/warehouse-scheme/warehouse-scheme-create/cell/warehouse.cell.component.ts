@@ -13,6 +13,8 @@ import {StorageSpaceDTO} from "../../storage-space-DTO";
 import {StorageCellDTO} from "../../storage-cell-DTO";
 import {StorageCell} from "../../storage-cell";
 import {isUndefined} from "util";
+import {GoodsService} from "../../../goods/goods.service";
+import {Goods} from "../../../goods/goods";
 
 @Component({
   selector: 'app-warehouse-cell',
@@ -22,49 +24,40 @@ import {isUndefined} from "util";
 })
 
 export class WarehouseCellComponent implements OnInit {
-  id_goods: number;
+  public goods: Goods = new Goods;
   cell: StorageCellDTO = new StorageCellDTO;
 
-  constructor(private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
+  constructor(private goodsService: GoodsService, private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
     route.params.subscribe(params => { this.cell.idStorageSpace = params['id_space']; });
     route.params.subscribe(params => { this.cell.idStorageCell = params['id_cell']; });
-    if(isUndefined(this.cell.idStorageCell)) {
-      console.log("ID is undefined!");
-      this.cell.idStorageCell = 0;
-    }
-    console.log("!!!Constructor from cell!!!");
-    this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
-      this.cell.number = data[0].number;
-      this.cell.status = data[0].status;
-      this.cell.idStorageCell = data[0].idStorageCell;
-      console.log("FROM EDITING CELL: "+this.cell);
-    });
-
   }
 
   createCell(){
-    console.log("Cell from controller: "+this.cell.number+' '+this.cell.idStorageCell+' '+this.cell.idStorageSpace);
-    console.log("Create cell action");
     this.schemeService.saveCell(this.cell).subscribe(data => {
-      //this.warehouseCompany = data;
+      if(isUndefined(this.cell.idStorageCell)) {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      }
+      else {
+        this.router.navigate(['../../../'], {relativeTo: this.route});
+      }
     });
-    if(isUndefined(this.cell.idStorageCell)) {
-      this.router.navigate(['../../'], {relativeTo: this.route});
-    }
-    else {
-      this.router.navigate(['../../../'], {relativeTo: this.route});
-    }
   }
 
-  deleteCell(id: string){
-    console.log(id);
+  changeStatus(id: string){
     this.schemeService.deleteCell(id).subscribe(data => {
-      console.log(data);
+      this.router.navigate(['../../../../'], {relativeTo: this.route});
     });
-    this.router.navigate(['../../'], {relativeTo: this.route});
   }
 
   ngOnInit(){
-    console.log("INIT CELL method");
+    if(isUndefined(this.cell.idStorageCell)) {
+      this.cell.idStorageCell = 0;
+    }
+    this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
+      this.goods = data[0].goods;
+      this.cell.number = data[0].number;
+      this.cell.status = data[0].status;
+      this.cell.idStorageCell = data[0].idStorageCell;
+    });
   }
 }
