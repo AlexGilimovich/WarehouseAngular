@@ -40,9 +40,13 @@ export class GoodsChoiceComponent implements OnInit {
 
   onQuantityChanged() {
     const typedQuantity = this.quantity;
-    this.leftQuantity = Number.parseInt(this.currentChosenGoods.quantity) - typedQuantity;
+    const currentGoodsQuantity = Number.parseFloat(this.currentChosenGoods.quantity);
+    this.leftQuantity = currentGoodsQuantity - typedQuantity;
     if (this.leftQuantity < 0) {
       this.leftQuantity = 0;
+    }
+    if (this.quantity > currentGoodsQuantity) {
+      this.quantity = currentGoodsQuantity;
     }
   }
 
@@ -55,8 +59,8 @@ export class GoodsChoiceComponent implements OnInit {
     partitedGoods.priceUnit = goods.priceUnit;
     partitedGoods.weightUnit = goods.weightUnit;
     const percent = this.quantity / Number.parseFloat(goods.quantity);
-    partitedGoods.price = (percent * Number.parseFloat(goods.price)).toString();
-    partitedGoods.weight = (percent * Number.parseFloat(goods.weight)).toString();
+    partitedGoods.price = (percent * Number.parseFloat(goods.price)).toFixed(2).toString();
+    partitedGoods.weight = (percent * Number.parseFloat(goods.weight)).toFixed(2).toString();
     return partitedGoods;
   }
 }
