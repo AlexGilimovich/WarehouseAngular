@@ -1,20 +1,23 @@
 <div class="container">
-  <ul class="vertical menu">
-    <li class="menu-item" *ngFor="let goods of goodsList;" (click)="goodsWereSelected(goods)">
-      <div class="row">
-        <div class="columns large-6 medium-6 small-6">
-          {{goods.name}}
-        </div>
+  <div class="scrollable">
+    <ul class="vertical menu">
+      <li class="menu-item" *ngFor="let goods of goodsList;" (click)="goodsWereSelected(goods)"
+          [ngClass]="{'selected': goods.id == selectedId}">
+        <div class="row">
+          <div class="columns large-6 medium-6 small-6">
+            {{goods.name}}
+          </div>
 
-        <div class="columns large-3 medium-3 small-3 centered">
-          {{goods.quantity}}
-        </div>
+          <div class="columns large-3 medium-3 small-3 centered">
+            {{goods.quantity}}
+          </div>
 
-        <div class="columns large-3 medium-3 small-3 centered">
-          {{goods.quantityUnit.name}}
-        </div>
+          <div class="columns large-3 medium-3 small-3 centered">
+            {{goods.quantityUnit.name}}
+          </div>
 
-      </div>
-    </li>
-  </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

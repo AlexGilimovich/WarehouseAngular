@@ -1,8 +1,10 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {UserService} from "../user-service.service";
-import {rolesMessages} from "../user.module";
-import {Router, ActivatedRoute} from "@angular/router";
-import {Role} from "../role";
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { UserService } from "../user-service.service";
+import { rolesMessages } from "../user.module";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Role } from "../role";
+import { LoginService } from '../../login/login.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-user-list',
@@ -10,62 +12,75 @@ import {Role} from "../role";
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  private users:any[] = [];
+  private users: any[] = [];
   private rolesMessages = rolesMessages;
-  private roles:Role[];
+  private roles: Role[];
   @Output() onSelected = new EventEmitter<boolean>();
-  private sortingDirection = "UP";
+  private sortingDirection = 'UP';
 
   //pagination
   private itemsOnPageArray = [10, 20];
-  private currentPage:number = 1;
-  private itemsOnPage:number = this.itemsOnPageArray[0];
+  private currentPage: number = 1;
+  private itemsOnPage: number = this.itemsOnPageArray[0];
   private totalItemsCount;
   private pageArray;
   private totalPageCount;
   private displayedPageCount = 7;//constant: number of pages in pagination
 
 
-  constructor(private userService:UserService,
-              private router:Router,
-              private route:ActivatedRoute) {
+  constructor(private loginService: LoginService,
+              private userService: UserService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.userService.list(this.currentPage, this.itemsOnPage).subscribe(
-      (res) => {
-        this.handleUserListResponse(res);
-      },
-      (err:any) => {
-        console.error(err);
-      }
-    );
+    this.getUsersFromServer(this.currentPage, this.itemsOnPage);
     this.userService.getRoles().subscribe(
       (res) => {
         this.roles = res;
       },
-      (err)=> {
-        console.error(err);
-      }
-    )
-  }
-
-  private getPage(page:number) {
-    this.users = [];
-    this.currentPage = page;
-    this.userService.list(page, this.itemsOnPage).subscribe(
-      (res:any) => {
-        this.handleUserListResponse(res);
-      },
-      (err:any) => {
+      (err) => {
         console.error(err);
       }
     );
   }
 
-  private handleUserListResponse(res:any):void {
+  private getPage(page: number) {
+    this.users = [];
+    this.currentPage = page;
+    this.getUsersFromServer(page, this.itemsOnPage);
+  }
+
+
+  private getUsersFromServer(page: number, itemsOnPage: number): void {
+    const user: User = this.loginService.getLoggedUser();
+    if (user.hasRole('ROLE_OWNER')) {
+      this.userService.list(page, itemsOnPage).subscribe(
+        (res: any) => {
+          this.handleUserListResponse(res);
+        },
+        (err: any) => {
+          console.error(err);
+        }
+      );
+    } else {
+      if (user.hasRole('ROLE_SUPERVISOR')) {
+        this.userService.warehouseList(user.warehouse.idWarehouse, page, itemsOnPage).subscribe(
+          (res: any) => {
+            this.handleUserListResponse(res);
+          },
+          (err: any) => {
+            console.error(err);
+          }
+        );
+      }
+    }
+  }
+
+  private handleUserListResponse(res: any): void {
     res.users.forEach(
-      user=> {
+      user => {
         this.users.push({"user": user, "selected": false});
       }
     );
@@ -73,7 +88,7 @@ export class UserListComponent implements OnInit {
     this.paginate();
   }
 
-  private paginate():void {
+  private paginate(): void {
     this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
     let displayedPageCount = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
     this.pageArray = Array(this.totalPageCount < displayedPageCount ? this.totalPageCount : displayedPageCount).fill(this.currentPage).map((e, i)=> {
@@ -86,29 +101,29 @@ export class UserListComponent implements OnInit {
     }).filter(val=>val > 0);
   }
 
-  private goToDetails(id:string):void {
+  private goToDetails(id: string): void {
     this.router.navigate(['../details', id], {relativeTo: this.route});
   }
 
   public removeSelected() {
     this.userService.remove(this.users.filter(item=> {
-      return item.selected
+      return item.selected;
     }).map(
-      item=> {
+      item => {
         return item.user;
       }
     )).subscribe(
-      res=> {
+      res => {
         this.getPage(this.currentPage);
       }
-    )
+    );
 
   }
 
   private selectAllEvent(e) {
     if (e.target.checked) {
       this.users.forEach(
-        user=> {
+        user => {
           user.selected = true;
         }
       )
@@ -117,12 +132,13 @@ export class UserListComponent implements OnInit {
     }
     else {
       this.users.forEach(
-        user=> {
+        user => {
           user.selected = false;
         }
       )
-      if (this.users.length > 0)
+      if (this.users.length > 0) {
         this.onSelected.emit(false);
+      }
     }
   }
 
@@ -130,7 +146,7 @@ export class UserListComponent implements OnInit {
     this.onSelected.emit(e.target.checked);
   }
 
-  private sort(fieldName:string) {
+  private sort(fieldName: string) {
     switch (fieldName) {
       case "lastName":
         this.sortStrings("lastName");
@@ -157,12 +173,12 @@ export class UserListComponent implements OnInit {
   }
 
 
-  private sortStrings(...name:string[]):void {
+  private sortStrings(...name: string[]): void {
     if (this.sortingDirection == "UP") {
       this.users.sort((current, next)=> {
         let c = current.user;
         let n = next.user;
-        name.forEach((item:string)=> {
+        name.forEach((item: string)=> {
           c = c ? c[item] : '';
           n = n ? n[item] : '';
         })
@@ -173,7 +189,7 @@ export class UserListComponent implements OnInit {
       this.users.sort((current, next)=> {
         let c = current.user;
         let n = next.user;
-        name.forEach((item:string)=> {
+        name.forEach((item: string)=> {
           c = c ? c[item] : '';
           n = n ? n[item] : '';
         })

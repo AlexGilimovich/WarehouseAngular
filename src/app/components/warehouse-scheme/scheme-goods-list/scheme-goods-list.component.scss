@@ -1,18 +1,26 @@
-.menu-item {
-  border-bottom: solid 1px lightgray;
-  padding: 10px 5px;
-}
-
-.menu-item:hover{
-  background: #1779ba;
-  color: #fefefe;
-  cursor: default;
-}
-
-.centered{
-  text-align: center;
-}
-
-.container{
+.container {
   padding: 10px;
+
+  .scrollable {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    max-height: 100%;
+  }
+  .menu-item {
+    border-bottom: solid 1px lightgray;
+    padding: 10px 5px;
+  }
+
+  .centered {
+    text-align: center;
+  }
+  .selected {
+    background: #1779ba;
+    color: #fefefe;
+    cursor: default;
+  }
+
 }
+
+

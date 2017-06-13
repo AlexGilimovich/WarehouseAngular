@@ -12,7 +12,9 @@ import { WarehouseSchemeService } from '../warehouse-scheme.service';
 })
 export class SchemeGoodsListComponent implements OnInit {
   @Input() private id_warehouse: number;
+  @Input() private id_invoice: number;
   private goodsList: Goods[];
+  private selectedId: string;
 
   constructor(private goodsService: GoodsService,
               private warehouseSchemeService: WarehouseSchemeService) {
@@ -23,16 +25,25 @@ export class SchemeGoodsListComponent implements OnInit {
   }
 
   private getGoodsListFromServer(): void {
-    this.goodsService.list(this.id_warehouse.toString()).subscribe(res => {
-        this.goodsList = res.goods;
-        console.log(this.goodsList);
-      },
-      error => {
-        console.error(error);
-      });
+    if (!this.id_invoice) {
+      this.goodsService.list(this.id_warehouse.toString()).subscribe(res => {
+          this.goodsList = res.goods;
+        },
+        error => {
+          console.error(error);
+        });
+    } else {
+      this.goodsService.invoiceList(this.id_invoice).subscribe(res => {
+          this.goodsList = res.goods;
+        },
+        error => {
+          console.error(error);
+        });
+    }
   }
 
   private goodsWereSelected(goods: Goods): void {
+    this.selectedId = goods.id;
     this.warehouseSchemeService.goodsWereSelected(goods);
   }
 

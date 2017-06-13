@@ -17,7 +17,7 @@ export const rolesMessages:Map<string, string> = new Map([
   ["ROLE_DISPATCHER", "Диспетчер склада"],
   ["ROLE_MANAGER", "Менеджер по складу"],
   ["ROLE_CONTROLLER", "Контролёр"],
-  ["ROLE_OWNER", "Владелец склада"]
+  ["ROLE_OWNER", "Владелец компании"]
 ]);
 
 

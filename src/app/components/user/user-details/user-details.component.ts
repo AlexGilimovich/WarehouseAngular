@@ -10,6 +10,12 @@ import { WarehouseService } from '../../warehouse/warehouse.service';
 import { LoginService } from '../../login/login.service';
 import { Observable } from 'rxjs/Rx';
 
+const ROLE_ADMIN = 'ROLE_ADMIN';
+const ROLE_OWNER = 'ROLE_OWNER';
+const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
+const RESPONSE_LOGIN_OCCUPIED = 'LOGIN_OCCUPIED';
+
+
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -22,7 +28,7 @@ export class UserDetailsComponent implements OnInit {
   private roles: any[];
   private userForm: FormGroup;
   private warehouseList: Warehouse[];
-  private hasRights = true//todo
+  private hasRights = true;
   private isLoginCheckRequest = false;
 
   constructor(private warehouseService: WarehouseService,
@@ -40,69 +46,22 @@ export class UserDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.userForm = this.fb.group({
-      "lastName": [{
-        value: '',
-        disabled: !this.hasRights
-      }, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "login": [
-        {value: '', disabled: !this.hasRights},
-        Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]),
-        Validators.composeAsync([this.validateLogin.bind(this)])
-      ],
-      "password": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.minLength(4)])],
-      "firstName": [{
-        value: '',
-        disabled: !this.hasRights
-      }, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "patronymic": [{
-        value: '',
-        disabled: !this.hasRights
-      }, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
-      "dateOfBirth": [{value: '', disabled: !this.hasRights}, Validators.compose([dateValidator])],
-      "email": [{value: '', disabled: !this.hasRights}, Validators.compose([emailValidator])],
-      "city": [{value: '', disabled: !this.hasRights},],
-      "street": [{value: '', disabled: !this.hasRights},],
-      "house": [{value: '', disabled: !this.hasRights},],
-      "apartment": [{value: '', disabled: !this.hasRights},],
-      "warehouse": [{value: '', disabled: !this.hasRights},],
-      "roles": new FormArray([], Validators.compose([rolesValidator])),
-    });
+    const authenticatedUser: User = this.loginService.getLoggedUser();
+
+    this.createUserForm();
 
     if (this.id != undefined) {
       this.userService.get(this.id).subscribe(
         (currentUser: User) => {
           this.currentUser = currentUser;
-          this.userService.getRoles().subscribe(
-            //check roles on form
-            (res) => {
-              this.roles = new Array();
-              res.forEach(
-                role=> {
-                  if (this.currentUser.hasRole(role.role)) {
-                    this.roles.push({role: role, checked: true});
-                  } else {
-                    if (role.role == 'ROLE_ADMIN') {
-                      if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
-                        this.roles.push({role: role, checked: false});
-                    } else {
-                      this.roles.push({role: role, checked: false});
-                    }
-                  }
-                }
-              )
-              this.addRoleControls();
-            },
-            (err)=> {
-              console.error(err);
-            }
-          );
+          this.getRolesFromServer();
           //list warehouses on form
-          this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
+          this.warehouseService.getWarehouse(authenticatedUser.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
             (warehouseList: Warehouse[]) => {
               this.warehouseList = warehouseList;
-              if (this.currentUser.warehouse)
+              if (this.currentUser.warehouse) {
                 this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
+              }
             },
             (err: any) => {
               console.log(err);
@@ -126,28 +85,83 @@ export class UserDetailsComponent implements OnInit {
           console.log(err);
         }
       );
-      this.userService.getRoles().subscribe(
-        (res) => {
-          this.roles = new Array();
-          res.forEach(
-            role => {
-              if (role.role == 'ROLE_ADMIN') {
-                if (this.loginService.getLoggedUser().hasRole('ROLE_ADMIN'))
-                  this.roles.push({role: role, checked: false});
-              } else {
-                this.roles.push({role: role, checked: false});
-              }
-            }
-          )
-          this.addRoleControls();
-        },
-        (err)=> {
-          console.error(err);
-        }
-      );
+      this.getRolesFromServer();
     }
   }
 
+
+  private createUserForm(): void {
+    this.userForm = this.fb.group({
+      'lastName': [{
+        value: '',
+        disabled: !this.hasRights
+      }, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      'login': [
+        {value: '', disabled: !this.hasRights},
+        Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]),
+        Validators.composeAsync([this.validateLogin.bind(this)])
+      ],
+      'password': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.minLength(4)])],
+      'firstName': [{
+        value: '',
+        disabled: !this.hasRights
+      }, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      'patronymic': [{
+        value: '',
+        disabled: !this.hasRights
+      }, Validators.compose([Validators.pattern(/^[a-zA-Zа-яА-Я]*$/)])],
+      'dateOfBirth': [{value: '', disabled: !this.hasRights}, Validators.compose([dateValidator])],
+      'email': [{value: '', disabled: !this.hasRights}, Validators.compose([emailValidator])],
+      'city': [{value: '', disabled: !this.hasRights}],
+      'street': [{value: '', disabled: !this.hasRights}],
+      'house': [{value: '', disabled: !this.hasRights}],
+      'apartment': [{value: '', disabled: !this.hasRights}],
+      'warehouse': [{value: '', disabled: !this.isOwner()}],
+      'roles': new FormArray([], Validators.compose([rolesValidator])),
+    });
+  }
+
+  private getRolesFromServer(): void {
+    this.userService.getRoles().subscribe(
+      (res) => {
+        this.roles = new Array();
+        res.forEach(role => {
+            if (this.currentUser.hasRole(role.role)) {
+              this.roles.push({role: role, checked: true});
+            } else {
+              if (role.role === ROLE_ADMIN) {
+                if (this.loginService.getLoggedUser().hasRole(ROLE_ADMIN)) {
+                  this.roles.push({role: role, checked: false});
+                }
+              } else {
+                if (role.role === ROLE_OWNER) {
+                  if (this.loginService.getLoggedUser().hasRole(ROLE_OWNER)) {
+                    this.roles.push({role: role, checked: false});
+                  }
+                } else {
+                  this.roles.push({role: role, checked: false});
+                }
+              }
+            }
+          }
+        )
+        this.addRoleControls();
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  private isSupervisor() {
+    const authenticatedUser: User = this.loginService.getLoggedUser();
+    return authenticatedUser.hasRole(ROLE_SUPERVISOR);
+  }
+
+  private isOwner() {
+    const authenticatedUser: User = this.loginService.getLoggedUser();
+    return authenticatedUser.hasRole(ROLE_OWNER);
+  }
 
   private fillForm(): void {
     this.userForm.controls['lastName'].setValue(this.currentUser.lastName);
@@ -164,11 +178,13 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private addRoleControls(): void {
-    this.roles.forEach(
-      (res, index) => {
-        (<FormArray>this.userForm.controls['roles']).insert(index, new FormControl(res.checked));
+    this.roles.forEach((res, index) => {
+        (<FormArray>this.userForm.controls['roles']).insert(index, new FormControl({
+          value: res.checked, disabled: !this.isSupervisor() && !this.isOwner()
+        }));
       }
-    );
+    )
+    ;
   }
 
 
@@ -178,7 +194,7 @@ export class UserDetailsComponent implements OnInit {
 
 
   private save(userForm: FormGroup): void {
-    let user: User = new User();
+    const user: User = new User();
     user.id = this.id;
     user.lastName = userForm.controls['lastName'].value;
     user.login = userForm.controls['login'].value;
@@ -192,26 +208,28 @@ export class UserDetailsComponent implements OnInit {
     user.house = userForm.controls['house'].value;
     user.apartment = userForm.controls['apartment'].value;
     user.roles = this.roles.map(
-      role=> {
-        if (role.checked)
+      role => {
+        if (role.checked) {
           return role.role;
+        }
       }
     ).filter(
-      role=> {
+      role => {
         return role !== undefined;
       }
     );
     user.warehouse = this.findWarehouseById(userForm.controls['warehouse'].value);
     this.userService.save(user).subscribe(res => {
-        if (this.id != undefined)
+        if (this.id != undefined) {
           this.router.navigate(['../../list'], {relativeTo: this.route});
-        else
+        } else {
           this.router.navigate(['../list'], {relativeTo: this.route});
+        }
       },
-      error=> {
-        //todo error handling
+      error => {
+        console.error(error);
       }
-    )
+    );
 
   }
 
@@ -227,9 +245,10 @@ export class UserDetailsComponent implements OnInit {
   private findWarehouseById(id: string): Warehouse {
     let warehouse: Warehouse;
     this.warehouseList.forEach(
-      (result: Warehouse)=> {
-        if (id == result.idWarehouse.toString())
+      (result: Warehouse) => {
+        if (id == result.idWarehouse.toString()) {
           warehouse = result;
+        }
       })
     return warehouse;
   }
@@ -238,7 +257,7 @@ export class UserDetailsComponent implements OnInit {
   public validateLogin(c: FormControl) {
     if (!c.value) {
       return Observable.create(
-        observer=> {
+        observer => {
           observer.next();
           observer.complete();
         }
@@ -256,13 +275,15 @@ export class UserDetailsComponent implements OnInit {
       }
     }
     return this.userService.checkLoginNameExists(c.value).map(
-      res=> {
+      res => {
         this.isLoginCheckRequest = false;
-        if (res == 'LOGIN_OCCUPIED')
+        if (res == RESPONSE_LOGIN_OCCUPIED) {
           return {isOccupied: true};
-        else return;
+        } else {
+          return;
+        }
       }
-    )
+    );
 
   }
 
@@ -272,7 +293,7 @@ function dateValidator(c: FormControl) {
   if (!c.value) {
     return true;
   }
-  let errors: any = {};
+  const errors: any = {};
   if (!isValidDate(c.value)) {
     errors.invalidFormat = true;
   } else {
@@ -285,8 +306,8 @@ function dateValidator(c: FormControl) {
 
 
 function inFuture(strDate) {
-  var dateParts = strDate.split(".");
-  var composedDate = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
+  let dateParts = strDate.split(".");
+  let composedDate = new Date(dateParts[2], (dateParts[1] - 1), dateParts[0]);
   composedDate.getDate() == dateParts[0] &&
   composedDate.getMonth() == (dateParts[1] - 1) &&
   composedDate.getFullYear() == dateParts[2];
@@ -330,4 +351,10 @@ function rolesValidator(array: FormArray) {
   }
   return errors;
 }
+
+
+
+
+
+
 

@@ -10,6 +10,7 @@ import { Warehouse } from '../warehouse/warehouse';
 import { WarehouseCompany } from '../warehouse-company/warehouse-company';
 
 const LIST_URL: string = "http://localhost:8080/web/web/user";
+const WAREHOUSE_LIST_URL: string = 'http://localhost:8080/web/web/user/warehouse';
 const GET_URL: string = "http://localhost:8080/web/web/user/";
 const GET_ROLES_URL: string = "http://localhost:8080/web/web/user/roles";
 const SAVE_URL: string = "http://localhost:8080/web/web/user/save";
@@ -30,12 +31,33 @@ export class UserService {
     } else {
       url = LIST_URL;
     }
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response: Response)=> {
-      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
-        users: (<any>response.json()).map(item=> {
+        users: (<any>response.json()).map(item => {
+            return this.mapResponseItemToUser(item);
+          }
+        ),
+        count: count
+      };
+    });
+  }
+
+  warehouseList(warehouseId: number, page?: number, count?: number): Observable<any> {
+    let url: string;
+    if (page && count) {
+      url = `${WAREHOUSE_LIST_URL}${'/'}${warehouseId}${'?page='}${page}${'&count='}${count}`;
+    } else {
+      url = `${WAREHOUSE_LIST_URL}${'/'}${warehouseId}`;
+    }
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      return {
+        users: (<any>response.json()).map(item => {
             return this.mapResponseItemToUser(item);
           }
         ),
