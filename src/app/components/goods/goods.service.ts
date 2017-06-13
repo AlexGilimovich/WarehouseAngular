@@ -67,7 +67,7 @@ export class GoodsService {
       let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
-          (item: any)=> {
+          (item: any) => {
             return this.mapResponseItemToGoods(item);
           }),
         count: count
@@ -165,36 +165,33 @@ export class GoodsService {
         item => {
           return new GoodsStatusName(item.id, item.name);
         }
-      )
-    })
+      );
+    });
   }
 
   updateStatuses(goods): Observable<void> {
     let counter: number = goods.length;
-    return Observable.create(
-      observer=> {
-        goods.forEach(
-          item=> {
+    return Observable.create(observer => {
+        goods.forEach(item => {
             const url: string = `${UPDATE_STATUS_URL}${item.goods.id}`;
             let status: GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
-            this.httpAuthService.post(url, JSON.stringify(status)).subscribe(
-              resp=> {
+            this.httpAuthService.post(url, JSON.stringify(status)).subscribe(resp => {
                 if (--counter == 0) {
                   observer.next();
                   observer.complete();
                 }
               },
-              error=> {
+              error => {
                 if (--counter == 0) {
                   observer.next();
                   observer.complete();
                 }
               }
-            )
+            );
           }
         );
       }
-    )
+    );
   }
 
   getQuantityUnits(): Observable<Unit[]> {
@@ -283,25 +280,23 @@ export class GoodsService {
           status.user = user;
           return status;
         }
-      )
-    })
+      );
+    });
 
   }
 
-  public putInStorage(goods): Observable<any> {
-    return Observable.create(
-      observer=> {
+  public putInStorage(goods: Goods): Observable<any> {
+    return Observable.create(observer => {
         const url: string = `${BASE_URL}${"/"}${goods.id}${"/put"}`;
-        this.httpAuthService.put(url, JSON.stringify(goods)).subscribe(
-          resp=> {
+        this.httpAuthService.put(url, JSON.stringify(goods)).subscribe(resp => {
             observer.next();
           },
-          error=> {
-            observer.error("Failed to update cells" + error);
+          error => {
+            observer.error("Failed to update cells:" + error);
           }
-        )
+        );
       }
-    )
+    );
   }
 
   public removeFromStorage(goods): Observable<any> {
