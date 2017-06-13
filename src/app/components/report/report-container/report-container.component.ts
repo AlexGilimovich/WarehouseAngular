@@ -9,11 +9,11 @@ import { Warehouse } from "../../warehouse/warehouse";
   styleUrls: ['./report-container.component.scss']
 })
 export class ReportContainerComponent implements OnInit {
-	warehouseList: Warehouse[] = [];
+	//warehouseList: Warehouse[] = [];
 	constructor(private reportService : ReportService) { }
 
   ngOnInit() {
-	  this.reportService.setWarehouseList();
+	  //this.reportService.setWarehouseList();
 	 /* $("body").foundation();*/
 }
 

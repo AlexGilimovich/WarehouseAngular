@@ -7,13 +7,14 @@ import { HttpAuthService } from "../login/httpAuth.service";
 import { Http, Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl, ValidatorFn } from "@angular/forms";
+import { Host } from "../../util/host";
 declare const $: any;
 import 'foundation-datepicker';
 
-const RECEIPT_REPORT_URL: string = "http://localhost:8080/web/web/report/receipt/";
-const PROFIT_REPORT_URL: string = "http://localhost:8080/web/web/report/profit/";
-const LOSS_REPORT_URL: string = "http://localhost:8080/web/web/report/total_loss/";
-const EMPLOYEE_LOSS_REPORT_URL: string = "http://localhost:8080/web/web/report/warehouse_loss_with_liable_employees/";
+const RECEIPT_REPORT_URL: string = Host.getURL() + "report/receipt/";
+const PROFIT_REPORT_URL: string = Host.getURL() + "report/profit/";
+const LOSS_REPORT_URL: string = Host.getURL() + "report/total_loss/";
+const EMPLOYEE_LOSS_REPORT_URL: string = Host.getURL() + "report/warehouse_loss_with_liable_employees/";
 
 @Injectable()
 export class ReportService {
