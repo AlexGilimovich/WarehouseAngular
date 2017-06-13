@@ -4,7 +4,10 @@ import { UserService } from '../user/user-service.service';
 import { EmailService } from './email.service';
 import { Template } from './template';
 import { templateNamesMessages } from './constants';
+
 declare var $;
+
+const COLOR_WHITE = '#FFFFFF';
 
 @Component({
   selector: 'app-email',
@@ -24,7 +27,6 @@ export class EmailComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('body').foundation();
     this.getUsersFromServer();
     this.getTemplatesFromServer();
     this.initEmptyTemplate();
@@ -37,7 +39,7 @@ export class EmailComponent implements OnInit {
   }
 
   private initEmptyTemplate(): void {
-    this.template.backgroundColor = '#FFFFFF';
+    this.template.backgroundColor = COLOR_WHITE;
   }
 
   private toggleUserSelection() {
@@ -66,7 +68,7 @@ export class EmailComponent implements OnInit {
   private getTemplatesFromServer(): void {
     this.emailService.getTemplates().subscribe(result => {
       this.templates = [...result, new Template()];
-      this.setDefaultBackground('#FFFFFF');
+      this.setDefaultBackground(COLOR_WHITE);
     });
   }
 
@@ -76,10 +78,11 @@ export class EmailComponent implements OnInit {
     });
   }
 
-  private sendEmail(): void {
+  private sendEmail(fileInput): void {
     this.addSelectedUsersToTemplate();
-    this.emailService.sendEmail(this.template).subscribe();
+    this.emailService.sendEmail(this.template, fileInput.files[0]).subscribe();
   }
+
 
   private addSelectedUsersToTemplate(): void {
     this.template.receiverIds = this.selectedUsers.map(user => {

@@ -25,8 +25,8 @@ export class EmailService {
     });
   }
 
-  public sendEmail(template: Template): Observable<any> {
-    return this.httpAuthService.post(SEND_EMAIL_URL, JSON.stringify(template));
+  public sendEmail(template: Template, file: any): Observable<Response> {
+    return this.httpAuthService.postMultipart(SEND_EMAIL_URL, JSON.stringify(template), file);
   }
 
 }

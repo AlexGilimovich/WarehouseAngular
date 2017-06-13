@@ -161,7 +161,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   private isChecked():boolean {
     if (this.goods) {
-      return this.goods.currentStatus.name == 'CHECKED';
+      return this.goods.currentStatus.name == 'CHECKED' || this.goods.currentStatus.name == 'STORED';
     } else {
       return false;
     }

@@ -55,7 +55,6 @@ export class GoodsSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    $("body").foundation();
     this.invoiceService.getAllIncoming().subscribe(
       res=> {
         this.incomingInvoices = res;

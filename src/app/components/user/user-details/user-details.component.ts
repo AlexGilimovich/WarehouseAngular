@@ -248,7 +248,7 @@ export class UserDetailsComponent implements OnInit {
     if (this.currentUser) {
       if (this.currentUser.login == c.value) {
         return Observable.create(
-          observer=> {
+          observer => {
             observer.next();
             observer.complete();
           }
@@ -306,7 +306,7 @@ function emailValidator(c: FormControl) {
   if (!c.value) {
     return true;
   }
-  let errors: any = {};
+  const errors: any = {};
   if (!c.value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
     errors.invalid = true;
   }
@@ -315,13 +315,14 @@ function emailValidator(c: FormControl) {
 
 
 function rolesValidator(array: FormArray) {
-  let errors: any = {};
-  let hasRole: boolean = false;
+  const errors: any = {};
+  let hasRole = false;
 
   array.controls.forEach(
-    item=> {
-      if (item.value)
+    item => {
+      if (item.value) {
         hasRole = true;
+      }
     }
   )
   if (!hasRole) {

@@ -55,7 +55,12 @@ export class GoodsService {
   }
 
   list(id: string, page?: number, count?: number): Observable<any> {
-    const url: string = `${LIST_URL}${"/"}${id}${"/list"}${"?page="}${page}${"&count="}${count}`;
+    let url: string
+    if (!page && !count) {
+      url = `${LIST_URL}${'/'}${id}${'/list'}`;
+    } else {
+      url = `${LIST_URL}${'/'}${id}${'/list'}${'?page='}${page}${'&count='}${count}`;
+    }
     let headers: Headers = new Headers();
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response)=> {
@@ -88,7 +93,7 @@ export class GoodsService {
   }
 
 
-  storedList(id:string, page?:number, count?:number):Observable<any> {
+  storedList(id: string, page?: number, count?: number): Observable<any> {
     const url = `${LIST_URL}${'/'}${id}${'/stored'}`;
     const headers = new Headers();
     const params = new URLSearchParams();
@@ -102,8 +107,8 @@ export class GoodsService {
       headers: headers,
       params: params
     });
-    return this.httpAuthService.get(url, options).map((response:Response)=> {
-      let count:string = response.headers.get(HEADER_X_TOTAL_COUNT);
+    return this.httpAuthService.get(url, options).map((response: Response)=> {
+      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item: any)=> {

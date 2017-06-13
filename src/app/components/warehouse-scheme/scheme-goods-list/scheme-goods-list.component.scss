@@ -1,0 +1,18 @@
+.menu-item {
+  border-bottom: solid 1px lightgray;
+  padding: 10px 5px;
+}
+
+.menu-item:hover{
+  background: #1779ba;
+  color: #fefefe;
+  cursor: default;
+}
+
+.centered{
+  text-align: center;
+}
+
+.container{
+  padding: 10px;
+}

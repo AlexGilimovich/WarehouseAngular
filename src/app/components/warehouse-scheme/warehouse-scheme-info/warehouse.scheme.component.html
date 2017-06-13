@@ -14,12 +14,23 @@
 
 <body>
 <h1 align="center">Схема склада</h1>
+
+<!--<div class="row">-->
+  <!--<div class="large-1 small-1 columns">-->
+    <app-scheme-goods-list [id_warehouse]="id_warehouse"></app-scheme-goods-list>
+  <!--</div>-->
+<!--</div>-->
+
+
+
 <a *ngIf="!isPutAction" (click)="addSpace(id_warehouse)">Добавить space</a>
 <div class="switch" *ngIf="!isPutAction">
   Показывать удалённые хранилища
   <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch" [(ngModel)]="isShowDeletedSpace">
   <label class="switch-paddle" for="exampleSwitch">&nbsp;
-    <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+    <small>On</small>
+    &nbsp;&nbsp;&nbsp;
+    <small>Off</small>
     <span class="show-for-sr">Download Kittens</span>
   </label>
 </div>
@@ -27,7 +38,9 @@
   Показывать удалённые ячейки
   <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2" [(ngModel)]="isShowDeletedCell">
   <label class="switch-paddle" for="exampleSwitch2">&nbsp;
-    <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+    <small>On</small>
+    &nbsp;&nbsp;&nbsp;
+    <small>Off</small>
     <span class="show-for-sr">Download Kittens</span>
   </label>
 </div>

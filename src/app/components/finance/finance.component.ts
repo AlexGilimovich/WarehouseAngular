@@ -24,7 +24,6 @@ export class FinanceComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('body').foundation();
     this.getPriceListFromServer();
     this.getStorageTypesFromServer();
   }

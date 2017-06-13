@@ -8,7 +8,7 @@ import {GoodsSearchDTO} from "../../goodsSearchDTO";
 import {SearchService} from "../goods-search/search.service";
 import {Goods} from "../../goods";
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-goods-list',
@@ -65,7 +65,6 @@ export class GoodsListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    $("body").foundation();
   }
 
   public addToSelected(goods:Goods) {
