@@ -25,6 +25,7 @@ export class SchemeGoodsListComponent implements OnInit {
   private getGoodsListFromServer(): void {
     this.goodsService.list(this.id_warehouse.toString()).subscribe(res => {
         this.goodsList = res.goods;
+        console.log(this.goodsList);
       },
       error => {
         console.error(error);

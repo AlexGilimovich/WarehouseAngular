@@ -72,7 +72,6 @@ export class WarehouseComponent implements OnInit {
           this.setUpOneValueOfChart(i);
         //}
       }
-
       //this.chart.chart.update();//todo обновляется, но зачёркиваются лейблы
     });
 
@@ -98,7 +97,6 @@ export class WarehouseComponent implements OnInit {
     this.barChartLabels.push(this.warehouse[index].name);
 
     this.warehouseSchemeService.getStorageSpace(this.warehouse[index].idWarehouse).subscribe(data => {
-      //console.log('Чтение данных');
       let count_cell = 0;
       let free_cell = 0;
       for(let j=0; j<data.length; j++) {
@@ -111,11 +109,12 @@ export class WarehouseComponent implements OnInit {
       }
 
       //set value to pie chart and bar chart
-      this.pieChartData.splice(index, 0, count_cell);
-      this.all.splice(index, 0, count_cell);
-      this.engaged.splice(index, 0, count_cell-free_cell);
+      this.pieChartData[index] = count_cell;
+      this.all[index] = count_cell;
+      this.engaged[index] = count_cell-free_cell;
 
       if(this.pieChartData.length == this.warehouse.length) {//when all data received
+        console.log(this.all, this.engaged);
         this.barChartData.push(
           {
             data: this.engaged,
@@ -161,20 +160,17 @@ export class WarehouseComponent implements OnInit {
   }
 
   delete(id_warehouse: number) {
-    console.log("delte warehouse with id: "+id_warehouse);
     for(let i=0; i<this.warehouse.length; i++) {
-      if(this.warehouse[i].idWarehouse==id_warehouse) {
+      if(this.warehouse[i].idWarehouse == id_warehouse) {
         this.warehouse[i].status = false;
         let idx = this.pieChartLabels.indexOf(this.warehouse[i].name);
         if (idx != -1) {
-          console.log("delete labels with id "+ idx);
           this.pieChartLabels.splice(idx, 1);// Второй параметр - число элементов, которые необходимо удалить
         }
         break;
       }
     }
     this.warehouseService.delete(id_warehouse).subscribe(data => {
-      console.log(data);
     });
   }
 
@@ -187,7 +183,6 @@ export class WarehouseComponent implements OnInit {
   }
 
   restore(id_warehouse: number){
-    console.log("restore warehouse with id: "+id_warehouse);
     for(let i=0; i<this.warehouse.length; i++) {
       if(this.warehouse[i].idWarehouse == id_warehouse) {
         this.warehouse[i].status = true;

@@ -35,7 +35,7 @@ export class WarehouseSchemeService {
   }
 
   public goodsWereSelected(goods: Goods): void {
-    this.selectedGoodsSource.next();
+    this.selectedGoodsSource.next(goods);
   }
 
   getStorageSpace(id: number): Observable<StorageSpace[]> {

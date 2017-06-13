@@ -4,6 +4,8 @@ import {StorageSpace} from "../storage-space";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
 import {StorageCell} from "../storage-cell";
+import {Goods} from "../../goods/goods";
+import {StorageCellDTO} from "../storage-cell-DTO";
 /**
  * Created by Lenovo on 14.05.2017.
  */
@@ -15,16 +17,24 @@ import {StorageCell} from "../storage-cell";
 })
 export class WarehouseSchemeInfoComponent implements OnInit {
   cells: StorageCell[]=[];
+
   id_warehouse: number;
   storageSpace: StorageSpace[]=[];
   id_type: number;
   isPutAction: boolean;
+  selectedGoods: Goods = null;
 
   isShowDeletedSpace: boolean = false;
   isShowDeletedCell: boolean = false;
 
   constructor(private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
-    console.log("CHECKED");
+    /*this.cellsSelectedSubscription =*/ this.service.selectedGoods$.subscribe(
+      goods => {
+        this.id_type = Number(goods.storageType.id);
+        this.selectedGoods = goods;
+        this.ngOnInit();//redraw
+      }
+    );
   }
 
   addSpace(id_warehouse: number){
@@ -54,13 +64,14 @@ export class WarehouseSchemeInfoComponent implements OnInit {
         return;
       }
     }
+    cell.goods = this.selectedGoods;
     this.cells.push(cell);
     console.log("ID: "+cell.idStorageCell);
   }
 
   submitPut() {
-    console.log("Submiting action");
     this.service.checkout(this.cells);
+    console.log(this.cells);
   }
 
   deleteSpace(id: number) {
@@ -118,7 +129,9 @@ export class WarehouseSchemeInfoComponent implements OnInit {
 
   ngOnInit(){
     this.route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
-    this.route.params.subscribe(params => { this.id_type = params['id_type']; });
+    if(this.selectedGoods == null) {
+      this.route.params.subscribe(params => { this.id_type = params['id_type']; });
+    }
     if(!isUndefined(this.id_warehouse) && !isUndefined(this.id_type)) {
       this.isPutAction = true;
     }
