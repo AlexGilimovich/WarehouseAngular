@@ -1,0 +1,8 @@
+<div>
+  <label for="preset" class="right">Выбрать тему:</label>
+  <select name="preset" id="preset" [(ngModel)]="selectedPresetId">
+    <option *ngFor="let preset of presets" [value]="preset.id">{{preset.name}}</option>
+  </select>
+</div>
+<input type="button" class="button button-right" value="Сохранить" (click)="savePreset()">
+

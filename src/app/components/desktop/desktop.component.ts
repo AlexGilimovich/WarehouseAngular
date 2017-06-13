@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {LoginService} from "../login/login.service";
-import {Role} from "../user/role";
-import {User} from "../user/user";
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LoginService } from '../login/login.service';
+import { User } from '../user/user';
 import has = Reflect.has;
 declare var $:any;
 

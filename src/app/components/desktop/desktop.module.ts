@@ -28,6 +28,7 @@ import {transportCompanyRoutes} from "../tr-company/tr-company.module";
 import { EmailComponent } from "../email/email.component";
 import { ReportContainerComponent } from "../report/report-container/report-container.component";
 import { ReportModule, reportRoutes } from "../report/report.module";
+import { SettingsComponent } from '../settings/settings.component';
 
 export const desktopRoutes:Routes = [
   {
@@ -59,17 +60,17 @@ export const desktopRoutes:Routes = [
     component: WarehouseComponent
   },*/
   {
-    path: "customers",
+    path: 'customers',
     component: CustomerContainerComponent,
     children: customerRoutes
   },
   {
-    path: "reports",
+    path: 'reports',
     component: ReportContainerComponent,
     children: reportRoutes
   },
   {
-    path: "finances",
+    path: 'finances',
     component: FinanceComponent
   },
   {
@@ -85,22 +86,22 @@ export const desktopRoutes:Routes = [
   //   component: ReportsComponent
   // },
   {
-    path: "serviceUsers",
+    path: 'serviceUsers',
     children: warehouseCompanyRoutes
   },
   {
-    path: "transportCompanies",
+    path: 'transportCompanies',
     component: TransportCompanyContainerComponent,
     children: transportCompanyRoutes
   },
   {
-    path: "emails",
+    path: 'emails',
     component: EmailComponent
   },
-  // {
-  //   path: "settings",
-  //   component: SettingsComponent
-  // }
+  {
+    path: 'settings',
+    component: SettingsComponent
+  }
 
 ];
 

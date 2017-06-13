@@ -29,7 +29,8 @@ import { DesktopModule, desktopRoutes } from './components/desktop/desktop.modul
 import { Ng2Webstorage } from 'ng2-webstorage/dist/app';
 import { EmailComponent } from './components/email/email.component';
 import { EmailService } from './components/email/email.service';
-import { Uploader }      from 'angular2-http-file-upload';
+import { Uploader } from 'angular2-http-file-upload';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const globalRoutes: Routes = [
   {
@@ -87,6 +88,7 @@ const globalRoutes: Routes = [
     WarehouseComponent,
     WarehouseCreateComponent,
     EmailComponent,
+    SettingsComponent,
     // WarehouseSchemeInfoComponent,
     // WarehouseSpaceComponent,
     // WarehouseCellComponent

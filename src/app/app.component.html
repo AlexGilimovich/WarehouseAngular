@@ -1,3 +1,5 @@
-<router-outlet>
+<div [ngClass]="{'preset_1': selectedPresetId == 1, 'preset_2': selectedPresetId == 2}">
+  <router-outlet>
 
-</router-outlet>
+  </router-outlet>
+</div>

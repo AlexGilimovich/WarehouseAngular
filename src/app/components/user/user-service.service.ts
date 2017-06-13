@@ -10,6 +10,7 @@ import { Warehouse } from '../warehouse/warehouse';
 import { WarehouseCompany } from '../warehouse-company/warehouse-company';
 
 const LIST_URL: string = "http://localhost:8080/web/web/user";
+const UPDATE_PRESET_URL: string = "http://localhost:8080/web/web/user/preset";
 const WAREHOUSE_LIST_URL: string = 'http://localhost:8080/web/web/user/warehouse';
 const GET_URL: string = "http://localhost:8080/web/web/user/";
 const GET_ROLES_URL: string = "http://localhost:8080/web/web/user/roles";
@@ -130,10 +131,15 @@ export class UserService {
 
   public checkLoginNameExists(loginName: string): Observable<string> {
     return this.httpAuthService.get(`${CHECK_LOGIN_URL}${loginName}`).map(
-      (resp)=> {
+      (resp) => {
         return resp.json().status;
       }
     );
+  }
+
+  public savePreset(userId: number, presetId: number): Observable<Response> {
+    const url = `${UPDATE_PRESET_URL}${'?id='}${userId}${'&preset='}${presetId}`;
+    return this.httpAuthService.put(url);
   }
 
 

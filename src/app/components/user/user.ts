@@ -1,23 +1,24 @@
-import {Role} from "./role";
-import {Warehouse} from "../warehouse/warehouse";
-import {WarehouseCompany} from "../warehouse-company/warehouse-company";
+import { Role } from "./role";
+import { Warehouse } from "../warehouse/warehouse";
+import { WarehouseCompany } from "../warehouse-company/warehouse-company";
 
 export class User {
-  public id:number;
-  public lastName:string;
-  public login:string;
-  public password:string;
-  public firstName:string;
-  public patronymic:string;
-  public dateOfBirth:string;
-  public email:string;
-  public city:string;
-  public street:string;
-  public house:string;
-  public apartment:string;
-  public roles:Role[];
-  public warehouse:Warehouse;
-  public warehouseCompany:WarehouseCompany;
+  public id: number;
+  public lastName: string;
+  public login: string;
+  public password: string;
+  public firstName: string;
+  public patronymic: string;
+  public dateOfBirth: string;
+  public email: string;
+  public city: string;
+  public street: string;
+  public house: string;
+  public apartment: string;
+  public roles: Role[];
+  public warehouse: Warehouse;
+  public warehouseCompany: WarehouseCompany;
+  public presetId: number;
 
   constructor() {
 
@@ -50,19 +51,19 @@ export class User {
   //   //return this.roles.includes(role);
   // }
 
-  public hasRole(role:string):boolean {
+  public hasRole(role: string): boolean {
     for (let r of this.roles)
       if (r.role === role) return true;
     return false;
     //return this.roles.includes(role);
   }
 
-  public addRole(role:Role) {
+  public addRole(role: Role) {
     if (!this.hasRole(role.role))
       this.roles.push(role);
   }
 
-  public removeRole(role:Role) {
+  public removeRole(role: Role) {
     for (let i = 0; i < this.roles.length; i++)
       if (this.roles[i].role === role.role)
         this.roles.splice(i, 1);
