@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GoodsService } from '../../goods/goods.service';
 import { Goods } from '../../goods/goods';
-import { Unit } from '../../goods/unit';
-import { unitMessages } from '../../goods/goods.module';
 import { WarehouseSchemeService } from '../warehouse-scheme.service';
 
 @Component({
@@ -26,7 +24,7 @@ export class SchemeGoodsListComponent implements OnInit {
 
   private getGoodsListFromServer(): void {
     if (!this.id_invoice) {
-      this.goodsService.list(this.id_warehouse.toString()).subscribe(res => {
+      this.goodsService.storedList(this.id_warehouse.toString()).subscribe(res => {
           this.goodsList = res.goods;
         },
         error => {

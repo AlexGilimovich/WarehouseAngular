@@ -1,19 +1,19 @@
-import {Component, OnInit} from "@angular/core";
-import {Goods} from "../goods";
-import {GoodsService} from "../goods.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {GoodsStatusName} from "../goodsStatusName";
-import {Unit} from "../unit";
-import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {statusMessages} from "../goods.module";
-import {GoodsStatus} from "../goodsStatus";
-import {Act} from "../../act/act";
-import {ActService} from "../../act/act.service";
-import {StorageType} from "../storageType";
-import {StorageCell} from "../../warehouse-scheme/storage-cell";
-import {Location} from "@angular/common";
-import {WarehouseService} from "../../warehouse/warehouse.service";
+import { Component, OnInit } from "@angular/core";
+import { Goods } from "../goods";
+import { GoodsService } from "../goods.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { GoodsStatusName } from "../goodsStatusName";
+import { Unit } from "../unit";
+import { StorageSpaceType } from "../../warehouse-scheme/storage-space-type";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { statusMessages } from "../goods.module";
+import { GoodsStatus } from "../goodsStatus";
+import { Act } from "../../act/act";
+import { ActService } from "../../act/act.service";
+import { StorageType } from "../storageType";
+import { StorageCell } from "../../warehouse-scheme/storage-cell";
+import { Location } from "@angular/common";
+import { WarehouseService } from "../../warehouse/warehouse.service";
 
 @Component({
   selector: 'app-goods-details',
@@ -21,41 +21,35 @@ import {WarehouseService} from "../../warehouse/warehouse.service";
   styleUrls: ['./goods-details.component.scss']
 })
 export class GoodsDetailsComponent implements OnInit {
-  private goods:Goods;
-  private statuses:GoodsStatus[];
-  private acts:Act[];
-  private id:number;
-  private statusNames:GoodsStatusName[] = [];
-  private quantityUnits:Unit[];
-  private priceUnits:Unit[];
-  private weightUnits:Unit[];
+  private goods: Goods;
+  private statuses: GoodsStatus[];
+  private acts: Act[];
+  private id: number;
+  private statusNames: GoodsStatusName[] = [];
+  private quantityUnits: Unit[];
+  private priceUnits: Unit[];
+  private weightUnits: Unit[];
 
-  private storageTypes:StorageSpaceType[];
-  private goodsForm:FormGroup;
-  private hasRights:boolean = true;//todo check
+  private storageTypes: StorageSpaceType[];
+  private goodsForm: FormGroup;
+  private hasRights: boolean = true;//todo check
   private statusMessages = statusMessages;
   private warehouseId;
-  private isEditable:boolean = false;
+  private isEditable: boolean = false;
 
-  private cells:StorageCell[] = [];
+  private cells: StorageCell[] = [];
 
-  constructor(private goodsService:GoodsService,
-              private actService:ActService,
-              private router:Router,
-              private location:Location,
-              private fb:FormBuilder,
-              private warehouseService:WarehouseService,
-              private route:ActivatedRoute) {
+  constructor(private goodsService: GoodsService,
+              private actService: ActService,
+              private router: Router,
+              private location: Location,
+              private fb: FormBuilder,
+              private warehouseService: WarehouseService,
+              private route: ActivatedRoute) {
     route.params.subscribe(params => {
       this.id = params['id'];
       // this.warehouseId = params['warehouseId'];
-
     });
-    route.queryParams.subscribe(params => {
-      this.warehouseId = params['warehouseId'];
-
-    });
-
     this.goodsForm = this.fb.group({
       "name": [{
         value: '',
@@ -76,8 +70,9 @@ export class GoodsDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.goodsService.get(this.id).subscribe(
-      (goods:Goods) => {
+      (goods: Goods) => {
         this.goods = goods;
+        this.warehouseId = goods.warehouseId;
         this.cells = goods.cells;
         this.fillForm(this.checkIfEditable(goods));
         this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
@@ -109,7 +104,7 @@ export class GoodsDetailsComponent implements OnInit {
           }
         );
       },
-      (err:any) => {
+      (err: any) => {
         console.log(err);
       }
     );
@@ -148,7 +143,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   }
 
-  private checkIfEditable(goods:Goods):boolean {
+  private checkIfEditable(goods: Goods): boolean {
     return !(goods.currentStatus.name == 'MOVED_OUT' ||
       goods.currentStatus.name == 'STOLEN' ||
       goods.currentStatus.name == 'SEIZED' ||
@@ -159,7 +154,7 @@ export class GoodsDetailsComponent implements OnInit {
     );
   }
 
-  private isChecked():boolean {
+  private isChecked(): boolean {
     if (this.goods) {
       return this.goods.currentStatus.name == 'CHECKED' || this.goods.currentStatus.name == 'STORED';
     } else {
@@ -167,7 +162,7 @@ export class GoodsDetailsComponent implements OnInit {
     }
   }
 
-  private isInStorage():boolean {
+  private isInStorage(): boolean {
     if (this.goods) {
       return this.goods.cells.length > 0;
     } else {
@@ -232,18 +227,18 @@ export class GoodsDetailsComponent implements OnInit {
 
   // }
 
-  private goToStorageView():void {
+  private goToStorageView(): void {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
     this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
 
   }
 
-  private removeFromStorage():void {
+  private removeFromStorage(): void {
     debugger;
     this.goodsService.removeFromStorage(this.goods).subscribe(
       res=> {
         this.goodsService.get(this.id).subscribe(
-          (goods:Goods) => {
+          (goods: Goods) => {
             this.goods = goods;
             this.cells = goods.cells;
             this.fillForm(this.checkIfEditable(goods));
@@ -269,7 +264,7 @@ export class GoodsDetailsComponent implements OnInit {
               }
             );
           },
-          (err:any) => {
+          (err: any) => {
             console.log(err);
           }
         );
@@ -278,7 +273,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   }
 
-  private fillForm(isEditable:boolean):void {
+  private fillForm(isEditable: boolean): void {
     this.isEditable = isEditable;
     this.goodsForm.controls['name'].setValue(this.goods.name);
     this.goodsForm.controls['quantity'].setValue(this.goods.quantity);
@@ -314,8 +309,8 @@ export class GoodsDetailsComponent implements OnInit {
     }
   }
 
-  private save():void {
-    let goods:Goods = new Goods();
+  private save(): void {
+    let goods: Goods = new Goods();
     goods.id = this.goods.id;
     goods.name = this.goodsForm.controls['name'].value;
     goods.quantity = this.goodsForm.controls['quantity'].value;

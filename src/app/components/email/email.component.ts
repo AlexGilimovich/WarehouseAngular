@@ -5,6 +5,8 @@ import { EmailService } from './email.service';
 import { Template } from './template';
 import { templateNamesMessages } from './constants';
 
+import { UploadItem }    from 'angular2-http-file-upload';
+
 declare var $;
 
 const COLOR_WHITE = '#FFFFFF';
@@ -80,7 +82,13 @@ export class EmailComponent implements OnInit {
 
   private sendEmail(fileInput): void {
     this.addSelectedUsersToTemplate();
-    this.emailService.sendEmail(this.template, fileInput.files[0]).subscribe();
+
+    const template: Template = new Template();
+    template.backgroundColor = '#FFFFFF';
+    template.receiverIds = [1];
+    // template.type = 'BIRTHDAY';
+    this.emailService.sendEmail(template, fileInput.files[0]).subscribe();
+    // this.emailService.sendEmail(this.template, fileInput.files[0]).subscribe();
   }
 
 

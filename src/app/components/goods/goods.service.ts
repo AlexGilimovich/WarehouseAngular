@@ -141,7 +141,7 @@ export class GoodsService {
     let options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return this.mapResponseItemToGoods(<any>response.json());
-    })
+    });
   }
 
 
@@ -320,6 +320,7 @@ export class GoodsService {
     goods.quantityUnit = new Unit(item.quantityUnit.id, item.quantityUnit.name);
     goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
     goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
+    goods.warehouseId = item.warehouseId;
     goods.cells = item.cells.map(
       item=> {
         let storageCell = new StorageCell();

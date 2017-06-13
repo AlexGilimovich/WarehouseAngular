@@ -29,7 +29,7 @@ import { DesktopModule, desktopRoutes } from './components/desktop/desktop.modul
 import { Ng2Webstorage } from 'ng2-webstorage/dist/app';
 import { EmailComponent } from './components/email/email.component';
 import { EmailService } from './components/email/email.service';
-
+import { Uploader }      from 'angular2-http-file-upload';
 
 const globalRoutes: Routes = [
   {
@@ -117,7 +117,8 @@ const globalRoutes: Routes = [
     LoginService,
     HttpAuthService,
     WarehouseService,
-    EmailService
+    EmailService,
+    Uploader
   ],
   bootstrap: [AppComponent]
 })
