@@ -2,47 +2,53 @@
   <h4>Описание накладной</h4>
   <form [formGroup]="invoiceForm">
     <label>
-      Номер ТТН: {{invoiceForm.controls['number'].value}}
+      <b>Номер ТТН:</b> {{invoiceForm.controls['number'].value}}
     </label>
 
     <label>
-      Дата выписки ТТН: {{invoiceForm.controls['issueDate'].value}}
+      <b>Дата выписки ТТН:</b> {{invoiceForm.controls['issueDate'].value}}
     </label>
 
     <label>
-      Перевозчик: {{invoiceForm.controls['transportCompany'].value.name}}
+      <b>Перевозчик:</b> {{invoiceForm.controls['transportCompany'].value.name}}
     </label>
 
     <label>
-      Отправитель: {{invoiceForm.controls['supplierCompany'].value.name}}
+      <b>Отправитель:</b> {{invoiceForm.controls['supplierCompany'].value.name}}
     </label>
 
     <label>
-      Номер транспортного средства: {{invoiceForm.controls['transportNumber'].value}}
+      <b>Номер транспортного средства:</b> {{invoiceForm.controls['transportNumber'].value}}
     </label>
 
     <label>
-      Название транспортного средства: {{invoiceForm.controls['transportName'].value}}
+      <b>Название транспортного средства:</b> {{invoiceForm.controls['transportName'].value}}
     </label>
 
     <label>
-      Описание: {{invoiceForm.controls['description'].value}}
+      <b>Описание:</b> {{invoiceForm.controls['description'].value}}
     </label>
 
     <label>
-      Общая цена: {{invoiceForm.controls['goodsEntryCount'].value}}
+      <b>Общая цена:</b> {{invoiceForm.controls['goodsEntryCount'].value}}
     </label>
 
     <div>
       <h4>Товары</h4>
       <table>
         <tr>
+          <th></th>
           <th>Название</th>
           <th>Количество</th>
           <th>Цена</th>
           <th>Вес</th>
         </tr>
         <tr *ngFor="let goods of goodsList">
+          <th>
+            <div *ngIf="goods.currentStatus.name === 'TRANSPORT_COMPANY_MISMATCH'">
+              <i class="right fi-x icon"></i>
+            </div>
+          </th>
           <th>{{goods.name}}</th>
           <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
           <th>{{goods.price}} {{goods.priceUnit.name}}</th>

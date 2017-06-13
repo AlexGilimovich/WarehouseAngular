@@ -11,6 +11,7 @@ import {InvoiceStatus} from '../../invoice-status';
 import {Goods} from "../../../goods/goods";
 import {LoginService} from "../../../login/login.service";
 import {Location} from "@angular/common";
+import {invoiceStatuses} from "../../invoice.module";
 
 @Component({
   selector: 'app-incoming-invoice-details',
@@ -73,8 +74,10 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
   finishCompleting(){
     const status = InvoiceStatus.COMPLETED;
     this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
-      this.location.back();
-      // todo redirect to putting goods in cells page
+      this.router.navigate(['../../../warehousecompany',
+        this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany,
+        'warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'scheme'],
+        {relativeTo: this.route});
     });
   }
 
