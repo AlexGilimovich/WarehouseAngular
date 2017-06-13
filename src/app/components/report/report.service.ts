@@ -7,6 +7,8 @@ import { HttpAuthService } from "../login/httpAuth.service";
 import { Http, Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl, ValidatorFn } from "@angular/forms";
+declare const $: any;
+import 'foundation-datepicker';
 
 const RECEIPT_REPORT_URL: string = "http://localhost:8080/web/web/report/receipt/";
 const PROFIT_REPORT_URL: string = "http://localhost:8080/web/web/report/profit/";
@@ -49,10 +51,10 @@ export class ReportService {
 				let a = document.createElement("a");
 				a.href = window.URL.createObjectURL(blob);
 				a.download = 'ReceiptReport.xlsx';
+				a.innerHTML = "download";
 				document.body.appendChild(a);
 				a.click();
-				this.router.navigate(["../"], { relativeTo: route });
-				//this.location.back();			
+				this.router.navigate(["../"], { relativeTo: route });		
 			},
 			error => {
 				alert("Report generation failed. Try again later");
@@ -142,8 +144,7 @@ export class ReportService {
 				a.download = 'WarehouseLossReportWithLiableEmployees.xlsx';
 				document.body.appendChild(a);
 				a.click();
-				this.router.navigate(["../"], { relativeTo: route });
-				//this.location.back();			
+				this.router.navigate(["../"], { relativeTo: route });		
 			},
 			error => {
 				alert("Report generation failed. Try again later");
@@ -151,4 +152,84 @@ export class ReportService {
 			}
 			);
 	}
+
+	dateValidator(control: AbstractControl) {
+		if(control !== undefined){
+			var parent = control.parent;
+			if(parent !== undefined){
+				let errors: any = {};
+				let startDate, endDate;
+				let startDateControl, endDateControl;
+				startDateControl = parent.get('startDate');
+				endDateControl = parent.get('endDate');
+				if (startDateControl.value !== "") {
+					startDate = Date.parse(startDateControl.value);
+				}
+				else {
+					return true;
+				}
+				if (endDateControl.value !== "") {
+					endDate = Date.parse(endDateControl.value);
+				}
+				else {
+					return true;
+				}
+				if (startDate > endDate) {
+					if (control.parent.controls["endDate"] === control) {
+						errors.invalidEndDate = true;
+					}
+					if (control.parent.controls["startDate"] === control) {
+						errors.invalidStartDate = true;
+					}
+				}
+				else {
+					if(startDateControl.hasError('invalidStartDate')){
+						parent.controls['startDate'].setErrors({ 'invalidStartDate': null });
+						startDateControl.updateValueAndValidity();
+					}
+					if(endDateControl.hasError('invalidEndDate')){
+						parent.controls['endDate'].setErrors({ 'invalidEndDate': null });
+						endDateControl.updateValueAndValidity();
+					}
+					/*parent.controls['startDate'].setErrors({ 'invalidStartDate': false });
+					parent.controls['endDate'].setErrors({ 'invalidEndDate': false });*/
+					return true;
+				}
+				return errors;
+			}
+		}
+	}
+
+	configureDatepicker(formGroup: FormGroup) {
+		$(document).ready(() => {
+			$('#startDate').fdatepicker({
+				format: 'dd/mm/yyyy',
+				disableDblClickSelection: true,
+				leftArrow: '<<',
+				rightArrow: '>>'
+			}).on('changeDate', element => {
+				const date = element.date;
+				this.setStartDate(date, formGroup);
+			});
+		});
+		$(document).ready(() => {
+			$('#endDate').fdatepicker({
+				format: 'dd/mm/yyyy',
+				disableDblClickSelection: true,
+				leftArrow: '<<',
+				rightArrow: '>>'
+			}).on('changeDate', element => {
+				const date = element.date;
+				this.setEndDate(date, formGroup);
+			});
+		});
+	}
+
+	setStartDate(date: Date, formGroup: FormGroup) {
+		formGroup.controls['startDate'].setValue(date);
+	}
+	setEndDate(date: Date, formGroup: FormGroup) {
+		formGroup.controls['endDate'].setValue(date);
+	}
+		
 }

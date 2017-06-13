@@ -10,20 +10,25 @@ import { ReportService } from '../report.service';
 })
 export class LossReportComponent implements OnInit {
 	lossReportForm: FormGroup;
+  requestInProcess = false;
 
 	constructor(private reportService: ReportService, private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit() {
 	  this.createForm();
+    this.reportService.configureDatepicker(this.lossReportForm);
   }
 
   createForm() {
 	  this.lossReportForm = this.fb.group({
-		  startDate: ['', Validators.required],
-		  endDate: ['', Validators.required]
+		  startDate: ['', Validators.compose([Validators.required, this.reportService.dateValidator])],
+		  endDate: ['', Validators.compose([Validators.required, this.reportService.dateValidator])]
 	  });
   }
   getLossReport(){
 	  this.reportService.getLossReport(this.lossReportForm, this.route);
+  }
+  private requestIsInProcess() {
+    this.requestInProcess = true;
   }
 }

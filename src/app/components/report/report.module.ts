@@ -8,6 +8,7 @@ import { ReportContainerComponent } from './report-container/report-container.co
 import { RouterModule, Routes } from "@angular/router";
 import { ReportService } from "./report.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SpinnerModule } from "angular2-spinner/dist";
 
 export const reportRoutes: Routes = [
 	{
@@ -33,7 +34,8 @@ export const reportRoutes: Routes = [
     CommonModule,
     RouterModule, 
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+	SpinnerModule
   ],
   declarations: [EmployeesLossReportComponent, LossReportComponent, ProfitReportComponent, ReceiptReportComponent, ReportContainerComponent],
   providers: [ReportService]

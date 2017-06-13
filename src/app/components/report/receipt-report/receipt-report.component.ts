@@ -17,6 +17,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ReceiptReportComponent implements OnInit {
 	warehouseList: Warehouse[] = [];
 	receiptReportForm: FormGroup;
+	requestInProcess = false;
 	constructor(private reportService: ReportService,
 				private fb: FormBuilder,
 				private route: ActivatedRoute
@@ -25,19 +26,25 @@ export class ReceiptReportComponent implements OnInit {
 	ngOnInit() {
 		this.warehouseList = this.reportService.getWarehouseList();	
 		this.createForm();
+		this.reportService.configureDatepicker(this.receiptReportForm);
+		/*$("body").foundation();*/
 	}
 
 
 	createForm() {
 		this.receiptReportForm = this.fb.group({
 			idWarehouse: ['', Validators.required],
-			startDate: ['', Validators.required /*, dateOrderValidator()*/],
-			endDate: ['', Validators.required]
+			startDate: ['', Validators.compose([Validators.required, this.reportService.dateValidator])],
+			endDate: ['', Validators.compose([Validators.required, this.reportService.dateValidator])]
 		});
 	}
 
 	private getReceiptReport() {
 		this.reportService.getReceiptReport(this.receiptReportForm, this.route);				
 	}
+	private requestIsInProcess(){
+		this.requestInProcess = true;
+	}
 
+	
 }
