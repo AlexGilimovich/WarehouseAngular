@@ -1,28 +1,17 @@
 <div class="row">
   <div class="large-12 small-12 columns">
-    <table class="hover">
-      <thead>
-      <tr>
-        <th>Название</th>
-        <th>Доверенный</th>
-        <!--<th></th>-->
-      </tr>
-      </thead>
-      <tr *ngFor="let company of companies">
-        <td class="clickable" (click)="goToDetails(company.id)">
-          {{company.name}}
-        </td>
-        <td>
-          <span *ngIf="company.isTrusted; else notTrusted">Да</span>
-          <ng-template #notTrusted>
-            <span>Нет</span>
-          </ng-template>
-        </td>
-        <!--<td>-->
-        <!--<i class="fi-x icon" (click)="delete(company)"></i>-->
-        <!--</td>-->
-      </tr>
-    </table>
+    <ul class="list">
+      <li *ngFor="let company of companies">
+        <h2 class="company-title">
+          <a class="clickable" (click)="goToDetails(company.id)">
+            {{company.name}}
+          </a>
+        </h2>
+        <span *ngIf="company.isTrusted" class="company-desc">
+          Доверенный перевозчик
+        </span>
+      </li>
+    </ul>
 
     <!-- todo create pagination -->
   </div>

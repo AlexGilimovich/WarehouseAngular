@@ -12,3 +12,30 @@ table {
 .icon {
   font-size: 170%;
 }
+
+ul .list {
+  padding: 20px;
+}
+
+h2 a {
+  cursor: default;
+  .clickable {
+    cursor: pointer;
+  }
+}
+
+.company-title {
+  font-family: 'Open sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.45rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.company-desc {
+  color: #8a8a8a;
+  display: block;
+  font-family: 'Open sans', sans-serif;
+  font-size: 0.9rem;
+}
