@@ -229,7 +229,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   private goToStorageView(): void {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
-    this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    this.router.navigate(['../../typespace', this.goods.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
 
   }
 
