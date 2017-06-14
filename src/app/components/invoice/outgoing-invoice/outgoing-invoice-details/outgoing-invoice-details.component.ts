@@ -31,6 +31,7 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
               private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private location: Location) {
+    this.goodsList = [];
     this.invoiceForm = this.formBuilder.group({
       'number': [''],
       'issueDate': [''],

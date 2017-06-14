@@ -33,7 +33,11 @@
       <b>Общая цена:</b> {{invoiceForm.controls['goodsEntryCount'].value}}
     </label>
 
-    <div>
+    <div class="goods-container">
+      <div *ngIf="goodsList.length == 0; else hasGoods">
+        <h4>Нет товаров</h4>
+      </div>
+      <ng-template #hasGoods>
       <h4>Товары</h4>
       <table>
         <tr>
@@ -49,6 +53,7 @@
           <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
         </tr>
       </table>
+      </ng-template>
     </div>
     <div [ngSwitch]="status">
       <div *ngSwitchCase="invoiceStatus.REGISTERED_OUTGOING">

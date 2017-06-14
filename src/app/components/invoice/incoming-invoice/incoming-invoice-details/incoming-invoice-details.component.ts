@@ -32,6 +32,7 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private location: Location) {
+    this.goodsList = [];
     this.invoiceForm = this.formBuilder.group({
       'number': [''],
       'issueDate': [''],
