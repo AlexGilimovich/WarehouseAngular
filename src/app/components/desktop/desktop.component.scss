@@ -1,3 +1,9 @@
+$background-color: #1d1d1d;
+$secondary-background-color: #3c3c3c;
+$bg-color: #5c5c5c;
+$text-color: #EEEEEE;
+$text-input: #bcbcbc;
+
 .preset-light {
   .top-bar {
     background: #f1f1f1;
@@ -5,17 +11,78 @@
 }
 
 .preset-dark {
-  //background: #1779ba;
-  background: #222;
+  .callout {
+    color: $text-color;
+    background-color: $bg-color;
+  }
+
+  .tabs {
+    border-color: $background-color;
+    background-color: $secondary-background-color;
+  }
+
+  input:hover, input:focus {
+    background-color: $bg-color;
+  }
+
+  select {
+    color: $text-input;
+    background-color: $bg-color;
+  }
+
+  :last-child:not(.is-active) > .accordion-title {
+    border-bottom-color: $background-color;
+  }
+
+  .accordion-title {
+    background-color: $bg-color;
+    border-color: $background-color;
+  }
+
+  .accordion-content {
+    background-color: $secondary-background-color;
+  }
+
+  .pagination a, .pagination button {
+    color: #cacabf;
+  }
+
+  .pagination a:hover, .pagination button:hover {
+    color: $background-color;
+  }
+
+  label {
+    color: $text-color;
+  }
+
+  .switch[_ngcontent] {
+    color: $text-color;
+  }
+
+  input {
+    color: $text-input;
+    background-color: $bg-color;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $text-color;
+  }
+
+  p {
+    color: $text-color;
+  }
+
+  body {
+    background-color: $background-color;
+  }
+
+  background: $background-color;
   color: #DEDEDE;
   height: 100vh;
 
   .form{
     label{
       color: #DEDEDE;
-    }
-    input, select{
-      background: white;
     }
     .head{
       background: #1779ba;
@@ -26,10 +93,8 @@
     color: #DEDEDE;
   }
 
-
-
   .container {
-    background: #222;
+    background: $background-color;
   }
 
   .top-bar {
@@ -43,11 +108,7 @@
 
 
   .menu {
-    //background: #074E68;
-    background: #222;
-    //background: #888;
-
-
+    background: $secondary-background-color;
 
     a {
       color: #DEDEDE;
@@ -59,16 +120,28 @@
     }
   }
 
-  table, table.hover {
+  table {
+    color: $text-color;
+
     th, td {
       border-color: white;
     }
     tbody tr:nth-child(even) {
       background: #888;
     }
+
+    tbody tr:hover {
+      background-color: #3c3c3c !important;
+    }
+
     thead, tbody {
-      background: #888;
+      color: $text-color;
+      background: $background-color;
+    }
+
+    tbody tr:hover {
+      background: $background-color; /* Цвет фона при наведении */
+      color: $text-color; /* Цвет текста при наведении */
     }
   }
-
 }
