@@ -58,7 +58,7 @@ export class ReportService {
 				this.router.navigate(["../"], { relativeTo: route });		
 			},
 			error => {
-				alert("Report generation failed. Try again later");
+				console.error(error);
 				this.router.navigate(["../"], { relativeTo: route });
 			}
 			);
@@ -90,7 +90,7 @@ export class ReportService {
 				//this.location.back();			
 			},
 			error => {
-				alert("Report generation failed. Try again later");
+				console.error(error);
 				this.router.navigate(["../"], { relativeTo: route });
 			}
 			);
@@ -119,7 +119,7 @@ export class ReportService {
 				//this.location.back();			
 			},
 			error => {
-				alert("Report generation failed. Try again later");
+				console.error(error);
 				this.router.navigate(["../"], { relativeTo: route });
 			}
 			);
@@ -148,7 +148,7 @@ export class ReportService {
 				this.router.navigate(["../"], { relativeTo: route });		
 			},
 			error => {
-				alert("Report generation failed. Try again later");
+				console.error(error);
 				this.router.navigate(["../"], { relativeTo: route });
 			}
 			);
