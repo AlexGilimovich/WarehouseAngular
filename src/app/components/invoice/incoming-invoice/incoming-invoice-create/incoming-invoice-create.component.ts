@@ -33,7 +33,10 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   goodsList: Goods[] = [];
   goodsEntryCount: number;
   @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
-  goodsModal: ComponentRef<GoodsCreateComponent>;
+  goodsModalRef: ComponentRef<GoodsCreateComponent>;
+  transportModal: any;
+  supplierModal: any;
+  goodsModal: any;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -53,19 +56,12 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('inited');
-    // $('#transportModal').foundation();
-    // $('#supplierModal').foundation();
-    // $('#goodsModal').foundation();
-    $('body').foundation();
+    this.configureModals();
     this.configureDatepicker();
   }
 
   ngOnDestroy() {
-    console.log('destroyed');
-    // $('#transportModal').foundation = null;
-    // $('#supplierModal').foundation = null;
-    // $('#goodsModal').foundation = null;
+    this.clearModals();
   }
 
   onSubmit(form: FormGroup) {
@@ -122,12 +118,24 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
 
   openGoodsModal() {
     $('#goodsModal').foundation('open');
-    this.goodsModal = this.goodsAnchor.createGoods();
+    this.goodsModalRef = this.goodsAnchor.createGoods();
   }
 
   closeGoodsModal(subscription?: Subscription) {
     $('#goodsModal').foundation('close');
-    this.goodsModal.destroy();
+    this.goodsModalRef.destroy();
+  }
+
+  private configureModals(){
+    this.transportModal = $('#transportModal').foundation();
+    this.supplierModal = $('#supplierModal').foundation();
+    this.goodsModal = $('#goodsModal').foundation();
+  }
+
+  private clearModals() {
+    this.transportModal.remove();
+    this.supplierModal.remove();
+    this.goodsModal.remove();
   }
 
   private configureDatepicker() {

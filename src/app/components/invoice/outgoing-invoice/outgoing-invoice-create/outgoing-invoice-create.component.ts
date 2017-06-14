@@ -1,4 +1,4 @@
-import {Component, ComponentRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TransportCompany} from "../../../tr-company/tr-company";
 import {WarehouseCustomerCompany} from "../../../customer/customer";
@@ -22,12 +22,15 @@ declare const $: any;
   styleUrls: ['./outgoing-invoice-create.component.scss'],
   providers: [InvoiceService, GoodsService]
 })
-export class OutgoingInvoiceCreateComponent implements OnInit {
+export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
   goodsEntryCount: number;
   @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
-  goodsModal: ComponentRef<GoodsChoiceComponent>;
+  goodsModalRef: ComponentRef<GoodsChoiceComponent>;
+  transportModal: any;
+  receiverModal: any;
+  goodsModal: any;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -48,8 +51,12 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('body').foundation();
+    this.configureModals();
     this.configureDatepicker();
+  }
+
+  ngOnDestroy() {
+    this.clearModals();
   }
 
   onSubmit(form: FormGroup) {
@@ -106,12 +113,24 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
 
   openGoodsModal() {
     $('#goodsModal').foundation('open');
-    this.goodsModal = this.goodsAnchor.chooseGoods();
+    this.goodsModalRef = this.goodsAnchor.chooseGoods();
   }
 
   closeGoodsModal() {
     $('#goodsModal').foundation('close');
-    this.goodsModal.destroy();
+    this.goodsModalRef.destroy();
+  }
+
+  private configureModals(){
+    this.transportModal = $('#transportModal').foundation();
+    this.receiverModal = $('#receiverModal').foundation();
+    this.goodsModal = $('#goodsModal').foundation();
+  }
+
+  private clearModals() {
+    this.transportModal.remove();
+    this.receiverModal.remove();
+    this.goodsModal.remove();
   }
 
   private configureDatepicker() {
@@ -131,7 +150,6 @@ export class OutgoingInvoiceCreateComponent implements OnInit {
   private setIssueDate(date: Date) {
     this.invoiceForm.controls['issueDate'].setValue(date);
   }
-
 
   private changeGoodsEntryCount() {
     let count = 0;
