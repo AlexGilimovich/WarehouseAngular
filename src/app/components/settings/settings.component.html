@@ -1,8 +1,23 @@
-<div>
-  <label for="preset" class="right">Выбрать тему:</label>
-  <select name="preset" id="preset" [(ngModel)]="selectedPresetId">
-    <option *ngFor="let preset of presets" [value]="preset.id">{{preset.name}}</option>
-  </select>
-</div>
-<input type="button" class="button button-right" value="Сохранить" (click)="savePreset()">
+<div class="container">
+  <form class="form" [formGroup]="form" (ngSubmit)="savePreset(form)">
+    <div class="row">
+      <div class="columns large-4 small-4 medium-4">
+        <label for="preset" class="right">Выбрать тему:</label>
+        <select name="preset" id="preset" [formControl]="form?.controls['preset']">
+          <option *ngFor="let preset of presets" [value]="preset.id">{{preset.name}}</option>
+        </select>
+        <div class="callout alert"
+             *ngIf="form?.controls['preset'].hasError('required') && form?.get('preset').touched">
+          Тем не выбрана
+        </div>
 
+      </div>
+
+      <div class="columns large-4 small-4 medium-4">
+        <div class="button-container">
+          <input type="submit" class="button" value="Сохранить" [disabled]="!form?.valid">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

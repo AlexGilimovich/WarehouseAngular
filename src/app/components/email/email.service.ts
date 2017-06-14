@@ -5,9 +5,11 @@ import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Template } from './template';
+import { Host } from '../../util/host';
 
-const GET_TEMPLATES_URL = 'http://localhost:8080/web/web/email/templates';
-const SEND_EMAIL_URL = 'http://localhost:8080/web/web/email';
+const BASE_URL = Host.getURL();
+const GET_TEMPLATES_URL = `${BASE_URL}${'email/templates'}`;
+const SEND_EMAIL_URL = `${BASE_URL}${'email'}`;
 
 @Injectable()
 export class EmailService {
@@ -25,7 +27,7 @@ export class EmailService {
     });
   }
 
-  public sendEmail(template: Template, file: any): Observable<Response> {
+  public sendEmail(template: Template, file?: any): Observable<Response> {
     return this.httpAuthService.postMultipart(SEND_EMAIL_URL, JSON.stringify(template), file);
   }
 

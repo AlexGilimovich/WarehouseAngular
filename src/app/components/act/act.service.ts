@@ -1,23 +1,27 @@
-import {Injectable} from "@angular/core";
-import {HttpAuthService} from "../login/httpAuth.service";
-import {Response, Headers, RequestOptions} from "@angular/http";
-import {Observable, Subject} from "rxjs";
-import {Act} from "./act";
-import {User} from "../user/user";
-import {ActType} from "./actType";
-import {ActTypeName} from "./actTypeName";
-import {ActSearchDTO} from "./actSearchDTO";
-import {Unit} from "../goods/unit";
-import {StorageType} from "../goods/storageType";
-import {Goods} from "../goods/goods";
+import { Injectable } from '@angular/core';
+import { HttpAuthService } from '../login/httpAuth.service';
+import { Response, Headers, RequestOptions } from '@angular/http';
+import { Observable, Subject } from 'rxjs';
+import { Act } from './act';
+import { User } from '../user/user';
+import { ActType } from './actType';
+import { ActTypeName } from './actTypeName';
+import { ActSearchDTO } from './actSearchDTO';
+import { Unit } from '../goods/unit';
+import { StorageType } from '../goods/storageType';
+import { Goods } from '../goods/goods';
+import { Host } from '../../util/host';
 
-const LIST_URL: string = 'http://localhost:8080/web/web/act/list/';
-const GET_URL: string = "http://localhost:8080/web/web/act/";
-const SAVE_URL: string = "http://localhost:8080/web/web/act/save";
-const GET_ACTS_FOR_GOODS_URL: string = "http://localhost:8080/web/web/act/acts";
-const GET_ACTS_TYPES_URL: string = "http://localhost:8080/web/web/act/acts";
-const SEARCH_URL: string = "http://localhost:8080/web/web/act/search/";
-const HEADER_X_TOTAL_COUNT = "x-total-count";
+const BASE_URL = Host.getURL();
+const LIST_URL = `${BASE_URL}${'act/list/'}`;
+const GET_URL = `${BASE_URL}${'act/'}`;
+const SAVE_URL = `${BASE_URL}${'act/save'}`;
+const GET_ACTS_FOR_GOODS_URL = `${BASE_URL}${'act/acts'}`;
+const GET_ACTS_TYPES_URL = `${BASE_URL}${'act/acts'}`;
+const SEARCH_URL = `${BASE_URL}${'act/search/'}`;
+
+
+const HEADER_X_TOTAL_COUNT = 'x-total-count';
 
 @Injectable()
 export class ActService {

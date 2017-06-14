@@ -1,56 +1,120 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../login/login.service';
 import { User } from '../user/user';
-import has = Reflect.has;
-declare var $:any;
+import { Presets } from '../settings/PRESETS';
+import { Preset } from '../settings/preset';
+import { Subscription } from 'rxjs';
+import { SettingsService } from '../settings/settings.service';
+
+declare var $: any;
+
+const ROLE_ADMIN = 'ROLE_ADMIN';
+const ROLE_OWNER = 'ROLE_OWNER';
+const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
+const ROLE_MANAGER = 'ROLE_MANAGER';
+const ROLE_DISPATCHER = 'ROLE_DISPATCHER';
+const ROLE_CONTROLLER = 'ROLE_CONTROLLER';
+const PRESET_LIGHT = 'preset-light';
+const PRESET_DARK = 'preset-dark';
+
 
 @Component({
   selector: 'app-desktop',
   templateUrl: './desktop.component.html',
-  styleUrls: ['./desktop.component.scss']
+  styleUrls: ['./desktop.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DesktopComponent implements OnInit {
 
-  private currentPage:string = 'users';
-  private user:User;
+  private currentPage = 'users';
+  private user: User;
+  private selectedPresetId: number;
+  private presets: Preset[] = Presets.list();
+  private presetSubscription: Subscription;
 
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private settingsService: SettingsService,
+              private loginService: LoginService) {
 
-  constructor(private router:Router,
-              private route:ActivatedRoute,
-              private loginService:LoginService) {
     this.user = loginService.getLoggedUser();
     this.currentPage = this.getHomePage();
     this.navigateToPage(this.currentPage);
+    this.presetSubscription = this.settingsService.selectedPresetId$.subscribe((presetId: number) => {
+      this.updatePreset(presetId);
+    });
   }
 
   ngOnInit() {
-    $("body").foundation();
+    $('body').foundation();
+    const authenticatedUser: User = this.loginService.getLoggedUser();
+    this.selectedPresetId = authenticatedUser.presetId;
   }
 
-  private getHomePage():string {
-    if (this.user.hasRole('ROLE_ADMIN')) return 'serviceUsers';
-    if (this.user.hasRole('ROLE_OWNER')) return 'warehouses';
-    if (this.user.hasRole('ROLE_SUPERVISOR')) return 'warehouse';
-    if (this.user.hasRole('ROLE_MANAGER')) return 'warehouse';
-    if (this.user.hasRole('ROLE_CONTROLLER')) return 'invoices';
-    if (this.user.hasRole('ROLE_DISPATCHER')) return 'invoices';
+  private updatePreset(presetId: number): void {
+    this.selectedPresetId = presetId;
+    this.ngOnInit();
+  }
+
+  private onPresetChanged(): void {
+    this.ngOnInit();
+  }
+
+  private isLight(): boolean {
+    return this.selectedPresetId === 1;
+  }
+
+  private isDark(): boolean {
+    return this.selectedPresetId === 2;
+  }
+
+  private getClass(): string {
+    if (this.selectedPresetId === 1) {
+      return PRESET_LIGHT;
+    }
+    if (this.selectedPresetId === 2) {
+      return PRESET_DARK;
+    }
+    return '';
+  }
+
+  private getHomePage(): string {
+    if (this.user.hasRole(ROLE_ADMIN)) {
+      return 'serviceUsers';
+    }
+    if (this.user.hasRole(ROLE_OWNER)) {
+      return 'warehouses';
+    }
+    if (this.user.hasRole(ROLE_SUPERVISOR)) {
+      return 'warehouse';
+    }
+    if (this.user.hasRole(ROLE_MANAGER)) {
+      return 'warehouse';
+    }
+    if (this.user.hasRole(ROLE_CONTROLLER)) {
+      return 'invoices';
+    }
+    if (this.user.hasRole(ROLE_DISPATCHER)) {
+      return 'invoices';
+    }
   }
 
 
-  private hasAnyRole(...roles:string[]):boolean {
+  private hasAnyRole(...roles: string[]): boolean {
     let hasRole = false;
     roles.forEach(
-      item=> {
-        if (this.user.hasRole(item))
+      item => {
+        if (this.user.hasRole(item)) {
           hasRole = true;
+        }
       }
     );
     return hasRole;
   }
 
 
-  private navigateToPage(page:string) {
+  private navigateToPage(page: string) {
     switch (page) {
       case 'users':
         this.router.navigate(['./users'], {relativeTo: this.route});

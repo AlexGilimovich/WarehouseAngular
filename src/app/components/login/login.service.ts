@@ -1,59 +1,57 @@
-import {Injectable} from "@angular/core";
-import {User} from "../user/user";
-import {Http, Headers, RequestOptions} from "@angular/http";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
-import {Warehouse} from "../warehouse/warehouse";
-import {WarehouseCompany} from "../warehouse-company/warehouse-company";
-import {Observable} from "rxjs";
-import {Role} from "../user/role";
-import {SessionStorage, SessionStorageService, LocalStorageService} from "ng2-webstorage";
+import { Injectable } from '@angular/core';
+import { User } from '../user/user';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import { Warehouse } from '../warehouse/warehouse';
+import { WarehouseCompany } from '../warehouse-company/warehouse-company';
+import { Observable } from 'rxjs';
+import { Role } from '../user/role';
+import { SessionStorage, SessionStorageService, LocalStorageService } from 'ng2-webstorage';
+import { Host } from '../../util/host';
 
-const URL:string = "http://localhost:8080/web/web/login";
+const BASE_URL = Host.getURL();
+const HEADER_AUTHORIZATION = 'Authorization';
 
 @Injectable()
 export class LoginService {
 
   @SessionStorage()
-  private authenticatedUser:User;
+  private authenticatedUser: User;
 
-  constructor(private http:Http,
-              private localStorageService:LocalStorageService,
-              private sessionStorageService:SessionStorageService) {
-    let user = <User>sessionStorageService.retrieve("authenticatedUser");
+  constructor(private http: Http,
+              private localStorageService: LocalStorageService,
+              private sessionStorageService: SessionStorageService) {
+    const user = <User>sessionStorageService.retrieve('authenticatedUser');
     if (user) {
       this.authenticatedUser = User.create(user);
     }
-
-    // this.authenticatedUser = new User();
-    // this.authenticatedUser.login = "root";
-    // this.authenticatedUser.password = "root";
-    // this.authenticatedUser.warehouse = new Warehouse(1, "name", true, 1, 1, new WarehouseCompany(10));
-
   }
 
-  public getLoggedUser():User {
+  public getLoggedUser(): User {
     return this.authenticatedUser;
   }
 
 
-  public checkLocalStorage():User {
-    if (this.localStorageService.retrieve("user")) {
-      this.authenticatedUser = <User>this.localStorageService.retrieve("user");
+  public checkLocalStorage(): User {
+    if (this.localStorageService.retrieve('user')) {
+      this.authenticatedUser = <User>this.localStorageService.retrieve('user');
       return this.authenticatedUser;
     }
   }
 
+  private getAuthorizationHeaderValue(login: string, password: string): string {
+    return `${'Basic '} ${btoa(`${login}${':'}${password}`)}`;
+  }
 
-  public login(login:string, password:string, rememberMe:boolean):Observable<Role[]> {
-    let headers:Headers = new Headers();
-    headers.append("Authorization", "Basic " + btoa(login + ":" + password));
-    let requestOptions:RequestOptions = new RequestOptions({headers: headers});
-    return this.http.get(URL, requestOptions).map(
-      res=> {
-
-        let str = res.json();
-        let user = new User();
+  public login(login: string, password: string, rememberMe: boolean): Observable<Role[]> {
+    const headers: Headers = new Headers();
+    headers.append(HEADER_AUTHORIZATION, this.getAuthorizationHeaderValue(login, password));
+    const requestOptions: RequestOptions = new RequestOptions({headers: headers});
+    return this.http.get(`${BASE_URL}${'login'}`, requestOptions).map(
+      res => {
+        const str: any = res.json();
+        const user = new User();
         user.id = str.id;
         user.lastName = str.lastName;
         user.login = login;
@@ -66,7 +64,8 @@ export class LoginService {
         user.street = str.street;
         user.house = str.house;
         user.apartment = str.apartment;
-        user.roles = str.roles.map(item=> {
+        user.presetId = str.presetId;
+        user.roles = str.roles.map(item => {
           return new Role(item.role);
         });
         if (str.warehouse !== null)
@@ -86,20 +85,20 @@ export class LoginService {
         }
         this.authenticatedUser = user;
         if (rememberMe) {
-          this.localStorageService.store("user", user);
+          this.localStorageService.store('user', user);
         }
         return user.roles;
       }
-    )
+    );
   }
 
-  public logout(user:User):Observable<boolean> {
+  public logout(user: User): Observable<boolean> {
     return Observable.create(
-      observer=> {
-        this.localStorageService.clear("user");
+      observer => {
+        this.localStorageService.clear('user');
         return observer.next(true);
       }
-    )
+    );
   }
 
 }

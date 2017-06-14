@@ -31,6 +31,7 @@ import { EmailComponent } from './components/email/email.component';
 import { EmailService } from './components/email/email.service';
 import { Uploader } from 'angular2-http-file-upload';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SettingsService } from './components/settings/settings.service';
 
 const globalRoutes: Routes = [
   {
@@ -120,7 +121,8 @@ const globalRoutes: Routes = [
     HttpAuthService,
     WarehouseService,
     EmailService,
-    Uploader
+    Uploader,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

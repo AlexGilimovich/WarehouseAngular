@@ -24,8 +24,8 @@ export class User {
 
   }
 
-  public static create(user) {
-    let newUser = new User;
+  static create(user) {
+    const newUser = new User;
     newUser.id = user.id;
     newUser.lastName = user.lastName;
     newUser.login = user.login;
@@ -41,6 +41,7 @@ export class User {
     newUser.roles = user.roles;
     newUser.warehouse = user.warehouse;
     newUser.warehouseCompany = user.warehouseCompany;
+    newUser.presetId = user.presetId;
     return newUser;
   }
 
@@ -52,21 +53,26 @@ export class User {
   // }
 
   public hasRole(role: string): boolean {
-    for (let r of this.roles)
-      if (r.role === role) return true;
+    for (let r of this.roles) {
+      if (r.role === role) {
+        return true;
+      }
+    }
     return false;
-    //return this.roles.includes(role);
   }
 
   public addRole(role: Role) {
-    if (!this.hasRole(role.role))
+    if (!this.hasRole(role.role)) {
       this.roles.push(role);
+    }
   }
 
   public removeRole(role: Role) {
-    for (let i = 0; i < this.roles.length; i++)
-      if (this.roles[i].role === role.role)
+    for (let i = 0; i < this.roles.length; i++) {
+      if (this.roles[i].role === role.role) {
         this.roles.splice(i, 1);
+      }
+    }
   }
 
 

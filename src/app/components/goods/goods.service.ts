@@ -13,22 +13,25 @@ import { StorageCell } from '../warehouse-scheme/storage-cell';
 import { GoodsStatus } from './goodsStatus';
 import { GoodsSearchDTO } from './goodsSearchDTO';
 import { User } from '../user/user';
+import { Host } from '../../util/host';
 
 
-const BASE_URL: string = "http://localhost:8080/web/web/goods";
-const LIST_URL: string = "http://localhost:8080/web/web/goods";
-const GET_URL: string = "http://localhost:8080/web/web/goods/";
-const SAVE_URL: string = "http://localhost:8080/web/web/goods/save";
-const GET_STATUS_NAMES_URL: string = "http://localhost:8080/web/web/goods/statuses";
-const GET_QUANTITY_UNITS_URL: string = "http://localhost:8080/web/web/goods/quant_units";
-const GET_PRICE_UNITS_URL: string = "http://localhost:8080/web/web/goods/price_units";
-const GET_WEIGHT_UNITS_URL: string = "http://localhost:8080/web/web/goods/weight_units";
-const GET_STORAGE_SPACE_TYPES_URL: string = "http://localhost:8080/web/web/goods/storageTypes";
-const UPDATE_STATUS_URL: string = "http://localhost:8080/web/web/goods/status/";
-const SEARCH_URL: string = "http://localhost:8080/web/web/goods/search";
-const GET_STATUSES_URL: string = "http://localhost:8080/web/web/goods/status";
-const REMOVE_FROM_STORAGE_URL = "http://localhost:8080/web/web/goods/remove/";
-const HEADER_X_TOTAL_COUNT = "x-total-count";
+const BASE_URL = Host.getURL();
+const LIST_URL = `${BASE_URL}${'goods'}`;
+const GET_URL = `${BASE_URL}${'goods/'}`;
+const SAVE_URL = `${BASE_URL}${'goods/save'}`;
+const GET_STATUS_NAMES_URL = `${BASE_URL}${'goods/statuses'}`;
+const GET_QUANTITY_UNITS_URL = `${BASE_URL}${'goods/quant_units'}`;
+const GET_PRICE_UNITS_URL = `${BASE_URL}${'goods/price_units'}`;
+const GET_WEIGHT_UNITS_URL = `${BASE_URL}${'goods/weight_units'}`;
+const GET_STORAGE_SPACE_TYPES_URL = `${BASE_URL}${'goods/storageTypes'}`;
+const UPDATE_STATUS_URL = `${BASE_URL}${'goods/status/'}`;
+const SEARCH_URL = `${BASE_URL}${'goods/search'}`;
+const GET_STATUSES_URL = `${BASE_URL}${'goods/status'}`;
+const REMOVE_FROM_STORAGE_URL = `${BASE_URL}${'goods/remove/'}`;
+
+
+const HEADER_X_TOTAL_COUNT = 'x-total-count';
 
 @Injectable()
 export class GoodsService {
@@ -61,34 +64,33 @@ export class GoodsService {
     } else {
       url = `${LIST_URL}${'/'}${id}${'/list'}${'?page='}${page}${'&count='}${count}`;
     }
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response)=> {
-      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
           (item: any) => {
             return this.mapResponseItemToGoods(item);
           }),
         count: count
-      }
+      };
     });
 
   }
 
   invoiceList(id: number): Observable<any> {
-    const url: string = `${LIST_URL}${"/invoice/"}${id}`;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response: Response)=> {
-      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+    const url = `${LIST_URL}${'/invoice/'}${id}`;
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
-        goods: (<any>response.json()).map(
-          (item: any)=> {
-            return this.mapResponseItemToGoods(item);
-          }),
+        goods: (<any>response.json()).map((item: any) => {
+          return this.mapResponseItemToGoods(item);
+        }),
         count: count
-      }
+      };
     });
   }
 
@@ -111,20 +113,20 @@ export class GoodsService {
       let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map(
-          (item: any)=> {
+          (item: any) => {
             return this.mapResponseItemToGoods(item);
           }),
         count: count
-      }
+      };
     });
   }
 
   actApplicableList(id: string, page?: number, count?: number): Observable<any> {
     const url: string = `${LIST_URL}${"/"}${id}${"/act_applicable"}${"?page="}${page}${"&count="}${count}`;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
-    return this.httpAuthService.get(url, options).map((response: Response)=> {
-      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         goods: (<any>response.json()).map((item: any)=> {
           return this.mapResponseItemToGoods(item);
@@ -137,8 +139,8 @@ export class GoodsService {
 
   get(id: number): Observable<Goods> {
     const url = `${GET_URL}${id}`;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return this.mapResponseItemToGoods(<any>response.json());
     });
@@ -147,8 +149,8 @@ export class GoodsService {
 
   save(goods: Goods): Observable<any> {
     let url = SAVE_URL;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     if (goods.id) {
       url = `${SAVE_URL}${"/"}${goods.id}`;
       return this.httpAuthService.put(url, JSON.stringify(goods), options);
@@ -158,8 +160,8 @@ export class GoodsService {
   }
 
   getStatusNames(): Observable<GoodsStatusName[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_STATUS_NAMES_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
@@ -173,8 +175,8 @@ export class GoodsService {
     let counter: number = goods.length;
     return Observable.create(observer => {
         goods.forEach(item => {
-            const url: string = `${UPDATE_STATUS_URL}${item.goods.id}`;
-            let status: GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
+            const url = `${UPDATE_STATUS_URL}${item.goods.id}`;
+            const status: GoodsStatus = new GoodsStatus(null, null, item.newStatus.name, item.newStatus.note);
             this.httpAuthService.post(url, JSON.stringify(status)).subscribe(resp => {
                 if (--counter == 0) {
                   observer.next();
@@ -195,44 +197,44 @@ export class GoodsService {
   }
 
   getQuantityUnits(): Observable<Unit[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_QUANTITY_UNITS_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
           return new Unit(item.id, item.name);
         }
-      )
-    })
+      );
+    });
   }
 
   getPriceUnits(): Observable<Unit[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_PRICE_UNITS_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
           return new Unit(item.id, item.name);
         }
-      )
-    })
+      );
+    });
   }
 
   getWeightUnits(): Observable<Unit[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_WEIGHT_UNITS_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
           return new Unit(item.id, item.name);
         }
-      )
-    })
+      );
+    });
   }
 
   getStorageSpaceTypes(): Observable<StorageSpaceType[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_STORAGE_SPACE_TYPES_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
@@ -241,38 +243,37 @@ export class GoodsService {
           type.name = item.name;
           return type;
         }
-      )
-    })
+      );
+    });
   }
 
 
   search(dto: GoodsSearchDTO, id: string, page?: number, count?: number): Observable<any> {
     const url: string = `${SEARCH_URL}${"/"}${id}${"?page="}${page}${"&count="}${count}`;
-    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response)=> {
+    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response) => {
       let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
-        goods: (<any>response.json()).map(
-          (item: any)=> {
-            return this.mapResponseItemToGoods(item);
-          }),
+        goods: (<any>response.json()).map((item: any) => {
+          return this.mapResponseItemToGoods(item);
+        }),
         count: count
-      }
+      };
     });
 
   }
 
 
   public getStatusesForGoods(goodsId): Observable<GoodsStatus[]> {
-    const url: string = `${GET_STATUSES_URL}${"/"}${goodsId}`;
+    const url = `${GET_STATUSES_URL}${"/"}${goodsId}`;
     return this.httpAuthService.get(url).map((response: Response) => {
       return response.json().map(
         item => {
-          let status = new GoodsStatus();
+          const status = new GoodsStatus();
           status.id = item.id;
           status.date = item.date;
           status.name = item.name;
           status.note = item.note;
-          let user = new User();
+          const user = new User();
           user.id = item.id;
           user.lastName = item.user.lastName;
           user.firstName = item.user.firstName;
@@ -287,7 +288,7 @@ export class GoodsService {
 
   public putInStorage(goods: Goods): Observable<any> {
     return Observable.create(observer => {
-        const url: string = `${BASE_URL}${"/"}${goods.id}${"/put"}`;
+        const url = `${BASE_URL}${"/"}${goods.id}${"/put"}`;
         this.httpAuthService.put(url, JSON.stringify(goods)).subscribe(resp => {
             observer.next();
           },
@@ -300,12 +301,12 @@ export class GoodsService {
   }
 
   public removeFromStorage(goods): Observable<any> {
-    const url: string = `${REMOVE_FROM_STORAGE_URL}${goods.id}`;
+    const url = `${REMOVE_FROM_STORAGE_URL}${goods.id}`;
     return this.httpAuthService.put(url);
   }
 
   private mapResponseItemToGoods(item: any): Goods {
-    let goods = new Goods();
+    const goods = new Goods();
     goods.id = item.id;
     goods.name = item.name;
     goods.quantity = item.quantity;
@@ -316,9 +317,8 @@ export class GoodsService {
     goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
     goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
     goods.warehouseId = item.warehouseId;
-    goods.cells = item.cells.map(
-      item=> {
-        let storageCell = new StorageCell();
+    goods.cells = item.cells.map(item => {
+        const storageCell = new StorageCell();
         storageCell.number = item.number;
         storageCell.idStorageCell = item.idStorageCell;
         return storageCell;

@@ -30,3 +30,32 @@
   padding: 8px;
   margin-bottom: 16px;
 }
+
+.button-signal {
+  animation-name: highlight;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes highlight {
+  0% {
+    border: solid 1px red;
+    color: red;
+  }
+  50% {
+    border: solid 1px #1779ba;
+    color: #1779ba;
+  }
+  100% {
+    border: solid 1px red;
+    color: red;
+  }
+}
+
+.bordered {
+  border: solid 1px lightgray;
+  padding: 10px;
+  margin-bottom: 30px;
+  background: #e7e7e7;
+}
+

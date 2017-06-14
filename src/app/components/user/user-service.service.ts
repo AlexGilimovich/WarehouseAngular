@@ -8,16 +8,20 @@ import 'rxjs/add/operator/catch';
 import { HttpAuthService } from '../login/httpAuth.service';
 import { Warehouse } from '../warehouse/warehouse';
 import { WarehouseCompany } from '../warehouse-company/warehouse-company';
+import { Host } from '../../util/host';
 
-const LIST_URL: string = "http://localhost:8080/web/web/user";
-const UPDATE_PRESET_URL: string = "http://localhost:8080/web/web/user/preset";
-const WAREHOUSE_LIST_URL: string = 'http://localhost:8080/web/web/user/warehouse';
-const GET_URL: string = "http://localhost:8080/web/web/user/";
-const GET_ROLES_URL: string = "http://localhost:8080/web/web/user/roles";
-const SAVE_URL: string = "http://localhost:8080/web/web/user/save";
-const DELETE_URL: string = "http://localhost:8080/web/web/user/delete";
-const CHECK_LOGIN_URL: string = "http://localhost:8080/web/web/user/is_occupied?loginName=";
-const HEADER_X_TOTAL_COUNT = "x-total-count";
+const BASE_URL = Host.getURL();
+
+const LIST_URL = `${BASE_URL}${'user'}`;
+const UPDATE_PRESET_URL = `${BASE_URL}${'user/preset'}`;
+const WAREHOUSE_LIST_URL = `${BASE_URL}${'user/warehouse'}`;
+const GET_URL = `${BASE_URL}${'user'}`;
+const GET_ROLES_URL = `${BASE_URL}${'user/roles'}`;
+const SAVE_URL = `${BASE_URL}${'user/save'}`;
+const DELETE_URL = `${BASE_URL}${'user/delete'}`;
+const CHECK_LOGIN_URL = `${BASE_URL}${'user/is_occupied?loginName='}`;
+
+const HEADER_X_TOTAL_COUNT = 'x-total-count';
 
 
 @Injectable()
@@ -63,35 +67,35 @@ export class UserService {
           }
         ),
         count: count
-      }
-    })
+      };
+    });
   }
 
   get(id: number): Observable<User> {
     const url = `${GET_URL}${id}`;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response) => {
       return this.mapResponseItemToUser(response.json());
-    })
+    });
   }
 
   getRoles(): Observable<Role[]> {
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(GET_ROLES_URL, options).map((response: Response) => {
       return response.json().map(
         item => {
-          return new Role(item.role)
+          return new Role(item.role);
         }
-      )
-    })
+      );
+    });
   }
 
   save(user: User): Observable<any> {
     let url = SAVE_URL;
-    let headers: Headers = new Headers();
-    let options = new RequestOptions({headers: headers});
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
     if (user.id != undefined) {
       url = `${SAVE_URL}${"/"}${user.id}`;
       return this.httpAuthService.put(url, JSON.stringify(user), options);
@@ -101,16 +105,15 @@ export class UserService {
   }
 
   remove(users: User[]): Observable<any> {
-    return Observable.create(observer=> {
+    return Observable.create(observer => {
         let counter = users.length;
-        users.forEach(user=> {
-            this.removeUser(user).subscribe(res=> {
+        users.forEach(user => {
+            this.removeUser(user).subscribe(res => {
                 if (--counter == 0) {
                   observer.next();
                   observer.complete();
                 }
-              },
-              error=> {
+              }, error => {
                 if (--counter == 0) {
                   observer.next();
                   observer.complete();
@@ -125,7 +128,7 @@ export class UserService {
   }
 
   private removeUser(user: User): Observable<any> {
-    let url = `${DELETE_URL}${"/"}${user.id}`;
+    const url = `${DELETE_URL}${'/'}${user.id}`;
     return this.httpAuthService.delete(url);
   }
 
@@ -157,11 +160,12 @@ export class UserService {
     user.street = item.street;
     user.house = item.house;
     user.apartment = item.apartment;
-    user.roles = item.roles.map(item=> {
+    user.presetId = item.presetId;
+    user.roles = item.roles.map(item => {
       return new Role(item.role);
       //return rolesMap.get(item.role);
     });
-    if (item.warehouse !== null)
+    if (item.warehouse !== null) {
       user.warehouse = new Warehouse(item.warehouse.idWarehouse, item.warehouse.name,
         item.warehouse.status,
         item.warehouse.x,
@@ -170,6 +174,7 @@ export class UserService {
           item.warehouse.warehouseCompany.name,
           item.warehouse.warehouseCompany.status
         ));
+    }
     return user;
   }
 }

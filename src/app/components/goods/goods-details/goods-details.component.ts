@@ -1,19 +1,31 @@
-import { Component, OnInit } from "@angular/core";
-import { Goods } from "../goods";
-import { GoodsService } from "../goods.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { GoodsStatusName } from "../goodsStatusName";
-import { Unit } from "../unit";
-import { StorageSpaceType } from "../../warehouse-scheme/storage-space-type";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { statusMessages } from "../goods.module";
-import { GoodsStatus } from "../goodsStatus";
-import { Act } from "../../act/act";
-import { ActService } from "../../act/act.service";
-import { StorageType } from "../storageType";
-import { StorageCell } from "../../warehouse-scheme/storage-cell";
-import { Location } from "@angular/common";
-import { WarehouseService } from "../../warehouse/warehouse.service";
+import { Component, OnInit } from '@angular/core';
+import { Goods } from '../goods';
+import { GoodsService } from '../goods.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GoodsStatusName } from '../goodsStatusName';
+import { Unit } from '../unit';
+import { StorageSpaceType } from '../../warehouse-scheme/storage-space-type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { statusMessages } from '../goods.module';
+import { GoodsStatus } from '../goodsStatus';
+import { Act } from '../../act/act';
+import { ActService } from '../../act/act.service';
+import { StorageType } from '../storageType';
+import { StorageCell } from '../../warehouse-scheme/storage-cell';
+import { Location } from '@angular/common';
+import { WarehouseService } from '../../warehouse/warehouse.service';
+
+
+const MOVED_OUT = 'MOVED_OUT';
+const STOLEN = 'STOLEN';
+const SEIZED = 'SEIZED';
+const TRANSPORT_COMPANY_MISMATCH = 'TRANSPORT_COMPANY_MISMATCH';
+const RECYCLED = 'RECYCLED';
+const LOST_BY_TRANSPORT_COMPANY = 'LOST_BY_TRANSPORT_COMPANY';
+const LOST_BY_WAREHOUSE_COMPANY = 'LOST_BY_WAREHOUSE_COMPANY';
+const CHECKED = 'CHECKED';
+const STORED = 'STORED';
+const MESSAGE_CHANGES_WERE_NOT_SAVE = 'Изменения не были сохранены. Вы уверены, что хотите продолжить?';
 
 @Component({
   selector: 'app-goods-details',
@@ -32,10 +44,10 @@ export class GoodsDetailsComponent implements OnInit {
 
   private storageTypes: StorageSpaceType[];
   private goodsForm: FormGroup;
-  private hasRights: boolean = true;//todo check
+  private hasRights = true;
   private statusMessages = statusMessages;
   private warehouseId;
-  private isEditable: boolean = false;
+  private isEditable = false;
 
   private cells: StorageCell[] = [];
 
@@ -77,11 +89,11 @@ export class GoodsDetailsComponent implements OnInit {
         this.fillForm(this.checkIfEditable(goods));
         this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
           (statuses) => {
-            this.statuses = statuses.sort((current, next)=> {
+            this.statuses = statuses.sort((current, next) => {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
           },
-          (err)=> {
+          (err) => {
             console.error(err);
           }
         );
@@ -91,7 +103,7 @@ export class GoodsDetailsComponent implements OnInit {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
           },
-          (err)=> {
+          (err) => {
             console.error(err);
           }
         );
@@ -99,7 +111,7 @@ export class GoodsDetailsComponent implements OnInit {
           (res) => {
             this.statusNames = [...res, new GoodsStatusName(null, '')];
           },
-          (err)=> {
+          (err) => {
             console.error(err);
           }
         );
@@ -112,7 +124,7 @@ export class GoodsDetailsComponent implements OnInit {
       (res) => {
         this.storageTypes = [...res, new StorageSpaceType(null, '')];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
@@ -120,7 +132,7 @@ export class GoodsDetailsComponent implements OnInit {
       (res) => {
         this.quantityUnits = [...res, new Unit(null, '')];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
@@ -128,7 +140,7 @@ export class GoodsDetailsComponent implements OnInit {
       (res) => {
         this.priceUnits = [...res, new Unit(null, '')];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
@@ -136,7 +148,7 @@ export class GoodsDetailsComponent implements OnInit {
       (res) => {
         this.weightUnits = [...res, new Unit(null, '')];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
@@ -144,19 +156,19 @@ export class GoodsDetailsComponent implements OnInit {
   }
 
   private checkIfEditable(goods: Goods): boolean {
-    return !(goods.currentStatus.name == 'MOVED_OUT' ||
-      goods.currentStatus.name == 'STOLEN' ||
-      goods.currentStatus.name == 'SEIZED' ||
-      goods.currentStatus.name == 'TRANSPORT_COMPANY_MISMATCH' ||
-      goods.currentStatus.name == 'RECYCLED' ||
-      goods.currentStatus.name == 'LOST_BY_TRANSPORT_COMPANY' ||
-      goods.currentStatus.name == 'LOST_BY_WAREHOUSE_COMPANY'
+    return !(goods.currentStatus.name === MOVED_OUT ||
+      goods.currentStatus.name === STOLEN ||
+      goods.currentStatus.name === SEIZED ||
+      goods.currentStatus.name === TRANSPORT_COMPANY_MISMATCH ||
+      goods.currentStatus.name === RECYCLED ||
+      goods.currentStatus.name === LOST_BY_TRANSPORT_COMPANY ||
+      goods.currentStatus.name === LOST_BY_WAREHOUSE_COMPANY
     );
   }
 
   private isChecked(): boolean {
     if (this.goods) {
-      return this.goods.currentStatus.name == 'CHECKED' || this.goods.currentStatus.name == 'STORED';
+      return this.goods.currentStatus.name === CHECKED || this.goods.currentStatus.name === STORED;
     } else {
       return false;
     }
@@ -229,14 +241,13 @@ export class GoodsDetailsComponent implements OnInit {
 
   private goToStorageView(): void {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
-    this.router.navigate(['../../typespace', this.goods.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
-
+    // this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
+    this.router.navigate(['../../typespace', this.goods.id], {relativeTo: this.route});
   }
 
   private removeFromStorage(): void {
-    debugger;
     this.goodsService.removeFromStorage(this.goods).subscribe(
-      res=> {
+      res => {
         this.goodsService.get(this.id).subscribe(
           (goods: Goods) => {
             this.goods = goods;
@@ -244,22 +255,22 @@ export class GoodsDetailsComponent implements OnInit {
             this.fillForm(this.checkIfEditable(goods));
             this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
               (statuses) => {
-                this.statuses = statuses.sort((current, next)=> {
+                this.statuses = statuses.sort((current, next) => {
                   return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
                 });
 
               },
-              (err)=> {
+              (err) => {
                 console.error(err);
               }
             );
             this.actService.getActsForGoods(this.goods.id).subscribe(
               (acts) => {
-                this.acts = acts.sort((current, next)=> {
+                this.acts = acts.sort((current, next) => {
                   return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
                 });
               },
-              (err)=> {
+              (err) => {
                 console.error(err);
               }
             );
@@ -269,7 +280,7 @@ export class GoodsDetailsComponent implements OnInit {
           }
         );
       }
-    )
+    );
 
   }
 
@@ -301,7 +312,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   private close() {
     if (this.isEditable) {
-      if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?")) {
+      if (confirm(MESSAGE_CHANGES_WERE_NOT_SAVE)) {
         this.location.back();
       }
     } else {
@@ -319,9 +330,12 @@ export class GoodsDetailsComponent implements OnInit {
 
     goods.storageType = new StorageType(null, this.goodsForm.controls['storageType'].value);
     goods.currentStatus = new GoodsStatus();
-    if (this.goods.currentStatus)
-      goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value == this.goods.currentStatus.name ? '' : this.goodsForm.controls['currentStatus'].value;
-    else goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value;
+    if (this.goods.currentStatus) {
+      goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value === this.goods.currentStatus.name ? '' : this.goodsForm.controls['currentStatus'].value;
+    }
+    else {
+      goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value;
+    }
     goods.quantityUnit = new Unit(null, this.goodsForm.controls['quantityUnit'].value);
     goods.weightUnit = new Unit(null, this.goodsForm.controls['weightUnit'].value);
     goods.priceUnit = new Unit(null, this.goodsForm.controls['priceUnit'].value);

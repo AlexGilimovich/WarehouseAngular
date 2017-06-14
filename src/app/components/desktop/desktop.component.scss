@@ -1,0 +1,74 @@
+.preset-light {
+  .top-bar {
+    background: #f1f1f1;
+  }
+}
+
+.preset-dark {
+  //background: #1779ba;
+  background: #222;
+  color: #DEDEDE;
+  height: 100vh;
+
+  .form{
+    label{
+      color: #DEDEDE;
+    }
+    input, select{
+      background: white;
+    }
+    .head{
+      background: #1779ba;
+    }
+  }
+
+  label.right{
+    color: #DEDEDE;
+  }
+
+
+
+  .container {
+    background: #222;
+  }
+
+  .top-bar {
+    background: #2c3840;
+    color: lightgray;
+    a {
+      color: lightblue;
+    }
+  }
+
+
+
+  .menu {
+    //background: #074E68;
+    background: #222;
+    //background: #888;
+
+
+
+    a {
+      color: #DEDEDE;
+    }
+    .active {
+      a {
+        background: #888;
+      }
+    }
+  }
+
+  table, table.hover {
+    th, td {
+      border-color: white;
+    }
+    tbody tr:nth-child(even) {
+      background: #888;
+    }
+    thead, tbody {
+      background: #888;
+    }
+  }
+
+}

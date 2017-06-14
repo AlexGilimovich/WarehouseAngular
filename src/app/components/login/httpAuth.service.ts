@@ -26,7 +26,7 @@ export class HttpAuthService {
 
   }
 
-  public postMultipart(url: string, body: string, file: any): Observable<Response> {
+  public postMultipart(url: string, body: string, file?: any): Observable<Response> {
     return this._multipartRequest(url, body, file);
   }
 
@@ -70,8 +70,8 @@ export class HttpAuthService {
     return this._http.request(new Request(options));
   }
 
-  private _multipartRequest(url: string, body: string, file: any): any {
-    const item: UploadItem = this.getUploadItem(file, body, url);
+  private _multipartRequest(url: string, body: string, file?: any): any {
+    const item: UploadItem = this.getUploadItem(body, url, file);
     this.uploadService.onCompleteUpload = (i, response, status, headers) => {
       return response;
     };
@@ -81,12 +81,14 @@ export class HttpAuthService {
     this.uploadService.upload(item);
   }
 
-  private getUploadItem(file: any, body: string, url: string): UploadItem {
+  private getUploadItem(body: string, url: string, file?: any): UploadItem {
     const uploadItem = new UploadItem();
     uploadItem.url = url;
     uploadItem.headers = {Authorization: this._buildAuthHeader(this.loginService.getLoggedUser())};
-    uploadItem.file = file;
-    uploadItem.alias = 'image';
+    if (file) {
+      uploadItem.file = file;
+      uploadItem.alias = 'image';
+    }
     uploadItem.formData = {template: new Blob([JSON.stringify(body)], {type: CONTENT_TYPE_JSON})};
     return uploadItem;
   }
