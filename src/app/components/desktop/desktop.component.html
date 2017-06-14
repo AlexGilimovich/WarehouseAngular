@@ -1,4 +1,4 @@
-<div [ngClass]="{'preset-light': isLight(), 'preset-dark': isDark()}">
+<div [ngClass]="{'preset-light': selectedPresetId == 1, 'preset-dark': selectedPresetId == 2}">
   <app-header></app-header>
 
 

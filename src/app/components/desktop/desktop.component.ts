@@ -54,29 +54,6 @@ export class DesktopComponent implements OnInit {
 
   private updatePreset(presetId: number): void {
     this.selectedPresetId = presetId;
-    this.ngOnInit();
-  }
-
-  private onPresetChanged(): void {
-    this.ngOnInit();
-  }
-
-  private isLight(): boolean {
-    return this.selectedPresetId === 1;
-  }
-
-  private isDark(): boolean {
-    return this.selectedPresetId === 2;
-  }
-
-  private getClass(): string {
-    if (this.selectedPresetId === 1) {
-      return PRESET_LIGHT;
-    }
-    if (this.selectedPresetId === 2) {
-      return PRESET_DARK;
-    }
-    return '';
   }
 
   private getHomePage(): string {

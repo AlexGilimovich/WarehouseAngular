@@ -3,10 +3,15 @@ import { HttpAuthService } from "../login/httpAuth.service";
 import { Price } from "./price";
 import { Observable } from "rxjs/Rx";
 import { PriceDTO } from "./priceDTO";
+import { Host } from '../../util/host';
 
-export const GET_URL = "http://localhost:8080/web/web/finance/price";
-export const POST_URL = "http://localhost:8080/web/web/finance/newPrice";
-export const SEARCH_URL = "http://localhost:8080/web/web/finance/type_date_price";
+
+const BASE_URL = Host.getURL();
+const GET_URL = `${BASE_URL}${'finance/price'}`;
+const GET_CURRENT_URL = `${BASE_URL}${'finance/currentPrices'}`;
+const POST_URL = `${BASE_URL}${'finance/newPrice'}`;
+const SEARCH_URL = `${BASE_URL}${'finance/type_date_price'}`;
+
 
 @Injectable()
 export class FinanceService {
@@ -16,6 +21,18 @@ export class FinanceService {
 
   public getPriceList(): Observable<Price[]> {
     return this.httpAuthService.get(GET_URL).map(
+      (resp) => {
+        return resp.json().map(
+          item => {
+            return this.mapResponseItemToPrice(item);
+          }
+        );
+      }
+    );
+  }
+
+  public getCurrentPriceList(): Observable<Price[]> {
+    return this.httpAuthService.get(GET_CURRENT_URL).map(
       (resp) => {
         return resp.json().map(
           item => {
