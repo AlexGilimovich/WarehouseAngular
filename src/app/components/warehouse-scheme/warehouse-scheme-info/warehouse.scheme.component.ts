@@ -1,5 +1,5 @@
 import {WarehouseSchemeService} from "../warehouse-scheme.service";
-import {Component, OnInit} from "@angular/core";
+import {Component, OnChanges, OnInit} from "@angular/core";
 import {StorageSpace} from "../storage-space";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
@@ -15,24 +15,41 @@ import {StorageCellDTO} from "../storage-cell-DTO";
   styleUrls: ['./warehouse.scheme.component.scss'],
   // providers: [WarehouseSchemeService]
 })
-export class WarehouseSchemeInfoComponent implements OnInit {
+export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   cells: StorageCell[]=[];
 
+  goods: Goods[]=[];
+
+  id_invoice: number;
   id_warehouse: number;
   storageSpace: StorageSpace[]=[];
   id_type: number;
-  isPutAction: boolean;
+  isPutAction: boolean = false;//когда вообще действие помещения в ячейки
+  isReplaceAction: boolean = false;//когда перемещение из накладной
   selectedGoods: Goods = null;
 
   isShowDeletedSpace: boolean = false;
   isShowDeletedCell: boolean = false;
 
   constructor(private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
-    /*this.cellsSelectedSubscription =*/ this.service.selectedGoods$.subscribe(
+    this.service.selectedGoods$.subscribe(
       goods => {
+        console.log("");
+        let isExists: boolean = false;
+        for(let i=0; i<this.goods.length; i++){
+          if(this.goods[i].id == goods.id) {
+            isExists = true;
+          }
+          if(this.goods[i].id == this.selectedGoods.id) {
+            this.goods[i] = this.selectedGoods;
+          }
+        }
+        if(!isExists) {
+          this.goods.push(goods);
+        }
         this.id_type = Number(goods.storageType.id);
         this.selectedGoods = goods;
-        this.ngOnInit();//redraw
+        console.log("ACHTING:", this.goods);
       }
     );
   }
@@ -57,15 +74,15 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     this.router.navigate([id_space, 'cell', id_cell, 'edit'], {relativeTo: this.route});
   }
 
-  putInCell(cell: StorageCell){
-    for(let i = 0; i < this.cells.length; i++) {
-      if(this.cells[i].idStorageCell == cell.idStorageCell) {
-        this.cells.splice(i, 1);
+  putInCell(cell: StorageCell) {
+    /*for(let i = 0; i < this.selectedGoods.cells.length; i++) {
+      if(this.selectedGoods.cells[i].idStorageCell == cell.idStorageCell) {
+        this.selectedGoods.cells.splice(i, 1);
         return;
       }
-    }
-    cell.goods = this.selectedGoods;
-    this.cells.push(cell);
+    }*/
+    console.log(this.selectedGoods);
+    this.selectedGoods.cells.push(cell);
     console.log("ID: "+cell.idStorageCell);
   }
 
@@ -112,15 +129,29 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     if(space.storageSpaceType.name == 'Камера глубокой заморозки') return 'icedeepcamera';
   }
 
-  getClassCellSelected(id_cell: number){
-    let isSelected: boolean=false;
-    for(let i=0; i<this.cells.length; i++) {
-      if(this.cells[i].idStorageCell == id_cell) {
-        isSelected = true;
-        break;
+  getClassCellSelected(cell: StorageCell){
+    if(cell.goods != null) {
+      return 'cell-filled';
+    }
+
+    /*if(this.selectedGoods != null){
+    for(let i=0; i < this.selectedGoods.cells.length; i++) {
+      if(this.selectedGoods.cells[i].idStorageCell == id_cell) {
+        return 'cell-selected';
       }
     }
-    return isSelected ? 'cell-selected' : 'cell-disable';
+  }*/
+
+    /*for(let i=0; i<this.storageSpace.length; i++) {
+      for(let j=0; j<this.storageSpace[i].storageCellList.length; j++){
+        if(this.storageSpace[i].storageCellList[j].goods != null && this.storageSpace[i].storageCellList[j].idStorageCell == id_cell) {
+          return 'cell-filled';//if goods were there
+        }
+        if(this.storageSpace[i].storageCellList[j].idStorageCell == id_cell) {
+          return 'cell-disable';//if goods were there
+        }
+      }
+    }*/
   }
 
   isDeleted(cell: StorageCell) {
@@ -128,16 +159,33 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
-    if(this.selectedGoods == null) {
-      this.route.params.subscribe(params => { this.id_type = params['id_type']; });
-    }
-    if(!isUndefined(this.id_warehouse) && !isUndefined(this.id_type)) {
-      this.isPutAction = true;
-    }
-
-    this.service.getStorageSpace(this.id_warehouse).subscribe(data => {
-      this.storageSpace = data;
+    this.route.params.subscribe(params => {
+      this.id_invoice = params['id_invoice'];
+      if(!isUndefined(this.id_invoice)) {
+        this.isReplaceAction = true;
+        this.isPutAction = true;
+        console.log("TYPE: "+this.id_type);
+      }
+      console.log("Invoice ID:",this.id_invoice);
+      console.log("IsReplaceAction: ", this.isReplaceAction);
     });
+
+    this.route.params.subscribe(params => {
+      this.id_warehouse = params['id_warehouse'];
+      this.service.getStorageSpace(this.id_warehouse).subscribe(data => {
+        this.storageSpace = data;
+      });
+    });
+
+    this.route.params.subscribe(params => {
+      this.id_type = params['id_type'];
+      if(!isUndefined(this.id_type)) {
+        this.isPutAction = true;
+      }
+    });
+  }
+
+  ngOnChanges(){
+    console.log("On Changes");
   }
 }

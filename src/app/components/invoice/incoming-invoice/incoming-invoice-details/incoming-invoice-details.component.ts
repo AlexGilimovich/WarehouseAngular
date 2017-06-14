@@ -81,6 +81,11 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
     });
   }
 
+  placeGoods(){
+    //this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, 'warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'scheme'], {relativeTo: this.route});
+    this.router.navigate(['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {relativeTo: this.route});
+  }
+
   isManager() {
     return this.loginService.getLoggedUser().hasRole('ROLE_MANAGER');
   }

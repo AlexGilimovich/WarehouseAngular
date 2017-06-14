@@ -3,6 +3,7 @@ import { GoodsService } from '../../goods/goods.service';
 import { Goods } from '../../goods/goods';
 import { WarehouseSchemeService } from '../warehouse-scheme.service';
 import { Subscription } from 'rxjs';
+import {isUndefined} from "util";
 
 @Component({
   selector: 'app-scheme-goods-list',
@@ -45,14 +46,7 @@ export class SchemeGoodsListComponent implements OnInit {
   }
 
   private getGoodsListFromServer(): void {
-    if (!this.id_invoice) {
-      this.goodsService.storedList(this.id_warehouse.toString()).subscribe(res => {
-          this.goodsList = res.goods;
-        },
-        error => {
-          console.error(error);
-        });
-    } else {
+    if(!isUndefined(this.id_invoice)) {
       this.goodsService.invoiceList(this.id_invoice).subscribe(res => {
           this.goodsList = res.goods;
         },
