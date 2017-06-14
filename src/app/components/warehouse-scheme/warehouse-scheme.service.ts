@@ -25,6 +25,9 @@ export class WarehouseSchemeService {
   private selectedGoodsSource = new Subject<Goods>();
   public selectedGoods$ = this.selectedGoodsSource.asObservable();
 
+  public deleteGoodsListSource = new Subject<Goods>();
+  public deleteGoodsListSource$ = this.deleteGoodsListSource.asObservable();
+
   constructor(private http: Http, private httpAuthService: HttpAuthService,
               private location: Location) {
   }

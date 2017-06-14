@@ -72,6 +72,7 @@
 </div>
 
 <button *ngIf="isPutAction && !isReplaceAction" (click)="submitPut()" class="button">Ок</button>
-<button *ngIf="isPutAction && isReplaceAction" (click)="submitPut()" class="button">Ок2</button>
+<button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button">Выбрать следующий товар</button>
+<button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button">Подтвердить выбор</button>
 </body>
 </html>

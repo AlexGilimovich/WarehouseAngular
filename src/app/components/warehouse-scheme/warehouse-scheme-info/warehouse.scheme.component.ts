@@ -117,6 +117,7 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   putInCell(cell: StorageCell) {
     for(let i = 0; i < this.selectedGoods.cells.length; i++) {
       if(this.selectedGoods.cells[i].idStorageCell == cell.idStorageCell) {
+        cell.goods = null;//remove it if it will necessary
         this.selectedGoods.cells.splice(i, 1);
         return;
       }
@@ -126,6 +127,10 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
     console.log("ID: "+cell.idStorageCell);
   }
 
+  fixCurrentState() {
+    this.service.deleteGoodsListSource.next(this.selectedGoods);
+  }
+
   submitPut() {
     console.error(this.goods);
     if(this.goods.length == 0) {
@@ -133,7 +138,7 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
     }
     for(let i =0; i < this.goods.length; i++) {
       this.goodsService.putInStorage(this.goods[i]).subscribe(data => {
-        //todo navigate
+        this.router.navigate(['../../../../../list'], {relativeTo: this.route});
       });
     }
     console.log(this.cells);

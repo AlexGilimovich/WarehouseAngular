@@ -1,7 +1,7 @@
 <div class="container">
   <div class="scrollable">
     <ul class="vertical menu">
-      <li class="menu-item" *ngFor="let goods of goodsList;" (click)="goodsWereSelected(goods)"
+      <li class="menu-item" *ngFor="let goods of goodsList;"
           [ngClass]="{'selected': goods.id == selectedId}">
         <div class="row">
           <div class="columns large-6 medium-6 small-6">
