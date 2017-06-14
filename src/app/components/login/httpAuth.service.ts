@@ -89,7 +89,7 @@ export class HttpAuthService {
       uploadItem.file = file;
       uploadItem.alias = 'image';
     }
-    uploadItem.formData = {template: new Blob([JSON.stringify(body)], {type: CONTENT_TYPE_JSON})};
+    uploadItem.formData = {template: new Blob([body], {type: CONTENT_TYPE_JSON})};
     return uploadItem;
   }
 }

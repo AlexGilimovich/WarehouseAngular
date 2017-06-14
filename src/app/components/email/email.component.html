@@ -79,7 +79,8 @@
         <label for="backgroundColor" class="right">Цвет фона:</label>
       </div>
       <div class="column large-2 small-2">
-        <input class="input-color" type="color" id="backgroundColor" name="backgroundColor" (change)="changeBackgroundColor()"
+        <input class="input-color" type="color" id="backgroundColor" name="backgroundColor"
+               (change)="changeBackgroundColor()"
                [formControl]="form.controls['backgroundColor']">
       </div>
     </div>
@@ -109,8 +110,8 @@
 
     <div class="column large-11 medium-11 small-11">
       <div class="button-right">
-        <label for="image" class="button" *ngIf="false">Загрузить изображение</label>
-        <input #image type="file" name="image" id="image" class="show-for-sr" *ngIf="false">
+        <label for="image" class="button">Загрузить изображение</label>
+        <input #image type="file" name="image" id="image" class="show-for-sr">
         <input class="button" type="submit" [disabled]="!form.valid" value="Отправить">
       </div>
     </div>

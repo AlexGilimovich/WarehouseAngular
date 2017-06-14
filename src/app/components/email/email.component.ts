@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 declare var $;
 
 const COLOR_WHITE = '#FFFFFF';
+const TEMPLATE_DEFAULT = 'DEFAULT';
 
 @Component({
   selector: 'app-email',
@@ -21,7 +22,7 @@ export class EmailComponent implements OnInit {
   private selectedUsers: User[] = [];
   private templates: Template[];
   private templateNamesMessages = templateNamesMessages;
-  private selectedTemplate: Template = new Template('');
+  private selectedTemplate: Template = new Template(TEMPLATE_DEFAULT);
   private form: FormGroup;
 
   constructor(private userService: UserService,
@@ -47,7 +48,7 @@ export class EmailComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.form.controls['template'].setValue('');
+    this.form.controls['template'].setValue(TEMPLATE_DEFAULT);
     this.form.controls['subject'].setValue('');
     this.form.controls['backgroundColor'].setValue(COLOR_WHITE);
     this.form.controls['body'].setValue('');
@@ -98,7 +99,7 @@ export class EmailComponent implements OnInit {
 
   private sendEmail(fileInput): void {
     const template: Template = this.buildTemplate();
-    this.emailService.sendEmail(template).subscribe();
+    this.emailService.sendEmail(template, fileInput.files[0]).subscribe();
   }
 
   private buildTemplate(): Template {
