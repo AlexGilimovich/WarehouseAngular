@@ -17,7 +17,7 @@
 
 <!--<div class="row">-->
   <!--<div class="large-1 small-1 columns">-->
-    <app-scheme-goods-list [id_warehouse]="id_warehouse"></app-scheme-goods-list>
+    <app-scheme-goods-list [id_invoice]="id_invoice" *ngIf="isReplaceAction"></app-scheme-goods-list>
   <!--</div>-->
 <!--</div>-->
 
@@ -31,8 +31,6 @@
     <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
     <span class="show-for-sr">Download Kittens</span>
   </label>
-</div>
-<div class="switch" *ngIf="!isPutAction">
   Показывать удалённые ячейки
   <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2" [(ngModel)]="isShowDeletedCell">
   <label class="switch-paddle" for="exampleSwitch2">&nbsp;<small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
@@ -59,9 +57,11 @@
                (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
             <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell"
                (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
-            <a *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
-               ngClass="{{getClassCellSelected(cell?.idStorageCell)}}"
+
+            <a *ngSwitchCase="isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+               ngClass="{{getClassCellSelected(cell)}}"
                (click)="putInCell(cell)">{{cell?.number}}</a>
+
             <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
           </div>
         </div>
@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<button *ngIf="isPutAction" (click)="submitPut()" class="button">Ок</button>
-
+<button *ngIf="isPutAction && !isReplaceAction" (click)="submitPut()" class="button">Ок</button>
+<button *ngIf="isPutAction && isReplaceAction" (click)="submitPut()" class="button">Ок2</button>
 </body>
 </html>

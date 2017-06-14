@@ -16,6 +16,7 @@ import {TransportCompanyModule} from "../tr-company/tr-company.module";
 import {InvoiceContainerComponent} from './invoice-container/invoice-container.component';
 import {InvoiceService} from "./invoice.service";
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
+import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
 
 export const invoiceStatuses: Map<string, string> = new Map([
   ["REGISTERED_INCOMING", "Зарегистрирован"],
@@ -66,6 +67,10 @@ export const invoiceRoutes: Routes = [
   {
     path: 'outgoing/:id',
     component: OutgoingInvoiceDetailsComponent
+  },
+  {
+    path: 'incoming/:id_invoice/warehouse/:id_warehouse/place',
+    component: WarehouseSchemeInfoComponent
   }
 ];
 

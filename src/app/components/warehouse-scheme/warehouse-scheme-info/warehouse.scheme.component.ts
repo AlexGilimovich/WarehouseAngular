@@ -1,11 +1,12 @@
 import {WarehouseSchemeService} from "../warehouse-scheme.service";
-import {Component, OnInit} from "@angular/core";
+import {Component, OnChanges, OnInit} from "@angular/core";
 import {StorageSpace} from "../storage-space";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
 import {StorageCell} from "../storage-cell";
 import {Goods} from "../../goods/goods";
 import {StorageCellDTO} from "../storage-cell-DTO";
+import {GoodsService} from "../../goods/goods.service";
 /**
  * Created by Lenovo on 14.05.2017.
  */
@@ -15,26 +16,82 @@ import {StorageCellDTO} from "../storage-cell-DTO";
   styleUrls: ['./warehouse.scheme.component.scss'],
   // providers: [WarehouseSchemeService]
 })
-export class WarehouseSchemeInfoComponent implements OnInit {
+export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   cells: StorageCell[]=[];
 
+  goods: Goods[]=[];
+
+  id_goods: number;
+  id_invoice: number;
   id_warehouse: number;
   storageSpace: StorageSpace[]=[];
   id_type: number;
-  isPutAction: boolean;
+  isPutAction: boolean = false;//когда вообще действие помещения в ячейки
+  isReplaceAction: boolean = false;//когда перемещение из накладной
   selectedGoods: Goods = null;
 
   isShowDeletedSpace: boolean = false;
   isShowDeletedCell: boolean = false;
 
-  constructor(private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
-    /*this.cellsSelectedSubscription =*/ this.service.selectedGoods$.subscribe(
+  constructor(private goodsService: GoodsService, private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
+    this.service.selectedGoods$.subscribe(
       goods => {
-        this.id_type = Number(goods.storageType.id);
-        this.selectedGoods = goods;
-        this.ngOnInit();//redraw
+        this.addGoodsToArray(goods);
       }
     );
+  }
+
+  private addGoodsToArray(goods: Goods){
+    let isExists: boolean = false;
+    for(let i=0; i<this.goods.length; i++) {
+      if(this.goods[i].id == goods.id) {
+        isExists = true;
+      }
+      if(this.goods[i].id == this.selectedGoods.id) {
+        this.goods[i] = this.selectedGoods;//если была смена товара
+        this.resolveCellWhichUseInBothGoods();
+      }
+      this.resolveTypeConflict(i, goods);
+    }
+    if(!isExists) {
+      this.goods.push(goods);
+    }
+    this.id_type = Number(goods.storageType.id);
+    this.selectedGoods = goods;
+  }
+
+  /**
+   * For back lighting in yellow
+   * */
+  private resolveTypeConflict(i: number, goods: Goods){
+    if(this.goods[i].storageType.id == goods.storageType.id) {//если товар с таким же типом хранения
+      for(let k=0; k<this.storageSpace.length; k++) {
+        for(let l=0; l<this.storageSpace[k].storageCellList.length; l++) {
+          for(let m=0; m<this.goods[i].cells.length; m++) {
+            if(this.storageSpace[k].storageCellList[l].idStorageCell == this.goods[i].cells[m].idStorageCell) {
+              this.storageSpace[k].storageCellList[l].goods = new Goods();//жёлтым красит
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private resolveCellWhichUseInBothGoods(){
+    for(let i=0; i<this.goods.length; i++) {//проверяется наличие у одинковых товаров одинковых ячеек
+      for(let j=0; j<this.goods[i].cells.length; j++) {
+        for(let k=i+1; k<this.goods.length; k++) {
+          for(let m=0; m<this.goods[k].cells.length; m++) {
+            if(this.goods[i].cells[j].idStorageCell == this.goods[k].cells[m].idStorageCell) {
+              console.log("Ячейка "+this.goods[i].cells[j].idStorageCell+" находится в товаре"
+                +this.goods[i].name+" и "+ this.goods[k].name);
+              this.goods[i].cells.splice(j, 1);
+              return;
+            }
+          }
+        }
+      }
+    }
   }
 
   addSpace(id_warehouse: number){
@@ -57,20 +114,28 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     this.router.navigate([id_space, 'cell', id_cell, 'edit'], {relativeTo: this.route});
   }
 
-  putInCell(cell: StorageCell){
-    for(let i = 0; i < this.cells.length; i++) {
-      if(this.cells[i].idStorageCell == cell.idStorageCell) {
-        this.cells.splice(i, 1);
+  putInCell(cell: StorageCell) {
+    for(let i = 0; i < this.selectedGoods.cells.length; i++) {
+      if(this.selectedGoods.cells[i].idStorageCell == cell.idStorageCell) {
+        this.selectedGoods.cells.splice(i, 1);
         return;
       }
     }
-    cell.goods = this.selectedGoods;
-    this.cells.push(cell);
+    console.log(this.selectedGoods);
+    this.selectedGoods.cells.push(cell);
     console.log("ID: "+cell.idStorageCell);
   }
 
   submitPut() {
-    this.service.checkout(this.cells);
+    console.error(this.goods);
+    if(this.goods.length == 0) {
+      this.goods.push(this.selectedGoods);
+    }
+    for(let i =0; i < this.goods.length; i++) {
+      this.goodsService.putInStorage(this.goods[i]).subscribe(data => {
+        //todo navigate
+      });
+    }
     console.log(this.cells);
   }
 
@@ -87,7 +152,7 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     });
   }
 
-  restoreSpace(id: number){//todo or union it in the one method
+  restoreSpace(id: number){
     console.log(id);
     for(let i=0; i<this.storageSpace.length; i++) {
       if(this.storageSpace[i].idStorageSpace == id) {
@@ -112,15 +177,18 @@ export class WarehouseSchemeInfoComponent implements OnInit {
     if(space.storageSpaceType.name == 'Камера глубокой заморозки') return 'icedeepcamera';
   }
 
-  getClassCellSelected(id_cell: number){
-    let isSelected: boolean=false;
-    for(let i=0; i<this.cells.length; i++) {
-      if(this.cells[i].idStorageCell == id_cell) {
-        isSelected = true;
-        break;
+  getClassCellSelected(cell: StorageCell){
+    for(let i=0; i < this.selectedGoods.cells.length; i++) {
+      if(this.selectedGoods.cells[i].idStorageCell == cell.idStorageCell) {
+        return 'cell-selected';
       }
     }
-    return isSelected ? 'cell-selected' : 'cell-disable';
+
+    if(cell.goods != null) {
+      return 'cell-filled';
+    }
+
+    return 'cell-disable';
   }
 
   isDeleted(cell: StorageCell) {
@@ -128,16 +196,34 @@ export class WarehouseSchemeInfoComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.route.params.subscribe(params => { this.id_warehouse = params['id_warehouse']; });
-    if(this.selectedGoods == null) {
-      this.route.params.subscribe(params => { this.id_type = params['id_type']; });
-    }
-    if(!isUndefined(this.id_warehouse) && !isUndefined(this.id_type)) {
-      this.isPutAction = true;
-    }
-
-    this.service.getStorageSpace(this.id_warehouse).subscribe(data => {
-      this.storageSpace = data;
+    this.route.params.subscribe(params => {
+      this.id_invoice = params['id_invoice'];
+      if(!isUndefined(this.id_invoice)) {
+        this.isReplaceAction = true;
+        this.isPutAction = true;
+      }
     });
+
+    this.route.params.subscribe(params => {
+      this.id_warehouse = params['id_warehouse'];
+      this.service.getStorageSpace(this.id_warehouse).subscribe(data => {
+        this.storageSpace = data;
+      });
+    });
+
+    this.route.params.subscribe(params => {
+      this.id_goods = params['id_type'];//it's not type - it's id goods now
+      if(!isUndefined(this.id_goods)) {
+        this.goodsService.get(this.id_goods).subscribe(data => {
+          this.selectedGoods = data;
+          this.id_type = Number(this.selectedGoods.storageType.id);
+          this.isPutAction = true;
+        });
+      }
+    });
+  }
+
+  ngOnChanges(){
+    console.log("On Changes");
   }
 }
