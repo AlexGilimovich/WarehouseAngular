@@ -11,6 +11,19 @@ $text-input: #bcbcbc;
 }
 
 .preset-dark {
+  [type='text'], [type='password'], [type='date'], [type='datetime'], [type='datetime-local'], [type='month'], [type='week'], [type='email'], [type='number'], [type='search'], [type='tel'], [type='time'], [type='url'], [type='color'], textarea {
+    background-color: $bg-color;
+    color: $text-input;
+  }
+
+  .horizontal {
+    background-color: $background-color !important;
+  }
+
+  .reveal {
+    background-color: $secondary-background-color !important;
+  }
+
   a {
     color: $text-color;
   }
@@ -98,7 +111,7 @@ $text-input: #bcbcbc;
   }
 
   .top-bar {
-    background: #2c3840;
+    background: $secondary-background-color;
     color: lightgray;
     a {
       color: lightblue;

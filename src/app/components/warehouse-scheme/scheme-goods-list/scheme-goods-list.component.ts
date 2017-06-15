@@ -45,6 +45,10 @@ export class SchemeGoodsListComponent implements OnInit {
 
   private putAllInStorage() {
     this.placedGoods.forEach(goods => {
+      console.log("Goods:");
+      goods.cells.forEach(cell => {
+        console.log(cell.idStorageCell);
+      })
       this.goodsService.putInStorage(goods).subscribe(res => {
 
         },
