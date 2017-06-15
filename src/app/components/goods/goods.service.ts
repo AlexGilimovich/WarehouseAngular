@@ -17,6 +17,8 @@ import { Host } from '../../util/host';
 
 
 const BASE_URL = Host.getURL();
+const PUT_IN_STORAGE_URL = `${BASE_URL}${'goods'}`;
+
 const LIST_URL = `${BASE_URL}${'goods'}`;
 const GET_URL = `${BASE_URL}${'goods/'}`;
 const SAVE_URL = `${BASE_URL}${'goods/save'}`;
@@ -288,7 +290,7 @@ export class GoodsService {
 
   public putInStorage(goods: Goods): Observable<any> {
     return Observable.create(observer => {
-        const url = `${BASE_URL}${"/"}${goods.id}${"/put"}`;
+        const url = `${PUT_IN_STORAGE_URL}${"/"}${goods.id}${"/put"}`;
         this.httpAuthService.put(url, JSON.stringify(goods)).subscribe(resp => {
             observer.next();
           },
