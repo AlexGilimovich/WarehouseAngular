@@ -47,7 +47,6 @@ export class DesktopComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('body').foundation();
     const authenticatedUser: User = this.loginService.getLoggedUser();
     this.selectedPresetId = authenticatedUser.presetId;
   }

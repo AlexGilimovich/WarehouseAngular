@@ -1,19 +1,17 @@
-import {Component, OnInit, Input } from "@angular/core";
-import {DatePipe} from "@angular/common";
+import { Component, OnInit, Input } from '@angular/core';
+import { SearchService } from './search.service';
+import { Subscription } from 'rxjs';
+import { GoodsStatusName } from '../../goodsStatusName';
+import { Unit } from '../../unit';
+import { StorageSpaceType } from '../../../warehouse-scheme/storage-space-type';
+import { GoodsSearchDTO } from '../../goodsSearchDTO';
+import { unitMessages, storageTypeMessages, statusMessages } from '../../goods.module';
+import { GoodsStatusSearchDTO } from '../../goodsStatusSearchDTO';
+import { IncomingInvoice } from '../../../invoice/incoming-invoice/incoming-invoice';
+import { OutgoingInvoice } from '../../../invoice/outgoing-invoice/outgoing-invoice';
+import { InvoiceService } from '../../../invoice/invoice.service';
 
-import {SearchService} from "./search.service";
-import {Subscription} from "rxjs";
-import {GoodsStatusName} from "../../goodsStatusName";
-import {Unit} from "../../unit";
-import {StorageSpaceType} from "../../../warehouse-scheme/storage-space-type";
-import {GoodsSearchDTO} from "../../goodsSearchDTO";
-import {unitMessages, storageTypeMessages, statusMessages} from "../../goods.module";
-import {GoodsStatusSearchDTO} from "../../goodsStatusSearchDTO";
-import {IncomingInvoice} from "../../../invoice/incoming-invoice/incoming-invoice";
-import {OutgoingInvoice} from "../../../invoice/outgoing-invoice/outgoing-invoice";
-import {InvoiceService} from "../../../invoice/invoice.service";
-
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-goods-search',
@@ -22,23 +20,23 @@ declare var $:any;
 })
 export class GoodsSearchComponent implements OnInit {
   private statusMessages = statusMessages;
-  @Input() private statusNames:GoodsStatusName[];
-  @Input() private quantityUnits:Unit[];
-  @Input() private weightUnits:Unit[];
-  @Input() private priceUnits:Unit[];
-  @Input() private storageTypes:StorageSpaceType[];
-  @Input() private statusSearcheable:boolean = true;
+  @Input() private statusNames: GoodsStatusName[];
+  @Input() private quantityUnits: Unit[];
+  @Input() private weightUnits: Unit[];
+  @Input() private priceUnits: Unit[];
+  @Input() private storageTypes: StorageSpaceType[];
+  @Input() private statusSearcheable: boolean = true;
   private unitMessages = unitMessages;
   private storageTypeMessages = storageTypeMessages;
-  private searchDTO:GoodsSearchDTO;
-  private subscription:Subscription;
-  private subscriptionValidation:Subscription;
-  private isValid:boolean = true;
-  private incomingInvoices:IncomingInvoice[] = [];
-  private outgoingInvoices:OutgoingInvoice[] = [];
+  private searchDTO: GoodsSearchDTO;
+  private subscription: Subscription;
+  private subscriptionValidation: Subscription;
+  private isValid: boolean = true;
+  private incomingInvoices: IncomingInvoice[] = [];
+  private outgoingInvoices: OutgoingInvoice[] = [];
 
-  constructor(private searchService:SearchService,
-              private invoiceService:InvoiceService) {
+  constructor(private searchService: SearchService,
+              private invoiceService: InvoiceService) {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
     this.subscription = searchService.removeStatusEvent$.subscribe(
@@ -47,7 +45,7 @@ export class GoodsSearchComponent implements OnInit {
       });
 
     this.subscriptionValidation = searchService.dateValidationEvent$.subscribe(
-      (validity:boolean) => {
+      (validity: boolean) => {
         this.isValid = validity;
       });
 
@@ -71,7 +69,7 @@ export class GoodsSearchComponent implements OnInit {
     this.searchDTO.statuses.push(new GoodsStatusSearchDTO())
   }
 
-  private removeStatus(status:GoodsStatusSearchDTO) {
+  private removeStatus(status: GoodsStatusSearchDTO) {
     this.searchDTO.statuses.splice(this.searchDTO.statuses.findIndex(
       predicate=> {
         return predicate == status;

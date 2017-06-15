@@ -26,6 +26,11 @@ export class FinanceComponent implements OnInit {
   ngOnInit() {
     this.getPriceListFromServer();
     this.getStorageTypesFromServer();
+    this.initFoundation();
+  }
+
+  private initFoundation(): void {
+    $('#priceListModal').foundation();
   }
 
   private createNewPricesArray(): PriceDTO[] {
@@ -83,13 +88,11 @@ export class FinanceComponent implements OnInit {
     this.financeService.savePriceList(this.newPrices.filter(item => {
         return item.dailyPrice;
       }
-    )).subscribe(
-      res => {
+    )).subscribe(res => {
         this.getPriceListFromServer();
         this.closeModal();
         this.clearNewPrices();
-      },
-      error => {
+      }, error => {
 
       }
     );

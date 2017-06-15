@@ -1,7 +1,7 @@
-import {Component, OnInit, Input } from '@angular/core';
-import {ActSearchDTO} from "../actSearchDTO";
-import {ActSearchService} from "./act-search.service";
-import {actTypeMessages} from "../act.module";
+import { Component, OnInit, Input } from '@angular/core';
+import { ActSearchDTO } from '../actSearchDTO';
+import { ActSearchService } from './act-search.service';
+import { actTypeMessages } from '../act.module';
 
 @Component({
   selector: 'app-act-search',
@@ -10,10 +10,10 @@ import {actTypeMessages} from "../act.module";
 })
 export class ActSearchComponent implements OnInit {
   @Input() private actTypeNames;
-  private searchDTO:ActSearchDTO;
+  private searchDTO: ActSearchDTO;
   private actTypeMessages = actTypeMessages;
 
-  constructor(private actSearchService:ActSearchService) {
+  constructor(private actSearchService: ActSearchService) {
     this.searchDTO = new ActSearchDTO();
 
   }

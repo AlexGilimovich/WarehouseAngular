@@ -49,7 +49,6 @@ export class ActListComponent implements OnInit {
   }
 
   ngOnInit() {
-    $("body").foundation();
     this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe(
       (res: any) => {
         this.handleActListResponse(res);

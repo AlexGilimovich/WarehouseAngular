@@ -26,7 +26,7 @@ export class HttpAuthService {
 
   }
 
-  public postMultipart(url: string, body: string, file?: any): Observable<Response> {
+  public postMultipart(url: string, body: string, file?: any): Observable<any> {
     return this._multipartRequest(url, body, file);
   }
 
@@ -70,15 +70,19 @@ export class HttpAuthService {
     return this._http.request(new Request(options));
   }
 
-  private _multipartRequest(url: string, body: string, file?: any): any {
-    const item: UploadItem = this.getUploadItem(body, url, file);
-    this.uploadService.onCompleteUpload = (i, response, status, headers) => {
-      return response;
-    };
-    this.uploadService.onErrorUpload = (i, response, status, headers) => {
-      return response;
-    };
-    this.uploadService.upload(item);
+  private _multipartRequest(url: string, body: string, file?: any): Observable<any> {
+    return Observable.create(observer => {
+      const item: UploadItem = this.getUploadItem(body, url, file);
+      this.uploadService.onCompleteUpload = (i, response, status, headers) => {
+        observer.next();
+        observer.complete();
+      };
+      this.uploadService.onErrorUpload = (i, response, status, headers) => {
+        observer.error();
+        observer.complete();
+      };
+      this.uploadService.upload(item);
+    });
   }
 
   private getUploadItem(body: string, url: string, file?: any): UploadItem {

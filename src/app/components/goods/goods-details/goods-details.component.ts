@@ -87,68 +87,53 @@ export class GoodsDetailsComponent implements OnInit {
         this.warehouseId = goods.warehouseId;
         this.cells = goods.cells;
         this.fillForm(this.checkIfEditable(goods));
-        this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
-          (statuses) => {
+        this.goodsService.getStatusesForGoods(this.goods.id).subscribe((statuses) => {
             this.statuses = statuses.sort((current, next) => {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
-          },
-          (err) => {
+          }, (err) => {
             console.error(err);
           }
         );
-        this.actService.getActsForGoods(this.goods.id).subscribe(
-          (acts) => {
-            this.acts = acts.sort((current, next)=> {
+        this.actService.getActsForGoods(this.goods.id).subscribe((acts) => {
+            this.acts = acts.sort((current, next) => {
               return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
             });
-          },
-          (err) => {
+          }, (err) => {
             console.error(err);
           }
         );
-        this.goodsService.getStatusNames().subscribe(
-          (res) => {
+        this.goodsService.getStatusNames().subscribe((res) => {
             this.statusNames = [...res, new GoodsStatusName(null, '')];
-          },
-          (err) => {
+          }, (err) => {
             console.error(err);
           }
         );
-      },
-      (err: any) => {
+      }, (err: any) => {
         console.log(err);
       }
     );
-    this.goodsService.getStorageSpaceTypes().subscribe(
-      (res) => {
+    this.goodsService.getStorageSpaceTypes().subscribe((res) => {
         this.storageTypes = [...res, new StorageSpaceType(null, '')];
-      },
-      (err) => {
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getQuantityUnits().subscribe(
-      (res) => {
+    this.goodsService.getQuantityUnits().subscribe((res) => {
         this.quantityUnits = [...res, new Unit(null, '')];
-      },
-      (err) => {
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getPriceUnits().subscribe(
-      (res) => {
+    this.goodsService.getPriceUnits().subscribe((res) => {
         this.priceUnits = [...res, new Unit(null, '')];
-      },
-      (err) => {
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getWeightUnits().subscribe(
-      (res) => {
+    this.goodsService.getWeightUnits().subscribe((res) => {
         this.weightUnits = [...res, new Unit(null, '')];
-      },
-      (err) => {
+      }, (err) => {
         console.error(err);
       }
     );

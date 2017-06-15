@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild, Input} from "@angular/core";
-import {Unit} from "../../unit";
-import {StorageSpaceType} from "../../../warehouse-scheme/storage-space-type";
-import {GoodsListComponent} from "../list/goods-list.component";
-import {GoodsStatusName} from "../../goodsStatusName";
-import {GoodsService} from "../../goods.service";
-import {Goods} from "../../goods";
-import {LoginService} from "../../../login/login.service";
-import {statusMessages} from "../../goods.module";
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Unit } from '../../unit';
+import { StorageSpaceType } from '../../../warehouse-scheme/storage-space-type';
+import { GoodsListComponent } from '../list/goods-list.component';
+import { GoodsStatusName } from '../../goodsStatusName';
+import { GoodsService } from '../../goods.service';
+import { Goods } from '../../goods';
+import { LoginService } from '../../../login/login.service';
+import { statusMessages } from '../../goods.module';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-goods-list-container',
@@ -17,31 +17,31 @@ declare var $:any;
 })
 export class GoodsListContainerComponent implements OnInit {
   @ViewChild(GoodsListComponent)
-  private goodsListComponent:GoodsListComponent;
-  private hasChanged:boolean = false;
-  private hasSelected:boolean = false;
+  private goodsListComponent: GoodsListComponent;
+  private hasChanged: boolean = false;
+  private hasSelected: boolean = false;
   @Input() private isEditable = false;
 
-  private completeGoodsList: Goods[]=[];
+  private completeGoodsList: Goods[] = [];
   public isDataAvailable: boolean = false;
-  public pieChartLabelsTypeStorage:string[] = [];
-  public pieChartDataTypeStorage:number[] = [];
-  public pieChartType:string = 'doughnut';
+  public pieChartLabelsTypeStorage: string[] = [];
+  public pieChartDataTypeStorage: number[] = [];
+  public pieChartType: string = 'doughnut';
   public ChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false
   };
-  public barChartLabelsStatus:string[] = [];
-  private barChartDataStatus:number[] = [];
-  public barChartData: any[]=[];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
-  public barChartOptions:any = {
-    hover: { animationDuration: 0 },
+  public barChartLabelsStatus: string[] = [];
+  private barChartDataStatus: number[] = [];
+  public barChartData: any[] = [];
+  public barChartType: string = 'bar';
+  public barChartLegend: boolean = true;
+  public barChartOptions: any = {
+    hover: {animationDuration: 0},
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true
+          beginAtZero: true
         }
       }]
     },
@@ -49,27 +49,27 @@ export class GoodsListContainerComponent implements OnInit {
     responsive: true
   };
 
-  private goodsList:any[] = [];
-  private totalGoodsCount:number;
-  private statusNames:GoodsStatusName[];
-  private quantityUnits:Unit[];
-  private priceUnits:Unit[];
-  private weightUnits:Unit[];
+  private goodsList: any[] = [];
+  private totalGoodsCount: number;
+  private statusNames: GoodsStatusName[];
+  private quantityUnits: Unit[];
+  private priceUnits: Unit[];
+  private weightUnits: Unit[];
 
-  private storageTypes:StorageSpaceType[];
+  private storageTypes: StorageSpaceType[];
   private warehouseId;
 
-  constructor(private goodsService:GoodsService,
-              private loginService:LoginService) {
+  constructor(private goodsService: GoodsService,
+              private loginService: LoginService) {
   }
 
   ngOnInit() {
-    $("body").foundation();
+    this.initFoundation();
     this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;
     this.goodsService.getStatusNames().subscribe(
       (res) => {
         this.statusNames = res;
-        for(let i=0; i<this.statusNames.length; i++) {
+        for (let i = 0; i < this.statusNames.length; i++) {
           this.barChartLabelsStatus.push(statusMessages.get(this.statusNames[i].name));
         }
         this.statusNames.push(new GoodsStatusName(null, ''));
@@ -81,7 +81,7 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
         this.storageTypes = res;
-        for(let i=0; i<this.storageTypes.length; i++) {
+        for (let i = 0; i < this.storageTypes.length; i++) {
           this.pieChartLabelsTypeStorage.push(this.storageTypes[i].name);
         }
         let emptyType = new StorageSpaceType();
@@ -125,7 +125,7 @@ export class GoodsListContainerComponent implements OnInit {
         );
         this.totalGoodsCount = res.count;
       },
-      (err:any) => {
+      (err: any) => {
         console.error(err);
       }
     );
@@ -139,23 +139,27 @@ export class GoodsListContainerComponent implements OnInit {
     });
   }
 
-  private initCharts(){
-    for(let j=0; j<this.pieChartLabelsTypeStorage.length; j++) {
+  private initFoundation(): void {
+    $('#accordion').foundation();
+  }
+
+  private initCharts() {
+    for (let j = 0; j < this.pieChartLabelsTypeStorage.length; j++) {
       this.pieChartDataTypeStorage[j] = 0;
     }
-    for(let k=0; k<this.barChartLabelsStatus.length; k++) {
+    for (let k = 0; k < this.barChartLabelsStatus.length; k++) {
       this.barChartDataStatus[k] = 0;
     }
 
-    for(let i=0; i<this.completeGoodsList.length; i++){
-      for(let j=0; j<this.pieChartLabelsTypeStorage.length; j++) {
-        if(this.completeGoodsList[i].storageType.name == this.pieChartLabelsTypeStorage[j]){
+    for (let i = 0; i < this.completeGoodsList.length; i++) {
+      for (let j = 0; j < this.pieChartLabelsTypeStorage.length; j++) {
+        if (this.completeGoodsList[i].storageType.name == this.pieChartLabelsTypeStorage[j]) {
           this.pieChartDataTypeStorage[j]++;
           break;
         }
       }
-      for(let k=0; k<this.barChartLabelsStatus.length; k++) {
-        if(statusMessages.get(this.completeGoodsList[i].currentStatus.name) == this.barChartLabelsStatus[k]){
+      for (let k = 0; k < this.barChartLabelsStatus.length; k++) {
+        if (statusMessages.get(this.completeGoodsList[i].currentStatus.name) == this.barChartLabelsStatus[k]) {
           this.barChartDataStatus[k]++;
           break;
         }
@@ -168,6 +172,9 @@ export class GoodsListContainerComponent implements OnInit {
       });
 
     this.isDataAvailable = true;
+    console.log(this.barChartLabelsStatus);
+    console.log(this.pieChartLabelsTypeStorage);
+    console.log(this.barChartDataStatus + ", " + this.pieChartDataTypeStorage);
   }
 
   private getGoods(object) {
@@ -181,7 +188,7 @@ export class GoodsListContainerComponent implements OnInit {
         );
         this.totalGoodsCount = res.count;
       },
-      (err:any) => {
+      (err: any) => {
         console.error(err);
       }
     );
@@ -190,7 +197,7 @@ export class GoodsListContainerComponent implements OnInit {
   private search(object) {
     this.goodsList = [];
     this.goodsService.search(object.searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
-      (res:any) => {
+      (res: any) => {
         (<Goods[]>res.goods).forEach(
           goods=> {
             this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
@@ -198,7 +205,7 @@ export class GoodsListContainerComponent implements OnInit {
         );
         this.totalGoodsCount = res.count;
       },
-      (err:any) => {
+      (err: any) => {
         console.error(err);
       }
     );

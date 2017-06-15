@@ -119,4 +119,23 @@
 </div>
 
 
+<div class="reveal success" id="modal" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="text center">
+    <span>Идёт отправка письма. Подождите </span>
+    <div class="spinner" *ngIf="requestInProgress">
+      <spinner [size]="15" [tickness]="2"></spinner>
+    </div>
+  </div>
+  <div class="text center">
+    <span *ngIf="success"><b>Письмо успешно отправлено</b></span>
+    <span *ngIf="fail"><b>Произошёл сбой во время отправки письма. Письмо не было отправлено</b></span>
+  </div>
+
+  <input type="button" class="button center" value="ОК" data-close *ngIf="success || fail">
+</div>
+
+
 

@@ -1,8 +1,8 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
-import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
-import {Subscription} from "rxjs";
-import {GoodsService} from "../goods.service";
-import { Router, ActivatedRoute} from "@angular/router";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { WarehouseSchemeService } from '../../warehouse-scheme/warehouse-scheme.service';
+import { Subscription } from 'rxjs';
+import { GoodsService } from '../goods.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-goods-container',
@@ -10,17 +10,17 @@ import { Router, ActivatedRoute} from "@angular/router";
   styleUrls: ['./goods-container.component.scss']
 })
 export class GoodsContainerComponent implements OnInit,OnDestroy {
-  private cellsSelectedSubscription:Subscription;
-  private goodsSelectedForPuttingSubscription:Subscription;
+  private cellsSelectedSubscription: Subscription;
+  private goodsSelectedForPuttingSubscription: Subscription;
   private goodsSelectedForPutting;
 
-  constructor(private goodsService:GoodsService,
-              private router:Router,
-              private route:ActivatedRoute,
-              private warehouseSchemeService:WarehouseSchemeService) {
+  constructor(private goodsService: GoodsService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private warehouseSchemeService: WarehouseSchemeService) {
 
     this.goodsSelectedForPuttingSubscription = this.goodsService.selectedForPuttingGoods$.subscribe(
-      res=> {
+      res => {
         this.goodsSelectedForPutting = res;
       }
     );
@@ -44,10 +44,10 @@ export class GoodsContainerComponent implements OnInit,OnDestroy {
 
   private putInStorage(goods) {
     this.goodsService.putInStorage(goods).subscribe(
-      res=>{
-        this.router.navigate(['./details', goods.id], { relativeTo: this.route});
+      res => {
+        this.router.navigate(['./details', goods.id], {relativeTo: this.route});
       },
-      error=>{
+      error=> {
 
       }
     );

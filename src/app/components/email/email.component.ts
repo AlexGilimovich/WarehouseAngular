@@ -24,6 +24,9 @@ export class EmailComponent implements OnInit {
   private templateNamesMessages = templateNamesMessages;
   private selectedTemplate: Template = new Template(TEMPLATE_DEFAULT);
   private form: FormGroup;
+  private requestInProgress = false;
+  private success = false;
+  private fail = false;
 
   constructor(private userService: UserService,
               private emailService: EmailService,
@@ -31,6 +34,7 @@ export class EmailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initFoundation();
     this.getUsersFromServer();
     this.getTemplatesFromServer();
     this.buildForm();
@@ -45,6 +49,10 @@ export class EmailComponent implements OnInit {
       'body': [{value: ''}],
       'users': new FormArray([], Validators.compose([this.userValidator]))
     });
+  }
+
+  private initFoundation(): void {
+    $('#modal').foundation();
   }
 
   private initForm(): void {
@@ -68,11 +76,19 @@ export class EmailComponent implements OnInit {
     Array.apply(null, select.options).filter((option: any) => {
       return option.selected;
     }).forEach((item: any) => {
-      (<FormArray>this.form.controls['users']).push(new FormControl(item.value));
-      this.selectedUsers.push(this.users.find(user => {
-        return item.value === user.id.toString();
-      }));
+      if (!this.isAlreadyAdded(item.value)) {
+        (<FormArray>this.form.controls['users']).push(new FormControl(item.value));
+        this.selectedUsers.push(this.users.find(user => {
+          return item.value === user.id.toString();
+        }));
+      }
     });
+  }
+
+  private isAlreadyAdded(userId: string): boolean {
+    return this.selectedUsers.findIndex(user => {
+      return user.id.toString() === userId;
+    }) === -1 ? false : true;
   }
 
   private removeFromSelected(user: User): void {
@@ -98,8 +114,21 @@ export class EmailComponent implements OnInit {
   }
 
   private sendEmail(fileInput): void {
+    $('#modal').foundation('open');
+    this.requestInProgress = true;
+    this.fail = false;
+    this.success = false;
+
     const template: Template = this.buildTemplate();
-    this.emailService.sendEmail(template, fileInput.files[0]).subscribe();
+    this.emailService.sendEmail(template, fileInput.files[0]).subscribe(res => {
+        this.requestInProgress = false;
+        this.success = true;
+      }, error => {
+        this.requestInProgress = false;
+        this.fail = true;
+        console.error(error);
+      }
+    );
   }
 
   private buildTemplate(): Template {
