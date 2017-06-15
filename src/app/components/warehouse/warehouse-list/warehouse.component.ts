@@ -2,7 +2,7 @@
  * Created by Lenovo on 13.05.2017.
  */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { Response} from '@angular/http';
 
 import {WarehouseService} from "../warehouse.service";
@@ -114,7 +114,6 @@ export class WarehouseComponent implements OnInit {
       this.engaged[index] = count_cell-free_cell;
 
       if(this.pieChartData.length == this.warehouse.length) {//when all data received
-        console.log(this.all, this.engaged);
         this.barChartData.push(
           {
             data: this.engaged,
@@ -190,7 +189,7 @@ export class WarehouseComponent implements OnInit {
       }
     }
     this.warehouseService.delete(id_warehouse).subscribe(data => {
-      console.log(data);
+
     });
   }
 

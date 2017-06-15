@@ -1,5 +1,5 @@
 import {WarehouseSchemeService} from "../warehouse-scheme.service";
-import {Component, OnChanges, OnInit} from "@angular/core";
+import {Component, OnChanges, OnInit, ViewEncapsulation} from "@angular/core";
 import {StorageSpace} from "../storage-space";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
@@ -180,6 +180,7 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
     if(space.storageSpaceType.name == 'Неотапливаемое помещение') return 'noheated';
     if(space.storageSpaceType.name == 'Открытая площадка') return 'open';
     if(space.storageSpaceType.name == 'Камера глубокой заморозки') return 'icedeepcamera';
+    return 'default';
   }
 
   getClassCellSelected(cell: StorageCell){

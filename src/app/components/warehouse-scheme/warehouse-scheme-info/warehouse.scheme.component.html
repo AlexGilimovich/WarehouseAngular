@@ -23,29 +23,29 @@
 
 
 
-<a *ngIf="!isPutAction" (click)="addSpace(id_warehouse)">Добавить space</a>
+<input class="button" type="button" *ngIf="!isPutAction" (click)="addSpace(id_warehouse)" value="Добавить помещение для хранения">
 <div class="switch" *ngIf="!isPutAction">
+  <p>Показывать удалённые ячейки
+  <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2" [(ngModel)]="isShowDeletedCell">
+  <label class="switch-paddle" for="exampleSwitch2">&nbsp;<small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+  </label>
+
   Показывать удалённые хранилища
   <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch" [(ngModel)]="isShowDeletedSpace">
   <label class="switch-paddle" for="exampleSwitch">&nbsp;
     <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
-    <span class="show-for-sr">Download Kittens</span>
   </label>
-  Показывать удалённые ячейки
-  <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2" [(ngModel)]="isShowDeletedCell">
-  <label class="switch-paddle" for="exampleSwitch2">&nbsp;<small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
-    <span class="show-for-sr">Download Kittens</span>
-  </label>
+  </p>
 </div>
 
 <div *ngFor="let space of storageSpace">
   <div *ngIf="space.status || isShowDeletedSpace">
     <div ngClass="{{getClassSpace(space)}}">
-      <h5 align="center">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
-        <a *ngIf="!isPutAction && (space.status || isShowDeletedSpace)" (click)="editSpace(space?.idStorageSpace)"><i
+      <h5 align="center" style="color: black;">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+        <a style="color: #1779ba;" *ngIf="!isPutAction && (space.status || isShowDeletedSpace)" (click)="editSpace(space?.idStorageSpace)"><i
           class="fi-pencil"></i></a>
-        <a *ngIf="!isPutAction && space.status" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
-        <a *ngIf="!isPutAction && !space.status && isShowDeletedSpace" (click)="restoreSpace(space?.idStorageSpace)"><i
+        <a style="color: #1779ba;" *ngIf="!isPutAction && space.status" (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
+        <a style="color: #1779ba;" *ngIf="!isPutAction && !space.status && isShowDeletedSpace" (click)="restoreSpace(space?.idStorageSpace)"><i
           class="fi-trash icon"></i></a>
       </h5>
 

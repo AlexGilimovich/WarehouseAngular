@@ -1,7 +1,7 @@
 /**
  * Created by Lenovo on 09.05.2017.
  */
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {WarehouseCompany} from "../warehouse-company";
 import { Response} from '@angular/http';
 import {WarehouseCompanyService} from "../warehouse-company.service";

@@ -168,9 +168,6 @@ export class GoodsListContainerComponent implements OnInit {
       });
 
     this.isDataAvailable = true;
-    console.log(this.barChartLabelsStatus);
-    console.log(this.pieChartLabelsTypeStorage);
-    console.log(this.barChartDataStatus+", "+this.pieChartDataTypeStorage);
   }
 
   private getGoods(object) {

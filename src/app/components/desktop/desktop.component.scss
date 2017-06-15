@@ -11,6 +11,10 @@ $text-input: #bcbcbc;
 }
 
 .preset-dark {
+  a {
+    color: $text-color;
+  }
+
   .callout {
     color: $text-color;
     background-color: $bg-color;
@@ -52,10 +56,6 @@ $text-input: #bcbcbc;
   }
 
   label {
-    color: $text-color;
-  }
-
-  .switch[_ngcontent] {
     color: $text-color;
   }
 
