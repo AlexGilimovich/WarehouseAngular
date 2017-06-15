@@ -13,7 +13,7 @@ export class ReportContainerComponent implements OnInit {
 	constructor(private reportService : ReportService) { }
 
   ngOnInit() {
-	  //this.reportService.setWarehouseList();
+	  this.reportService.setWarehouseList();
 	 /* $("body").foundation();*/
 }
 
