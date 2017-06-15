@@ -20,7 +20,6 @@ import {Goods} from "../../../goods/goods";
   selector: 'app-warehouse-cell',
   templateUrl: './warehouse.cell.component.html',
   styleUrls: ['./warehouse.cell.component.scss'],
-  // providers: [WarehouseSchemeService]
 })
 
 export class WarehouseCellComponent implements OnInit {
@@ -34,11 +33,11 @@ export class WarehouseCellComponent implements OnInit {
 
   createCell(){
     this.schemeService.saveCell(this.cell).subscribe(data => {
-      if(isUndefined(this.cell.idStorageCell)) {
-        this.router.navigate(['../../'], {relativeTo: this.route});
+      if(this.cell.idStorageCell == 0) {
+        this.router.navigate(['../../../'], {relativeTo: this.route});
       }
       else {
-        this.router.navigate(['../../../'], {relativeTo: this.route});
+        this.router.navigate(['../../../../'], {relativeTo: this.route});
       }
     });
   }
@@ -49,15 +48,17 @@ export class WarehouseCellComponent implements OnInit {
     });
   }
 
-  ngOnInit(){
-    if(isUndefined(this.cell.idStorageCell)) {
+  ngOnInit() {
+    if (isUndefined(this.cell.idStorageCell)) {
       this.cell.idStorageCell = 0;
     }
-    this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
-      this.goods = data[0].goods;
-      this.cell.number = data[0].number;
-      this.cell.status = data[0].status;
-      this.cell.idStorageCell = data[0].idStorageCell;
-    });
+    if (this.cell.idStorageCell != 0) {
+      this.schemeService.getCellById(this.cell.idStorageCell).subscribe(data => {
+        this.goods = data[0].goods;
+        this.cell.number = data[0].number;
+        this.cell.status = data[0].status;
+        this.cell.idStorageCell = data[0].idStorageCell;
+      });
+    }
   }
 }

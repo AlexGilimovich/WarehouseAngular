@@ -1,7 +1,7 @@
 <div class="translucent-form-overlay">
   <form method="post">
     <h3>Информация о ячейке</h3>
-    <div class="row columns">
+    <div class="row columns" *ngIf="cell.idStorageCell != 0">
       <label>В ячейке:
         <b>{{goods != null ? goods.name : 'нету товара'}}</b>
       </label>
