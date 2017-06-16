@@ -81,8 +81,7 @@ export class GoodsDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.goodsService.get(this.id).subscribe(
-      (goods: Goods) => {
+    this.goodsService.get(this.id).subscribe((goods: Goods) => {
         this.goods = goods;
         this.warehouseId = goods.warehouseId;
         this.cells = goods.cells;
@@ -233,34 +232,28 @@ export class GoodsDetailsComponent implements OnInit {
   private removeFromStorage(): void {
     this.goodsService.removeFromStorage(this.goods).subscribe(
       res => {
-        this.goodsService.get(this.id).subscribe(
-          (goods: Goods) => {
+        this.goodsService.get(this.id).subscribe((goods: Goods) => {
             this.goods = goods;
             this.cells = goods.cells;
             this.fillForm(this.checkIfEditable(goods));
-            this.goodsService.getStatusesForGoods(this.goods.id).subscribe(
-              (statuses) => {
+            this.goodsService.getStatusesForGoods(this.goods.id).subscribe((statuses) => {
                 this.statuses = statuses.sort((current, next) => {
                   return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
                 });
 
-              },
-              (err) => {
+              }, (err) => {
                 console.error(err);
               }
             );
-            this.actService.getActsForGoods(this.goods.id).subscribe(
-              (acts) => {
+            this.actService.getActsForGoods(this.goods.id).subscribe((acts) => {
                 this.acts = acts.sort((current, next) => {
                   return (new Date(current.date) > new Date(next.date)) ? 1 : -1;
                 });
-              },
-              (err) => {
+              }, (err) => {
                 console.error(err);
               }
             );
-          },
-          (err: any) => {
+          }, (err: any) => {
             console.log(err);
           }
         );
@@ -317,8 +310,7 @@ export class GoodsDetailsComponent implements OnInit {
     goods.currentStatus = new GoodsStatus();
     if (this.goods.currentStatus) {
       goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value === this.goods.currentStatus.name ? '' : this.goodsForm.controls['currentStatus'].value;
-    }
-    else {
+    } else {
       goods.currentStatus.name = this.goodsForm.controls['currentStatus'].value;
     }
     goods.quantityUnit = new Unit(null, this.goodsForm.controls['quantityUnit'].value);
@@ -332,11 +324,10 @@ export class GoodsDetailsComponent implements OnInit {
         return storageCell;
       }
     );
-    this.goodsService.save(goods).subscribe(
-      res=> {
+    this.goodsService.save(goods).subscribe(res => {
         this.router.navigate(['../../list'], {relativeTo: this.route});
       }
-    )
+    );
   }
 
 

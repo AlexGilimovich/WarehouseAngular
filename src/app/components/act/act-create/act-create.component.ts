@@ -16,6 +16,7 @@ import { Act } from '../act';
 import { GoodsSearchDTO } from '../../goods/goodsSearchDTO';
 import { InvoiceStatus } from '../../invoice/invoice-status';
 import { InvoiceService } from '../../invoice/invoice.service';
+declare var $;
 
 @Component({
   selector: 'app-act-create',
@@ -31,6 +32,7 @@ export class ActCreateComponent implements OnInit {
   private warehouseId: string;
   private invoiceId: number;
   private goodsId: string;
+  private foundationInitialized = false;
 
 
   private goodsList: any[] = [];
@@ -137,6 +139,13 @@ export class ActCreateComponent implements OnInit {
     );
   }
 
+  private foundationInit(): void {
+    if (!this.foundationInitialized) {
+      $('#accordion').foundation();
+      this.foundationInitialized = true;
+    }
+  }
+
   private getGoodsForInvoice() {
     this.goodsService.invoiceList(this.invoiceId).subscribe(
       (res: any) => {
@@ -160,7 +169,7 @@ export class ActCreateComponent implements OnInit {
         }
       );
     } else {
-      let searchDTO = new GoodsSearchDTO();
+      const searchDTO = new GoodsSearchDTO();
       searchDTO.actApplicable = true;
       searchDTO.actType = this.actForm.get('actType').value;
       this.goodsService.search(searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
@@ -176,12 +185,13 @@ export class ActCreateComponent implements OnInit {
   private searchByActType() {
     if (!this.invoiceId) {
       this.goodsList = [];
-      let searchDTO = new GoodsSearchDTO();
+      const searchDTO = new GoodsSearchDTO();
       searchDTO.actApplicable = true;
       searchDTO.actType = this.actForm.get('actType').value;
       this.goodsService.search(searchDTO, this.warehouseId, 1, 10).subscribe(
         (res: any) => {
           this.handleGoodsListResponse(res);
+          this.foundationInit();
         }, (err: any) => {
           console.error(err);
         }
@@ -232,8 +242,7 @@ export class ActCreateComponent implements OnInit {
   }
 
   private selectAll(): void {
-    this.goodsList.forEach(
-      item=> {
+    this.goodsList.forEach(item => {
         this.onSelected(item);
       }
     );

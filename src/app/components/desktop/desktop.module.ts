@@ -24,7 +24,7 @@ import { ReportContainerComponent } from '../report/report-container/report-cont
 import { ReportModule, reportRoutes } from '../report/report.module';
 import { SettingsComponent } from '../settings/settings.component';
 
-export const desktopRoutes:Routes = [
+export const desktopRoutes: Routes = [
   {
     path: '',
     redirectTo: 'users',
@@ -50,9 +50,9 @@ export const desktopRoutes:Routes = [
     children: invoiceRoutes
   },
   /*{
-    path: "warehousecompany/:id/warehouse",
-    component: WarehouseComponent
-  },*/
+   path: "warehousecompany/:id/warehouse",
+   component: WarehouseComponent
+   },*/
   {
     path: 'customers',
     component: CustomerContainerComponent,
