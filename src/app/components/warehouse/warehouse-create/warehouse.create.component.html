@@ -6,14 +6,17 @@
         <input type="text" name="name" placeholder="Наименование склада..." [(ngModel)]="warehouse.name">
       </label>
     </div>
+
     <div class="row columns">
-      <label>Координаты X
-        <input type="text" name="x" placeholder="Координаты x по карте..." [(ngModel)]="warehouse.x">
-      </label>
-    </div>
-    <div class="row columns">
-      <label>Координаты Y
-        <input type="text" name="x" placeholder="Координаты y по карте..." [(ngModel)]="warehouse.y">
+      <label>Адрес компании
+        <div class="input-group">
+          <input type="text" name="x" placeholder="Введите адрес или укажите место на карте..." [(ngModel)]="address">
+          <div class="input-group-button">
+            <button type="button" class="primary button" (click)="checkout()">
+              Проверить
+            </button>
+          </div>
+        </div>
       </label>
     </div>
 
@@ -28,5 +31,26 @@
         Очистить
       </button>
     </div>
+
+    <sebm-google-map
+      [latitude]="map.lat"
+      [longitude]="map.lng"
+      [zoom]="map.zoom"
+      [disableDefaultUI]=false
+      [zoomControl]=false
+      (mapClick)="map.mapClicked($event)">
+      <sebm-google-map-marker
+        *ngFor="let m of map.markers; let i = index"
+        (markerClick)="clickedMarker(m, i)"
+        [latitude]="m.lat"
+        [longitude]="m.lng"
+        [markerDraggable] = "m.draggable"
+        (dragEnd) = "markerDragEnd(m , $event)">
+        <sebm-google-map-info-window>
+          <strong>{{m.name}}</strong>
+        </sebm-google-map-info-window>
+      </sebm-google-map-marker>
+    </sebm-google-map>
+
   </form>
 </div>

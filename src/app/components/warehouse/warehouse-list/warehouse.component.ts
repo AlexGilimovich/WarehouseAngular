@@ -13,12 +13,13 @@ import {marker} from "../../../util/marker";
 import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
 import {BaseChartDirective} from "ng2-charts";
 import {MapView} from "../../../util/map";
+import {MapService} from "../../../util/map.service";
 
 @Component({
   selector: 'app-warehouse',
   templateUrl: './warehouse.component.html',
   styleUrls: ['./warehouse.component.scss'],
-  providers: [WarehouseService, WarehouseSchemeService]
+  providers: [WarehouseService, WarehouseSchemeService, MapService]
 })
 export class WarehouseComponent implements OnInit {
   id: number;
@@ -31,7 +32,7 @@ export class WarehouseComponent implements OnInit {
   isShowDeleted: boolean = false;
   isLastPage: boolean = false;
 
-  map: MapView = new MapView;
+  map: MapView = new MapView(this.mapService);
 
   public pieChartLabels:string[] = [];
   public pieChartData:number[] = [];
@@ -56,7 +57,11 @@ export class WarehouseComponent implements OnInit {
   public isDataAvailable:boolean = false;
 
 
-  constructor(private warehouseSchemeService: WarehouseSchemeService,private warehouseService: WarehouseService, private route:ActivatedRoute, private router:Router){
+  constructor(private warehouseSchemeService: WarehouseSchemeService,
+              private warehouseService: WarehouseService,
+              private mapService: MapService,
+              private route:ActivatedRoute,
+              private router:Router){
     this.page = 1;
   }
 

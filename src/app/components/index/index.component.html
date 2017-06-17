@@ -173,8 +173,7 @@
       [longitude]="map.lng"
       [zoom]="map.zoom"
     [disableDefaultUI]=false
-    [zoomControl]=false
-    (mapClick)="mapClicked($event)">
+    [zoomControl]=true>
       <sebm-google-map-marker
         *ngFor="let m of map.markers; let i = index"
         (markerClick)="clickedMarker(m, i)"
@@ -188,6 +187,7 @@
         </sebm-google-map-info-window>
       </sebm-google-map-marker>
     </sebm-google-map>
+    <!--<google-map-view [isViewAction]="true" [data]="googleMapData" [isSmall]="false"></google-map-view>-->
     <!--END OF MAP FROM ANGULAR2-->
   </div>
 </section>
@@ -246,9 +246,3 @@
   </div>
 </footer>
 <!--  End Footer Section  -->
-
-<!--    Start Back To Top    -->
-<a href="#" class="btn_fancy" id="back_top">
-  <div class="solid_layer"></div>
-  <div class="text_layer"><img src="src/images/top_arrow.png" alt="Back to top" title="" class="top_arrow"></div>
-</a>

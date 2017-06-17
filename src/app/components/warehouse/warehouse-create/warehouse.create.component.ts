@@ -9,23 +9,36 @@ import {FormsModule} from "@angular/forms";
 import {Warehouse} from "../warehouse";
 import {WarehouseService} from "../warehouse.service";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
+import {MapService} from "../../../util/map.service";
+import {MapView} from "../../../util/map";
 
 @Component({
   selector: 'app-warehouse-create',
   templateUrl: './warehouse.create.component.html',
   styleUrls: ['./warehouse.create.component.scss'],
-  providers: [WarehouseService]
+  providers: [WarehouseService, MapService]
 })
 export class WarehouseCreateComponent implements OnInit {
   id: number;
   warehouse = new Warehouse;
+  map: MapView = new MapView(this.mapService);
+  address: string;
 
-  constructor(private warehouseService: WarehouseService, private router:Router, private route:ActivatedRoute){
+  constructor(private warehouseService: WarehouseService,
+              private mapService: MapService,
+              private router:Router,
+              private route:ActivatedRoute){
+  }
+
+  checkout(){
+    this.map.getCoordByAddress(this.address);
   }
 
   registration(warehouse: Warehouse){
     warehouse.warehouseCompany = new WarehouseCompany;
     warehouse.warehouseCompany.idWarehouseCompany = this.id;
+    warehouse.x = this.map.getX();
+    warehouse.y = this.map.getY();
     this.warehouseService.save(warehouse).subscribe(data => {
       if(isUndefined(this.warehouse.idWarehouse)) {
         this.router.navigate(['../'], {relativeTo: this.route});
@@ -42,6 +55,7 @@ export class WarehouseCreateComponent implements OnInit {
     if(!isUndefined(this.warehouse.idWarehouse)) {
       this.warehouseService.getWarehouseById(this.warehouse.idWarehouse).subscribe(data => {
         this.warehouse = data[0];
+        this.map.setOneCoordinate(this.warehouse.x, this.warehouse.y);
       });
     }
   }

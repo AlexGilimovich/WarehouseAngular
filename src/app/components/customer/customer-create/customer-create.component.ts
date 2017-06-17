@@ -4,17 +4,22 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
+import {MapService} from "../../../util/map.service";
+import {MapView} from "../../../util/map";
 
 @Component({
   selector: 'app-customer-create',
   templateUrl: './customer-create.component.html',
   styleUrls: ['./customer-create.component.scss'],
-  providers: [WarehouseCustomerCompanyService]
+  providers: [WarehouseCustomerCompanyService, MapService]
 })
 export class CustomerCreateComponent implements OnInit {
   customerForm: FormGroup;
+  map: MapView = new MapView(this.mapService);
+  address: string;
 
   constructor(private customerService: WarehouseCustomerCompanyService,
+              private mapService: MapService,
               private router: Router,
               private formBuiler: FormBuilder,
               private location: Location) {
@@ -28,8 +33,14 @@ export class CustomerCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+  checkout(){
+    this.map.getCoordByAddress(this.address);
+  }
+
   onSubmit(form: FormGroup) {
     const customer = this.customerService.mapCustomerFromForm(form);
+    customer.x = this.map.getX();
+    customer.y = this.map.getY();
     this.customerService.save(customer).subscribe(success => {
       this.location.back();
     });

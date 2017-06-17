@@ -8,18 +8,20 @@ import {WarehouseCompanyService} from "../warehouse-company.service";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MapView} from "../../../util/map";
+import {MapService} from "../../../util/map.service";
 
 @Component({
   selector: 'app-warehouse-company',
   templateUrl: './warehouse.company.component.html',
   styleUrls: ['./warehouse.company.component.scss'],
-  providers: [WarehouseCompanyService]
+  providers: [WarehouseCompanyService, MapService]
 })
 export class WarehouseCompanyComponent implements OnInit {
   warehouseCompany: WarehouseCompany[]=[];
   searchWarehouseCompany: WarehouseCompany = new WarehouseCompany;
 
-  map: MapView = new MapView;
+  map: MapView = new MapView(this.mapService);
+  googleMapData: any[]=[];
   page: number;
 
   itemsOnPage: number = 5;
@@ -28,12 +30,16 @@ export class WarehouseCompanyComponent implements OnInit {
   isLastPage: boolean = false;
   isAdmin: boolean = false;
 
-  constructor(private companyService: WarehouseCompanyService, private router:Router, private route:ActivatedRoute){}
+  constructor(private companyService: WarehouseCompanyService,
+              private mapService: MapService,
+              private router:Router,
+              private route:ActivatedRoute){}
 
   ngOnInit(){
     this.page = 1;
     this.getData(0);
     this.companyService.getAllCompany().subscribe(data => {
+      this.googleMapData = data;
       this.map.init(data);
     });
   }
@@ -44,7 +50,6 @@ export class WarehouseCompanyComponent implements OnInit {
       if(this.warehouseCompany.length > 1) {
         this.isAdmin = true;
       }
-      //this.map.init(this.warehouse);
     });
 
     this.companyService.getCompany(position+this.itemsOnPage, this.itemsOnPage).subscribe(data => {
@@ -89,12 +94,10 @@ export class WarehouseCompanyComponent implements OnInit {
       }
     }
     this.companyService.delete(idWarehouseCompany).subscribe(data => {
-      console.log(data);
     });
   }
 
   edit(id: string){
-    console.log("Id from edit"+id);
     this.router.navigate(['./edit', id], {relativeTo: this.route});
   }
 

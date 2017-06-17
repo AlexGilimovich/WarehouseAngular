@@ -32,6 +32,8 @@ import { EmailService } from './components/email/email.service';
 import { Uploader } from 'angular2-http-file-upload';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsService } from './components/settings/settings.service';
+import {MapModule} from "./components/map/map.module";
+import {MapComponent} from "./components/map/map.component";
 
 const globalRoutes: Routes = [
   {
@@ -90,6 +92,7 @@ const globalRoutes: Routes = [
     WarehouseCreateComponent,
     EmailComponent,
     SettingsComponent,
+    MapComponent
     // WarehouseSchemeInfoComponent,
     // WarehouseSpaceComponent,
     // WarehouseCellComponent
@@ -106,6 +109,7 @@ const globalRoutes: Routes = [
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(globalRoutes),
+    //MapModule,
     //WarehouseModule,
     TransportCompanyModule,
     WarehouseCustomerCompanyModule,

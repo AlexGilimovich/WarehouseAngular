@@ -6,25 +6,29 @@ import {LoginService} from "../login/login.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../user/role";
 import {MapView} from "../../util/map";
+import {MapService} from "../../util/map.service";
 
 
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss'],
-  providers: [WarehouseCompanyService]
+  providers: [WarehouseCompanyService, MapService]
 })
 export class IndexComponent implements OnInit {
-  map: MapView = new MapView;
+  map: MapView = new MapView(this.mapService);
+  googleMapData: any[] = [];
 
   constructor(private companyService:WarehouseCompanyService,
               private loginService:LoginService,
+              private mapService: MapService,
               private router:Router,
               private route:ActivatedRoute) {
   }
 
   ngOnInit() {
     this.companyService.getAllCompany().subscribe(data => {
+      this.googleMapData = data;
       this.map.init(data);
      });
   }
