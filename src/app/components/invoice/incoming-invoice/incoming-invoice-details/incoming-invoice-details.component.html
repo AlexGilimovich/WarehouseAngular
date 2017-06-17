@@ -33,33 +33,37 @@
       <b>Общая цена:</b> {{invoiceForm.controls['goodsEntryCount'].value}}
     </label>
 
-    <div class="goods-container">
-      <div *ngIf="goodsList.length == 0; else hasGoods">
-        <h4>Нет товаров</h4>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="goods-container">
+          <div *ngIf="goodsList.length == 0; else hasGoods">
+            <h4>Нет товаров</h4>
+          </div>
+          <ng-template #hasGoods>
+            <h4>Товары</h4>
+            <table>
+              <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Вес</th>
+              </tr>
+              <tr *ngFor="let goods of goodsList">
+                <th>
+                  <div *ngIf="goods.currentStatus.name === 'TRANSPORT_COMPANY_MISMATCH'">
+                    <i class="right fi-x icon"></i>
+                  </div>
+                </th>
+                <th>{{goods.name}}</th>
+                <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+                <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+                <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+              </tr>
+            </table>
+          </ng-template>
+        </div>
       </div>
-      <ng-template #hasGoods>
-        <h4>Товары</h4>
-        <table>
-          <tr>
-            <th></th>
-            <th>Название</th>
-            <th>Количество</th>
-            <th>Цена</th>
-            <th>Вес</th>
-          </tr>
-          <tr *ngFor="let goods of goodsList">
-            <th>
-              <div *ngIf="goods.currentStatus.name === 'TRANSPORT_COMPANY_MISMATCH'">
-                <i class="right fi-x icon"></i>
-              </div>
-            </th>
-            <th>{{goods.name}}</th>
-            <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
-            <th>{{goods.price}} {{goods.priceUnit.name}}</th>
-            <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
-          </tr>
-        </table>
-      </ng-template>
     </div>
 
     <div [ngSwitch]="status">

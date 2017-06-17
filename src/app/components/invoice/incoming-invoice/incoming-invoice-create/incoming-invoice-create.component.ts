@@ -37,6 +37,7 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   transportModal: any;
   supplierModal: any;
   goodsModal: any;
+  goodsModalSubscription: Subscription;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -68,7 +69,6 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
     const invoice = this.invoiceService.mapIncomingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
     invoice.goodsEntryCount = this.goodsEntryCount;
-    console.log(invoice);
     this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
       this.location.back();
     });
@@ -77,59 +77,48 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   createGoods() {
     this.openGoodsModal();
     let goods: Goods;
-    const subscription = this.goodsService.goodsCreated$.subscribe(res => {
+    this.goodsModalSubscription = this.goodsService.goodsCreated$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
       this.changeGoodsEntryCount();
-      subscription.unsubscribe();
       this.closeGoodsModal();
     });
   }
 
+  openGoodsModal() {
+    this.goodsModalRef = this.goodsAnchor.createGoods();
+    $('#goodsModal').foundation('open');
+  }
+
+  closeGoodsModal() {
+    this.goodsModalRef.destroy();
+    $('#goodsModal').foundation('close');
+  }
+
   deleteGoods(goods: Goods) {
     this.goodsList = this.invoiceService.deleteGoodsFromArray(this.goodsList, goods);
+    this.changeGoodsEntryCount();
   }
 
   saveTransport(company: TransportCompany) {
     this.invoiceForm.controls['transportCompany'].setValue(company);
-    this.closeTransportModal();
+    $('#transportModal').foundation('close');
   }
 
   saveSupplier(supplier: WarehouseCustomerCompany) {
     this.invoiceForm.controls['supplierCompany'].setValue(supplier);
-    this.closeSupplierModal();
-  }
-
-  openTransportModal() {
-    $('#transportModal').foundation('open');
-  }
-
-  closeTransportModal() {
-    $('#transportModal').foundation('close');
-  }
-
-  openSupplierModal() {
-    $('#supplierModal').foundation('open');
-  }
-
-  closeSupplierModal() {
     $('#supplierModal').foundation('close');
   }
 
-  openGoodsModal() {
-    $('#goodsModal').foundation('open');
-    this.goodsModalRef = this.goodsAnchor.createGoods();
-  }
-
-  closeGoodsModal(subscription?: Subscription) {
-    $('#goodsModal').foundation('close');
-    this.goodsModalRef.destroy();
-  }
-
-  private configureModals(){
+  private configureModals() {
     this.transportModal = $('#transportModal').foundation();
     this.supplierModal = $('#supplierModal').foundation();
     this.goodsModal = $('#goodsModal').foundation();
+    $(document).on('closed.zf.reveal', '#goodsModal[data-reveal]', () => {
+      if (this.goodsModalSubscription != null) {
+        this.goodsModalSubscription.unsubscribe();
+      }
+    });
   }
 
   private clearModals() {

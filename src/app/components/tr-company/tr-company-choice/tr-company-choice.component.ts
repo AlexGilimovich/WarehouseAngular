@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {TransportCompany} from "../tr-company";
 import {TransportCompanyService} from "../tr-company.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-tr-company-choice',
@@ -14,7 +15,9 @@ export class TransportCompanyChoiceComponent implements OnInit, OnDestroy{
   maySearch: boolean;
   @Output('company') company = new EventEmitter<TransportCompany>();
 
-  constructor(private transportService: TransportCompanyService) {
+  constructor(private transportService: TransportCompanyService,
+              private router: Router,
+              private route: ActivatedRoute) {
     this.maySearch = true;
   }
 
@@ -46,6 +49,10 @@ export class TransportCompanyChoiceComponent implements OnInit, OnDestroy{
       this.company.emit(this.chosenCompany);
       this.chosenCompany = null;
     }
+  }
+
+  createCompany() {
+    this.router.navigate(['../../../transportCompanies/new'], {relativeTo: this.route});
   }
 
   private forbidSearching() {

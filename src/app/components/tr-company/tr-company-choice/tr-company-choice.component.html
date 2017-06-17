@@ -26,8 +26,20 @@
 
   <div class="row">
     <div class="large-12 small-12 columns button-right">
-      <input type="button" class="button" [disabled]="chosenCompany == null"
-             value="Сохранить" (click)="saveCompany()">
+      <div class="button-left">
+        <input type="button" class="button secondary" value="Создать компанию" (click)="createCompany()">
+      </div>
+      <div class="button-right">
+        <input type="button" class="button" [disabled]="chosenCompany == null"
+               value="Сохранить" (click)="saveCompany()">
+      </div>
     </div>
   </div>
+</div>
+
+<div class="reveal" id="creationModal" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <!-- todo -->
 </div>

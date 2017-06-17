@@ -14,6 +14,7 @@ import {CustomerChoiceComponent} from "../../../customer/customer-choice/custome
 import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.directive";
 import {GoodsChoiceComponent} from "../../../goods/goods-choice/goods-choice.component";
 import {Location} from '@angular/common';
+import {Subscription} from "rxjs/Subscription";
 declare const $: any;
 
 @Component({
@@ -31,6 +32,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
   transportModal: any;
   receiverModal: any;
   goodsModal: any;
+  goodsModalSubscription: Subscription;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -63,7 +65,6 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
     const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
     invoice.goodsEntryCount = this.goodsEntryCount;
-    console.log(invoice);
     this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
       this.location.back();
     });
@@ -71,49 +72,33 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
 
   saveTransport(company: TransportCompany) {
     this.invoiceForm.controls['transportCompany'].setValue(company);
-    this.closeTransportModal();
+    $('#transportModal').foundation('close');
   }
 
   saveReceiver(receiver: WarehouseCustomerCompany) {
     this.invoiceForm.controls['receiverCompany'].setValue(receiver);
-    this.closeReceiverModal();
+    $('#receiverModal').foundation('close');
   }
 
   chooseGoods() {
     this.openGoodsModal();
     let goods: Goods;
-    const subscription = this.goodsService.goodsForOutgoingInvoice$.subscribe(res => {
+    this.goodsModalSubscription = this.goodsService.goodsForOutgoingInvoice$.subscribe(res => {
       goods = res;
       this.goodsList.push(goods);
       this.changeGoodsEntryCount();
       this.closeGoodsModal();
-      subscription.unsubscribe();
     });
   }
 
   deleteGoods(goods: Goods) {
     this.goodsList = this.invoiceService.deleteGoodsFromArray(this.goodsList, goods);
-  }
-
-  openTransportModal() {
-    $('#transportModal').foundation('open');
-  }
-
-  closeTransportModal() {
-    $('#transportModal').foundation('close');
-  }
-
-  openReceiverModal() {
-    $('#receiverModal').foundation('open');
-  }
-
-  closeReceiverModal() {
-    $('#receiverModal').foundation('close');
+    this.changeGoodsEntryCount();
   }
 
   openGoodsModal() {
-    $('#goodsModal').foundation('open');
     this.goodsModalRef = this.goodsAnchor.chooseGoods();
+    $('#goodsModal').foundation('open');
   }
 
   closeGoodsModal() {
@@ -121,10 +106,15 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
     this.goodsModalRef.destroy();
   }
 
-  private configureModals(){
+  private configureModals() {
     this.transportModal = $('#transportModal').foundation();
     this.receiverModal = $('#receiverModal').foundation();
     this.goodsModal = $('#goodsModal').foundation();
+    $(document).on('closed.zf.reveal', '#goodsModal[data-reveal]', () => {
+      if (this.goodsModalSubscription != null) {
+        this.goodsModalSubscription.unsubscribe();
+      }
+    });
   }
 
   private clearModals() {
