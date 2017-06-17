@@ -13,7 +13,8 @@ import { Goods } from '../goods/goods';
 import { Host } from '../../util/host';
 
 const BASE_URL = Host.getURL();
-const LIST_URL = `${BASE_URL}${'act/list/'}`;
+const WAREHOUSE_LIST_URL = `${BASE_URL}${'act/warehouse/'}`;
+const COMPANY_LIST_URL = `${BASE_URL}${'act/company/'}`;
 const GET_URL = `${BASE_URL}${'act/'}`;
 const SAVE_URL = `${BASE_URL}${'act/save'}`;
 const GET_ACTS_FOR_GOODS_URL = `${BASE_URL}${'act/acts'}`;
@@ -30,9 +31,8 @@ export class ActService {
   constructor(private httpAuthService: HttpAuthService) {
   }
 
-
-  list(warehouseId: number, page: number, count: number): Observable<any> {
-    const url = `${LIST_URL}${warehouseId}${'?page='}${page}${'&count='}${count}`;
+  companyList(warehouseCompanyId: number, page: number, count: number): Observable<any> {
+    const url = `${COMPANY_LIST_URL}${warehouseCompanyId}${'?page='}${page}${'&count='}${count}`;
     const headers: Headers = new Headers();
     const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response) => {
@@ -47,6 +47,21 @@ export class ActService {
     });
   }
 
+  list(warehouseId: number, page: number, count: number): Observable<any> {
+    const url = `${WAREHOUSE_LIST_URL}${warehouseId}${'?page='}${page}${'&count='}${count}`;
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      return {
+        acts: (<any>response.json()).map(item => {
+            return this.mapResponseItemToAct(item);
+          }
+        ),
+        count: count
+      };
+    });
+  }
 
   get(id: number): Observable<Act> {
     const url = `${GET_URL}${id}`;

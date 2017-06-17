@@ -54,6 +54,7 @@ export class EmailComponent implements OnInit {
   }
 
   private initFoundation(): void {
+    $('#control-panel').foundation();
     $('#modal').foundation();
     $('#modalSizeError').foundation();
   }
@@ -84,6 +85,11 @@ export class EmailComponent implements OnInit {
     } else {
       this.file = input.files[0];
     }
+  }
+
+  private removeAttachment(input: any): void {
+    this.file = null;
+    input.value = '';
   }
 
   private showErrorSizeExceeds(): void {

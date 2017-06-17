@@ -31,6 +31,7 @@ export class UserDetailsComponent implements OnInit {
   private warehouseList: Warehouse[];
   private hasRights = true;
   private isLoginCheckRequest = false;
+  private showCredentials = true;
 
   constructor(private warehouseService: WarehouseService,
               private userService: UserService,
@@ -52,6 +53,8 @@ export class UserDetailsComponent implements OnInit {
     this.createUserForm();
 
     if (this.id) {
+      this.showCredentials = this.id == authenticatedUser.id;
+
       this.userService.get(this.id).subscribe((currentUser: User) => {
           this.currentUser = currentUser;
           this.getRolesFromServer();
@@ -121,7 +124,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getRoles().subscribe((res) => {
         this.roles = new Array();
         res.forEach(role => {
-            if (this.currentUser.hasRole(role.role)) {
+            if (this.currentUser && this.currentUser.hasRole(role.role)) {
               this.roles.push({role: role, checked: true});
             } else {
               if (role.role === Roles.ROLE_ADMIN()) {

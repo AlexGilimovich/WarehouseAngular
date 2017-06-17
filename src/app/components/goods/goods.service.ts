@@ -78,7 +78,27 @@ export class GoodsService {
         count: count
       };
     });
+  }
 
+  companyList(id: string, page?: number, count?: number): Observable<any> {
+    let url: string
+    if (!page && !count) {
+      url = `${LIST_URL}${'/company/'}${id}${'/list'}`;
+    } else {
+      url = `${LIST_URL}${'/'}${id}${'/list'}${'?page='}${page}${'&count='}${count}`;
+    }
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response)=> {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      return {
+        goods: (<any>response.json()).map(
+          (item: any) => {
+            return this.mapResponseItemToGoods(item);
+          }),
+        count: count
+      };
+    });
   }
 
   invoiceList(id: number): Observable<any> {

@@ -8,6 +8,7 @@
 
 .input-color {
   padding: 0;
+  widht: 10%;
 }
 
 .configuration {
@@ -86,4 +87,51 @@ input.center {
 
 .error {
   border-color: red;
+}
+
+.attachment {
+  background: #e7e7e7;
+  height: 40px;
+  padding: 5px;
+  margin-bottom: 20px;
+  span {
+    display: inline-block;
+    padding-top: 4px;
+  }
+
+  .close {
+    display: inline-block;
+    float: right;
+    font-size: 2em;
+    line-height: 1;
+    span {
+      padding: 0;
+    }
+  }
+}
+
+.attach-button {
+  padding: 10px;
+  font-size: 1.4rem;
+}
+
+.background-button {
+  padding: 10px;
+}
+
+.dropdown-pane {
+  padding: 0;
+  border: none;
+  select {
+    margin: 0;
+  }
+  input {
+    padding: 0;
+    margin: 0;
+  }
+  input[type=color] {
+    padding: 0;
+    margin: 0;
+  }
+
 }

@@ -7,6 +7,8 @@ import { ActSearchDTO } from '../actSearchDTO';
 import { Subscription } from 'rxjs';
 import { ActSearchService } from '../act-search/act-search.service';
 import { LoginService } from '../../login/login.service';
+import { User } from '../../user/user';
+import { Roles } from '../../user/roles';
 
 declare var $;
 
@@ -21,7 +23,7 @@ export class ActListComponent implements OnInit {
   @Input() private actTypeNames;
   private searchDTO: ActSearchDTO;
   private searchSubscription: Subscription;
-  private warehouseId: number;//todo
+  private warehouseId: number;
 
 
   //pagination
@@ -40,7 +42,7 @@ export class ActListComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private loginService: LoginService) {
-    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
+    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;
     this.searchSubscription = actSearchService.searchDTO$.subscribe(searchDTO => {
       this.searchDTO = searchDTO;
       this.getPage(1, searchDTO);
@@ -48,12 +50,26 @@ export class ActListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
-        this.handleActListResponse(res);
-      }, (err: any) => {
-        console.error(err);
-      }
-    );
+    this.getActsFromServer();
+  }
+
+  private getActsFromServer(): void {
+    const authenticatedUser: User = this.loginService.getLoggedUser();
+    if (authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+      this.actService.companyList(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
+          this.handleActListResponse(res);
+        }, (err: any) => {
+          console.error(err);
+        }
+      );
+    } else {
+      this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
+          this.handleActListResponse(res);
+        }, (err: any) => {
+          console.error(err);
+        }
+      );
+    }
   }
 
   private paginate(): void {

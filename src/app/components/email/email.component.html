@@ -52,18 +52,18 @@
 
     </div>
 
-    <div class="row">
-      <div class="column large-2 small-2">
-        <label for="template" class="right">Шаблон:</label>
-      </div>
-      <div class="column large-9 small-9">
-        <select name="template" id="template" [formControl]="form.controls['template']" (change)="changeTemplate()">
-          <option *ngFor="let t of templates" [value]="t.type">
-            {{templateNamesMessages.get(t.type)}}
-          </option>
-        </select>
-      </div>
-    </div>
+    <!--<div class="row">-->
+    <!--<div class="column large-2 small-2">-->
+    <!--<label for="template" class="right">Шаблон:</label>-->
+    <!--</div>-->
+    <!--<div class="column large-9 small-9">-->
+    <!--<select name="template" id="template" [formControl]="form.controls['template']" (change)="changeTemplate()">-->
+    <!--<option *ngFor="let t of templates" [value]="t.type">-->
+    <!--{{templateNamesMessages.get(t.type)}}-->
+    <!--</option>-->
+    <!--</select>-->
+    <!--</div>-->
+    <!--</div>-->
 
     <div class="row">
       <div class="column large-2 small-2">
@@ -74,14 +74,44 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="column large-2 small-2">
-        <label for="backgroundColor" class="right">Цвет фона:</label>
+     <div class="row">
+      <div class="column large-offset-2 small-offset-2 medium-offset-2 large-10 medium-2 small-10">
+        <div class="button-group" id="control-panel">
+          <button class="button hollow background-button" type="button" data-toggle="backgroundColorDropdown">Bg
+          </button>
+          <div class="dropdown-pane" id="backgroundColorDropdown" data-dropdown data-auto-focus="true">
+            <input class="input-color" type="color" id="backgroundColor" name="backgroundColor"
+                   (change)="changeBackgroundColor()"
+                   [formControl]="form.controls['backgroundColor']">
+          </div>
+
+          <label for="image" class="button hollow attach-button"><i class="fi-paperclip"></i></label>
+          <input #image type="file" name="image" (change)="fileSelected(image)" id="image" class="show-for-sr"
+                 accept="image/jpeg">
+
+          <button class="button hollow" type="button" data-toggle="templateDropdown">T</button>
+          <div class="dropdown-pane" id="templateDropdown" data-dropdown data-auto-focus="true">
+            <select name="template" id="template" [formControl]="form.controls['template']"
+                    (change)="changeTemplate()">
+              <option *ngFor="let t of templates" [value]="t.type">
+                {{templateNamesMessages.get(t.type)}}
+              </option>
+            </select>
+
+          </div>
+        </div>
       </div>
-      <div class="column large-2 small-2">
-        <input class="input-color" type="color" id="backgroundColor" name="backgroundColor"
-               (change)="changeBackgroundColor()"
-               [formControl]="form.controls['backgroundColor']">
+    </div>
+
+    <div class="row">
+
+      <div class="column large-offset-2 small-offset-2 large-4 small-4">
+        <div class="attachment" *ngIf="file">
+          <span>{{file?.name}}</span>
+          <button class="close" type="button" (click)="removeAttachment(image)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -108,34 +138,20 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="column large-2 small-2">
-        <span *ngIf="true">Прикрепленное изображение:</span>
-      </div>
-      <div class="column large-9 small-9">
-        <span *ngIf="file">{{file?.name}}</span>
-        <span *ngIf="!file">нет</span>
-      </div>
-
-    </div>
 
     <div class="column large-11 medium-11 small-11">
       <div class="button-right">
-        <label for="image" class="button">Загрузить изображение</label>
-        <input #image type="file" name="image" (change)="fileSelected(image)" id="image" class="show-for-sr" accept="image/jpeg">
         <input class="button" type="submit" [disabled]="!form.valid" value="Отправить">
       </div>
     </div>
   </form>
 </div>
 
-<div class="reveal error" id="modalSizeError" data-reveal>
+<div class="reveal success" id="modalSizeError" data-reveal>
   <button class="close-button" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button>
-  <div class="text center">
-    <h5>Размер файла превышает допустимый (5 MB)</h5>
-  </div>
+  <h5>Размер файла превышает допустимый (50 )</h5>
 </div>
 
 <div class="reveal success" id="modal" data-reveal>
