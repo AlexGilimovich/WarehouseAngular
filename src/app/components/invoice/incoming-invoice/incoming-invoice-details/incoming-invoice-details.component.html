@@ -52,7 +52,7 @@
               <tr *ngFor="let goods of goodsList">
                 <th>
                   <div *ngIf="goods.currentStatus.name === 'TRANSPORT_COMPANY_MISMATCH'">
-                    <i class="right fi-x icon"></i>
+                    <i class="right fi-x red"></i>
                   </div>
                 </th>
                 <th>{{goods.name}}</th>
@@ -79,6 +79,5 @@
         </div>
       </div>
     </div>
-    <input type="button" class="secondary button" (click)="placeGoods()" value="Разместить товар">
   </form>
 </div>

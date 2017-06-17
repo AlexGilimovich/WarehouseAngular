@@ -29,6 +29,7 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
   constructor(private invoiceService: InvoiceService,
               private loginService: LoginService,
               private formBuilder: FormBuilder,
+              private router: Router,
               private route: ActivatedRoute,
               private location: Location) {
     this.goodsList = [];
@@ -52,7 +53,6 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     this.id = this.invoiceService.parseIdParam(this.route);
     this.invoiceService.getOutgoingInvoiceById(this.id).subscribe(data => {
       const invoice = data;
-      console.log(invoice);
       this.mapFormFromInvoice(invoice);
       this.goodsList = invoice.goods;
       this.status = InvoiceStatus[invoice.status];
@@ -63,6 +63,13 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     const status = InvoiceStatus.RELEASE_ALLOWED;
     this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
       this.location.back();
+    });
+  }
+
+  createAct() {
+    this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse], {
+      queryParams: {invoiceId: this.id},
+      relativeTo: this.route
     });
   }
 

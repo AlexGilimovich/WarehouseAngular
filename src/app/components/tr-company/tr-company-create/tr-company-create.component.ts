@@ -20,7 +20,7 @@ export class TransportCompanyCreateComponent implements OnInit {
               private location: Location) {
     this.companyForm = formBuilder.group({
       'isTrusted': '',
-      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]
+      'name': ['', Validators.compose([Validators.required])]
     });
     this.companyForm.controls['isTrusted'].setValue(false);
   }

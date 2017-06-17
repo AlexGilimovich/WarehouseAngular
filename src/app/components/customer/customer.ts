@@ -3,5 +3,6 @@ export class WarehouseCustomerCompany {
   name: string;
   x: number;
   y: number;
+  address: string;
   // warehouseCompanyId: number;
 }

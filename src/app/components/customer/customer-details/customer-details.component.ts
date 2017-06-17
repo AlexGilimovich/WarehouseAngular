@@ -26,9 +26,8 @@ export class CustomerDetailsComponent implements OnInit {
               private formBuilder: FormBuilder,
               private location: Location) {
     this.customerForm = this.formBuilder.group({
-      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])]/*,
-      'x': ['', Validators.compose([Validators.required])],
-      'y': ['', Validators.compose([Validators.required])]*/
+      'name': ['', Validators.compose([Validators.required])],
+      'address': ['']
     });
   }
 
@@ -37,6 +36,7 @@ export class CustomerDetailsComponent implements OnInit {
     this.customerService.getById(this.id).subscribe(data => {
       const customer = data;
       this.customerForm.controls['name'].setValue(customer.name);
+      this.customerForm.controls['address'].setValue(customer.address);
       this.map.setOneCoordinate(customer.x, customer.y);
       /*this.customerForm.controls['x'].setValue(customer.x);
       this.customerForm.controls['y'].setValue(customer.y);*/

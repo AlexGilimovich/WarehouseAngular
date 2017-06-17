@@ -24,7 +24,7 @@ export class CustomerCreateComponent implements OnInit {
               private formBuiler: FormBuilder,
               private location: Location) {
     this.customerForm = formBuiler.group({
-      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
+      'name': ['', Validators.compose([Validators.required])],
       'address': ['']
     });
   }

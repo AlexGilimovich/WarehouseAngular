@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {TransportCompany} from '../../../tr-company/tr-company';
 import {WarehouseCustomerCompany} from '../../../customer/customer';
@@ -40,7 +40,6 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
       'supplierCompany': [''],
       'transportNumber': [''],
       'transportName': [''],
-      // todo invisible driver if not auto
       'driver': [],
       'description': [''],
       'goodsEntryCount': ['']
@@ -66,25 +65,21 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
   }
 
   createMismatchAct() {
-    // this.router.navigateByUrl();
-    this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse],{queryParams: {invoiceId: this.id}, relativeTo:this.route});
-    // const status = InvoiceStatus.CHECKED;//todo moved this logic into act create component
-    // this.invoiceService.updateInvoiceStatus(this.id, status).subscribe();
-  }
-
-  finishCompleting(){
-    const status = InvoiceStatus.COMPLETED;
-    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
-      this.router.navigate(['../../../warehousecompany',
-        this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany,
-        'warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'scheme'],
-        {relativeTo: this.route});
+    this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse], {
+      queryParams: {invoiceId: this.id},
+      relativeTo: this.route
     });
   }
 
-  placeGoods(){
-    //this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, 'warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'scheme'], {relativeTo: this.route});
-    this.router.navigate(['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {relativeTo: this.route});
+  // todo improve
+  finishCompleting() {
+    const status = InvoiceStatus.COMPLETED;
+    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
+      this.router.navigate(
+        ['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {
+          relativeTo: this.route
+        });
+    });
   }
 
   isManager() {

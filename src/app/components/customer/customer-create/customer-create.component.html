@@ -14,12 +14,6 @@
                  *ngIf="customerForm.controls['name'].hasError('required') && customerForm.get('name').touched">
               Поле "Название" не может быть пустым
             </div>
-            <div class="callout alert"
-                 *ngIf="!customerForm.controls['name'].valid &&
-                    !customerForm.controls['name'].hasError('required') &&
-                     customerForm.get('name').touched">
-              Название может содержать только буквы, цифры и пробелы
-            </div>
           </div>
         </div>
       </div>

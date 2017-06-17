@@ -64,6 +64,7 @@
       <div *ngSwitchCase="invoiceStatus.REGISTERED_OUTGOING">
         <div *ngIf="isController()">
           <input type="button" class="button" (click)="allowRelease()" value="Разрешить выпуск">
+          <input type="button" class="button alert" (click)="createAct()" value="Оформить акт">
         </div>
       </div>
       <div *ngSwitchCase="invoiceStatus.RELEASE_ALLOWED">

@@ -28,7 +28,7 @@
               [ngClass]="{'active':currentPage=='goods'}"><a (click)="navigateToPage('goods')">Товары</a></li>
           <li *ngIf="hasAnyRole('ROLE_OWNER','ROLE_MANAGER','ROLE_CONTROLLER')"
               [ngClass]="{'active':currentPage=='acts'}"><a (click)="navigateToPage('acts')">Акты</a></li>
-          <li *ngIf="hasAnyRole('ROLE_DISPATCHER')" [ngClass]="{'active':currentPage=='transportCompanies'}"><a
+          <li *ngIf="hasAnyRole('ROLE_DISPATCHER','ROLE_MANAGER')" [ngClass]="{'active':currentPage=='transportCompanies'}"><a
             (click)="navigateToPage('transportCompanies')">Транспортные компании</a></li>
           <li *ngIf="hasAnyRole('ROLE_SUPERVISOR')" [ngClass]="{'active':currentPage=='emails'}"><a
             (click)="navigateToPage('emails')">Отправка email</a></li>

@@ -136,6 +136,7 @@ export class WarehouseCustomerCompanyService {
       customer.id = id;
     }
     customer.name = form.controls['name'].value;
+    customer.address = form.controls['address'].value;
     return customer;
   }
 
