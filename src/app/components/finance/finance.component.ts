@@ -97,8 +97,9 @@ export class FinanceComponent implements OnInit {
       }
     )).subscribe(res => {
         this.getPriceListFromServer();
+        this.getPriceListHistoryFromServer()
         this.closeModal();
-        this.clearNewPrices();
+        // this.clearNewPrices();
       }, error => {
 
       }

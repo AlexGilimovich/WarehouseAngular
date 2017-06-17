@@ -5,7 +5,7 @@
 
       <div class="column large-2 small-2">
         <label for="subject" class="right">Получатели:
-          <small><i>обязательно поле</i></small>
+          <small *ngIf="selectedUsers?.length == 0"><i>не выбраны</i></small>
         </label>
       </div>
 
@@ -52,19 +52,6 @@
 
     </div>
 
-    <!--<div class="row">-->
-    <!--<div class="column large-2 small-2">-->
-    <!--<label for="template" class="right">Шаблон:</label>-->
-    <!--</div>-->
-    <!--<div class="column large-9 small-9">-->
-    <!--<select name="template" id="template" [formControl]="form.controls['template']" (change)="changeTemplate()">-->
-    <!--<option *ngFor="let t of templates" [value]="t.type">-->
-    <!--{{templateNamesMessages.get(t.type)}}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="row">
       <div class="column large-2 small-2">
         <label for="subject" class="right">Тема:</label>
@@ -74,7 +61,7 @@
       </div>
     </div>
 
-     <div class="row">
+    <div class="row">
       <div class="column large-offset-2 small-offset-2 medium-offset-2 large-10 medium-2 small-10">
         <div class="button-group" id="control-panel">
           <button class="button hollow background-button" type="button" data-toggle="backgroundColorDropdown">Bg
@@ -151,7 +138,7 @@
   <button class="close-button" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button>
-  <h5>Размер файла превышает допустимый (50 )</h5>
+  <h5>Размер файла превышает допустимый (5 MB)</h5>
 </div>
 
 <div class="reveal success" id="modal" data-reveal>

@@ -95,35 +95,35 @@ export class ActCreateComponent implements OnInit {
         this.statusNames = [...res.filter(item => {
             return item.name !== Statuses.WITHDRAWN() || item.name !== Statuses.STORED();
           }
-        ), new GoodsStatusName(null, '')];
+        )];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
-        this.storageTypes = [...res, new StorageSpaceType()];
+        this.storageTypes = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.quantityUnits = [...res, new Unit()];
+        this.quantityUnits = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getPriceUnits().subscribe(
       (res) => {
-        this.priceUnits = [...res, new Unit()];
+        this.priceUnits = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getWeightUnits().subscribe(
       (res) => {
-        this.weightUnits = [...res, new Unit()];
+        this.weightUnits = [...res];
       }, (err) => {
         console.error(err);
       }
