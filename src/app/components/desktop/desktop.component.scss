@@ -93,16 +93,16 @@ $text-input: #bcbcbc;
   color: #DEDEDE;
   height: 100vh;
 
-  .form{
-    label{
+  .form {
+    label {
       color: #DEDEDE;
     }
-    .head{
+    .head {
       background: #1779ba;
     }
   }
 
-  label.right{
+  label.right {
     color: #DEDEDE;
   }
 
@@ -117,8 +117,6 @@ $text-input: #bcbcbc;
       color: lightblue;
     }
   }
-
-
 
   .menu {
     background: $secondary-background-color;
@@ -135,6 +133,14 @@ $text-input: #bcbcbc;
 
   table {
     color: $text-color;
+
+    .button-column {
+      background-color: $bg-color;
+      button {
+        color: white;
+        border: solid 1px white;
+      }
+    }
 
     th, td {
       border-color: white;

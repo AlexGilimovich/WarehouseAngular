@@ -9,6 +9,7 @@ import { rolesMessages } from '../user.module';
 import { WarehouseService } from '../../warehouse/warehouse.service';
 import { LoginService } from '../../login/login.service';
 import { Observable } from 'rxjs/Rx';
+import { Roles } from '../roles';
 
 const ROLE_ADMIN = 'ROLE_ADMIN';
 const ROLE_OWNER = 'ROLE_OWNER';
@@ -50,27 +51,23 @@ export class UserDetailsComponent implements OnInit {
 
     this.createUserForm();
 
-    if (this.id != undefined) {
-      this.userService.get(this.id).subscribe(
-        (currentUser: User) => {
+    if (this.id) {
+      this.userService.get(this.id).subscribe((currentUser: User) => {
           this.currentUser = currentUser;
           this.getRolesFromServer();
-          //list warehouses on form
           this.warehouseService.getWarehouse(authenticatedUser.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
             (warehouseList: Warehouse[]) => {
               this.warehouseList = warehouseList;
               if (this.currentUser.warehouse) {
                 this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
               }
-            },
-            (err: any) => {
-              console.log(err);
+            }, (err: any) => {
+              console.error(err);
             }
           );
           this.fillForm();
-        },
-        (err: any) => {
-          console.log(err);
+        }, (err: any) => {
+          console.error(err);
         }
       );
     } else {
@@ -80,9 +77,8 @@ export class UserDetailsComponent implements OnInit {
       this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
         (warehouseList: Warehouse[]) => {
           this.warehouseList = warehouseList;
-        },
-        (err: any) => {
-          console.log(err);
+        }, (err: any) => {
+          console.error(err);
         }
       );
       this.getRolesFromServer();
@@ -122,20 +118,19 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private getRolesFromServer(): void {
-    this.userService.getRoles().subscribe(
-      (res) => {
+    this.userService.getRoles().subscribe((res) => {
         this.roles = new Array();
         res.forEach(role => {
             if (this.currentUser.hasRole(role.role)) {
               this.roles.push({role: role, checked: true});
             } else {
-              if (role.role === ROLE_ADMIN) {
-                if (this.loginService.getLoggedUser().hasRole(ROLE_ADMIN)) {
+              if (role.role === Roles.ROLE_ADMIN()) {
+                if (this.loginService.getLoggedUser().hasRole(Roles.ROLE_ADMIN())) {
                   this.roles.push({role: role, checked: false});
                 }
               } else {
-                if (role.role === ROLE_OWNER) {
-                  if (this.loginService.getLoggedUser().hasRole(ROLE_OWNER)) {
+                if (role.role === Roles.ROLE_OWNER()) {
+                  if (this.loginService.getLoggedUser().hasRole(Roles.ROLE_OWNER())) {
                     this.roles.push({role: role, checked: false});
                   }
                 } else {
@@ -155,12 +150,12 @@ export class UserDetailsComponent implements OnInit {
 
   private isSupervisor() {
     const authenticatedUser: User = this.loginService.getLoggedUser();
-    return authenticatedUser.hasRole(ROLE_SUPERVISOR);
+    return authenticatedUser.hasRole(Roles.ROLE_SUPERVISOR());
   }
 
   private isOwner() {
     const authenticatedUser: User = this.loginService.getLoggedUser();
-    return authenticatedUser.hasRole(ROLE_OWNER);
+    return authenticatedUser.hasRole(Roles.ROLE_OWNER());
   }
 
   private fillForm(): void {

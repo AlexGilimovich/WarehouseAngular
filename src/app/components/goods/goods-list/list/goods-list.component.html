@@ -46,7 +46,7 @@
       {{goods.goods.weightUnit.name}}
     </td>
     <td>
-      <select id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.currentStatus?.name"
+      <select class="aligned" id="statusName_{{i}}" name="statusName" [ngModel]="goods.goods.currentStatus?.name"
               [disabled]="!isEditable"
               (ngModel)="goods.goods.currentStatus.name" (change)="statusChangedEvent($event, goods)">
         <option *ngFor="let statusName of statusNames" [value]="statusName.name">
@@ -63,7 +63,7 @@
     <td (click)="goToStorageView(goods)">
       <div class="cell-container">
         <div class="cell-item" *ngFor="let cell of goods.goods?.cells">
-          <a>{{cell.idStorageCell}}</a>
+          <a>{{cell.number}}</a>
         </div>
       </div>
     </td>

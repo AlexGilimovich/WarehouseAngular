@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 
 declare var $;
 
+const MAX_FILE_SIZE = 5000000;
 const COLOR_WHITE = '#FFFFFF';
 const TEMPLATE_DEFAULT = 'DEFAULT';
 
@@ -27,6 +28,7 @@ export class EmailComponent implements OnInit {
   private requestInProgress = false;
   private success = false;
   private fail = false;
+  private file: File;
 
   constructor(private userService: UserService,
               private emailService: EmailService,
@@ -53,6 +55,7 @@ export class EmailComponent implements OnInit {
 
   private initFoundation(): void {
     $('#modal').foundation();
+    $('#modalSizeError').foundation();
   }
 
   private initForm(): void {
@@ -64,12 +67,27 @@ export class EmailComponent implements OnInit {
 
   private getUsersFromServer() {
     this.userService.list().subscribe(res => {
-      this.users = res.users;
+      this.users = res.users.filter((item: User) => {
+        return item.email;
+      });
     });
   }
 
   private toggleUserSelection() {
     this.userSelecting = !this.userSelecting;
+  }
+
+  private fileSelected(input: any): void {
+    if (input.files[0] && input.files[0].size > MAX_FILE_SIZE) {
+      this.showErrorSizeExceeds();
+      input.value = '';
+    } else {
+      this.file = input.files[0];
+    }
+  }
+
+  private showErrorSizeExceeds(): void {
+    $('#modalSizeError').foundation('open');
   }
 
   private addUsers(select): void {
@@ -113,14 +131,14 @@ export class EmailComponent implements OnInit {
     });
   }
 
-  private sendEmail(fileInput): void {
+  private sendEmail(): void {
     $('#modal').foundation('open');
     this.requestInProgress = true;
     this.fail = false;
     this.success = false;
 
     const template: Template = this.buildTemplate();
-    this.emailService.sendEmail(template, fileInput.files[0]).subscribe(res => {
+    this.emailService.sendEmail(template, this.file).subscribe(res => {
         this.requestInProgress = false;
         this.success = true;
       }, error => {

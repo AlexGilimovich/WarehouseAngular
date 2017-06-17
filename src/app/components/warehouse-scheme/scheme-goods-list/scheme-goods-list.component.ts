@@ -1,10 +1,11 @@
-import {Component, OnInit, Input, Output} from '@angular/core';
-import {GoodsService} from '../../goods/goods.service';
-import {Goods} from '../../goods/goods';
-import {WarehouseSchemeService} from '../warehouse-scheme.service';
-import {Subscription} from 'rxjs';
-import {isUndefined} from "util";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, OnInit, Input } from '@angular/core';
+import { GoodsService } from '../../goods/goods.service';
+import { Goods } from '../../goods/goods';
+import { WarehouseSchemeService } from '../warehouse-scheme.service';
+import { Subscription } from 'rxjs';
+import { isUndefined } from 'util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Statuses } from '../../goods/statuses';
 
 @Component({
   selector: 'app-scheme-goods-list',
@@ -21,8 +22,8 @@ export class SchemeGoodsListComponent implements OnInit {
 
   constructor(private goodsService: GoodsService,
               private warehouseSchemeService: WarehouseSchemeService,
-              private route:ActivatedRoute,
-              private router:Router) {
+              private route: ActivatedRoute,
+              private router: Router) {
     this.cellsSelectedSubscription = this.warehouseSchemeService.deleteGoodsListSource$.subscribe((goods: Goods) => {
         this.placedGoods.push(goods);
         this.goodsList.splice(this.goodsList.indexOf(goods), 1);
@@ -30,7 +31,7 @@ export class SchemeGoodsListComponent implements OnInit {
           this.selectedId = this.goodsList[0].id;
           this.warehouseSchemeService.goodsWereSelected(this.goodsList[0]);
         } else {
-          console.log("Все товары были распределены");
+          console.log('Все товары были распределены');
           this.putAllInStorage();
           this.router.navigate(['../../../../../list/incoming'], {relativeTo: this.route});
         }
@@ -62,8 +63,10 @@ export class SchemeGoodsListComponent implements OnInit {
   private getGoodsListFromServer(): void {
     if (!isUndefined(this.id_invoice)) {
       this.goodsService.invoiceList(this.id_invoice).subscribe(res => {
-          this.goodsList = res.goods;
-          if (this.goodsList.length != 0) {
+          this.goodsList = res.goods.filter((item: Goods) => {
+            return item.currentStatus.name === Statuses.CHECKED();
+          });
+          if (this.goodsList.length !== 0) {
             this.selectedId = this.goodsList[0].id;
             this.warehouseSchemeService.goodsWereSelected(this.goodsList[0]);
           }

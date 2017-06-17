@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { ActService } from "../act.service";
-import { Act } from "../act";
-import { actTypeMessages } from "../act.module";
-import { ActSearchDTO } from "../actSearchDTO";
-import { Subscription } from "rxjs";
-import { ActSearchService } from "../act-search/act-search.service";
-import { LoginService } from "../../login/login.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ActService } from '../act.service';
+import { Act } from '../act';
+import { actTypeMessages } from '../act.module';
+import { ActSearchDTO } from '../actSearchDTO';
+import { Subscription } from 'rxjs';
+import { ActSearchService } from '../act-search/act-search.service';
+import { LoginService } from '../../login/login.service';
 
 declare var $;
 
@@ -26,7 +26,7 @@ export class ActListComponent implements OnInit {
 
   //pagination
   private itemsOnPageArray = [10, 20];
-  private currentPage: number = 1;
+  private currentPage = 1;
   private itemsOnPage: number = this.itemsOnPageArray[0];
   private totalItemsCount;
   private pageArray;
@@ -41,19 +41,16 @@ export class ActListComponent implements OnInit {
               private route: ActivatedRoute,
               private loginService: LoginService) {
     this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
-    this.searchSubscription = actSearchService.searchDTO$.subscribe(
-      searchDTO => {
-        this.searchDTO = searchDTO;
-        this.getPage(1, searchDTO);
-      });
+    this.searchSubscription = actSearchService.searchDTO$.subscribe(searchDTO => {
+      this.searchDTO = searchDTO;
+      this.getPage(1, searchDTO);
+    });
   }
 
   ngOnInit() {
-    this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe(
-      (res: any) => {
+    this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
         this.handleActListResponse(res);
-      },
-      (err: any) => {
+      }, (err: any) => {
         console.error(err);
       }
     );
@@ -62,7 +59,7 @@ export class ActListComponent implements OnInit {
   private paginate(): void {
     this.totalPageCount = Math.ceil(this.totalItemsCount / this.itemsOnPage);
     let pages = this.totalPageCount < this.displayedPageCount ? this.totalPageCount : this.displayedPageCount;
-    this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i)=> {
+    this.pageArray = Array(this.totalPageCount < pages ? this.totalPageCount : pages).fill(this.currentPage).map((e, i) => {
       if (e < Math.ceil(pages / 2) + 1) {
         return i + 1;
       } else {
@@ -91,29 +88,25 @@ export class ActListComponent implements OnInit {
   }
 
   private getActs(page) {
-    this.actService.list(this.warehouseId, page, this.itemsOnPage).subscribe(
-      (res) => {
+    this.actService.list(this.warehouseId, page, this.itemsOnPage).subscribe((res) => {
         this.handleActListResponse(res);
-      },
-      (err: any) => {
+      }, (err: any) => {
         console.error(err);
       }
     );
   }
 
   private search(searchDTO: ActSearchDTO, page) {
-    this.actService.search(this.warehouseId, searchDTO, page, this.itemsOnPage).subscribe(
-      (res) => {
+    this.actService.search(this.warehouseId, searchDTO, page, this.itemsOnPage).subscribe((res) => {
         this.handleActListResponse(res);
-      },
-      (err: any) => {
+      }, (err: any) => {
         console.error(err);
       }
     );
   }
 
   private handleActListResponse(res: any) {
-    this.acts = res.acts.sort((current, next)=> {
+    this.acts = res.acts.sort((current, next) => {
       return (new Date(current.date) < new Date(next.date)) ? 1 : -1;
     });
     this.totalItemsCount = res.count;
@@ -126,14 +119,16 @@ export class ActListComponent implements OnInit {
   }
 
   private addToSelected(e, act: Act) {
-    if (e.target.checked)
+    if (e.target.checked) {
       this.selectedActs.push(act);
+    }
 
   }
 
   private addAllToSelected(e) {
-    if (e.target.checked)
+    if (e.target.checked) {
       this.selectedActs.concat(this.acts);
+    }
   }
 
   private isSelected(act: Act) {

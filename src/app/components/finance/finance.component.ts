@@ -4,6 +4,7 @@ import { StorageSpaceType } from "../warehouse-scheme/storage-space-type";
 import { GoodsService } from "../goods/goods.service";
 import { storageTypeWithId } from "./finance.module";
 import { PriceDTO } from "./priceDTO";
+import { Price } from './price';
 declare var $;
 
 @Component({
@@ -12,11 +13,11 @@ declare var $;
   styleUrls: ['./finance.component.scss']
 })
 export class FinanceComponent implements OnInit {
-  private priceList;
+  private priceList: Price[];
+  private historyPrices: Price[];
   private storageTypes: StorageSpaceType[];
   private storageTypeMessages = storageTypeWithId;
-  private searchDTO = {startDate: '', endDate: '', searchStorageType: ''};
-  private newPrices: PriceDTO[] = [];
+  private newPrices: PriceDTO[];
   private newPricesComment = '';
 
   constructor(private financeService: FinanceService,
@@ -25,20 +26,30 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit() {
     this.getPriceListFromServer();
+    this.getPriceListHistoryFromServer();
     this.getStorageTypesFromServer();
     this.initFoundation();
   }
 
   private initFoundation(): void {
     $('#priceListModal').foundation();
+    $('#accordion').foundation();
   }
 
-  private createNewPricesArray(): PriceDTO[] {
-    return this.storageTypes.map(item => {
-      const price = new PriceDTO();
-      price.idStorageSpaceType = item.idStorageSpaceType;
-      return price;
+  private createNewPricesArray() {
+    this.newPrices = this.priceList.map((price: Price) => {
+      const p = new PriceDTO();
+      p.idStorageSpaceType = price.idStorageSpaceType;
+      p.dailyPrice = price.dailyPrice;
+      return p;
     });
+  }
+
+  setNewPrices(): void {
+    if (!this.newPrices) {
+      this.createNewPricesArray();
+    }
+    this.openModal();
   }
 
   private getPriceListFromServer(): void {
@@ -51,13 +62,21 @@ export class FinanceComponent implements OnInit {
     );
   }
 
+  private getPriceListHistoryFromServer(): void {
+    this.financeService.getPriceList().subscribe(
+      res => {
+        this.historyPrices = res.sort((current, next) => {
+          return current.startTime < next.startTime ? 1 : -1;
+        });
+      }
+    );
+  }
+
   private getStorageTypesFromServer(): void {
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
         this.storageTypes = res;
-        this.newPrices = this.createNewPricesArray();
-      },
-      (err) => {
+      }, (err) => {
         console.error(err);
       }
     );
@@ -69,18 +88,6 @@ export class FinanceComponent implements OnInit {
 
   private closeModal() {
     $('#priceListModal').foundation('close');
-  }
-
-  private search() {
-    this.financeService.find(this.searchDTO.startDate, this.searchDTO.endDate, this.searchDTO.searchStorageType).subscribe(
-      res => {
-        this.priceList = res;
-      }
-    );
-  }
-
-  private clear() {
-    this.searchDTO = {startDate: '', endDate: '', searchStorageType: ''};
   }
 
   private updatePrices() {

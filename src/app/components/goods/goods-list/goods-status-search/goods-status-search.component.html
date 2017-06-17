@@ -10,6 +10,7 @@
       </div>
       <div class="large-10 small-10 columns">
         <select name="status" id="status" [(ngModel)]="status.name">
+          <option value=""></option>
           <option *ngFor="let statusName of statusNames" [value]="statusName.name">
             {{statusMessages.get(statusName.name)}}
           </option>

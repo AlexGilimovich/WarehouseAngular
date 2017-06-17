@@ -24,7 +24,6 @@ export class ActListContainerComponent implements OnInit {
     this.initFoundation();
     this.actService.getActTypes().subscribe((res) => {
         this.actTypeNames = res;
-        this.actTypeNames.push(new ActTypeName(null, ''));
       }, (err) => {
         console.error(err);
       }

@@ -8,6 +8,7 @@
         </div>
         <div class="large-10 small-10 columns">
           <select name="incomingInvoice" id="incomingInvoice" [(ngModel)]="searchDTO.incomingInvoiceId">
+            <option value=""></option>
             <option *ngFor="let invoice of incomingInvoices" [value]="invoice.id">№ {{invoice.number}} от {{invoice.issueDate | date: 'dd.MM.yyyy'}}</option>
           </select>
         </div>
@@ -22,6 +23,7 @@
         </div>
         <div class="large-10 small-10 columns">
           <select name="outgoingInvoice" id="outgoingInvoice" [(ngModel)]="searchDTO.outgoingInvoiceId">
+            <option value=""></option>
             <option value="" *ngFor="let invoice of outgoingInvoices" [value]="invoice.id">№ {{invoice.number}} от {{invoice.issueDate | date: 'dd.MM.yyyy'}}</option>
           </select>
         </div>
@@ -60,6 +62,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="quantityUnit" id="quantityUnit" [(ngModel)]="searchDTO.quantityUnit">
+        <option value=""></option>
         <option *ngFor="let unit of quantityUnits" [value]="unit.name">
           {{unit.name}}
         </option>
@@ -86,6 +89,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="priceUnit" id="priceUnit" [(ngModel)]="searchDTO.priceUnit">
+        <option value=""></option>
         <option *ngFor="let unit of priceUnits" [value]="unit.name">
           {{unit.name}}
         </option>
@@ -112,6 +116,7 @@
     </div>
     <div class="large-2 small-2 columns">
       <select name="weightUnit" id="weightUnit" [(ngModel)]="searchDTO.weightUnit">
+        <option value=""></option>
         <option *ngFor="let unit of weightUnits" [value]="unit.name">
           {{unit.name}}
         </option>
@@ -128,6 +133,7 @@
         </div>
         <div class="large-10 small-10 columns">
           <select name="currentStatus" id="currentStatus" [(ngModel)]="searchDTO.currentStatus">
+            <option value=""></option>
             <option *ngFor="let statusName of statusNames" [value]="statusName.name">
               {{statusMessages.get(statusName.name)}}
             </option>
@@ -145,6 +151,7 @@
         </div>
         <div class="large-10 small-10 columns">
           <select name="storageType" id="storageType" [(ngModel)]="searchDTO.storageType">
+            <option value=""></option>
             <option *ngFor="let type of storageTypes" [value]="type.name">
               {{type.name}}
             </option>

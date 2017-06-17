@@ -1,12 +1,12 @@
-import {Component, OnInit} from "@angular/core";
-import {Location} from "@angular/common";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {GoodsService} from "../goods.service";
-import {Goods} from "../goods";
-import {StorageType} from "../storageType";
-import {Unit} from "../unit";
-import {StorageSpaceType} from "../../warehouse-scheme/storage-space-type";
-import {LoginService} from "../../login/login.service";
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GoodsService } from '../goods.service';
+import { Goods } from '../goods';
+import { StorageType } from '../storageType';
+import { Unit } from '../unit';
+import { StorageSpaceType } from '../../warehouse-scheme/storage-space-type';
+import { LoginService } from '../../login/login.service';
 
 
 @Component({
@@ -15,70 +15,70 @@ import {LoginService} from "../../login/login.service";
   styleUrls: ['./goods-create.component.scss']
 })
 export class GoodsCreateComponent implements OnInit {
-  private goodsForm:FormGroup;
-  private warehouseId:number;
+  private goodsForm: FormGroup;
+  private warehouseId: number;
 
-  private quantityUnits:Unit[];
-  private weightUnits:Unit[];
-  private priceUnits:Unit[];
+  private quantityUnits: Unit[];
+  private weightUnits: Unit[];
+  private priceUnits: Unit[];
 
-  private storageTypes:StorageSpaceType[];
+  private storageTypes: StorageSpaceType[];
 
 
-  constructor(private location:Location,
-              private fb:FormBuilder,
-              private goodsService:GoodsService,
-              private loginService:LoginService) {
+  constructor(private location: Location,
+              private fb: FormBuilder,
+              private goodsService: GoodsService,
+              private loginService: LoginService) {
     this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
     this.goodsForm = this.fb.group({
-      "name": ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
-      "quantity": ['', Validators.compose([Validators.required])],
-      "quantityUnit": ['', Validators.compose([Validators.required])],
-      "weight": ['', Validators.compose([Validators.required])],
-      "weightUnit": ['', Validators.compose([Validators.required])],
-      "price": ['', Validators.compose([Validators.required])],
-      "priceUnit": ['', Validators.compose([Validators.required])],
-      "storageType": ['', Validators.compose([Validators.required])]
+      'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
+      'quantity': ['', Validators.compose([Validators.required])],
+      'quantityUnit': ['шт', Validators.compose([Validators.required])],
+      'weight': ['', Validators.compose([Validators.required])],
+      'weightUnit': ['кг', Validators.compose([Validators.required])],
+      'price': ['', Validators.compose([Validators.required])],
+      'priceUnit': ['руб', Validators.compose([Validators.required])],
+      'storageType': ['Отапливаемое помещение', Validators.compose([Validators.required])]
     });
   }
 
   ngOnInit() {
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
-        this.storageTypes = [...res, new StorageSpaceType(null, '')];
+        this.storageTypes = [...res];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
     this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.quantityUnits = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
     this.goodsService.getPriceUnits().subscribe(
       (res) => {
-        this.priceUnits = [...res, new Unit(null, '')];
+        this.priceUnits = [...res];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
     this.goodsService.getWeightUnits().subscribe(
       (res) => {
-        this.weightUnits = [...res, new Unit(null, '')];
+        this.weightUnits = [...res];
       },
-      (err)=> {
+      (err) => {
         console.error(err);
       }
     );
   }
 
-  private save():void {
-    let goods:Goods = new Goods();
+  private save(): void {
+    let goods: Goods = new Goods();
     goods.name = this.goodsForm.controls['name'].value;
     goods.quantity = this.goodsForm.controls['quantity'].value;
     goods.weight = this.goodsForm.controls['weight'].value;

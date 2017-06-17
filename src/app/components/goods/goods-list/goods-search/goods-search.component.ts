@@ -25,13 +25,13 @@ export class GoodsSearchComponent implements OnInit {
   @Input() private weightUnits: Unit[];
   @Input() private priceUnits: Unit[];
   @Input() private storageTypes: StorageSpaceType[];
-  @Input() private statusSearcheable: boolean = true;
+  @Input() private statusSearcheable = true;
   private unitMessages = unitMessages;
   private storageTypeMessages = storageTypeMessages;
   private searchDTO: GoodsSearchDTO;
   private subscription: Subscription;
   private subscriptionValidation: Subscription;
-  private isValid: boolean = true;
+  private isValid = true;
   private incomingInvoices: IncomingInvoice[] = [];
   private outgoingInvoices: OutgoingInvoice[] = [];
 
@@ -39,39 +39,34 @@ export class GoodsSearchComponent implements OnInit {
               private invoiceService: InvoiceService) {
     this.searchDTO = new GoodsSearchDTO();
     this.searchDTO.statuses = [];
-    this.subscription = searchService.removeStatusEvent$.subscribe(
-      status => {
-        this.removeStatus(status);
-      });
+    this.subscription = searchService.removeStatusEvent$.subscribe(status => {
+      this.removeStatus(status);
+    });
 
-    this.subscriptionValidation = searchService.dateValidationEvent$.subscribe(
-      (validity: boolean) => {
-        this.isValid = validity;
-      });
+    this.subscriptionValidation = searchService.dateValidationEvent$.subscribe((validity: boolean) => {
+      this.isValid = validity;
+    });
 
 
   }
 
   ngOnInit() {
-    this.invoiceService.getAllIncoming().subscribe(
-      res=> {
-        this.incomingInvoices = res;
+    this.invoiceService.getAllIncoming().subscribe(res => {
+        this.incomingInvoices = [...res];
       }
     );
-    this.invoiceService.getAllOutgoing().subscribe(
-      res=> {
-        this.outgoingInvoices = res;
+    this.invoiceService.getAllOutgoing().subscribe(res => {
+        this.outgoingInvoices = [...res];
       }
     );
   }
 
   private addStatus() {
-    this.searchDTO.statuses.push(new GoodsStatusSearchDTO())
+    this.searchDTO.statuses.push(new GoodsStatusSearchDTO());
   }
 
   private removeStatus(status: GoodsStatusSearchDTO) {
-    this.searchDTO.statuses.splice(this.searchDTO.statuses.findIndex(
-      predicate=> {
+    this.searchDTO.statuses.splice(this.searchDTO.statuses.findIndex(predicate => {
         return predicate == status;
       }
     ), 1);

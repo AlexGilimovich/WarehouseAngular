@@ -25,14 +25,12 @@ export class ActDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actService.get(this.id).subscribe(
-      (res) => {
+    this.actService.get(this.id).subscribe((res) => {
         this.act = res;
-      },
-      (err)=> {
+      }, (err) => {
         console.error(err);
       }
-    )
+    );
   }
 
   private close() {

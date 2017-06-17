@@ -1,7 +1,4 @@
 <div class="callout">
-  <!--<button class="close-button" type="button" (click)="close()">-->
-  <!--<span aria-hidden="true">&times;</span>-->
-  <!--</button>-->
   <div class="form-container">
     <form class="form" [formGroup]="actForm" (ngSubmit)="save()">
       <div class="row">
@@ -113,6 +110,7 @@
               <app-goods-list [isEditable]="false"
                               [statusNames]="statusNames"
                               [goodsList]="goodsList"
+                              [clickable]="false"
                               [totalItemsCount]="totalGoodsCount"
                               [pagination]="invoiceId?false:true"
                               (onGetPage)="getGoods($event)"

@@ -16,6 +16,7 @@ import { Act } from '../act';
 import { GoodsSearchDTO } from '../../goods/goodsSearchDTO';
 import { InvoiceStatus } from '../../invoice/invoice-status';
 import { InvoiceService } from '../../invoice/invoice.service';
+import { Statuses } from '../../goods/statuses';
 declare var $;
 
 @Component({
@@ -58,9 +59,9 @@ export class ActCreateComponent implements OnInit {
               private route: ActivatedRoute) {
 
     this.actForm = this.fb.group({
-      "actType": ['', Validators.compose([Validators.required])],
-      "goods": new FormArray([], Validators.compose([this.goodsValidator])),
-      "note": ['']
+      'actType': ['', Validators.compose([Validators.required])],
+      'goods': new FormArray([], Validators.compose([this.goodsValidator])),
+      'note': ['']
     });
 
     this.user = this.loginService.getLoggedUser();
@@ -83,26 +84,16 @@ export class ActCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actService.getActTypes().subscribe(
-      (res) => {
-        this.actTypeNames = [...res, new ActTypeName(null, '')];
-      },
-      (err) => {
+    this.actService.getActTypes().subscribe((res) => {
+        this.actTypeNames = [...res];
+      }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getStatusNames().subscribe(
       (res) => {
         this.statusNames = [...res.filter(item => {
-            return item.name != 'MOVED_OUT' &&
-              item.name != 'STOLEN' &&
-              item.name != 'SEIZED' &&
-              item.name != 'TRANSPORT_COMPANY_MISMATCH' &&
-              item.name != 'LOST_BY_TRANSPORT_COMPANY' &&
-              item.name != 'RECYCLED' &&
-              item.name != 'CHECKED' &&
-              item.name != 'RELEASE_ALLOWED' &&
-              item.name != 'LOST_BY_WAREHOUSE_COMPANY';
+            return item.name !== Statuses.WITHDRAWN() || item.name !== Statuses.STORED();
           }
         ), new GoodsStatusName(null, '')];
       }, (err) => {
@@ -111,28 +102,28 @@ export class ActCreateComponent implements OnInit {
     );
     this.goodsService.getStorageSpaceTypes().subscribe(
       (res) => {
-        this.storageTypes = [...res, new StorageSpaceType(null, '')];
+        this.storageTypes = [...res, new StorageSpaceType()];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getQuantityUnits().subscribe(
       (res) => {
-        this.quantityUnits = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res, new Unit()];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getPriceUnits().subscribe(
       (res) => {
-        this.priceUnits = [...res, new Unit(null, '')];
+        this.priceUnits = [...res, new Unit()];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getWeightUnits().subscribe(
       (res) => {
-        this.weightUnits = [...res, new Unit(null, '')];
+        this.weightUnits = [...res, new Unit()];
       }, (err) => {
         console.error(err);
       }
@@ -225,17 +216,9 @@ export class ActCreateComponent implements OnInit {
     act.warehouseId = this.warehouseId;
 
     this.actService.save(act).subscribe(res => {
-        if (this.invoiceId) {
-          this.invoiceService.updateInvoiceStatus(this.invoiceId, InvoiceStatus.CHECKED).subscribe(resp => {
-              this.location.back();
-            }, error => {
-              console.error(error);
-            }
-          );
-        } else {
-          this.location.back();
-        }
+        this.location.back();
       }, error => {
+        console.error(error);
         this.location.back();
       }
     );
@@ -247,7 +230,6 @@ export class ActCreateComponent implements OnInit {
       }
     );
   }
-
 
   private onSelected(event): void {
     if (this.isAlreadySelected(event.goods)) {
@@ -288,8 +270,8 @@ export class ActCreateComponent implements OnInit {
   }
 
   private goodsValidator(array: FormArray) {
-    let errors: any = {};
-    if (array.length == 0) {
+    const errors: any = {};
+    if (array.length === 0) {
       errors.noSelectedGoods = true;
     }
     return errors;

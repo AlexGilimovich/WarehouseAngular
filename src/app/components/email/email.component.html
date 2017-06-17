@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="form" (ngSubmit)="sendEmail(image)">
+  <form [formGroup]="form" (ngSubmit)="sendEmail()">
 
     <div class="row">
 
@@ -108,16 +108,35 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="column large-2 small-2">
+        <span *ngIf="true">Прикрепленное изображение:</span>
+      </div>
+      <div class="column large-9 small-9">
+        <span *ngIf="file">{{file?.name}}</span>
+        <span *ngIf="!file">нет</span>
+      </div>
+
+    </div>
+
     <div class="column large-11 medium-11 small-11">
       <div class="button-right">
         <label for="image" class="button">Загрузить изображение</label>
-        <input #image type="file" name="image" id="image" class="show-for-sr">
+        <input #image type="file" name="image" (change)="fileSelected(image)" id="image" class="show-for-sr" accept="image/jpeg">
         <input class="button" type="submit" [disabled]="!form.valid" value="Отправить">
       </div>
     </div>
   </form>
 </div>
 
+<div class="reveal error" id="modalSizeError" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div class="text center">
+    <h5>Размер файла превышает допустимый (5 MB)</h5>
+  </div>
+</div>
 
 <div class="reveal success" id="modal" data-reveal>
   <button class="close-button" type="button" data-close>

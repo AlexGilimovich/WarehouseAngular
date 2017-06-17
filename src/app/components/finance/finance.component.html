@@ -1,67 +1,6 @@
 <div class="main-container">
   <div class="row">
     <div class="large-12 small-12 column">
-      <!--<div class="row">-->
-      <!--<div class="large-8 small-8 column">-->
-      <!--<ul class="accordion" data-accordion data-allow-all-closed="true">-->
-      <!--<li class="accordion-item" data-accordion-item>-->
-      <!--<a class="accordion-title">Параметры поиска</a>-->
-      <!--<div class="accordion-content" data-tab-content>-->
-      <!--<form #searchForm="ngForm" (submit)="search()">-->
-      <!--<div class="row">-->
-      <!--<div class="large-12 small-12 column">-->
-      <!--<label for="searchStartDate">Начало действия цены:</label>-->
-      <!--<input id="searchStartDate" #searchStartDate="ngModel" pattern="^\d{2}.\d{2}.\d{4}$"-->
-      <!--placeholder="ДД.ММ.ГГГГ" name="searchStartDate" type="text"-->
-      <!--[(ngModel)]="searchDTO.startDate" required>-->
-      <!--<div class="callout alert"-->
-      <!--*ngIf="searchStartDate.touched && !searchStartDate.valid">-->
-      <!--Неверный формат даты.-->
-      <!--Пожалуйста, введите дату в формате ДД.ММ.ГГГГ-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row">-->
-      <!--<div class="large-12 small-12 column">-->
-      <!--<label for="searchEndDate">Окончание действия цены:</label>-->
-      <!--<input id="searchEndDate" #searchEndDate="ngModel" pattern="^\d{2}.\d{2}.\d{4}$"-->
-      <!--placeholder="ДД.ММ.ГГГГ" name="searchEndDate" type="text" [(ngModel)]="searchDTO.endDate" required>-->
-      <!--<div class="callout alert"-->
-      <!--*ngIf="searchEndDate.touched && !searchEndDate.valid">-->
-      <!--Неверный формат даты.-->
-      <!--Пожалуйста, введите дату в формате ДД.ММ.ГГГГ-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row">-->
-      <!--<div class="large-12 small-12 column">-->
-      <!--<label for="searchStorageType">Тип хранения:</label>-->
-      <!--<select id="searchStorageType" #searchStorageType="ngModel" name="searchStorageType"-->
-      <!--[(ngModel)]="searchDTO.searchStorageType" required>-->
-      <!--<option *ngFor="let type of storageTypes" [value]="type.idStorageSpaceType">-->
-      <!--{{type.name}}-->
-      <!--</option>-->
-      <!--</select>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row">-->
-      <!--<div class="large-12  small-12 columns button-right">-->
-      <!--<input class="button" type="button" (click)="clear()" value="Очистить">-->
-
-      <!--<button class="button" type="submit" [disabled]="!searchForm.form.valid">-->
-      <!--<span aria-hidden="true">-->
-      <!--<i class="fi-magnifying-glass"></i> Поиск-->
-      <!--</span>-->
-      <!--</button>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</form>-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--</ul>-->
-      <!--</div>-->
-      <!--</div>-->
-
 
       <div class="row">
         <div class="large-12 small-12 column">
@@ -93,9 +32,51 @@
           </table>
         </div>
       </div>
+
       <div class="row">
         <div class="large-12 small-12 column button-right">
-          <input type="button" (click)="openModal()" class="button" value="Установить">
+          <input type="button" (click)="setNewPrices()" class="button" value="Установить">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 small-12 column">
+          <ul class="accordion" id="accordion" data-accordion data-allow-all-closed="true">
+            <li class="accordion-item" data-accordion-item>
+              <!-- Accordion tab title -->
+              <a class="accordion-title">История</a>
+              <div class="accordion-content" data-tab-content>
+                <div class="large-12 small-12 column">
+                  <table class="hover">
+                    <tr>
+                      <th>Тип хранения</th>
+                      <th>Начало действия цены</th>
+                      <th>Окончание действия цены</th>
+                      <th>Цена</th>
+                      <th>Примечание</th>
+                    </tr>
+                    <tr *ngFor="let price of historyPrices">
+                      <td>
+                        {{storageTypeMessages.get(price.idStorageSpaceType)}}
+                      </td>
+                      <td>
+                        {{price.startTime}}
+                      </td>
+                      <td>
+                        {{price.endTime}}
+                      </td>
+                      <td>
+                        {{price.dailyPrice}}
+                      </td>
+                      <td>
+                        {{price.comment}}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -126,7 +107,6 @@
           </div>
         </div>
       </div>
-
       <label for="comment">Примечание:</label>
       <textarea name="comment" id="comment" cols="30" rows="5" [(ngModel)]="newPricesComment"></textarea>
       <div class="button-right">

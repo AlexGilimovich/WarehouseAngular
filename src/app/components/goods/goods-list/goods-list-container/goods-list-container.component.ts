@@ -18,15 +18,15 @@ declare var $: any;
 export class GoodsListContainerComponent implements OnInit {
   @ViewChild(GoodsListComponent)
   private goodsListComponent: GoodsListComponent;
-  private hasChanged: boolean = false;
-  private hasSelected: boolean = false;
+  private hasChanged = false;
+  private hasSelected = false;
   @Input() private isEditable = false;
 
   private completeGoodsList: Goods[] = [];
-  public isDataAvailable: boolean = false;
+  public isDataAvailable = false;
   public pieChartLabelsTypeStorage: string[] = [];
   public pieChartDataTypeStorage: number[] = [];
-  public pieChartType: string = 'doughnut';
+  public pieChartType = 'doughnut';
   public ChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false
@@ -34,8 +34,8 @@ export class GoodsListContainerComponent implements OnInit {
   public barChartLabelsStatus: string[] = [];
   private barChartDataStatus: number[] = [];
   public barChartData: any[] = [];
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = true;
+  public barChartType = 'bar';
+  public barChartLegend = true;
   public barChartOptions: any = {
     hover: {animationDuration: 0},
     scales: {
@@ -66,72 +66,55 @@ export class GoodsListContainerComponent implements OnInit {
   ngOnInit() {
     this.initFoundation();
     this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;
-    this.goodsService.getStatusNames().subscribe(
-      (res) => {
+    this.goodsService.getStatusNames().subscribe((res) => {
         this.statusNames = res;
         for (let i = 0; i < this.statusNames.length; i++) {
           this.barChartLabelsStatus.push(statusMessages.get(this.statusNames[i].name));
         }
-        this.statusNames.push(new GoodsStatusName(null, ''));
-      },
-      (err)=> {
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getStorageSpaceTypes().subscribe(
-      (res) => {
+    this.goodsService.getStorageSpaceTypes().subscribe((res) => {
         this.storageTypes = res;
         for (let i = 0; i < this.storageTypes.length; i++) {
           this.pieChartLabelsTypeStorage.push(this.storageTypes[i].name);
         }
-        let emptyType = new StorageSpaceType();
-        emptyType.name = '';
-        this.storageTypes.push(emptyType);
-      },
-      (err)=> {
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getQuantityUnits().subscribe(
-      (res) => {
-        this.quantityUnits = [...res, new Unit(null, '')];
-      },
-      (err)=> {
+    this.goodsService.getQuantityUnits().subscribe((res) => {
+        this.quantityUnits = [...res];
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getPriceUnits().subscribe(
-      (res) => {
-        this.priceUnits = [...res, new Unit(null, '')];
-      },
-      (err)=> {
+    this.goodsService.getPriceUnits().subscribe((res) => {
+        this.priceUnits = [...res];
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.getWeightUnits().subscribe(
-      (res) => {
-        this.weightUnits = [...res, new Unit(null, '')];
-      },
-      (err)=> {
+    this.goodsService.getWeightUnits().subscribe((res) => {
+        this.weightUnits = [...res];
+      }, (err) => {
         console.error(err);
       }
     );
-    this.goodsService.list(this.warehouseId, 1, 10).subscribe(
-      (res) => {
+    this.goodsService.list(this.warehouseId, 1, 10).subscribe((res) => {
         res.goods.forEach(
           goods => {
             this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
         );
         this.totalGoodsCount = res.count;
-      },
-      (err: any) => {
+      }, (err: any) => {
         console.error(err);
       }
     );
     this.goodsService.list(this.warehouseId, -1, -1).subscribe(data => {
-      data.goods.forEach(
-        goods => {
+      data.goods.forEach(goods => {
           this.completeGoodsList.push(goods);
         }
       );
@@ -172,9 +155,6 @@ export class GoodsListContainerComponent implements OnInit {
       });
 
     this.isDataAvailable = true;
-    console.log(this.barChartLabelsStatus);
-    console.log(this.pieChartLabelsTypeStorage);
-    console.log(this.barChartDataStatus + ", " + this.pieChartDataTypeStorage);
   }
 
   private getGoods(object) {
@@ -182,7 +162,7 @@ export class GoodsListContainerComponent implements OnInit {
     this.goodsService.list(this.warehouseId, object.page, object.itemsOnPage).subscribe(
       (res) => {
         res.goods.forEach(
-          goods=> {
+          goods => {
             this.goodsList.push({"goods": goods, "selected": false, "changed": false, "newStatus": {}});
           }
         );

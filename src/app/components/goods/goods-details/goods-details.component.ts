@@ -14,17 +14,9 @@ import { StorageType } from '../storageType';
 import { StorageCell } from '../../warehouse-scheme/storage-cell';
 import { Location } from '@angular/common';
 import { WarehouseService } from '../../warehouse/warehouse.service';
+import { Statuses } from '../statuses';
 
 
-const MOVED_OUT = 'MOVED_OUT';
-const STOLEN = 'STOLEN';
-const SEIZED = 'SEIZED';
-const TRANSPORT_COMPANY_MISMATCH = 'TRANSPORT_COMPANY_MISMATCH';
-const RECYCLED = 'RECYCLED';
-const LOST_BY_TRANSPORT_COMPANY = 'LOST_BY_TRANSPORT_COMPANY';
-const LOST_BY_WAREHOUSE_COMPANY = 'LOST_BY_WAREHOUSE_COMPANY';
-const CHECKED = 'CHECKED';
-const STORED = 'STORED';
 const MESSAGE_CHANGES_WERE_NOT_SAVE = 'Изменения не были сохранены. Вы уверены, что хотите продолжить?';
 
 @Component({
@@ -63,18 +55,18 @@ export class GoodsDetailsComponent implements OnInit {
       // this.warehouseId = params['warehouseId'];
     });
     this.goodsForm = this.fb.group({
-      "name": [{
+      'name': [{
         value: '',
         disabled: !this.hasRights
       }, Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
-      "quantity": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "quantityUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "weight": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "weightUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "price": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "priceUnit": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "storageType": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
-      "currentStatus": [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'quantity': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'quantityUnit': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'weight': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'weightUnit': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'price': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'priceUnit': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'storageType': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
+      'currentStatus': [{value: '', disabled: !this.hasRights}, Validators.compose([Validators.required])],
     });
 
 
@@ -103,35 +95,35 @@ export class GoodsDetailsComponent implements OnInit {
           }
         );
         this.goodsService.getStatusNames().subscribe((res) => {
-            this.statusNames = [...res, new GoodsStatusName(null, '')];
+            this.statusNames = [...res];
           }, (err) => {
             console.error(err);
           }
         );
       }, (err: any) => {
-        console.log(err);
+        console.error(err);
       }
     );
     this.goodsService.getStorageSpaceTypes().subscribe((res) => {
-        this.storageTypes = [...res, new StorageSpaceType(null, '')];
+        this.storageTypes = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getQuantityUnits().subscribe((res) => {
-        this.quantityUnits = [...res, new Unit(null, '')];
+        this.quantityUnits = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getPriceUnits().subscribe((res) => {
-        this.priceUnits = [...res, new Unit(null, '')];
+        this.priceUnits = [...res];
       }, (err) => {
         console.error(err);
       }
     );
     this.goodsService.getWeightUnits().subscribe((res) => {
-        this.weightUnits = [...res, new Unit(null, '')];
+        this.weightUnits = [...res];
       }, (err) => {
         console.error(err);
       }
@@ -140,19 +132,19 @@ export class GoodsDetailsComponent implements OnInit {
   }
 
   private checkIfEditable(goods: Goods): boolean {
-    return !(goods.currentStatus.name === MOVED_OUT ||
-      goods.currentStatus.name === STOLEN ||
-      goods.currentStatus.name === SEIZED ||
-      goods.currentStatus.name === TRANSPORT_COMPANY_MISMATCH ||
-      goods.currentStatus.name === RECYCLED ||
-      goods.currentStatus.name === LOST_BY_TRANSPORT_COMPANY ||
-      goods.currentStatus.name === LOST_BY_WAREHOUSE_COMPANY
+    return !(goods.currentStatus.name === Statuses.MOVED_OUT() ||
+      goods.currentStatus.name === Statuses.STOLEN() ||
+      goods.currentStatus.name === Statuses.SEIZED() ||
+      goods.currentStatus.name === Statuses.TRANSPORT_COMPANY_MISMATCH() ||
+      goods.currentStatus.name === Statuses.RECYCLED() ||
+      goods.currentStatus.name === Statuses.LOST_BY_TRANSPORT_COMPANY() ||
+      goods.currentStatus.name === Statuses.LOST_BY_WAREHOUSE_COMPANY()
     );
   }
 
   private isChecked(): boolean {
     if (this.goods) {
-      return this.goods.currentStatus.name === CHECKED || this.goods.currentStatus.name === STORED;
+      return this.goods.currentStatus.name === Statuses.CHECKED() || this.goods.currentStatus.name === Statuses.STORED();
     } else {
       return false;
     }
@@ -225,8 +217,7 @@ export class GoodsDetailsComponent implements OnInit {
 
   private goToStorageView(): void {
     this.goodsService.selectedForPuttingGoodsSource.next(this.goods);
-    // this.router.navigate(['../../typespace', this.goods.storageType.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
-    this.router.navigate(['../../typespace', this.goods.id], {relativeTo: this.route});
+    this.router.navigate(['../../typespace', this.goods.id, 'warehouse', this.warehouseId, 'put'], {relativeTo: this.route});
   }
 
   private removeFromStorage(): void {
@@ -254,7 +245,7 @@ export class GoodsDetailsComponent implements OnInit {
               }
             );
           }, (err: any) => {
-            console.log(err);
+            console.error(err);
           }
         );
       }
