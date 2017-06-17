@@ -20,7 +20,10 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.map.init(this.data);
+    console.log(this.data);
+    if(this.data.length > 0) {
+      this.map.init(this.data);
+    }
   }
 
   public getStyle(){

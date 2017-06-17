@@ -1,6 +1,8 @@
 import {marker} from "./marker";
 import {isUndefined} from "util";
 import {MapService} from "./map.service";
+import {Observable} from "rxjs/Observable";
+import {map} from "rxjs/operator/map";
 /**
  * Created by Lenovo on 08.06.2017.
  */
@@ -54,6 +56,10 @@ export class MapView {
     return this.current_coord.lng;
   }
 
+  public getAddress() {
+    return this.current_coord.address;
+  }
+
   public setOneCoordinate(x: number, y:number){
     this.current_coord.lat = x;
     this.current_coord.lng = y;
@@ -65,8 +71,8 @@ export class MapView {
   public getCoordByAddress(address: string) {
     this.mapService.geocoding(address).then(
       rtn => {
+        this.current_coord.address = rtn[0].formatted_address;
         let location = rtn[0].geometry.location;
-
         this.current_coord.lat = location.lat();
         this.current_coord.lng = location.lng();
         this.lat = this.current_coord.lat;

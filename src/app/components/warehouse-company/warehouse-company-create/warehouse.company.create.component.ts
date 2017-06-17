@@ -37,6 +37,10 @@ export class WarehouseCompanyCreateComponent implements OnInit {
     this.map.getCoordByAddress(this.address);
   }
 
+  setAddress(address: string){
+    this.address = address;
+  }
+
   registration(warehouseCompany: WarehouseCompany){
     console.log(this.email);
     console.log(warehouseCompany);
@@ -60,6 +64,7 @@ export class WarehouseCompanyCreateComponent implements OnInit {
       this.companyService.getCompanyById(this.id).subscribe(data => {
         this.warehouseCompany = data[0];
         this.map.setOneCoordinate(this.warehouseCompany.x, this.warehouseCompany.y);
+        this.mapService.getAddress(this.warehouseCompany.x, this.warehouseCompany.y, this.setAddress.bind(this));
       });
     } else {
       this.isRegistration = true;

@@ -5,7 +5,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
-import {FormsModule} from "@angular/forms";
 import {Warehouse} from "../warehouse";
 import {WarehouseService} from "../warehouse.service";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
@@ -28,6 +27,10 @@ export class WarehouseCreateComponent implements OnInit {
               private mapService: MapService,
               private router:Router,
               private route:ActivatedRoute){
+  }
+
+  setAddress(address: string){
+    this.address = address;
   }
 
   checkout(){
@@ -55,6 +58,7 @@ export class WarehouseCreateComponent implements OnInit {
     if(!isUndefined(this.warehouse.idWarehouse)) {
       this.warehouseService.getWarehouseById(this.warehouse.idWarehouse).subscribe(data => {
         this.warehouse = data[0];
+        this.mapService.getAddress(this.warehouse.x, this.warehouse.y, this.setAddress.bind(this));
         this.map.setOneCoordinate(this.warehouse.x, this.warehouse.y);
       });
     }

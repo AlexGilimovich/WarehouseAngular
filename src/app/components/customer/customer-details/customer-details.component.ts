@@ -38,6 +38,7 @@ export class CustomerDetailsComponent implements OnInit {
       this.customerForm.controls['name'].setValue(customer.name);
       this.customerForm.controls['address'].setValue(customer.address);
       this.map.setOneCoordinate(customer.x, customer.y);
+      this.mapService.getAddress(customer.x, customer.y, this.setAddress.bind(this));
       /*this.customerForm.controls['x'].setValue(customer.x);
       this.customerForm.controls['y'].setValue(customer.y);*/
     });
@@ -45,6 +46,10 @@ export class CustomerDetailsComponent implements OnInit {
 
   checkout(){
     this.map.getCoordByAddress(this.address);
+  }
+
+  setAddress(address: string){
+    this.address = address;
   }
 
   onSubmit(form: FormGroup) {
