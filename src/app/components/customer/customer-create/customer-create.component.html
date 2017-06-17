@@ -25,56 +25,26 @@
       </div>
     </div>
 
-    <div class="row columns">
-      <label>Адрес компании
-        <div class="input-group">
-          <input type="text" name="x" placeholder="Введите адрес или укажите место на карте..." [(ngModel)]="address">
-          <div class="input-group-button">
-            <button type="button" class="primary button" (click)="checkout()">
-              Проверить
-            </button>
-          </div>
-        </div>
-      </label>
-    </div>
-
-    <!--<div class="row">
+    <div class="row">
       <div class="large-9 small-9 columns">
         <div class="row">
           <div class="large-3 small-3 columns">
-            <label for="name" class="right">Координаты:</label>
+            <label for="address" class="right">Адрес:</label>
           </div>
-          <div class="large-3 small-3 columns">
-            <input type="number" placeholder="X"
-                   [formControl]="customerForm.controls['x']" required/>
-            <div class="callout alert"
-                 *ngIf="customerForm.controls['x'].hasError('required') && customerForm.get('x').touched">
-              Поле "Координата X" не может быть пустым
-            </div>
-            <div class="callout alert"
-                 *ngIf="!customerForm.controls['x'].valid &&
-                    !customerForm.controls['x'].hasError('required') &&
-                     customerForm.get('x').touched">
-              Координата X может содержать только буквы, цифры и пробелы
-            </div>
-          </div>
-          <div class="large-3 small-3 columns">
-            <input type="number" placeholder="Y"
-                   [formControl]="customerForm.controls['y']" required/>
-            <div class="callout alert"
-                 *ngIf="customerForm.controls['y'].hasError('required') && customerForm.get('y').touched">
-              Поле "Координата Y" не может быть пустым
-            </div>
-            <div class="callout alert"
-                 *ngIf="!customerForm.controls['y'].valid &&
-                    !customerForm.controls['y'].hasError('required') &&
-                     customerForm.get('y').touched">
-              Координата Y может содержать только буквы, цифры и пробелы
+          <div class="large-9 small-9 columns">
+            <div class="input-group">
+              <input id="address" type="text" [formControl]="customerForm.controls['address']"
+                     placeholder="Введите адрес или укажите место на карте...">
+              <div class="input-group-button">
+                <button type="button" class="primary button" (click)="checkout()">
+                  Проверить
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
 
     <div class="row">
       <div class="large-9 small-9 columns button-right">
@@ -95,13 +65,12 @@
         (markerClick)="clickedMarker(m, i)"
         [latitude]="m.lat"
         [longitude]="m.lng"
-        [markerDraggable] = "m.draggable"
-        (dragEnd) = "markerDragEnd(m , $event)">
+        [markerDraggable]="m.draggable"
+        (dragEnd)="markerDragEnd(m , $event)">
         <sebm-google-map-info-window>
           <strong>{{m.name}}</strong>
         </sebm-google-map-info-window>
       </sebm-google-map-marker>
     </sebm-google-map>
-
   </form>
 </div>

@@ -25,16 +25,17 @@ export class CustomerCreateComponent implements OnInit {
               private location: Location) {
     this.customerForm = formBuiler.group({
       'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
-      'x': ['', Validators.compose([Validators.required])],
-      'y': ['', Validators.compose([Validators.required])]
+      'address': ['']
     });
   }
 
   ngOnInit() {
   }
 
-  checkout(){
-    this.map.getCoordByAddress(this.address);
+  checkout() {
+    const address = this.customerForm.controls['address'].value;
+    this.map.getCoordByAddress(address);
+    console.log(this.map.getX());
   }
 
   onSubmit(form: FormGroup) {
