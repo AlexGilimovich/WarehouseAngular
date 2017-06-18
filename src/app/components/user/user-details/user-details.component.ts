@@ -32,6 +32,7 @@ export class UserDetailsComponent implements OnInit {
   private hasRights = true;
   private isLoginCheckRequest = false;
   private showCredentials = true;
+  private authenticatedUser: User;
 
   constructor(private warehouseService: WarehouseService,
               private userService: UserService,
@@ -41,6 +42,7 @@ export class UserDetailsComponent implements OnInit {
               private datePipe: DatePipe,
               private location: Location,
               private loginService: LoginService) {
+    this.authenticatedUser = this.loginService.getLoggedUser();
     route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -58,16 +60,13 @@ export class UserDetailsComponent implements OnInit {
       this.userService.get(this.id).subscribe((currentUser: User) => {
           this.currentUser = currentUser;
           this.getRolesFromServer();
-          this.warehouseService.getWarehouse(authenticatedUser.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
-            (warehouseList: Warehouse[]) => {
-              this.warehouseList = warehouseList;
-              if (this.currentUser.warehouse) {
-                this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse.toString());
-              }
-            }, (err: any) => {
-              console.error(err);
-            }
-          );
+
+
+          if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+            this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
+          } else {
+            this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+          }
           this.fillForm();
         }, (err: any) => {
           console.error(err);
@@ -77,15 +76,36 @@ export class UserDetailsComponent implements OnInit {
       this.userForm.controls['login'].setValidators([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['login'].setAsyncValidators([this.validateLogin.bind(this)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(4)])]);
-      this.warehouseService.getWarehouse(this.loginService.getLoggedUser().warehouse.warehouseCompany.idWarehouseCompany, -1, -1).subscribe(
-        (warehouseList: Warehouse[]) => {
-          this.warehouseList = warehouseList;
-        }, (err: any) => {
-          console.error(err);
-        }
-      );
+      if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+        this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
+      } else {
+        this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+      }
+      if (!this.authenticatedUser.hasRole(Roles.ROLE_OWNER()) && this.authenticatedUser.hasRole(Roles.ROLE_SUPERVISOR())) {
+        this.userForm.controls['warehouse'].setValue(this.authenticatedUser.warehouse.idWarehouse);
+      }
       this.getRolesFromServer();
     }
+  }
+
+  private getWarehousesOfCompanyFromServer(warehouseCompanyId: number): void {
+    this.warehouseService.getWarehouse(warehouseCompanyId, -1, -1).subscribe(
+      (warehouseList: Warehouse[]) => {
+        this.warehouseList = warehouseList;
+      }, (err: any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private getWarehouseFromServer(warehouseId: number): void {
+    this.warehouseService.getWarehouseById(warehouseId).subscribe(
+      (warehouseList: Warehouse[]) => {
+        this.warehouseList = warehouseList;
+      }, (err: any) => {
+        console.error(err);
+      }
+    );
   }
 
 
@@ -173,6 +193,9 @@ export class UserDetailsComponent implements OnInit {
     this.userForm.controls['street'].setValue(this.currentUser.street);
     this.userForm.controls['house'].setValue(this.currentUser.house);
     this.userForm.controls['apartment'].setValue(this.currentUser.apartment);
+    if (this.currentUser.warehouse) {
+      this.userForm.controls['warehouse'].setValue(this.currentUser.warehouse.idWarehouse);
+    }
   }
 
   private addRoleControls(): void {
@@ -233,10 +256,6 @@ export class UserDetailsComponent implements OnInit {
 
   private close(): void {
     this.location.back();
-    // if (this.id != undefined)
-    //   this.router.navigate(['../../list'], {relativeTo: this.route});
-    // else
-    //   this.router.navigate(['../list'], {relativeTo: this.route});
   }
 
   //find warehouse in loaded warehouseList by id
@@ -301,7 +320,6 @@ function dateValidator(c: FormControl) {
   }
   return errors;
 }
-
 
 function inFuture(strDate) {
   let dateParts = strDate.split(".");
