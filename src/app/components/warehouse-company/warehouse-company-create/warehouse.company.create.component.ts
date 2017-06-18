@@ -21,7 +21,7 @@ export class WarehouseCompanyCreateComponent implements OnInit {
   id: number;
   warehouseCompany = new WarehouseCompany;
   user: User=new User;
-  email:string;
+  emailAddress:string;
   isRegistration: boolean;
   map: MapView = new MapView(this.mapService);
   address: string;
@@ -44,15 +44,19 @@ export class WarehouseCompanyCreateComponent implements OnInit {
     warehouseCompany.x = this.map.getX();
     warehouseCompany.y = this.map.getY();
     if(isUndefined(this.id)) {
-      this.companyService.save(warehouseCompany, this.email).subscribe(data => {
+      this.companyService.save(warehouseCompany, this.emailAddress).subscribe(data => {
         //console.log(this.user);
       });
       this.router.navigate(['../../'], {relativeTo: this.route});
     } else {
-      this.companyService.save(warehouseCompany, this.email).subscribe(data => {
+      this.companyService.save(warehouseCompany, this.emailAddress).subscribe(data => {
         this.router.navigate(['../../'], {relativeTo: this.route});
       });
     }
+  }
+
+  back() {
+    this.router.navigate(['../../'], {relativeTo: this.route});
   }
 
   ngOnInit(){

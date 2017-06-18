@@ -3,19 +3,26 @@
     <h3>Регистрация компании</h3>
     <div class="row columns">
       <label>Наименование
-        <input type="text" name="name" placeholder="Наименование компании..." [(ngModel)]="warehouseCompany.name">
+        <input type="text" name="name" placeholder="Наименование компании..." [(ngModel)]="warehouseCompany.name" #name="ngModel" required/>
+        <div [hidden]="name.valid || name.untouched" class="callout alert">
+          Не задано имя компании
+        </div>
       </label>
     </div>
     <div class="row columns" *ngIf="isRegistration">
       <label>eMail владельца
-        <input type="text" name="name" placeholder="example@host.com" [(ngModel)]="email">
+        <input type="email" name="email1" placeholder="example@host.com" [(ngModel)]="emailAddress" #email="ngModel"
+               required email />
       </label>
+      <div [hidden]="email.valid || email.untouched" class="callout alert">
+        Некорректный email
+      </div>
     </div>
 
     <div class="row columns">
       <label>Адрес компании
         <div class="input-group">
-          <input type="text" name="x" placeholder="Введите адрес или укажите место на карте..." [(ngModel)]="address">
+          <input type="text" name="address" placeholder="Введите адрес или укажите место на карте..." [(ngModel)]="address">
           <div class="input-group-button">
             <button type="button" class="primary button" (click)="checkout()">
               Проверить
@@ -25,11 +32,11 @@
       </label>
     </div>
 
-    <div class="row columns">
-      <button type="button" class="alert button" (click)="registration(warehouseCompany)">
+    <div class="row columns right">
+      <button [disabled]="name.invalid" type="button" class="alert button" (click)="registration(warehouseCompany)">
         Сохранить
       </button>
-      <button type="button" class="primary button">
+      <button (click)="back()" type="button" class="primary button">
         Отмена
       </button>
       <button type="reset" class="secondary button">
@@ -56,5 +63,6 @@
         </sebm-google-map-info-window>
       </sebm-google-map-marker>
     </sebm-google-map>
+
   </form>
 </div>

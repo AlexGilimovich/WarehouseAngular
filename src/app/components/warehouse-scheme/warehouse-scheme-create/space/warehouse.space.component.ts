@@ -40,12 +40,16 @@ export class WarehouseSpaceComponent implements OnInit {
     this.route.params.subscribe(params => { this.space.idWarehouse = params['id_warehouse']; });
 
     this.schemeService.saveSpace(this.space).subscribe(data => {
-      if(isUndefined(this.id_storage_space)) {
-        this.router.navigate(['../'], {relativeTo: this.route});
-      } else {
-        this.router.navigate(['../../'], {relativeTo: this.route});
-      }
+      this.back();
     });
+  }
+
+  back() {
+    if(isUndefined(this.id_storage_space)) {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    }
   }
 
   ngOnInit(){
@@ -55,6 +59,7 @@ export class WarehouseSpaceComponent implements OnInit {
 
     this.schemeService.getStorageSpace(this.id_warehouse).subscribe(data => {
       this.storageSpace = data;
+      this.selectedStorageSpace = this.storageSpace[0];
       for (let i = 0; i < this.storageSpace.length; i++) {
         if (this.storageSpace[i].idStorageSpace == this.id_storage_space) {//so don't create other function
           //to REST-services

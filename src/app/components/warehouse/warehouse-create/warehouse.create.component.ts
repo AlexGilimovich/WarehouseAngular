@@ -37,17 +37,21 @@ export class WarehouseCreateComponent implements OnInit {
     this.map.getCoordByAddress(this.address, this.setAddress.bind(this));
   }
 
+  back() {
+    if(isUndefined(this.warehouse.idWarehouse)) {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    }
+  }
+
   registration(warehouse: Warehouse){
     warehouse.warehouseCompany = new WarehouseCompany;
     warehouse.warehouseCompany.idWarehouseCompany = this.id;
     warehouse.x = this.map.getX();
     warehouse.y = this.map.getY();
     this.warehouseService.save(warehouse).subscribe(data => {
-      if(isUndefined(this.warehouse.idWarehouse)) {
-        this.router.navigate(['../'], {relativeTo: this.route});
-      } else {
-        this.router.navigate(['../../'], {relativeTo: this.route});
-      }
+      this.back();
     });
   }
 

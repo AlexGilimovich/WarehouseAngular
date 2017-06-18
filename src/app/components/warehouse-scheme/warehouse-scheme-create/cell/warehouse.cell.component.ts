@@ -26,19 +26,17 @@ export class WarehouseCellComponent implements OnInit {
   public goods: Goods = new Goods;
   cell: StorageCellDTO = new StorageCellDTO;
 
-  constructor(private goodsService: GoodsService, private schemeService: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
+  constructor(private goodsService: GoodsService,
+              private schemeService: WarehouseSchemeService,
+              private router:Router,
+              private route:ActivatedRoute){
     route.params.subscribe(params => { this.cell.idStorageSpace = params['id_space']; });
     route.params.subscribe(params => { this.cell.idStorageCell = params['id_cell']; });
   }
 
   createCell(){
     this.schemeService.saveCell(this.cell).subscribe(data => {
-      if(this.cell.idStorageCell == 0) {
-        this.router.navigate(['../../../'], {relativeTo: this.route});
-      }
-      else {
-        this.router.navigate(['../../../../'], {relativeTo: this.route});
-      }
+      this.back();
     });
   }
 
@@ -46,6 +44,15 @@ export class WarehouseCellComponent implements OnInit {
     this.schemeService.deleteCell(id).subscribe(data => {
       this.router.navigate(['../../../../'], {relativeTo: this.route});
     });
+  }
+
+  back(){
+    if(this.cell.idStorageCell == 0) {
+      this.router.navigate(['../../../'], {relativeTo: this.route});
+    }
+    else {
+      this.router.navigate(['../../../../'], {relativeTo: this.route});
+    }
   }
 
   ngOnInit() {

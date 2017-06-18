@@ -8,15 +8,18 @@
     </div>
     <div class="row columns">
       <label>Номер ячейки
-        <input type="text" name="name" placeholder="Номер ячейки..." [(ngModel)]="cell.number">
+        <input type="text" name="number" placeholder="Номер ячейки..." [(ngModel)]="cell.number" #number="ngModel" required/>
+        <div [hidden]="number.valid || number.untouched" class="callout alert">
+          Не задан номер ячейки
+        </div>
       </label>
     </div>
 
-    <div class="row columns">
-      <button type="button" class="success button" (click)="createCell()">
+    <div class="row columns float-right">
+      <button [disabled] = "number.invalid" type="button" class="success button" (click)="createCell()">
         Сохранить
       </button>
-      <button type="button" class="primary button">
+      <button (click)="back()" type="button" class="primary button">
         Отмена
       </button>
       <button type="reset" class="secondary button">

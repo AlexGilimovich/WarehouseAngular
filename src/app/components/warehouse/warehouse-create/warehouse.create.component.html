@@ -3,7 +3,10 @@
     <h3>Регистрация склада</h3>
     <div class="row columns">
       <label>Название склада
-        <input type="text" name="name" placeholder="Наименование склада..." [(ngModel)]="warehouse.name">
+        <input type="text" name="name" placeholder="Наименование склада..." [(ngModel)]="warehouse.name" #name="ngModel" required>
+        <div [hidden]="name.valid || name.untouched" class="callout alert">
+          Не задано имя склада
+        </div>
       </label>
     </div>
 
@@ -20,11 +23,11 @@
       </label>
     </div>
 
-    <div class="row columns">
-      <button type="button" class="alert button" (click)="registration(warehouse)">
+    <div class="row columns right">
+      <button [disabled]="name.invalid" type="button" class="alert button" (click)="registration(warehouse)">
         Сохранить
       </button>
-      <button type="button" class="primary button">
+      <button (click)="back()" type="button" class="primary button">
         Отмена
       </button>
       <button type="reset" class="secondary button">
