@@ -71,7 +71,6 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
     });
   }
 
-  // todo improve
   finishCompleting() {
     this.router.navigate(
       ['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {

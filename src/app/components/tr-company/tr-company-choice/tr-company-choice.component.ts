@@ -14,6 +14,7 @@ export class TransportCompanyChoiceComponent implements OnInit, OnDestroy{
   chosenCompany: TransportCompany;
   maySearch: boolean;
   @Output('company') company = new EventEmitter<TransportCompany>();
+  @Output('close') closingEvent = new EventEmitter<void>();
 
   constructor(private transportService: TransportCompanyService,
               private router: Router,
@@ -52,6 +53,7 @@ export class TransportCompanyChoiceComponent implements OnInit, OnDestroy{
   }
 
   createCompany() {
+    this.closingEvent.emit();
     this.router.navigate(['../../../transportCompanies/new'], {relativeTo: this.route});
   }
 

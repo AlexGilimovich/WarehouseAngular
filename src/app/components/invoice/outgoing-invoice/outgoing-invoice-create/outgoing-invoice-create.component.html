@@ -29,11 +29,12 @@
             <label for="issueDate" class="right">Дата выписки:</label>
           </div>
           <div class="large-9 small-9 columns">
-            <input type="text" id="issueDate" name="issueDate" class="span2"
-                   [formControl]="invoiceForm.controls['issueDate']"
+            <input type="text" id="issueDate" #issueDate
+                   name="issueDate" class="span2"
+                   [formControl]="invoiceForm.controls['issueDate']" (change)="checkIssueDate(issueDate.value)"
                    required>
             <div class="callout alert"
-                 *ngIf="invoiceForm.controls['issueDate'].hasError('required') && invoiceForm.get('issueDate').touched">
+                 *ngIf="isIssueDateNotValid">
               Поле "Дата выписки" не может быть пустым
             </div>
           </div>
@@ -211,7 +212,8 @@
   <button class="close-button" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button>
-  <app-tr-company-choice (company)="saveTransport($event)"></app-tr-company-choice>
+  <app-tr-company-choice (company)="saveTransport($event)"
+                         (close)="closeTransportModal()"></app-tr-company-choice>
 </div>
 
 <div class="reveal" id="receiverModal" data-reveal>

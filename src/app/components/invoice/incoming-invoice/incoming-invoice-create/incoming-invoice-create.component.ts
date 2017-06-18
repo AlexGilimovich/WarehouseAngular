@@ -31,13 +31,14 @@ declare const $: any;
 export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
   invoiceForm: FormGroup;
   goodsList: Goods[] = [];
-  goodsEntryCount: number;
+  goodsEntryCount: string;
   @ViewChild(GoodsModalAnchorDirective) goodsAnchor: GoodsModalAnchorDirective;
   goodsModalRef: ComponentRef<GoodsCreateComponent>;
   transportModal: any;
   supplierModal: any;
   goodsModal: any;
   goodsModalSubscription: Subscription;
+  isIssueDateNotValid: boolean;
 
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
@@ -54,6 +55,7 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
       'driver': [],
       'description': ['']
     });
+    this.isIssueDateNotValid = false;
   }
 
   ngOnInit() {
@@ -105,9 +107,18 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
     $('#transportModal').foundation('close');
   }
 
+  closeTransportModal() {
+    $('#transportModal').foundation('close');
+  }
+
   saveSupplier(supplier: WarehouseCustomerCompany) {
     this.invoiceForm.controls['supplierCompany'].setValue(supplier);
     $('#supplierModal').foundation('close');
+  }
+
+  checkIssueDate(value: string) {
+    this.isIssueDateNotValid = this.invoiceForm.controls['issueDate'].hasError('required')
+      && this.invoiceForm.get('issueDate').touched && value === '';
   }
 
   private configureModals() {
@@ -143,6 +154,8 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
 
   private setIssueDate(date: Date) {
     this.invoiceForm.controls['issueDate'].setValue(date);
+    this.isIssueDateNotValid = this.invoiceForm.controls['issueDate'].hasError('required')
+      && this.invoiceForm.get('issueDate').touched;
   }
 
   private changeGoodsEntryCount() {
@@ -150,6 +163,6 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
     this.goodsList.forEach(item => {
       count += Number(item.price);
     });
-    this.goodsEntryCount = count;
+    this.goodsEntryCount = count.toString();
   }
 }
