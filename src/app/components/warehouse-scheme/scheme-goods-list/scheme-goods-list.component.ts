@@ -6,11 +6,14 @@ import { Subscription } from 'rxjs';
 import { isUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Statuses } from '../../goods/statuses';
+import {InvoiceStatus} from "../../invoice/invoice-status";
+import {InvoiceService} from "../../invoice/invoice.service";
 
 @Component({
   selector: 'app-scheme-goods-list',
   templateUrl: './scheme-goods-list.component.html',
-  styleUrls: ['./scheme-goods-list.component.scss']
+  styleUrls: ['./scheme-goods-list.component.scss'],
+  providers: [InvoiceService]
 })
 export class SchemeGoodsListComponent implements OnInit {
   @Input() private id_warehouse: number;
@@ -22,6 +25,7 @@ export class SchemeGoodsListComponent implements OnInit {
 
   constructor(private goodsService: GoodsService,
               private warehouseSchemeService: WarehouseSchemeService,
+              private invoiceService: InvoiceService,
               private route: ActivatedRoute,
               private router: Router) {
     this.cellsSelectedSubscription = this.warehouseSchemeService.deleteGoodsListSource$.subscribe((goods: Goods) => {
@@ -54,6 +58,10 @@ export class SchemeGoodsListComponent implements OnInit {
           console.error(error);
         }
       );
+    });
+    const status = InvoiceStatus.COMPLETED;
+    this.invoiceService.updateInvoiceStatus(this.id_invoice, status).subscribe(data => {
+
     });
   }
 

@@ -73,13 +73,10 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
 
   // todo improve
   finishCompleting() {
-    const status = InvoiceStatus.COMPLETED;
-    this.invoiceService.updateInvoiceStatus(this.id, status).subscribe(data => {
-      this.router.navigate(
-        ['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {
-          relativeTo: this.route
-        });
-    });
+    this.router.navigate(
+      ['warehouse', this.loginService.getLoggedUser().warehouse.idWarehouse, 'place'], {
+        relativeTo: this.route
+      });
   }
 
   isManager() {
