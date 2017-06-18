@@ -1,0 +1,58 @@
+<div class="callout">
+  <div class="form-container">
+    <h4>Сгенерировать отчет</h4>
+    <form class="form" id="form" [formGroup]="adminReportForm" (ngSubmit)="requestIsInProcess();getAdminReport()">
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="startDate" class="right">Начало периода:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="startDate" name="endDate" type="text" formControlName="startDate" class="span2"/>
+              <div class="callout alert"
+               *ngIf="adminReportForm.controls['startDate'].hasError('required') && adminReportForm.get('startDate').touched">
+                  Поле "Начало периода" не может быть пустым
+              </div>
+              <div class="callout alert"
+                   *ngIf="lossReportForm.controls['startDate'].hasError('invalidStartDate')">
+                Дата начала периода не может быть больше даты окончания периода
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <label for="endDate" class="right">Конец периода:</label>
+            </div>
+            <div class="large-9 small-9 columns">
+              <input id="endDate" name="endDate" type="text" formControlName="endDate" class="span2"/>
+              <div class="callout alert"
+                 *ngIf="adminReportForm.controls['endDate'].hasError('required') && adminReportForm.get('endDate').touched">
+                  Поле "Конец периода" не может быть пустым
+              </div>
+               <div class="callout alert"
+                   *ngIf="lossReportForm.controls['endDate'].hasError('invalidEndDate')">
+                Дата окончания периода не может быть меньше даты начала периода
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+      <div class="large-5 small-5 columns button-right" >
+        <input class="button" type="submit" value="Сгенерировать" form="form" [disabled]="!adminReportForm.valid || requestInProcess">
+      </div>
+      <div class="large-4 small-4 columns">
+      <div class="spinner" *ngIf="requestInProcess">
+        <spinner [size]="20" [tickness]="4"></spinner> Запрос обрабатывается
+      </div>
+      </div>
+    </div>

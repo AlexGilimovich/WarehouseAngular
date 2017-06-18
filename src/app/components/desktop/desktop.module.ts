@@ -22,6 +22,9 @@ import { transportCompanyRoutes } from '../tr-company/tr-company.module';
 import { EmailComponent } from '../email/email.component';
 import { ReportContainerComponent } from '../report/report-container/report-container.component';
 import { ReportModule, reportRoutes } from '../report/report.module';
+import { AdminReportModule, adminReportRoutes } from '../admin-report/admin-report.module';
+import { AdminReportContainerComponent } from '../admin-report/admin-report-container/admin-report-container.component';
+import { AdminReportComponent } from '../admin-report/admin-report/admin-report.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { CompaniesFinanceComponent } from '../companies-finance/companies-finance.component';
 
@@ -63,6 +66,11 @@ export const desktopRoutes: Routes = [
     path: 'reports',
     component: ReportContainerComponent,
     children: reportRoutes
+  }, 
+  {
+    path: 'adminReports',
+    component: AdminReportContainerComponent,
+    children: adminReportRoutes
   },
   {
     path: 'finances',
@@ -112,7 +120,8 @@ export const desktopRoutes: Routes = [
     GoodsModule,
     UserModule,
     HeaderModule,
-    ReportModule
+    ReportModule,
+    AdminReportModule
   ],
   declarations: [DesktopComponent]
 })
