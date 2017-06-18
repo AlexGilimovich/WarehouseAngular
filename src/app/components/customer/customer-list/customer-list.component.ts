@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {WarehouseCustomerCompany} from "../customer";
 import {WarehouseCustomerCompanyService} from "../customer.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MapView} from "../../../util/map";
-import {MapService} from "../../../util/map.service";
+import {MapView} from "../../google-map/map";
+import {MapService} from "../../google-map/map.service";
 
 @Component({
   selector: 'app-customer-list',

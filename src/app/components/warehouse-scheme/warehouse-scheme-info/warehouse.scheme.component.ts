@@ -83,8 +83,8 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
         for(let k=i+1; k<this.goods.length; k++) {
           for(let m=0; m<this.goods[k].cells.length; m++) {
             if(this.goods[i].cells[j].idStorageCell == this.goods[k].cells[m].idStorageCell) {
-              console.log("Ячейка "+this.goods[i].cells[j].idStorageCell+" находится в товаре"
-                +this.goods[i].name+" и "+ this.goods[k].name);
+              /*console.log("Ячейка "+this.goods[i].cells[j].idStorageCell+" находится в товаре"
+                +this.goods[i].name+" и "+ this.goods[k].name);*/
               this.goods[i].cells.splice(j, 1);
               return;
             }
@@ -95,22 +95,18 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   }
 
   addSpace(id_warehouse: number){
-    console.log(id_warehouse);
     this.router.navigate(['addspace'], {relativeTo: this.route});
   }
 
   editSpace(id_space: number){
-    console.log("Redirect to edit space with id: "+id_space);
     this.router.navigate([id_space, 'edit'], {relativeTo: this.route});
   }
 
   addCell(id_space: number){
-    console.log("Redirect to adding cell with id: "+id_space);
     this.router.navigate([id_space, 'cell', 'add'], {relativeTo: this.route});
   }
 
   editCell(id_space: number, id_cell: number) {
-    console.log("Redirect to adding cell with id: "+id_space);
     this.router.navigate([id_space, 'cell', id_cell, 'edit'], {relativeTo: this.route});
   }
 
@@ -122,9 +118,7 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
         return;
       }
     }
-    console.log(this.selectedGoods);
     this.selectedGoods.cells.push(cell);
-    console.log("ID: "+cell.idStorageCell);
   }
 
   fixCurrentState() {
@@ -132,7 +126,6 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   }
 
   submitPut() {
-    console.error(this.goods);
     if(this.goods.length == 0) {
       this.goods.push(this.selectedGoods);
     }
@@ -141,11 +134,9 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
         this.router.navigate(['../../../../../list'], {relativeTo: this.route});
       });
     }
-    console.log(this.cells);
   }
 
   deleteSpace(id: number) {
-    console.log(id);
     for(let i=0; i<this.storageSpace.length; i++) {
       if(this.storageSpace[i].idStorageSpace == id) {
         this.storageSpace[i].status = false;
@@ -153,12 +144,11 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
       }
     }
     this.service.deleteSpace(id).subscribe(data => {
-      console.log(data);
+
     });
   }
 
   restoreSpace(id: number){
-    console.log(id);
     for(let i=0; i<this.storageSpace.length; i++) {
       if(this.storageSpace[i].idStorageSpace == id) {
         this.storageSpace[i].status = true;
@@ -166,7 +156,6 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
       }
     }
     this.service.deleteSpace(id).subscribe(data => {
-      console.log(data);
     });
   }
 
@@ -230,6 +219,5 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
-    console.log("On Changes");
   }
 }

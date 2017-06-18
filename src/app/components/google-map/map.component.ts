@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {MapService} from "../../util/map.service";
-import {MapView} from "../../util/map";
+import {MapService} from "./map.service";
+import {MapView} from "./map";
 
 @Component({
   selector: 'google-map-view',
@@ -20,14 +20,12 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
     if(this.data.length > 0) {
       this.map.init(this.data);
     }
   }
 
   public getStyle(){
-    console.log(this.isSmall);
     return this.isSmall? "height: 350px;" : "height: 600px;";
   }
 }

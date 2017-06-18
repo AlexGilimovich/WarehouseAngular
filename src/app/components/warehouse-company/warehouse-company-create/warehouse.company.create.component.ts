@@ -7,8 +7,8 @@ import {WarehouseCompanyService} from "../warehouse-company.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {isUndefined} from "util";
 import {User} from "../../user/user";
-import {MapService} from "../../../util/map.service";
-import {MapView} from "../../../util/map";
+import {MapService} from "../../google-map/map.service";
+import {MapView} from "../../google-map/map";
 declare var $: any;
 
 @Component({
@@ -30,11 +30,10 @@ export class WarehouseCompanyCreateComponent implements OnInit {
               private mapService: MapService,
               private router:Router,
               private route:ActivatedRoute){
-    console.log("CHECKED from created component");
   }
 
   checkout(){
-    this.map.getCoordByAddress(this.address);
+    this.map.getCoordByAddress(this.address, this.setAddress.bind(this));
   }
 
   setAddress(address: string){
@@ -42,17 +41,17 @@ export class WarehouseCompanyCreateComponent implements OnInit {
   }
 
   registration(warehouseCompany: WarehouseCompany){
-    console.log(this.email);
-    console.log(warehouseCompany);
     warehouseCompany.x = this.map.getX();
     warehouseCompany.y = this.map.getY();
-    this.companyService.save(warehouseCompany, this.email).subscribe(data => {
-      console.log(this.user);
-    });
     if(isUndefined(this.id)) {
+      this.companyService.save(warehouseCompany, this.email).subscribe(data => {
+        //console.log(this.user);
+      });
       this.router.navigate(['../../'], {relativeTo: this.route});
     } else {
-      this.router.navigate(['../../'], {relativeTo: this.route});
+      this.companyService.save(warehouseCompany, this.email).subscribe(data => {
+        this.router.navigate(['../../'], {relativeTo: this.route});
+      });
     }
   }
 

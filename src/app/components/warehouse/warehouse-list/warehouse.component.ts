@@ -9,11 +9,11 @@ import {WarehouseService} from "../warehouse.service";
 import {Warehouse} from "../warehouse";
 import {ActivatedRoute, Router} from "@angular/router";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
-import {marker} from "../../../util/marker";
+import {marker} from "../../google-map/marker";
 import {WarehouseSchemeService} from "../../warehouse-scheme/warehouse-scheme.service";
 import {BaseChartDirective} from "ng2-charts";
-import {MapView} from "../../../util/map";
-import {MapService} from "../../../util/map.service";
+import {MapView} from "../../google-map/map";
+import {MapService} from "../../google-map/map.service";
 
 @Component({
   selector: 'app-warehouse',
@@ -200,11 +200,11 @@ export class WarehouseComponent implements OnInit {
 
   // events
   public chartClicked(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
 
   public chartHovered(e:any):void {
-    console.log(e);
+    //console.log(e);
   }
 
 }

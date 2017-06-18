@@ -100,7 +100,6 @@ export class WarehouseSchemeService {
         const storageSpaceType: StorageSpaceType = new StorageSpaceType();
         storageSpaceType.idStorageSpaceType = item.idStorageSpaceType;
         storageSpaceType.name = item.name;
-        console.log(storageSpaceType);
         return storageSpaceType;
       });
     });
@@ -109,23 +108,18 @@ export class WarehouseSchemeService {
   saveSpace(space: StorageSpaceDTO) {
     if (isUndefined(space.idStorageSpace)) {
       space.status = true; //default is active after creating
-      console.log("is save action");
     }
     const url = isUndefined(space.idStorageSpace) ? Host.URL + "storage/save" : Host.URL + "storage/save/" + space.idStorageSpace;
-    console.log("URL: " + url);
     const body = JSON.stringify(space);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
-    console.log(headers);
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     if (isUndefined(space.idStorageSpace)) {
       return this.httpAuthService.post(url, body, options).map((response: Response) => {
         if (response.text()) {
-          console.log(response.json());
           return (response.json());
         }
       });
@@ -141,24 +135,19 @@ export class WarehouseSchemeService {
 
   saveCell(cell: StorageCellDTO) {
     if (cell.idStorageCell == 0) {
-      console.log("is save action");
       cell.status = true; //default is active after creating
     }
     const url = cell.idStorageCell == 0 ? Host.URL + "storage/cell/save" : Host.URL + "storage/cell/save/" + cell.idStorageCell;
-    console.log("URL: " + url);
     const body = JSON.stringify(cell);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
-    console.log(headers);
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     if (cell.idStorageCell == 0) {
       return this.httpAuthService.post(url, body, options).map((response: Response) => {
         if (response.text()) {
-          console.log(response.json());
           return (response.json());
         }
       });
@@ -181,7 +170,6 @@ export class WarehouseSchemeService {
       headers: headers
     });
 
-    console.log(url);
     return this.httpAuthService.delete(url, options).map((response: Response) => {
       if (response.text()) {
         return (response.json());
@@ -198,7 +186,6 @@ export class WarehouseSchemeService {
       headers: headers
     });
 
-    console.log(url);
     return this.httpAuthService.delete(url, options).map((response: Response) => {
       if (response.text()) {
         return (response.json());

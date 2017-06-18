@@ -45,7 +45,6 @@ export class MapView {
     this.current_coord.lat = $event.coords.lat;
     this.current_coord.lng = $event.coords.lng;
     this.markers.push(this.current_coord);
-    console.log(this.current_coord);
   }
 
   public getX() {
@@ -68,10 +67,11 @@ export class MapView {
     this.markers.push(this.current_coord);
   }
 
-  public getCoordByAddress(address: string) {
+  public getCoordByAddress(address: string, callback) {
     this.mapService.geocoding(address).then(
       rtn => {
         this.current_coord.address = rtn[0].formatted_address;
+        callback(this.current_coord.address);
         let location = rtn[0].geometry.location;
         this.current_coord.lat = location.lat();
         this.current_coord.lng = location.lng();

@@ -31,11 +31,9 @@ export class SchemeGoodsListComponent implements OnInit {
           this.selectedId = this.goodsList[0].id;
           this.warehouseSchemeService.goodsWereSelected(this.goodsList[0]);
         } else {
-          console.log('Все товары были распределены');
           this.putAllInStorage();
           this.router.navigate(['../../../../../list/incoming'], {relativeTo: this.route});
         }
-        console.error(this.goodsList);
       }
     );
   }
@@ -46,10 +44,9 @@ export class SchemeGoodsListComponent implements OnInit {
 
   private putAllInStorage() {
     this.placedGoods.forEach(goods => {
-      console.log("Goods:");
-      goods.cells.forEach(cell => {
+      /*goods.cells.forEach(cell => {
         console.log(cell.idStorageCell);
-      })
+      })*/
       this.goodsService.putInStorage(goods).subscribe(res => {
 
         },

@@ -4,8 +4,8 @@ import {WarehouseCustomerCompanyService} from "../customer.service";
 import {Router} from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
-import {MapService} from "../../../util/map.service";
-import {MapView} from "../../../util/map";
+import {MapService} from "../../google-map/map.service";
+import {MapView} from "../../google-map/map";
 
 @Component({
   selector: 'app-customer-create',
@@ -34,8 +34,11 @@ export class CustomerCreateComponent implements OnInit {
 
   checkout() {
     const address = this.customerForm.controls['address'].value;
-    this.map.getCoordByAddress(address);
-    console.log(this.map.getX());
+    this.map.getCoordByAddress(address, this.setAddress.bind(this));
+  }
+
+  setAddress(address: string){
+    this.address = address;
   }
 
   onSubmit(form: FormGroup) {

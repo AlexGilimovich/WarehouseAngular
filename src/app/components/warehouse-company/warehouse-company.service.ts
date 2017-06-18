@@ -57,17 +57,14 @@ export class WarehouseCompanyService {
   save(company: WarehouseCompany, email: string) {
     if (isUndefined(company.idWarehouseCompany)) {
       company.status = false; // default - company is not active
-      console.log('is save action');
     }
     const url = isUndefined(company.idWarehouseCompany) ?  Host.URL + 'company/save/' + email : Host.URL + 'company/save/' + company.idWarehouseCompany;
-    console.log('URL: ' + url);
     const body = JSON.stringify(company);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     if (isUndefined(company.idWarehouseCompany)) {
       return this.http.post(url, body, options).map((response: Response) => {
@@ -93,7 +90,6 @@ export class WarehouseCompanyService {
       headers: headers
     });
 
-    console.log(url);
     return this.httpAuthService.delete(url, options).map((response: Response) => {
       if (response.text()) {
         return (response.json());
@@ -103,7 +99,6 @@ export class WarehouseCompanyService {
 
   getCompanyById(id: number) {
     const url = Host.URL + 'company/' + id;
-    console.log(url);
     const headers = new Headers();
     const params = new URLSearchParams();
 
@@ -128,7 +123,6 @@ export class WarehouseCompanyService {
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     return this.httpAuthService.post(url, body, options).map((response: Response) => {
       return (response.json()).map(item => {

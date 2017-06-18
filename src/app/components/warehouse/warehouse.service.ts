@@ -41,7 +41,6 @@ export class WarehouseService {
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     return this.httpAuthService.post(url, body, options).map((response: Response) => {
       return (response.json()).map(item => {
@@ -53,18 +52,14 @@ export class WarehouseService {
   save(warehouse: Warehouse) {
     if(isUndefined(warehouse.idWarehouse)){
       warehouse.status = true; //warehouse is active after registration
-      console.log("is save action");
-      console.log(warehouse.status);
     }
     const url = isUndefined(warehouse.idWarehouse) ?  Host.URL + "warehouse/save" : Host.URL + "warehouse/save/"+warehouse.idWarehouse;
-    console.log("URL: "+url);
     const body = JSON.stringify(warehouse);
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     if(isUndefined(warehouse.idWarehouse)) {
       return this.httpAuthService.post(url, body, options).map((response: Response) => {
@@ -101,7 +96,6 @@ export class WarehouseService {
 
   delete(id: number){
     const url = Host.URL + "warehouse/delete/"+id;
-    console.log("URL: "+url);
 
     const headers = new Headers();
     headers.set('Content-Type', 'application/json;charset=utf-8');

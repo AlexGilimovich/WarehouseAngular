@@ -4,8 +4,8 @@ import {Router, ActivatedRoute, Params } from "@angular/router";
 import {WarehouseCustomerCompany} from "../customer";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
-import {MapService} from "../../../util/map.service";
-import {MapView} from "../../../util/map";
+import {MapService} from "../../google-map/map.service";
+import {MapView} from "../../google-map/map";
 
 @Component({
   selector: 'app-customer-details',
@@ -45,7 +45,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   checkout(){
-    this.map.getCoordByAddress(this.address);
+    this.map.getCoordByAddress(this.address, this.setAddress.bind(this));
   }
 
   setAddress(address: string){

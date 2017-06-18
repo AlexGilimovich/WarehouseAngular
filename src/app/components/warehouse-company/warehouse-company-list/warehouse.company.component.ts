@@ -7,8 +7,8 @@ import { Response} from '@angular/http';
 import {WarehouseCompanyService} from "../warehouse-company.service";
 import {WarehouseService} from "../../warehouse/warehouse.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MapView} from "../../../util/map";
-import {MapService} from "../../../util/map.service";
+import {MapView} from "../../google-map/map";
+import {MapService} from "../../google-map/map.service";
 
 @Component({
   selector: 'app-warehouse-company',
@@ -73,8 +73,6 @@ export class WarehouseCompanyComponent implements OnInit {
   }
 
   findWarehouse(id: string){
-    console.log("call findWarehouse(id: String)");
-    console.log(id);
     this.router.navigate(['./', id, 'warehouse'], {relativeTo: this.route});
   }
 

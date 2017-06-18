@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {marker} from "../../util/marker";
+import {marker} from "../google-map/marker";
 import {WarehouseCompanyService} from "../warehouse-company/warehouse-company.service";
 import {User} from "../user/user";
 import {LoginService} from "../login/login.service";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Role} from "../user/role";
-import {MapView} from "../../util/map";
-import {MapService} from "../../util/map.service";
+import {MapView} from "../google-map/map";
+import {MapService} from "../google-map/map.service";
 
 
 @Component({

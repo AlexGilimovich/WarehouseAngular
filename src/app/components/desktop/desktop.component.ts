@@ -109,7 +109,7 @@ export class DesktopComponent implements OnInit {
         this.currentPage = 'invoices';
         break;
       case 'warehouses':
-        this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouse.idWarehouse, 'warehouse'], {
+        this.router.navigate(['./warehousecompany', this.loginService.getLoggedUser().warehouseCompany.idWarehouseCompany, 'warehouse'], {
           relativeTo: this.route
         });
         this.currentPage = 'warehouses';

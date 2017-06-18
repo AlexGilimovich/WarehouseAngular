@@ -32,8 +32,8 @@ import { EmailService } from './components/email/email.service';
 import { Uploader } from 'angular2-http-file-upload';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsService } from './components/settings/settings.service';
-import {MapModule} from "./components/map/map.module";
-import {MapComponent} from "./components/map/map.component";
+import {MapModule} from "./components/google-map/map.module";
+import {MapComponent} from "./components/google-map/map.component";
 
 const globalRoutes: Routes = [
   {

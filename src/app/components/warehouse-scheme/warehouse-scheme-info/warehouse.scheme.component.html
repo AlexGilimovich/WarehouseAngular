@@ -64,9 +64,8 @@
   </div>
 </div>
 
-<button *ngIf="isPutAction && !isReplaceAction" (click)="submitPut()" class="button">Ок</button>
-<button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button">Выбрать следующий товар</button>
-<button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button">Подтвердить выбор</button>
+<button *ngIf="isPutAction && !isReplaceAction" (click)="submitPut()" class="button">Подтвердить</button>
+<button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button">Далее</button>
 <div class="row">
   <div class="large-12 small-12 columns">
     <app-scheme-goods-list [id_invoice]="id_invoice" *ngIf="isReplaceAction"></app-scheme-goods-list>

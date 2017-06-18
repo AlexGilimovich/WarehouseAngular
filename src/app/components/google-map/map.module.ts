@@ -9,7 +9,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {MapComponent} from "./map.component";
-import {MapService} from "../../util/map.service";
+import {MapService} from "./map.service";
 
 @NgModule({
   imports: [

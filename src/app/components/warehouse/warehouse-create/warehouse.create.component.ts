@@ -8,8 +8,8 @@ import {isUndefined} from "util";
 import {Warehouse} from "../warehouse";
 import {WarehouseService} from "../warehouse.service";
 import {WarehouseCompany} from "../../warehouse-company/warehouse-company";
-import {MapService} from "../../../util/map.service";
-import {MapView} from "../../../util/map";
+import {MapService} from "../../google-map/map.service";
+import {MapView} from "../../google-map/map";
 
 @Component({
   selector: 'app-warehouse-create',
@@ -34,7 +34,7 @@ export class WarehouseCreateComponent implements OnInit {
   }
 
   checkout(){
-    this.map.getCoordByAddress(this.address);
+    this.map.getCoordByAddress(this.address, this.setAddress.bind(this));
   }
 
   registration(warehouse: Warehouse){

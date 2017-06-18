@@ -32,19 +32,18 @@ export class MapService {
     });
   }
 
-  public getAddress(lat: number, lng: number, fn) {
+  public getAddress(lat: number, lng: number, callback) {
     this.geocoder = new google.maps.Geocoder();
     let latlng = new google.maps.LatLng(lat, lng);
     return this.geocoder.geocode({ 'latLng': latlng }, function (results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
-          console.log(results[0].formatted_address);
-          fn(results[0].formatted_address);
+          callback(results[0].formatted_address);
         } else {
-          console.log('Location not found');
+          callback('Местоположение не найдено');
         }
       } else {
-        console.log('Geocoder failed due to: ' + status);
+        callback('Geocoder failed due to: ' + status);
       }
     });
   }
