@@ -37,6 +37,8 @@ import { MapComponent } from "./components/google-map/map.component";
 import { CompaniesFinanceComponent } from './components/companies-finance/companies-finance.component';
 import { CompaniesFinanceService } from './components/companies-finance/companies-finance.service';
 import { WarehouseCompanyService } from './components/warehouse-company/warehouse-company.service';
+import {SimpleNotificationsModule} from "angular2-notifications/dist";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const globalRoutes: Routes = [
   {
@@ -120,7 +122,9 @@ const globalRoutes: Routes = [
     InvoiceModule,
     FinanceModule,
     SpinnerModule,
-    DesktopModule
+    DesktopModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},

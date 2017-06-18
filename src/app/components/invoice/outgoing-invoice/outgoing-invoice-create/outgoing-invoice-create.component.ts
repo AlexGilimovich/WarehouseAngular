@@ -159,6 +159,6 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
     this.goodsList.forEach(item => {
       count += Number(item.price);
     });
-    this.goodsEntryCount = count.toString();
+    this.goodsEntryCount = count.toString() + ' руб';
   }
 }

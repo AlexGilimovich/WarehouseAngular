@@ -17,6 +17,7 @@ import {InvoiceContainerComponent} from './invoice-container/invoice-container.c
 import {InvoiceService} from "./invoice.service";
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
+import {SimpleNotificationsModule} from "angular2-notifications/dist";
 
 export const invoiceStatuses: Map<string, string> = new Map([
   ["REGISTERED_INCOMING", "Зарегистрирован"],
@@ -26,6 +27,9 @@ export const invoiceStatuses: Map<string, string> = new Map([
   ["RELEASE_ALLOWED", "Выпуск разрешен"],
   ["MOVED_OUT", "Вывоз разрешен"]
 ]);
+
+export const notificationTitle = 'Информация';
+export const notificationContent = 'Доступны новые накладные';
 
 export const invoiceRoutes: Routes = [
   {
@@ -82,7 +86,8 @@ export const invoiceRoutes: Routes = [
     ReactiveFormsModule,
     GoodsModule,
     WarehouseCustomerCompanyModule,
-    TransportCompanyModule
+    TransportCompanyModule,
+    SimpleNotificationsModule
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
