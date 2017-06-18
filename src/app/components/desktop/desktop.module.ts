@@ -23,6 +23,7 @@ import { EmailComponent } from '../email/email.component';
 import { ReportContainerComponent } from '../report/report-container/report-container.component';
 import { ReportModule, reportRoutes } from '../report/report.module';
 import { SettingsComponent } from '../settings/settings.component';
+import { CompaniesFinanceComponent } from '../companies-finance/companies-finance.component';
 
 export const desktopRoutes: Routes = [
   {
@@ -95,8 +96,11 @@ export const desktopRoutes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent
+  },
+  {
+    path: 'companiesPrices',
+    component: CompaniesFinanceComponent
   }
-
 ];
 
 

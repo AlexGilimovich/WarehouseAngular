@@ -61,11 +61,12 @@ export class UserDetailsComponent implements OnInit {
           this.currentUser = currentUser;
           this.getRolesFromServer();
 
-
-          if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
-            this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
-          } else {
-            this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+          if (!this.authenticatedUser.hasRole(Roles.ROLE_ADMIN())) {
+            if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+              this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
+            } else {
+              this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+            }
           }
           this.fillForm();
         }, (err: any) => {
@@ -76,14 +77,17 @@ export class UserDetailsComponent implements OnInit {
       this.userForm.controls['login'].setValidators([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я0-9]*$/)]);
       this.userForm.controls['login'].setAsyncValidators([this.validateLogin.bind(this)]);
       this.userForm.controls['password'].setValidators([Validators.compose([Validators.required, Validators.minLength(4)])]);
-      if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
-        this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
-      } else {
-        this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+      if (!this.authenticatedUser.hasRole(Roles.ROLE_ADMIN())) {
+        if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+          this.getWarehousesOfCompanyFromServer(this.authenticatedUser.warehouseCompany.idWarehouseCompany);
+        } else {
+          this.getWarehouseFromServer(this.authenticatedUser.warehouse.idWarehouse);
+          if (this.authenticatedUser.hasRole(Roles.ROLE_SUPERVISOR())) {
+            this.userForm.controls['warehouse'].setValue(this.authenticatedUser.warehouse.idWarehouse);
+          }
+        }
       }
-      if (!this.authenticatedUser.hasRole(Roles.ROLE_OWNER()) && this.authenticatedUser.hasRole(Roles.ROLE_SUPERVISOR())) {
-        this.userForm.controls['warehouse'].setValue(this.authenticatedUser.warehouse.idWarehouse);
-      }
+
       this.getRolesFromServer();
     }
   }

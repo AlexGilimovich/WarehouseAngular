@@ -45,6 +45,7 @@ export class WarehouseCompanyService {
     return this.http.get(url, options).map((response: Response) => {
       return (response.json()).map(item => {
         const company: WarehouseCompany = new WarehouseCompany();
+        company.idWarehouseCompany = item.idWarehouseCompany;
         company.name = item.name;
         company.x = item.x;
         company.y = item.y;

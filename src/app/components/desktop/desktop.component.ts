@@ -96,6 +96,10 @@ export class DesktopComponent implements OnInit {
         this.router.navigate(['./users'], {relativeTo: this.route});
         this.currentPage = 'users';
         break;
+      case 'companiesPrices':
+        this.router.navigate(['./companiesPrices'], {relativeTo: this.route});
+        this.currentPage = 'companiesPrices';
+        break;
       case 'goods':
         this.router.navigate(['./goods'], {relativeTo: this.route});
         this.currentPage = 'goods';

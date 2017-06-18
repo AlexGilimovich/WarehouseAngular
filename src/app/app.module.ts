@@ -32,8 +32,11 @@ import { EmailService } from './components/email/email.service';
 import { Uploader } from 'angular2-http-file-upload';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SettingsService } from './components/settings/settings.service';
-import {MapModule} from "./components/google-map/map.module";
-import {MapComponent} from "./components/google-map/map.component";
+import { MapModule } from "./components/google-map/map.module";
+import { MapComponent } from "./components/google-map/map.component";
+import { CompaniesFinanceComponent } from './components/companies-finance/companies-finance.component';
+import { CompaniesFinanceService } from './components/companies-finance/companies-finance.service';
+import { WarehouseCompanyService } from './components/warehouse-company/warehouse-company.service';
 
 const globalRoutes: Routes = [
   {
@@ -92,7 +95,8 @@ const globalRoutes: Routes = [
     WarehouseCreateComponent,
     EmailComponent,
     SettingsComponent,
-    MapComponent
+    MapComponent,
+    CompaniesFinanceComponent
     // WarehouseSchemeInfoComponent,
     // WarehouseSpaceComponent,
     // WarehouseCellComponent
@@ -126,7 +130,9 @@ const globalRoutes: Routes = [
     WarehouseService,
     EmailService,
     Uploader,
-    SettingsService
+    SettingsService,
+    CompaniesFinanceService,
+    WarehouseCompanyService
   ],
   bootstrap: [AppComponent]
 })

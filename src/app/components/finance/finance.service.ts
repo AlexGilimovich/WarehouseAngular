@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { HttpAuthService } from "../login/httpAuth.service";
-import { Price } from "./price";
-import { Observable } from "rxjs/Rx";
-import { PriceDTO } from "./priceDTO";
+import { Injectable } from '@angular/core';
+import { HttpAuthService } from '../login/httpAuth.service';
+import { Price } from './price';
+import { Observable } from 'rxjs/Rx';
+import { PriceDTO } from './priceDTO';
 import { Host } from '../../util/host';
 
 

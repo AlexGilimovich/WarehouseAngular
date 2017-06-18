@@ -9,6 +9,8 @@
         <ul class="menu vertical">
           <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='serviceUsers'}"><a
             (click)="navigateToPage('serviceUsers')">Пользователи</a></li>
+          <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='companiesPrices'}"><a
+            (click)="navigateToPage('companiesPrices')">Расценки</a></li>
           <!--  <li *ngIf="hasAnyRole('ROLE_ADMIN')" [ngClass]="{'active':currentPage=='adminReports'}"><a (click)="navigateToPage('adminReports')">Отчеты</a></li> -->
           <li *ngIf="hasAnyRole('ROLE_OWNER')" [ngClass]="{'active':currentPage=='warehouses'}"><a
             (click)="navigateToPage('warehouses')">Склады</a></li>
