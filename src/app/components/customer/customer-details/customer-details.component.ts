@@ -36,7 +36,6 @@ export class CustomerDetailsComponent implements OnInit {
     this.customerService.getById(this.id).subscribe(data => {
       const customer = data;
       this.customerForm.controls['name'].setValue(customer.name);
-      this.customerForm.controls['address'].setValue(customer.address);
       this.map.setOneCoordinate(customer.x, customer.y);
       this.mapService.getAddress(customer.x, customer.y, this.setAddress.bind(this));
       /*this.customerForm.controls['x'].setValue(customer.x);
@@ -49,7 +48,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   setAddress(address: string){
-    this.address = address;
+    this.customerForm.controls['address'].setValue(address);
   }
 
   onSubmit(form: FormGroup) {
