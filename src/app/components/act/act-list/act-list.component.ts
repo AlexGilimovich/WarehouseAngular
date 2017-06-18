@@ -23,8 +23,8 @@ export class ActListComponent implements OnInit {
   @Input() private actTypeNames;
   private searchDTO: ActSearchDTO;
   private searchSubscription: Subscription;
-  private warehouseId: number;
 
+  private authenticatedUser: User;
 
   //pagination
   private itemsOnPageArray = [10, 20];
@@ -42,7 +42,7 @@ export class ActListComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private loginService: LoginService) {
-    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;
+    this.authenticatedUser = this.loginService.getLoggedUser();
     this.searchSubscription = actSearchService.searchDTO$.subscribe(searchDTO => {
       this.searchDTO = searchDTO;
       this.getPage(1, searchDTO);
@@ -54,21 +54,12 @@ export class ActListComponent implements OnInit {
   }
 
   private getActsFromServer(): void {
-    const authenticatedUser: User = this.loginService.getLoggedUser();
-    if (authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
-      this.actService.companyList(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
-          this.handleActListResponse(res);
-        }, (err: any) => {
-          console.error(err);
-        }
-      );
+    if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+      const warehouseCompanyId = this.authenticatedUser.warehouseCompany.idWarehouseCompany;
+      this.getActsForCompany(this.currentPage, warehouseCompanyId);
     } else {
-      this.actService.list(this.warehouseId, this.currentPage, this.itemsOnPage).subscribe((res: any) => {
-          this.handleActListResponse(res);
-        }, (err: any) => {
-          console.error(err);
-        }
-      );
+      const warehouseId = this.authenticatedUser.warehouse.idWarehouse;
+      this.getActs(this.currentPage, warehouseId);
     }
   }
 
@@ -93,18 +84,36 @@ export class ActListComponent implements OnInit {
     this.currentPage = page;
     if (!searchDTO) {
       if (!this.searchDTO) {
-        this.getActs(page);
+        if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+          const warehouseCompanyId = this.authenticatedUser.warehouseCompany.idWarehouseCompany;
+          this.getActsForCompany(page, warehouseCompanyId);
+        } else {
+          const warehouseId = this.authenticatedUser.warehouse.idWarehouse;
+          this.getActs(page, warehouseId);
+        }
       } else {
-        this.search(this.searchDTO, page);
+        if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+          const warehouseCompanyId = this.authenticatedUser.warehouseCompany.idWarehouseCompany;
+          this.searchForCompany(this.searchDTO, page, warehouseCompanyId);
+        } else {
+          const warehouseId = this.authenticatedUser.warehouse.idWarehouse;
+          this.search(this.searchDTO, page, warehouseId);
+        }
       }
     } else {
       this.searchDTO = searchDTO;
-      this.search(this.searchDTO, page);
+      if (this.authenticatedUser.hasRole(Roles.ROLE_OWNER())) {
+        const warehouseCompanyId = this.authenticatedUser.warehouseCompany.idWarehouseCompany;
+        this.searchForCompany(this.searchDTO, page, warehouseCompanyId);
+      } else {
+        const warehouseId = this.authenticatedUser.warehouse.idWarehouse;
+        this.search(this.searchDTO, page, warehouseId);
+      }
     }
   }
 
-  private getActs(page) {
-    this.actService.list(this.warehouseId, page, this.itemsOnPage).subscribe((res) => {
+  private getActs(page: number, warehouseId: number) {
+    this.actService.list(warehouseId, page, this.itemsOnPage).subscribe((res) => {
         this.handleActListResponse(res);
       }, (err: any) => {
         console.error(err);
@@ -112,8 +121,26 @@ export class ActListComponent implements OnInit {
     );
   }
 
-  private search(searchDTO: ActSearchDTO, page) {
-    this.actService.search(this.warehouseId, searchDTO, page, this.itemsOnPage).subscribe((res) => {
+  private getActsForCompany(page: number, warehouseCompanyId: number) {
+    this.actService.companyList(warehouseCompanyId, page, this.itemsOnPage).subscribe((res) => {
+        this.handleActListResponse(res);
+      }, (err: any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private search(searchDTO: ActSearchDTO, page: number, warehouseId: number) {
+    this.actService.search(warehouseId, searchDTO, page, this.itemsOnPage).subscribe((res) => {
+        this.handleActListResponse(res);
+      }, (err: any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private searchForCompany(searchDTO: ActSearchDTO, page: number, warehouseCompanyId: number) {
+    this.actService.companySearch(warehouseCompanyId, searchDTO, page, this.itemsOnPage).subscribe((res) => {
         this.handleActListResponse(res);
       }, (err: any) => {
         console.error(err);

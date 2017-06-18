@@ -20,6 +20,8 @@ const SAVE_URL = `${BASE_URL}${'act/save'}`;
 const GET_ACTS_FOR_GOODS_URL = `${BASE_URL}${'act/acts'}`;
 const GET_ACTS_TYPES_URL = `${BASE_URL}${'act/acts'}`;
 const SEARCH_URL = `${BASE_URL}${'act/search/'}`;
+const COMPANY_SEARCH_URL = `${BASE_URL}${'act/search/company/'}`;
+
 
 
 const HEADER_X_TOTAL_COUNT = 'x-total-count';
@@ -76,7 +78,7 @@ export class ActService {
         }
       )
       return act;
-    })
+    });
   }
 
   save(act: Act): Observable<any> {
@@ -98,21 +100,34 @@ export class ActService {
       return response.json().map(item => {
           return new ActTypeName(item.id, item.name);
         }
-      )
-    })
+      );
+    });
   }
 
 
   search(warehouseId: number, dto: ActSearchDTO, page: number, count: number): Observable<any> {
-    const url: string = `${SEARCH_URL}${warehouseId}${"?page="}${page}${"&count="}${count}`;
-    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response)=> {
+    const url = `${SEARCH_URL}${warehouseId}${'?page='}${page}${'&count='}${count}`;
+    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response) => {
       let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
       return {
         acts: (<any>response.json()).map(item => {
           return this.mapResponseItemToAct(item);
         }),
         count: count
-      }
+      };
+    });
+  }
+
+  companySearch(warehouseCompanyId: number, dto: ActSearchDTO, page: number, count: number): Observable<any> {
+    const url = `${COMPANY_SEARCH_URL}${warehouseCompanyId}${'?page='}${page}${'&count='}${count}`;
+    return this.httpAuthService.post(url, JSON.stringify(dto)).map((response: Response) => {
+      let count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      return {
+        acts: (<any>response.json()).map(item => {
+          return this.mapResponseItemToAct(item);
+        }),
+        count: count
+      };
     });
   }
 
@@ -122,6 +137,7 @@ export class ActService {
     act.date = item.date;
     act.note = item.note;
     act.warehouseId = item.warehouseId;
+    act.warehouseName = item.warehouseName;
     let user = new User();
     user.id = item.user.id;
     user.lastName = item.user.lastName;

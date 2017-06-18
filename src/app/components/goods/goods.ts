@@ -19,6 +19,7 @@ export class Goods {
   public registeredStatus: GoodsStatus;
   public movedOutStatus: GoodsStatus;
   public warehouseId: number;
+  public warehouseName: string;
 
   constructor() {
   }

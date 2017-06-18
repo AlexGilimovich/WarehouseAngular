@@ -339,6 +339,7 @@ export class GoodsService {
     goods.weightUnit = new Unit(item.weightUnit.id, item.weightUnit.name);
     goods.priceUnit = new Unit(item.priceUnit.id, item.priceUnit.name);
     goods.warehouseId = item.warehouseId;
+    goods.warehouseName = item.warehouseName;
     goods.cells = item.cells.map(item => {
         const storageCell = new StorageCell();
         storageCell.number = item.number;
