@@ -22,7 +22,7 @@
           <td class="column-aligned small">
             <input #p id="pricePerMonth" name="pricePerMonth" type="number" [(ngModel)]="price.pricePerMonth">
           </td>
-          <td class="button-column">
+          <td class="button-column dark">
             <input type="button" class="button" value="Установить" [disabled]="price?.initialPrice === price?.pricePerMonth" (click)="updatePrice(price, p.value)">
           </td>
         </tr>

@@ -142,6 +142,22 @@ $text-input: #bcbcbc;
       }
     }
 
+    .button-column.dark {
+      background: $background-color;
+      button {
+        color: white;
+        border: solid 1px white;
+      }
+      .button.disabled,
+      .button.disabled:hover,
+      .button.disabled:focus,
+      .button[disabled],
+      .button[disabled]:hover,
+      .button[disabled]:focus {
+        background: $bg-color;
+      }
+    }
+
     th, td {
       border-color: white;
     }
