@@ -38,7 +38,7 @@ export class CustomerCreateComponent implements OnInit {
   }
 
   setAddress(address: string){
-    this.address = address;
+    this.customerForm.controls['address'].setValue(address);
   }
 
   onSubmit(form: FormGroup) {

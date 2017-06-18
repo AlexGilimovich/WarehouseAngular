@@ -77,7 +77,6 @@ export class WarehouseCustomerCompanyService {
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     return this.httpAuthService.put(url, body, options).map((response: Response) => {
       if (response.text()) {
