@@ -27,6 +27,9 @@ export class WarehouseCreateComponent implements OnInit {
               private mapService: MapService,
               private router:Router,
               private route:ActivatedRoute){
+    mapService.mapItems$.subscribe(data => {
+      this.mapService.getAddress(this.map.getX(), this.map.getY(), this.setAddress.bind(this));
+    });
   }
 
   setAddress(address: string){

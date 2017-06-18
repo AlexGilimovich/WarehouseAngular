@@ -45,6 +45,7 @@ export class MapView {
     this.current_coord.lat = $event.coords.lat;
     this.current_coord.lng = $event.coords.lng;
     this.markers.push(this.current_coord);
+    this.mapService.mapSource.next(true);
   }
 
   public getX() {

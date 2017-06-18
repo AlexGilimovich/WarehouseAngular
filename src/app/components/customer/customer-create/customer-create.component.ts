@@ -27,6 +27,10 @@ export class CustomerCreateComponent implements OnInit {
       'name': ['', Validators.compose([Validators.required])],
       'address': ['']
     });
+
+    mapService.mapItems$.subscribe(data => {
+      this.mapService.getAddress(this.map.getX(), this.map.getY(), this.setAddress.bind(this));
+    });
   }
 
   ngOnInit() {

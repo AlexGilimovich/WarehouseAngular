@@ -5,12 +5,17 @@
 import { Injectable } from '@angular/core';
 
 import { MapsAPILoader } from 'angular2-google-maps/core';
+import {StorageCell} from "../warehouse-scheme/storage-cell";
+import {Subject} from "rxjs/Subject";
 
 declare let google: any;
 
 @Injectable()
 export class MapService {
   private geocoder: any = null;
+
+  public mapSource = new Subject<boolean>();
+  public mapItems$ = this.mapSource.asObservable();
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
