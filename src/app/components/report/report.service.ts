@@ -12,7 +12,7 @@ declare const $: any;
 import 'foundation-datepicker';
 
 const RECEIPT_REPORT_URL: string = Host.getURL() + "report/receipt/";
-const PROFIT_REPORT_URL: string = Host.getURL() + "report/profit/";
+const PROFIT_REPORT_URL: string = Host.getURL() + "report/profit";
 const LOSS_REPORT_URL: string = Host.getURL() + "report/total_loss/";
 const EMPLOYEE_LOSS_REPORT_URL: string = Host.getURL() + "report/warehouse_loss_with_liable_employees/";
 
@@ -46,13 +46,10 @@ export class ReportService {
 		}))
 			.subscribe(
 			res => {
-
 				let blob = new Blob([res.arrayBuffer()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
 				let a = document.createElement("a");
 				a.href = window.URL.createObjectURL(blob);
 				a.download = 'ReceiptReport.xlsx';
-				a.innerHTML = "download";
 				document.body.appendChild(a);
 				a.click();
 				this.router.navigate(["../"], { relativeTo: route });		
@@ -69,21 +66,21 @@ export class ReportService {
 		let initialUrl = PROFIT_REPORT_URL;
 		let fullUrl: string;
 		let idWarehouse = profitReportForm.controls['idWarehouse'].value;
-		let startDate = profitReportForm.controls['startDate'].value;
-		let endDate = profitReportForm.controls['endDate'].value;
-		fullUrl = PROFIT_REPORT_URL + "?dateStart=" + startDate + "&dateEnd=" + endDate + "&idWarehouse=" + idWarehouse;
+		let startDate = new Date(profitReportForm.controls['startDate'].value);
+		let startDateString = startDate.getFullYear() + "-" + (startDate.getMonth()+1) + "-" + startDate.getDate();
+		let endDate = (new Date(profitReportForm.controls['endDate'].value));
+		let endDateString = endDate.getFullYear() + "-" + (endDate.getMonth()+1) + "-" + endDate.getDate();
+		fullUrl = PROFIT_REPORT_URL + "?dateStart=" + startDateString + "&dateEnd=" + endDateString + "&idWarehouse=" + idWarehouse;
 		this.httpAuthService.get(fullUrl, new RequestOptions({
 			headers: (new Headers({ ["Accept"]: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })),
 			responseType: ResponseContentType.ArrayBuffer
 		}))
 			.subscribe(
 			res => {
-
 				let blob = new Blob([res.arrayBuffer()], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-
 				let a = document.createElement("a");
 				a.href = window.URL.createObjectURL(blob);
-				a.download = 'ProfitReport.xlsx';
+				a.download = "ProfitReport.xlsx";
 				document.body.appendChild(a);
 				a.click();
 				this.router.navigate(["../"], { relativeTo: route });
