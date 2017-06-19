@@ -13,6 +13,7 @@ import {MapService} from "../../google-map/map.service";
 })
 export class CustomerListComponent implements OnInit {
   customers: WarehouseCustomerCompany[] = [];
+  addresses: string[] = [];
   mapView: MapView = new MapView(this.mapService);
 
   constructor(private customerService: WarehouseCustomerCompanyService,
@@ -23,8 +24,17 @@ export class CustomerListComponent implements OnInit {
   ngOnInit() {
     this.customerService.getAll().subscribe(data => {
       this.customers = data;
+      for(let i=0; i< this.customers.length; i++) {
+        this.getAddressForCustomer(i, this.customers[i]);
+      }
       this.mapView.init(data);
     });
+  }
+
+  getAddressForCustomer(index: number, customer: WarehouseCustomerCompany) {
+    this.mapService.getAddress(customer.x, customer.y, function(str){
+      this.customers[index].address = str;
+    }.bind(this));
   }
 
   goToDetails(id: number) {

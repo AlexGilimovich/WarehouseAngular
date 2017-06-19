@@ -179,10 +179,6 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
       }
     }
 
-    if(cell.goods != null) {
-      return 'cell-filled';
-    }
-
     return 'cell-disable';
   }
 
