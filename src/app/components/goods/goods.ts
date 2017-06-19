@@ -20,6 +20,10 @@ export class Goods {
   public movedOutStatus: GoodsStatus;
   public warehouseId: number;
   public warehouseName: string;
+  public incomingInvoiceNumber: string;
+  public incomingInvoiceDate: string;
+  public outgoingInvoiceNumber: string;
+  public outgoingInvoiceDate: string;
 
   constructor() {
   }

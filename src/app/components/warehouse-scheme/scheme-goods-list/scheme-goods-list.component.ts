@@ -52,10 +52,11 @@ export class SchemeGoodsListComponent implements OnInit {
         console.log(cell.idStorageCell);
       })*/
       this.goodsService.putInStorage(goods).subscribe(res => {
-
+          this.cellsSelectedSubscription.unsubscribe();
         },
         error => {
           console.error(error);
+          this.cellsSelectedSubscription.unsubscribe();
         }
       );
     });
@@ -67,7 +68,7 @@ export class SchemeGoodsListComponent implements OnInit {
 
   private getGoodsListFromServer(): void {
     if (!isUndefined(this.id_invoice)) {
-      this.goodsService.invoiceList(this.id_invoice).subscribe(res => {
+      this.goodsService.incomingInvoiceList(this.id_invoice).subscribe(res => {
           this.goodsList = res.goods.filter((item: Goods) => {
             return item.currentStatus.name === Statuses.CHECKED();
           });

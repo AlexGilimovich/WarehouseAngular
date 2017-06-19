@@ -101,8 +101,8 @@ export class GoodsService {
     });
   }
 
-  invoiceList(id: number): Observable<any> {
-    const url = `${LIST_URL}${'/invoice/'}${id}`;
+  incomingInvoiceList(id: number): Observable<any> {
+    const url = `${LIST_URL}${'/invoice/in/'}${id}`;
     const headers: Headers = new Headers();
     const options = new RequestOptions({headers: headers});
     return this.httpAuthService.get(url, options).map((response: Response) => {
@@ -116,6 +116,20 @@ export class GoodsService {
     });
   }
 
+  outgoingInvoiceList(id: number): Observable<any> {
+    const url = `${LIST_URL}${'/invoice/out/'}${id}`;
+    const headers: Headers = new Headers();
+    const options = new RequestOptions({headers: headers});
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      const count: string = response.headers.get(HEADER_X_TOTAL_COUNT);
+      return {
+        goods: (<any>response.json()).map((item: any) => {
+          return this.mapResponseItemToGoods(item);
+        }),
+        count: count
+      };
+    });
+  }
 
   storedList(id: string, page?: number, count?: number): Observable<any> {
     const url = `${LIST_URL}${'/'}${id}${'/stored'}`;
@@ -368,7 +382,17 @@ export class GoodsService {
         item.movedOutStatus.name,
         item.movedOutStatus.note
       ) : null;
+
+    if (item.incomingInvoiceDate && item.incomingInvoiceNumber) {
+      goods.incomingInvoiceDate = item.incomingInvoiceDate;
+      goods.incomingInvoiceNumber = item.incomingInvoiceNumber;
+    }
+
+    if (item.outgoingInvoiceDate && item.outgoingInvoiceNumber) {
+      goods.outgoingInvoiceDate = item.outgoingInvoiceDate;
+      goods.outgoingInvoiceNumber = item.outgoingInvoiceNumber;
+    }
+
     return goods;
   }
-
 }

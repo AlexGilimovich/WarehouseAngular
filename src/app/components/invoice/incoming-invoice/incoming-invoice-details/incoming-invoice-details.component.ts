@@ -66,7 +66,7 @@ export class IncomingInvoiceDetailsComponent implements OnInit {
 
   createMismatchAct() {
     this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse], {
-      queryParams: {invoiceId: this.id},
+      queryParams: {incomingInvoiceId: this.id},
       relativeTo: this.route
     });
   }

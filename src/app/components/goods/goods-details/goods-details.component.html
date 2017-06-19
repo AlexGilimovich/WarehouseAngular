@@ -150,6 +150,32 @@
         <div class="large-9 small-9 columns">
           <div class="row">
             <div class="large-3 small-3 columns">
+              <span class="right">Ввозная накладная:</span>
+            </div>
+            <div class="large-9 small-9 columns">
+              №{{goods?.incomingInvoiceNumber}} от {{goods?.incomingInvoiceDate | date:'dd.MM.yyyy'}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row height-3" *ngIf="goods?.outgoingInvoiceNumber && goods?.outgoingInvoiceDate">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
+              <span class="right">Вывозная накладная:</span>
+            </div>
+            <div class="large-9 small-9 columns">
+              №{{goods?.outgoingInvoiceNumber}} от {{goods?.outgoingInvoiceDate | date:'dd.MM.yyyy'}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row height-3">
+        <div class="large-9 small-9 columns">
+          <div class="row">
+            <div class="large-3 small-3 columns">
               <span class="right">Склад:</span>
             </div>
             <div class="large-9 small-9 columns">

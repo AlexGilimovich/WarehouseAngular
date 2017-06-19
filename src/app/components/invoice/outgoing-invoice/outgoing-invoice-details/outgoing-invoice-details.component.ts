@@ -68,7 +68,7 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
 
   createAct() {
     this.router.navigate(['../../../acts/create', this.loginService.getLoggedUser().warehouse.idWarehouse], {
-      queryParams: {invoiceId: this.id},
+      queryParams: {outgoingInvoiceId: this.id},
       relativeTo: this.route
     });
   }

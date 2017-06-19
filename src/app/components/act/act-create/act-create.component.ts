@@ -17,6 +17,7 @@ import { GoodsSearchDTO } from '../../goods/goodsSearchDTO';
 import { InvoiceStatus } from '../../invoice/invoice-status';
 import { InvoiceService } from '../../invoice/invoice.service';
 import { Statuses } from '../../goods/statuses';
+import { ActTypes } from '../actTypes';
 declare var $;
 
 @Component({
@@ -31,7 +32,8 @@ export class ActCreateComponent implements OnInit {
   private user: User;
   private currentDate: Date;
   private warehouseId: string;
-  private invoiceId: number;
+  private incomingInvoiceId: number;
+  private outgoingInvoiceId: number;
   private goodsId: string;
   private foundationInitialized = false;
 
@@ -74,10 +76,15 @@ export class ActCreateComponent implements OnInit {
 
     route.queryParams.subscribe(
       params => {
-        this.invoiceId = params['invoiceId'];
+        this.incomingInvoiceId = params['incomingInvoiceId'];
+        this.outgoingInvoiceId = params['outgoingInvoiceId'];
         this.goodsId = params['goodsId'];
-        if (this.invoiceId) {
-          this.getGoodsForInvoice();
+        if (this.incomingInvoiceId) {
+          this.getGoodsForIncomingInvoice();
+        } else {
+          if (this.outgoingInvoiceId) {
+            this.getGoodsForOutgoingInvoice();
+          }
         }
       }
     );
@@ -85,7 +92,17 @@ export class ActCreateComponent implements OnInit {
 
   ngOnInit() {
     this.actService.getActTypes().subscribe((res) => {
-        this.actTypeNames = [...res];
+        this.actTypeNames = [...res].filter(item => {
+          if (this.incomingInvoiceId) {
+            return item.name === ActTypes.MISMATCH_ACT();
+          } else {
+            if (this.outgoingInvoiceId) {
+              return item.name !== ActTypes.MISMATCH_ACT();
+            } else {
+              return true;
+            }
+          }
+        });
       }, (err) => {
         console.error(err);
       }
@@ -137,8 +154,19 @@ export class ActCreateComponent implements OnInit {
     }
   }
 
-  private getGoodsForInvoice() {
-    this.goodsService.invoiceList(this.invoiceId).subscribe(
+  private getGoodsForIncomingInvoice() {
+    this.goodsService.incomingInvoiceList(this.incomingInvoiceId).subscribe(
+      (res: any) => {
+        this.handleGoodsListResponse(res);
+      },
+      (err: any) => {
+        console.error(err);
+      }
+    );
+  }
+
+  private getGoodsForOutgoingInvoice() {
+    this.goodsService.outgoingInvoiceList(this.outgoingInvoiceId).subscribe(
       (res: any) => {
         this.handleGoodsListResponse(res);
       },
@@ -150,8 +178,8 @@ export class ActCreateComponent implements OnInit {
 
   private getGoods(object) {
     this.goodsList = [];
-    if (this.invoiceId) {
-      this.goodsService.invoiceList(this.invoiceId).subscribe(
+    if (this.incomingInvoiceId) {
+      this.goodsService.incomingInvoiceList(this.incomingInvoiceId).subscribe(
         (res: any) => {
           this.handleGoodsListResponse(res);
         },
@@ -160,21 +188,32 @@ export class ActCreateComponent implements OnInit {
         }
       );
     } else {
-      const searchDTO = new GoodsSearchDTO();
-      searchDTO.actApplicable = true;
-      searchDTO.actType = this.actForm.get('actType').value;
-      this.goodsService.search(searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
-        (res: any) => {
-          this.handleGoodsListResponse(res);
-        }, (err: any) => {
-          console.error(err);
-        }
-      );
+      if (this.outgoingInvoiceId) {
+        this.goodsService.outgoingInvoiceList(this.incomingInvoiceId).subscribe(
+          (res: any) => {
+            this.handleGoodsListResponse(res);
+          },
+          (err: any) => {
+            console.error(err);
+          }
+        );
+      } else {
+        const searchDTO = new GoodsSearchDTO();
+        searchDTO.actApplicable = true;
+        searchDTO.actType = this.actForm.get('actType').value;
+        this.goodsService.search(searchDTO, this.warehouseId, object.page, object.itemsOnPage).subscribe(
+          (res: any) => {
+            this.handleGoodsListResponse(res);
+          }, (err: any) => {
+            console.error(err);
+          }
+        );
+      }
     }
   }
 
   private searchByActType() {
-    if (!this.invoiceId) {
+    if (!this.incomingInvoiceId && !this.outgoingInvoiceId) {
       this.goodsList = [];
       const searchDTO = new GoodsSearchDTO();
       searchDTO.actApplicable = true;
