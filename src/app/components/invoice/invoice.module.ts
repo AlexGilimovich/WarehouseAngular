@@ -17,7 +17,10 @@ import {InvoiceContainerComponent} from './invoice-container/invoice-container.c
 import {InvoiceService} from "./invoice.service";
 import {InvoiceListComponent} from './invoice-list/invoice-list.component';
 import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme-info/warehouse.scheme.component";
-import {SimpleNotificationsModule} from "angular2-notifications/dist";
+import {NotificationComponent} from "angular2-notifications/dist/src/simple-notifications/components/notification.component";
+import {SimpleNotificationsComponent} from "angular2-notifications/dist/src/simple-notifications/components/simple-notifications.component";
+import {MaxPipe} from "angular2-notifications/dist/src/simple-notifications/pipes/max.pipe";
+
 
 export const invoiceStatuses: Map<string, string> = new Map([
   ["REGISTERED_INCOMING", "Зарегистрирован"],
@@ -86,12 +89,12 @@ export const invoiceRoutes: Routes = [
     ReactiveFormsModule,
     GoodsModule,
     WarehouseCustomerCompanyModule,
-    TransportCompanyModule,
-    SimpleNotificationsModule
+    TransportCompanyModule
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent, InvoiceListComponent],
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent, InvoiceListComponent,
+    NotificationComponent, SimpleNotificationsComponent, MaxPipe],
   entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
   providers: [InvoiceService]
 })

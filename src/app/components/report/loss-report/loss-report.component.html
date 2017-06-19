@@ -11,7 +11,7 @@
             <div class="large-9 small-9 columns">
               <input id="startDate" name="endDate" type="text" formControlName="startDate" class="span2"/>
               <div class="callout alert"
-               *ngIf="lossReportForm.controls['startDate'].hasError('required') && lossReportForm.get('startDate').touched">
+               *ngIf="lossReportForm.controls['startDate'].hasError('required')">
                   Поле "Начало периода" не может быть пустым
               </div>
               <div class="callout alert"
@@ -31,7 +31,7 @@
             <div class="large-9 small-9 columns">
               <input id="endDate" name="endDate" type="text" formControlName="endDate" class="span2"/>
               <div class="callout alert"
-                 *ngIf="lossReportForm.controls['endDate'].hasError('required') && lossReportForm.get('endDate').touched">
+                 *ngIf="lossReportForm.controls['endDate'].hasError('required')">
                   Поле "Конец периода" не может быть пустым
               </div>
                <div class="callout alert"

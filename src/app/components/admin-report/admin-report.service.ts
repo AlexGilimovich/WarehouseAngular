@@ -17,9 +17,8 @@ export class AdminReportService {
 		private fb: FormBuilder,
 		private httpAuthService: HttpAuthService,
 		private router: Router) { }
-	
+
 	getAdminReport(receiptReportForm: FormGroup, route: ActivatedRoute): void {
-		let fileReader = new FileReader();
 		let reportDTO: AdminReport = new AdminReport();
 		reportDTO.startDate = receiptReportForm.controls['startDate'].value;
 		reportDTO.endDate = receiptReportForm.controls['endDate'].value;

@@ -1,7 +1,7 @@
 <div class="callout">
 <div class="form-container">
   <h4>Сгенерировать отчет о поступлении товаров</h4>
-  <form class="form"  id="form" [formGroup]="receiptReportForm" (ngSubmit)="requestIsInProcess();getReceiptReport()"> 
+  <form class="form"  id="form" [formGroup]="receiptReportForm" (ngSubmit)="requestIsInProcess();getReceiptReport()">
     <div class="row">
       <div class="large-9 small-9 columns">
         <div class="row">
@@ -30,7 +30,7 @@
           <div class="large-9 small-9 columns">
             <input id="startDate" name="startDate" type="text" formControlName="startDate" class="span2"/>
              <div class="callout alert"
-             *ngIf="receiptReportForm.controls['startDate'].hasError('required') && receiptReportForm.get('startDate').touched">
+             *ngIf="receiptReportForm.controls['startDate'].hasError('required')">
             Поле "Начало периода" не может быть пустым
         </div>
         <div class="callout alert"
@@ -39,7 +39,7 @@
               </div>
           </div>
         </div>
-        
+
       </div>
     </div>
     <div class="row">
@@ -51,7 +51,7 @@
           <div class="large-9 small-9 columns">
             <input id="endDate" name="endDate" type="text" formControlName="endDate" class="span2"/>
             <div class="callout alert"
-             *ngIf="receiptReportForm.controls['endDate'].hasError('required') && receiptReportForm.get('endDate').touched">
+             *ngIf="receiptReportForm.controls['endDate'].hasError('required')">
             Поле "Конец периода" не может быть пустым
         </div>
         <div class="callout alert"
