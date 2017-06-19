@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { GoodsService } from '../goods.service';
 import { Goods } from '../goods';
 import { StorageType } from '../storageType';
@@ -29,14 +29,14 @@ export class GoodsCreateComponent implements OnInit {
               private fb: FormBuilder,
               private goodsService: GoodsService,
               private loginService: LoginService) {
-    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;//todo
+    this.warehouseId = this.loginService.getLoggedUser().warehouse.idWarehouse;
     this.goodsForm = this.fb.group({
       'name': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\s\d]*$/)])],
-      'quantity': ['', Validators.compose([Validators.required])],
+      'quantity': ['', Validators.compose([Validators.required, this.minValue])],
       'quantityUnit': ['шт', Validators.compose([Validators.required])],
-      'weight': ['', Validators.compose([Validators.required])],
+      'weight': ['', Validators.compose([Validators.required, this.minValue])],
       'weightUnit': ['кг', Validators.compose([Validators.required])],
-      'price': ['', Validators.compose([Validators.required])],
+      'price': ['', Validators.compose([Validators.required, this.minValue])],
       'priceUnit': ['руб', Validators.compose([Validators.required])],
       'storageType': ['Отапливаемое помещение', Validators.compose([Validators.required])]
     });
@@ -96,6 +96,17 @@ export class GoodsCreateComponent implements OnInit {
   private close() {
     // if (confirm("Изменения не были сохранены. Вы уверены, что хотите продолжить?"))
     this.location.back();
+  }
+
+  private minValue(c: FormControl) {
+    if (!c.value && c.value !== 0) {
+      return true;
+    }
+    const errors: any = {};
+    if (c.value <= 0) {
+      errors.outOfBounds = true;
+    }
+    return errors;
   }
 
 }

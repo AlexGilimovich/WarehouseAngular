@@ -30,6 +30,10 @@
             <input id="quantity" name="quantity" type="number" [formControl]="goodsForm.controls['quantity']"
                    required/>
             <div class="callout alert"
+                 *ngIf="goodsForm.controls['quantity'].hasError('outOfBounds') && goodsForm.get('quantity').touched">
+              Количество не может быть меньше либо равно нулю
+            </div>
+            <div class="callout alert"
                  *ngIf="goodsForm.controls['quantity'].hasError('required') && goodsForm.get('quantity').touched">
               Поле "Количество" не может быть пустым
             </div>
@@ -57,6 +61,10 @@
           </div>
           <div class="large-6 small-6 columns">
             <input id="price" name="price" type="number" [formControl]="goodsForm.controls['price']" required/>
+            <div class="callout alert"
+                 *ngIf="goodsForm.controls['price'].hasError('outOfBounds') && goodsForm.get('price').touched">
+              Цена не может быть меньше либо равна нулю
+            </div>
             <div class="callout alert"
                  *ngIf="goodsForm.controls['price'].hasError('required') && goodsForm.get('price').touched">
               Поле "Цена" не может быть пустым
@@ -86,6 +94,10 @@
           </div>
           <div class="large-6 small-6 columns">
             <input id="weight" name="weight" type="number" [formControl]="goodsForm.controls['weight']" required/>
+            <div class="callout alert"
+                 *ngIf="goodsForm.controls['weight'].hasError('outOfBounds') && goodsForm.get('weight').touched">
+              Вес не может быть меньше либо равен нулю
+            </div>
             <div class="callout alert"
                  *ngIf="goodsForm.controls['weight'].hasError('required') && goodsForm.get('weight').touched">
               Поле "Вес" не может быть пустым

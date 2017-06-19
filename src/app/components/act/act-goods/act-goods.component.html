@@ -9,15 +9,16 @@
     <th (click)="sort('weight')">Вес</th>
     <th (click)="sort('weightUnit')">Ед.изм.</th>
   </tr>
-  <tr *ngFor="let goods of goodsList;let i=index;" (click)="goToDetails(goods.id)">
+  <tr *ngFor="let goods of goodsList;let i=index;">
     <td>
-      {{goods.name}}
+      <span (click)="goToDetails(goods.id)">{{goods.name}}</span>
     </td>
     <td>
       {{goods.storageType.name}}
     </td>
     <td class="number-column">
-      <input #input type="number" [disabled]="!isEditable" [(ngModel)]="goods.quantity" max="{{goodsInitialState[i].quantity}}"  (input)="limitValue(input, i)">
+      <input #input type="number" [disabled]="!isEditable" [(ngModel)]="goods.quantity"
+             max="{{goodsInitialState[i].quantity}}" (input)="limitValue(input, i)">
     </td>
     <td>
       {{goods.quantityUnit.name}}
