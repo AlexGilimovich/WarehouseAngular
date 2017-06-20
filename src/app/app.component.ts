@@ -8,8 +8,6 @@ import {NotificationService} from "./components/notification/notification.servic
 import {init} from "protractor/built/launcher";
 import {Subscription} from "rxjs/Subscription";
 
-// todo unsubscribe from all
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

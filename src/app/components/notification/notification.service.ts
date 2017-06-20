@@ -14,7 +14,7 @@ export class NotificationService {
   constructor(private invoiceService: InvoiceService) {}
 
   warehouseCompanyCreated() {
-    this.warehouseCompanyCreatedSource.next(true);
+    this.warehouseCompanyCreatedSource.next();
   }
 
   invoiceCreated() {

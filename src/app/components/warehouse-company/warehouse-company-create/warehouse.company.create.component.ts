@@ -16,7 +16,7 @@ declare var $: any;
   selector: 'app-warehouse-company-create',
   templateUrl: './warehouse.company.create.component.html',
   styleUrls: ['./warehouse.company.create.component.scss'],
-  providers: [WarehouseCompanyService, MapService, NotificationService]
+  providers: [WarehouseCompanyService, MapService]
 })
 export class WarehouseCompanyCreateComponent implements OnInit {
   id: number;
