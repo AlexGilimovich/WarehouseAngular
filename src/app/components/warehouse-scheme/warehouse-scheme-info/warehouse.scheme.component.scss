@@ -1,3 +1,13 @@
+.list-container {
+  margin-top: 20.219px;
+  height: 100%;
+
+  button {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
 #space {
   background-color: #66ffff;
   float: left;
@@ -83,7 +93,7 @@
 }
 
 .open {
-  background-color: #FFA1B5 ;
+  background-color: #FFA1B5;
   float: left;
   margin: 2%;
   opacity: 0.9;
@@ -104,14 +114,14 @@
 }
 
 .noheated {
-  background-color: #86C7F3 ;
+  background-color: #86C7F3;
   float: left;
   margin: 2%;
   opacity: 0.9;
 }
 
 .default {
-  background-color: #BEEEFF ;
+  background-color: #BEEEFF;
   float: left;
   margin: 2%;
   opacity: 0.9;
