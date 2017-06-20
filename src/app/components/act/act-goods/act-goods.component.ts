@@ -42,14 +42,21 @@ export class ActGoodsComponent implements OnInit, OnChanges {
     this.onRemoved.emit(goods);
   }
 
-  private limitValue(input, index: number): void {
-    input.value > this.goodsInitialState[index].quantity ? input.value = this.goodsInitialState[index].quantity : input.value;
+  private limitValue(input: any, index: number): void {
+    const initialQuantity = this.goodsInitialState[index].quantity;
+    const initialPrice = this.goodsInitialState[index].price;
+    const initialWeight = this.goodsInitialState[index].weight;
+
+    if (input.value > initialQuantity) {
+      input.value = initialQuantity;
+      this.goodsList[index].quantity = initialQuantity;
+    }
     if (input.value == this.goodsInitialState[index].quantity) {
-      this.goodsList[index].weight = this.goodsInitialState[index].weight;
-      this.goodsList[index].price = this.goodsInitialState[index].price;
+      this.goodsList[index].weight = initialWeight;
+      this.goodsList[index].price = initialPrice;
     } else {
-      this.goodsList[index].weight = this.round(input.value / this.goodsInitialState[index].quantity * this.goodsInitialState[index].weight, 3).toString();
-      this.goodsList[index].price = this.round(input.value / this.goodsInitialState[index].quantity * this.goodsInitialState[index].price, 2).toString();
+      this.goodsList[index].weight = this.round(input.value / initialQuantity * initialWeight, 3).toString();
+      this.goodsList[index].price = this.round(input.value / initialQuantity * initialPrice, 2).toString();
     }
   }
 
