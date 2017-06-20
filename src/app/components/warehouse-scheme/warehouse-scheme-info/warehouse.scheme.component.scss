@@ -116,3 +116,8 @@
   margin: 2%;
   opacity: 0.9;
 }
+
+.row:not(.expanded) .row {
+  max-width: 250px;
+  min-width: 150px;
+}
