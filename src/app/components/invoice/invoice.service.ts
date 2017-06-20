@@ -64,6 +64,20 @@ export class InvoiceService {
     });
   }
 
+  getInvoicesCount() {
+    const url = path + '/count';
+    const headers = new Headers();
+    const params = new URLSearchParams();
+    const options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return response.json().count;
+    });
+  }
+
   getIncomingInvoiceById(id: number) {
     if (id != null) {
       const url = path + '/incoming/' + id;
@@ -180,7 +194,6 @@ export class InvoiceService {
     const options = new RequestOptions({
       headers: headers
     });
-    console.log(body);
 
     return this.httpAuthService.put(url, body, options).map((response: Response) => {
       if (response.text()) {

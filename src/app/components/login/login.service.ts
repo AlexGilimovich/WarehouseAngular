@@ -9,12 +9,15 @@ import { Observable } from 'rxjs';
 import { Role } from '../user/role';
 import { SessionStorage, SessionStorageService, LocalStorageService } from 'ng2-webstorage';
 import { Host } from '../../util/host';
+import {Subject} from "rxjs/Subject";
 
 const BASE_URL = Host.getURL();
 const HEADER_AUTHORIZATION = 'Authorization';
 
 @Injectable()
 export class LoginService {
+  private userLoggedInSource = new Subject<boolean>();
+  userLoggedIn$ = this.userLoggedInSource.asObservable();
 
   @SessionStorage()
   private authenticatedUser: User;
@@ -87,6 +90,7 @@ export class LoginService {
         if (rememberMe) {
           this.localStorageService.store('user', user);
         }
+        this.userLoggedIn(true);
         return user.roles;
       }
     );
@@ -96,9 +100,14 @@ export class LoginService {
     return Observable.create(
       observer => {
         this.localStorageService.clear('user');
+        this.userLoggedIn(false);
         return observer.next(true);
       }
     );
+  }
+
+  private userLoggedIn(isLoggedIn: boolean) {
+    this.userLoggedInSource.next(isLoggedIn);
   }
 
 }

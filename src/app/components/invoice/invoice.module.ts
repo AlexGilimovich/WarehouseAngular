@@ -20,6 +20,7 @@ import {WarehouseSchemeInfoComponent} from "../warehouse-scheme/warehouse-scheme
 import {NotificationComponent} from "angular2-notifications/dist/src/simple-notifications/components/notification.component";
 import {SimpleNotificationsComponent} from "angular2-notifications/dist/src/simple-notifications/components/simple-notifications.component";
 import {MaxPipe} from "angular2-notifications/dist/src/simple-notifications/pipes/max.pipe";
+import {NotificationService} from "../notification/notification.service";
 
 
 export const invoiceStatuses: Map<string, string> = new Map([
@@ -30,9 +31,6 @@ export const invoiceStatuses: Map<string, string> = new Map([
   ["RELEASE_ALLOWED", "Выпуск разрешен"],
   ["MOVED_OUT", "Вывоз разрешен"]
 ]);
-
-export const notificationTitle = 'Информация';
-export const notificationContent = 'Доступны новые накладные';
 
 export const invoiceRoutes: Routes = [
   {
@@ -93,8 +91,7 @@ export const invoiceRoutes: Routes = [
   ],
   declarations: [IncomingInvoiceCreateComponent, IncomingInvoiceDetailsComponent,
     OutgoingInvoiceCreateComponent, OutgoingInvoiceDetailsComponent,
-    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent, InvoiceListComponent,
-    NotificationComponent, SimpleNotificationsComponent, MaxPipe],
+    IncomingInvoiceListComponent, OutgoingInvoiceListComponent, InvoiceContainerComponent, InvoiceListComponent],
   entryComponents: [GoodsCreateComponent, GoodsChoiceComponent],
   providers: [InvoiceService]
 })

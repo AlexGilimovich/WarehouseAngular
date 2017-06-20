@@ -43,12 +43,18 @@
             <h4>Товары</h4>
             <table>
               <tr>
+                <th></th>
                 <th>Название</th>
                 <th>Количество</th>
                 <th>Цена</th>
                 <th>Вес</th>
               </tr>
               <tr *ngFor="let goods of goodsList">
+                <th>
+                  <div *ngIf="goodsHasWrongType(goods.currentStatus.name)">
+                    <i class="right fi-x red"></i>
+                  </div>
+                </th>
                 <th>{{goods.name}}</th>
                 <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
                 <th>{{goods.price}} {{goods.priceUnit.name}}</th>

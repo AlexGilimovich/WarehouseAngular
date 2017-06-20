@@ -38,6 +38,8 @@ import { CompaniesFinanceComponent } from './components/companies-finance/compan
 import { CompaniesFinanceService } from './components/companies-finance/companies-finance.service';
 import { WarehouseCompanyService } from './components/warehouse-company/warehouse-company.service';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MaxPipe, NotificationComponent, SimpleNotificationsComponent} from "angular2-notifications/dist";
+import {NotificationService} from "./components/notification/notification.service";
 
 const globalRoutes: Routes = [
   {
@@ -97,7 +99,8 @@ const globalRoutes: Routes = [
     EmailComponent,
     SettingsComponent,
     MapComponent,
-    CompaniesFinanceComponent
+    CompaniesFinanceComponent,
+    NotificationComponent, SimpleNotificationsComponent, MaxPipe
     // WarehouseSchemeInfoComponent,
     // WarehouseSpaceComponent,
     // WarehouseCellComponent

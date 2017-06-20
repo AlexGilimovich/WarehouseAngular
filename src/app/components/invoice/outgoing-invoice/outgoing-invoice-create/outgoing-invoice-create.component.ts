@@ -15,6 +15,7 @@ import {GoodsModalAnchorDirective} from "../../../goods/goods-modal-anchor.direc
 import {GoodsChoiceComponent} from "../../../goods/goods-choice/goods-choice.component";
 import {Location} from '@angular/common';
 import {Subscription} from "rxjs/Subscription";
+import {NotificationService} from "../../../notification/notification.service";
 declare const $: any;
 
 @Component({
@@ -38,8 +39,8 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
   constructor(private invoiceService: InvoiceService,
               private goodsService: GoodsService,
               private formBuilder: FormBuilder,
-              private router: Router,
-              private location: Location) {
+              private location: Location,
+              private notificationService: NotificationService) {
     this.invoiceForm = this.formBuilder.group({
       'number': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
       'issueDate': ['', Validators.compose([Validators.required])],
@@ -68,6 +69,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
     invoice.goods = this.goodsList;
     invoice.goodsEntryCount = this.goodsEntryCount;
     this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
+      this.notificationService.invoiceCreated();
       this.location.back();
     });
   }

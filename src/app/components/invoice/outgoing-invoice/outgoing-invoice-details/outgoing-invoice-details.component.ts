@@ -88,6 +88,12 @@ export class OutgoingInvoiceDetailsComponent implements OnInit {
     return this.loginService.getLoggedUser().hasRole('ROLE_CONTROLLER');
   }
 
+  goodsHasWrongType(status: string) {
+    return status === 'STOLEN' ||
+        status === 'LOST_BY_WAREHOUSE_COMPANY' ||
+        status === 'RECYCLED';
+  }
+
   private mapFormFromInvoice(invoice: OutgoingInvoice) {
     this.invoiceForm.controls['number'].setValue(invoice.number);
     this.invoiceForm.controls['issueDate'].setValue(invoice.issueDate);
