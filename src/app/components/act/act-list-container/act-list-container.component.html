@@ -16,7 +16,7 @@
 
   <div class="large-12 small-12 columns button-right">
 
-    <input class="button button-right" type="button"  (click)="goToCreate()"
+    <input *ngIf="showCreateButton" class="button button-right" type="button"  (click)="goToCreate()"
            value="Создать">
   </div>
 

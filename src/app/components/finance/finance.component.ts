@@ -43,6 +43,20 @@ export class FinanceComponent implements OnInit {
       p.dailyPrice = price.dailyPrice;
       return p;
     });
+
+    this.newPrices = this.storageTypes.map(item => {
+      const p = new PriceDTO();
+      p.idStorageSpaceType = item.idStorageSpaceType;
+      p.dailyPrice = this.findPriceForStorageType(item.idStorageSpaceType);
+      return p;
+    });
+  }
+
+  private findPriceForStorageType(storageTypeId: number): string {
+    const price: PriceDTO = this.priceList.find(item => {
+      return item.idStorageSpaceType === storageTypeId;
+    });
+    return price ? price.dailyPrice : '';
   }
 
   setNewPrices(): void {

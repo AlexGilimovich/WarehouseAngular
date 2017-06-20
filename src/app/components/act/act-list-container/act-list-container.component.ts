@@ -3,6 +3,8 @@ import { ActTypeName } from '../actTypeName';
 import { ActService } from '../act.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../login/login.service';
+import { Roles } from '../../user/roles';
+import { User } from '../../user/user';
 
 declare var $;
 
@@ -13,11 +15,17 @@ declare var $;
 })
 export class ActListContainerComponent implements OnInit {
   private actTypeNames: ActTypeName[];
+  private showCreateButton = true;
+  private authenticatedUser: User;
 
   constructor(private actService: ActService,
               private loginService: LoginService,
               private router: Router,
               private route: ActivatedRoute) {
+    this.authenticatedUser = loginService.getLoggedUser();
+    if (this.authenticatedUser.hasRole(Roles.ROLE_SUPERVISOR())) {
+      this.showCreateButton = false;
+    }
   }
 
   ngOnInit() {
