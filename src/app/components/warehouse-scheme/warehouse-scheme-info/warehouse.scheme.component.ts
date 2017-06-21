@@ -7,6 +7,9 @@ import {StorageCell} from "../storage-cell";
 import {Goods} from "../../goods/goods";
 import {StorageCellDTO} from "../storage-cell-DTO";
 import {GoodsService} from "../../goods/goods.service";
+import {LoginService} from "../../login/login.service";
+import {User} from "../../user/user";
+import {Roles} from "../../user/roles";
 /**
  * Created by Lenovo on 14.05.2017.
  */
@@ -33,7 +36,16 @@ export class WarehouseSchemeInfoComponent implements OnInit, OnChanges {
   isShowDeletedSpace: boolean = false;
   isShowDeletedCell: boolean = false;
 
-  constructor(private goodsService: GoodsService, private service: WarehouseSchemeService, private router:Router, private route:ActivatedRoute){
+  authUser: User;
+  isSupervisor: boolean = false;
+
+  constructor(private goodsService: GoodsService,
+              private service: WarehouseSchemeService,
+              private loginService: LoginService,
+              private router:Router,
+              private route:ActivatedRoute){
+    this.authUser = loginService.getLoggedUser();
+    this.isSupervisor = this.authUser.hasRole(Roles.ROLE_SUPERVISOR());
     this.service.selectedGoods$.subscribe(
       goods => {
         this.addGoodsToArray(goods);

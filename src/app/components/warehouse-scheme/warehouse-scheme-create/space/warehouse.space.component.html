@@ -4,7 +4,7 @@
     <div class="row columns">
       <label>Тип помещения
         <select [(ngModel)]="selectedSpaceType" name="selectedSpaceType">
-          <option *ngFor="let c of spaceType" [ngValue]="c" [selected]="selectedStorageSpace.storageSpaceType?.idStorageSpaceType==c?.idStorageSpaceType">{{c.name}}</option>
+          <option *ngFor="let c of spaceType" [ngValue]="c" [selected]="selectedStorageSpace?.storageSpaceType?.idStorageSpaceType==c?.idStorageSpaceType">{{c.name}}</option>
         </select>
       </label>
     </div>

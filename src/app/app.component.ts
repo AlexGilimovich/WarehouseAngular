@@ -121,8 +121,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private alertWarehouseCompanyCreated() {
-    const notificationTitle = 'Информация';
-    const notificationContent = 'Компания успешно создана!';
+    const notificationTitle = 'Компания создана';
+    const notificationContent = 'Данные для входа высланы вам на почту';
     this.alertService.success(
       notificationTitle,
       notificationContent

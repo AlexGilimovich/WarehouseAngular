@@ -15,9 +15,9 @@
 <body>
 <h1 align="center">Схема склада</h1>
 
-<input class="button" type="button" *ngIf="!isPutAction" (click)="addSpace(id_warehouse)"
+<input class="button" type="button" *ngIf="!isPutAction && isSupervisor" (click)="addSpace(id_warehouse)"
        value="Добавить помещение для хранения">
-<div class="switch" *ngIf="!isPutAction">
+<div class="switch" *ngIf="!isPutAction && isSupervisor">
   <p>Показывать удалённые ячейки
     <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2"
            [(ngModel)]="isShowDeletedCell">
@@ -39,12 +39,12 @@
       <div *ngIf="space.status || isShowDeletedSpace">
         <div ngClass="{{getClassSpace(space)}}">
           <h5 align="center" style="color: black;">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
-            <a style="color: #1779ba;" *ngIf="!isPutAction && (space.status || isShowDeletedSpace)"
+            <a style="color: #1779ba;" *ngIf="!isPutAction && (space.status || isShowDeletedSpace) && isSupervisor"
                (click)="editSpace(space?.idStorageSpace)"><i
               class="fi-pencil"></i></a>
-            <a style="color: #1779ba;" *ngIf="!isPutAction && space.status"
+            <a style="color: #1779ba;" *ngIf="!isPutAction && space.status && isSupervisor"
                (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
-            <a style="color: #1779ba;" *ngIf="!isPutAction && !space.status && isShowDeletedSpace"
+            <a style="color: #1779ba;" *ngIf="!isPutAction && !space.status && isShowDeletedSpace && isSupervisor"
                (click)="restoreSpace(space?.idStorageSpace)"><i
               class="fi-trash icon"></i></a>
           </h5>
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div>
-          <a *ngIf="!isPutAction" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
+          <a *ngIf="!isPutAction && isSupervisor" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
         </div>
       </div>
     </div>

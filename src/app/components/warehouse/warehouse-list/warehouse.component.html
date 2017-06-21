@@ -94,7 +94,7 @@
 
 
 <div class="row">
-  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable && warehouse.length != 0">
     <canvas baseChart
             [data]="pieChartData"
             [labels]="pieChartLabels"
@@ -104,7 +104,7 @@
             (chartClick)="chartClicked($event)">
     </canvas>
   </div>
-  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable">
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable && warehouse.length != 0">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
