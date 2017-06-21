@@ -2,7 +2,10 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background: url('../../../images/hero.jpg') no-repeat;
+  background:  linear-gradient(
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.25)
+  ), url('../../../images/hero.jpg') no-repeat;
   background-size: cover;
 
   .login-window {
@@ -41,7 +44,7 @@
       height: 100px;
       padding: 40px 0 0 15px;
       color: white;
-      text-align: left;
+      text-align: center;
       margin-bottom: 1rem;
     }
 
