@@ -166,6 +166,18 @@ export class InvoiceService {
     }
   }
 
+  invoiceExistsByNumber(number: string) {
+    const url = path + '/?number=' + number;
+    const headers = new Headers();
+    const options = new RequestOptions({
+      headers: headers
+    });
+
+    return this.httpAuthService.get(url, options).map((response: Response) => {
+      return response.text();
+    });
+  }
+
   parseIdParam(route: ActivatedRoute) {
     let id;
     route.params.subscribe(params => {

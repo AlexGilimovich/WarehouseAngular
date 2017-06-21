@@ -10,6 +10,8 @@ export class NotificationService {
   warehouseCompanyCreated$ = this.warehouseCompanyCreatedSource.asObservable();
   private invoiceCreatedSource = new Subject<any>();
   invoiceCreated$ = this.invoiceCreatedSource.asObservable();
+  private invoiceExistsSource = new Subject<any>();
+  invoiceExists$ = this.invoiceExistsSource.asObservable();
 
   constructor(private invoiceService: InvoiceService) {}
 
@@ -19,6 +21,10 @@ export class NotificationService {
 
   invoiceCreated() {
     this.invoiceCreatedSource.next();
+  }
+
+  invoiceExists() {
+    this.invoiceExistsSource.next();
   }
 
   getDesktopNotifications() {

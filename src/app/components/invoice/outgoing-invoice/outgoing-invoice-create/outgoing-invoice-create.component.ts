@@ -16,6 +16,7 @@ import {GoodsChoiceComponent} from "../../../goods/goods-choice/goods-choice.com
 import {Location} from '@angular/common';
 import {Subscription} from "rxjs/Subscription";
 import {NotificationService} from "../../../notification/notification.service";
+import {OutgoingInvoice} from "../outgoing-invoice";
 declare const $: any;
 
 @Component({
@@ -46,8 +47,8 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
       'issueDate': ['', Validators.compose([Validators.required])],
       'transportCompany': ['', Validators.compose([Validators.required])],
       'receiverCompany': ['', Validators.compose([Validators.required])],
-      'transportNumber': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
-      'transportName': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
+      'transportNumber': ['', Validators.compose([Validators.required])],
+      'transportName': ['', Validators.compose([Validators.required])],
       // todo invisible driver if not auto
       'driver': [],
       'description': ['']
@@ -68,10 +69,7 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
     const invoice = this.invoiceService.mapOutgoingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
     invoice.goodsEntryCount = this.goodsEntryCount;
-    this.invoiceService.saveOutgoingInvoice(invoice).subscribe(data => {
-      this.notificationService.invoiceCreated();
-      this.location.back();
-    });
+    this.saveInvoice(invoice);
   }
 
   saveTransport(company: TransportCompany) {
@@ -162,5 +160,20 @@ export class OutgoingInvoiceCreateComponent implements OnInit, OnDestroy {
       count += Number(item.price);
     });
     this.goodsEntryCount = count.toString() + ' руб';
+  }
+
+  private saveInvoice(invoice: OutgoingInvoice) {
+    const invoiceExistsSubscription = this.invoiceService.invoiceExistsByNumber(invoice.number).subscribe(data => {
+      const exists = (data === 'true');
+      if (exists) {
+        this.notificationService.invoiceExists();
+      } else {
+        this.invoiceService.saveOutgoingInvoice(invoice).subscribe(result => {
+          this.notificationService.invoiceCreated();
+          this.location.back();
+        });
+      }
+      invoiceExistsSubscription.unsubscribe();
+    });
   }
 }

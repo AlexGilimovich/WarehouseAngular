@@ -16,16 +16,17 @@ import {Subscription} from "rxjs/Subscription";
     NotificationsService, NotificationService],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
   prevInvoicesLength: number;
   curInvoicesLength: number;
   invoiceUpdatesSubscription: Subscription;
   invoiceCreationSubscription: Subscription;
+  invoiceExistsSubscription: Subscription;
   warehouseCompanyCreationSubscription: Subscription;
   notificationOptions = {
     position: ['bottom', 'right'],
     timeOut: 5000,
-    showProgressBar: true,
+    showProgressBar: false,
     pauseOnHover: true,
     clickToClose: true
   };
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy{
     this.receiveInvoicesUpdates();
     this.receiveWarehouseCompanyCreationUpdates();
     this.receiveInvoiceCreationUpdates();
+    this.receiveInvoiceExistsUpdates();
   }
 
   ngOnDestroy() {
@@ -49,6 +51,9 @@ export class AppComponent implements OnInit, OnDestroy{
     }
     if (this.invoiceCreationSubscription != null) {
       this.invoiceCreationSubscription.unsubscribe();
+    }
+    if (this.invoiceExistsSubscription != null) {
+      this.invoiceExistsSubscription.unsubscribe();
     }
   }
 
@@ -71,6 +76,12 @@ export class AppComponent implements OnInit, OnDestroy{
   private receiveInvoiceCreationUpdates() {
     this.invoiceCreationSubscription = this.notificationService.invoiceCreated$.subscribe(invoice => {
       this.alertInvoiceCreated();
+    });
+  }
+
+  private receiveInvoiceExistsUpdates() {
+    this.invoiceExistsSubscription = this.notificationService.invoiceExists$.subscribe(invoice => {
+      this.alertInvoiceExists();
     });
   }
 
@@ -122,6 +133,15 @@ export class AppComponent implements OnInit, OnDestroy{
     const notificationTitle = 'Информация';
     const notificationContent = 'Накладная успешно создана!';
     this.alertService.success(
+      notificationTitle,
+      notificationContent
+    );
+  }
+
+  private alertInvoiceExists() {
+    const notificationTitle = 'Внимание';
+    const notificationContent = 'Накладная с таким номером уже существует!';
+    this.alertService.error(
       notificationTitle,
       notificationContent
     );

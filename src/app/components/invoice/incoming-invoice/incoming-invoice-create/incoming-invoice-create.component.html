@@ -99,10 +99,6 @@
                  *ngIf="invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
               Поле "Номер транспорного средства" не может быть пустым
             </div>
-            <div class="callout alert"
-                 *ngIf="!invoiceForm.controls['transportNumber'].valid && !invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
-              Номер транспортного средства может содержать только буквы, цифры
-            </div>
           </div>
         </div>
       </div>
@@ -121,21 +117,10 @@
                  *ngIf="invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
               Поле "Название транспорного средства" не может быть пустым
             </div>
-            <div class="callout alert"
-                 *ngIf="!invoiceForm.controls['transportName'].valid && !invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
-              Название транспортного средства может содержать только буквы, цифры
-            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- todo
-    <label>
-      Водитель
-      <input type="text" [formControl]="invoiceForm.controls['driver']">
-    </label>
-    -->
 
     <div class="row">
       <div class="large-9 small-9 columns">

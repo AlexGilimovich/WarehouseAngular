@@ -50,12 +50,12 @@ export class WarehouseCompanyCreateComponent implements OnInit {
     warehouseCompany.y = this.map.getY();
     if (isUndefined(this.id)) {
       this.companyService.save(warehouseCompany, this.emailAddress).subscribe(data => {
+        this.notificationService.warehouseCompanyCreated();
         //console.log(this.user);
       });
       this.router.navigate(['../../'], {relativeTo: this.route});
     } else {
       this.companyService.save(warehouseCompany, this.emailAddress).subscribe(data => {
-        this.notificationService.warehouseCompanyCreated();
         this.router.navigate(['../../'], {relativeTo: this.route});
       });
     }

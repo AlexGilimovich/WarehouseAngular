@@ -52,9 +52,8 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
       'issueDate': ['', Validators.compose([Validators.required])],
       'transportCompany': ['', Validators.compose([Validators.required])],
       'supplierCompany': ['', Validators.compose([Validators.required])],
-      'transportNumber': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
-      'transportName': ['', Validators.compose([Validators.required, Validators.pattern(/^[a-zA-Zа-яА-Я\d]*$/)])],
-      // todo invisible driver if not auto
+      'transportNumber': ['', Validators.compose([Validators.required])],
+      'transportName': ['', Validators.compose([Validators.required])],
       'driver': [],
       'description': ['']
     });
@@ -74,10 +73,7 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
     const invoice = this.invoiceService.mapIncomingInvoiceFromForm(form);
     invoice.goods = this.goodsList;
     invoice.goodsEntryCount = this.goodsEntryCount;
-    this.invoiceService.saveIncomingInvoice(invoice).subscribe(data => {
-      this.notificationService.invoiceCreated();
-      this.location.back();
-    });
+    this.saveInvoice(invoice);
   }
 
   createGoods() {
@@ -168,5 +164,20 @@ export class IncomingInvoiceCreateComponent implements OnInit, OnDestroy {
       count += Number(item.price);
     });
     this.goodsEntryCount = count.toString() + ' руб';
+  }
+
+  private saveInvoice(invoice: IncomingInvoice) {
+    const invoiceExistsSubscription = this.invoiceService.invoiceExistsByNumber(invoice.number).subscribe(data => {
+      const exists = (data === 'true');
+      if (exists) {
+        this.notificationService.invoiceExists();
+      } else {
+        this.invoiceService.saveIncomingInvoice(invoice).subscribe(result => {
+          this.notificationService.invoiceCreated();
+          this.location.back();
+        });
+      }
+      invoiceExistsSubscription.unsubscribe();
+    });
   }
 }
