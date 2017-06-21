@@ -59,7 +59,6 @@ export class WarehouseSpaceComponent implements OnInit {
 
     this.schemeService.getStorageSpace(this.id_warehouse).subscribe(data => {
       this.storageSpace = data;
-      this.selectedStorageSpace = this.storageSpace[0];
       for (let i = 0; i < this.storageSpace.length; i++) {
         if (this.storageSpace[i].idStorageSpace == this.id_storage_space) {//so don't create other function
           //to REST-services
@@ -69,6 +68,8 @@ export class WarehouseSpaceComponent implements OnInit {
     });
 
     this.schemeService.getAllSpaceType().subscribe(data => {
+      this.selectedStorageSpace.storageSpaceType = data[0];
+      this.selectedSpaceType = data[0];
       this.spaceType = data;
     });
   }
