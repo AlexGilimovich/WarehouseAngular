@@ -1,0 +1,223 @@
+<div class="form-container">
+  <h4>Создание входной накладной</h4>
+  <form class="form" [formGroup]="invoiceForm" (ngSubmit)="onSubmit(invoiceForm)">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Номер ТТН:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="number" name="number" type="text" [formControl]="invoiceForm.controls['number']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
+              Поле "Номер ТТН" не может быть пустым
+            </div>
+            <div class="callout alert"
+                 *ngIf="!invoiceForm.controls['number'].valid && !invoiceForm.controls['number'].hasError('required') && invoiceForm.get('number').touched">
+              Наименование может содержать только буквы и цифры
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="issueDate" class="right">Дата выписки:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input type="text" id="issueDate" #issueDate
+                   name="issueDate" class="span2"
+                   [formControl]="invoiceForm.controls['issueDate']" (change)="checkIssueDate(issueDate.value)"
+                   required>
+            <div class="callout alert"
+                 *ngIf="isIssueDateNotValid">
+              Поле "Дата выписки" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label>Перевозчик:</label>
+          </div>
+          <div class="large-3 small-3 columns">
+            {{invoiceForm.controls['transportCompany'].value.name}}
+          </div>
+          <div class="large-6 small-6 columns">
+            <div class="button-right">
+              <input type="button" class="button" data-open="transportModal" value="Выбрать перевозчика" required>
+            </div>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportCompany'].hasError('required') && invoiceForm.get('transportCompany').touched">
+              Поле "Перевозчик" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label>Отправитель:</label>
+          </div>
+          <div class="large-3 small-3 columns">
+            {{invoiceForm.controls['supplierCompany'].value.name}}
+          </div>
+          <div class="large-6 small-6 columns">
+            <div class="button-right">
+              <input type="button" class="button" data-open="supplierModal" value="Выбрать отправителя" required>
+            </div>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['supplierCompany'].hasError('required') && invoiceForm.get('supplierCompany').touched">
+              Поле "Отправитель" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Номер транспортного средства:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="transportNumber" name="transportNumber" type="text"
+                   [formControl]="invoiceForm.controls['transportNumber']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportNumber'].hasError('required') && invoiceForm.get('transportNumber').touched">
+              Поле "Номер транспорного средства" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="number" class="right">Название транспортного средства:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="transportName" name="transportName" type="text"
+                   [formControl]="invoiceForm.controls['transportName']" required/>
+            <div class="callout alert"
+                 *ngIf="invoiceForm.controls['transportName'].hasError('required') && invoiceForm.get('transportName').touched">
+              Поле "Название транспорного средства" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="description" class="right">Описание:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+                <textarea id="description" name="description"
+                          [formControl]="invoiceForm.controls['description']"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="goodsEntryCount" class="right">
+              Общая цена:
+            </label>
+          </div>
+          <div class="large-9 small-9 columns">
+              <span id="goodsEntryCount">
+                {{goodsEntryCount}}
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="goods-container">
+          <div *ngIf="goodsList.length == 0; else hasGoods">
+            <h4>Нет товаров</h4>
+          </div>
+          <ng-template #hasGoods>
+            <h4>Товары</h4>
+            <table>
+              <tr>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Вес</th>
+                <th></th>
+              </tr>
+              <tr *ngFor="let goods of goodsList">
+                <th>{{goods.name}}</th>
+                <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+                <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+                <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+                <th>
+                  <a (click)="deleteGoods(goods)">
+                    <i class="right fi-x icon"></i>
+                  </a>
+                </th>
+              </tr>
+            </table>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <input type="button" class="button secondary" (click)="createGoods()" value="Добавить товар">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns button-right">
+        <input class="button" type="submit" [disabled]="!invoiceForm.valid" value="Сохранить">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="reveal" id="transportModal" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <app-tr-company-choice (company)="saveTransport($event)"
+                         (close)="closeTransportModal()"></app-tr-company-choice>
+</div>
+
+<div class="reveal" id="supplierModal" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <app-customer-choice (customer)="saveSupplier($event)"></app-customer-choice>
+</div>
+
+<div class="reveal" id="goodsModal" data-reveal>
+  <button class="close-button" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div appGoodsModalAnchor></div>
+</div>

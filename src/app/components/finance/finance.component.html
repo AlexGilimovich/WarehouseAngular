@@ -1,0 +1,117 @@
+<div class="main-container">
+  <div class="row">
+    <div class="large-12 small-12 column">
+
+      <div class="row">
+        <div class="large-12 small-12 column">
+          <table class="hover">
+            <tr>
+              <th>Тип хранения</th>
+              <th>Начало действия цены</th>
+              <th>Окончание действия цены</th>
+              <th>Цена</th>
+              <th>Примечание</th>
+            </tr>
+            <tr *ngFor="let price of priceList">
+              <td>
+                {{storageTypeMessages.get(price.idStorageSpaceType)}}
+              </td>
+              <td>
+                {{price.startTime}}
+              </td>
+              <td>
+                {{price.endTime}}
+              </td>
+              <td>
+                {{price.dailyPrice}}
+              </td>
+              <td>
+                {{price.comment}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 small-12 column button-right">
+          <input type="button" (click)="setNewPrices()" class="button" value="Установить">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 small-12 column">
+          <ul class="accordion" id="accordion" data-accordion data-allow-all-closed="true">
+            <li class="accordion-item" data-accordion-item>
+              <!-- Accordion tab title -->
+              <a class="accordion-title">История</a>
+              <div class="accordion-content" data-tab-content>
+                <div class="large-12 small-12 column">
+                  <table class="hover">
+                    <tr>
+                      <th>Тип хранения</th>
+                      <th>Начало действия цены</th>
+                      <th>Окончание действия цены</th>
+                      <th>Цена</th>
+                      <th>Примечание</th>
+                    </tr>
+                    <tr *ngFor="let price of historyPrices">
+                      <td>
+                        {{storageTypeMessages.get(price.idStorageSpaceType)}}
+                      </td>
+                      <td>
+                        {{price.startTime}}
+                      </td>
+                      <td>
+                        {{price.endTime}}
+                      </td>
+                      <td>
+                        {{price.dailyPrice}}
+                      </td>
+                      <td>
+                        {{price.comment}}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="reveal" id="priceListModal" data-reveal data-close-on-click="false">
+    <button class="close-button" type="button" data-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="modal-content">
+      <div class="row border-bottom">
+        <div class="column large-7 small-7">
+          <b>Тип хранения</b>
+        </div>
+        <div class="column large-5 small-5 centered">
+          <b>Стоимость (руб/день)</b>
+        </div>
+      </div>
+
+      <div *ngFor="let price of newPrices; let  isLast = last;">
+        <div [ngClass]="{'row': true, 'border-bottom': !isLast}">
+          <div class="column large-7 small-7">
+            {{storageTypeMessages.get(price.idStorageSpaceType)}}
+          </div>
+          <div class="column large-5 small-5">
+            <input type="number" id="dailyPrice" [(ngModel)]="price.dailyPrice">
+          </div>
+        </div>
+      </div>
+      <label for="comment">Примечание:</label>
+      <textarea name="comment" id="comment" cols="30" rows="5" [(ngModel)]="newPricesComment"></textarea>
+      <div class="button-right">
+        <input type="button" class="button" value="Сохранить" (click)="updatePrices()">
+      </div>
+    </div>
+  </div>
+</div>

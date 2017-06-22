@@ -1,0 +1,52 @@
+.item-counter {
+  display: inline-block;
+  float: right;
+  margin-right: 25px;
+  select {
+    font-size: 0.875em;
+    height: 32px;
+  }
+}
+
+.centered{
+  text-align: center;
+}
+.page-current {
+  background-color: #1779ba;
+  a{
+    color: white;
+  }
+  a:hover {
+    background-color: #1779ba;
+    color: white;
+  }
+}
+
+table {
+  cursor: default;
+  .clickable {
+    cursor: pointer;
+  }
+}
+
+.aligned{
+  margin: 0;
+}
+
+.cell-container {
+  display: table;
+  border-collapse:collapse;
+  .cell-item {
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+  }
+}
+
+.date-column{
+  width: 110px;
+  text-align: center;
+}

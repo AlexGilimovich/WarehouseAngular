@@ -1,0 +1,9 @@
+<h1>Отчеты</h1>
+
+<ul class="tabs" data-tabs id="example-tabs">
+  <li class="tabs-title is-active"><a [routerLink]="['receipt']" [routerLinkActive]="['active']">Поступление товаров</a></li>
+  <li class="tabs-title"><a [routerLink]="['profit']" [routerLinkActive]="['active']">Прибыль</a></li>
+  <li class="tabs-title"><a [routerLink]="['loss']" [routerLinkActive]="['active']">Убытки</a></li>
+  <li class="tabs-title"><a [routerLink]="['employee-loss']" [routerLinkActive]="['active']">Убытки по ответственным лицам</a></li>
+</ul>
+<router-outlet></router-outlet>

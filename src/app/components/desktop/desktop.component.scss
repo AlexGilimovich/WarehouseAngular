@@ -1,0 +1,188 @@
+$background-color: #1d1d1d;
+$secondary-background-color: #3c3c3c;
+$bg-color: #5c5c5c;
+$text-color: #EEEEEE;
+$text-input: #bcbcbc;
+
+.preset-light {
+  .top-bar {
+    background: #f1f1f1;
+  }
+}
+
+.preset-dark {
+  [type='text'], [type='password'], [type='date'], [type='datetime'], [type='datetime-local'], [type='month'], [type='week'], [type='email'], [type='number'], [type='search'], [type='tel'], [type='time'], [type='url'], [type='color'], textarea {
+    background-color: $bg-color;
+    color: $text-input;
+  }
+
+  .horizontal {
+    background-color: $background-color !important;
+  }
+
+  .reveal {
+    background-color: $secondary-background-color !important;
+  }
+
+  a {
+    color: $text-color;
+  }
+
+  .callout {
+    color: $text-color;
+    background-color: $bg-color;
+  }
+
+  .tabs {
+    border-color: $background-color;
+    background-color: $secondary-background-color;
+  }
+
+  input:hover, input:focus {
+    background-color: $bg-color;
+  }
+
+  select {
+    color: $text-input;
+    background-color: $bg-color;
+  }
+
+  :last-child:not(.is-active) > .accordion-title {
+    border-bottom-color: $background-color;
+  }
+
+  .accordion-title {
+    background-color: $bg-color;
+    border-color: $background-color;
+  }
+
+  .accordion-content {
+    background-color: $secondary-background-color;
+  }
+
+  .pagination a, .pagination button {
+    color: #cacabf;
+  }
+
+  .pagination a:hover, .pagination button:hover {
+    color: $background-color;
+  }
+
+  label {
+    color: $text-color;
+  }
+
+  input {
+    color: $text-input;
+    background-color: $bg-color;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $text-color;
+  }
+
+  p {
+    color: $text-color;
+  }
+
+  body {
+    background-color: $background-color;
+  }
+
+  background: $background-color;
+  color: #DEDEDE;
+  height: 100vh;
+
+  .form {
+    label {
+      color: #DEDEDE;
+    }
+    .head {
+      background: #1779ba;
+    }
+  }
+
+  label.right {
+    color: #DEDEDE;
+  }
+
+  .container {
+    background: $background-color;
+  }
+
+  .top-bar {
+    background: $secondary-background-color;
+    color: lightgray;
+    a {
+      color: lightblue;
+    }
+  }
+
+  .menu {
+    background: $secondary-background-color;
+
+    a {
+      color: #DEDEDE;
+    }
+    .active {
+      a {
+        background: #888;
+      }
+    }
+  }
+
+  table {
+    color: $text-color;
+
+    .button-column {
+      background-color: $bg-color;
+      button {
+        color: white;
+        border: solid 1px white;
+      }
+    }
+
+    .button-column.dark {
+      background: $background-color;
+      button {
+        color: white;
+        border: solid 1px white;
+      }
+      .button.disabled,
+      .button.disabled:hover,
+      .button.disabled:focus,
+      .button[disabled],
+      .button[disabled]:hover,
+      .button[disabled]:focus {
+        background: $bg-color;
+      }
+    }
+
+    th, td {
+      border-color: white;
+    }
+    tbody tr:nth-child(even) {
+      background: #888;
+    }
+
+    tbody tr:hover {
+      background-color: #3c3c3c !important;
+    }
+
+    thead, tbody {
+      color: $text-color;
+      background: $background-color;
+    }
+
+    tbody tr:hover {
+      background: $background-color; /* Цвет фона при наведении */
+      color: $text-color; /* Цвет текста при наведении */
+    }
+  }
+
+  .menu-item {
+    background: #888;
+  }
+
+
+}

@@ -1,0 +1,142 @@
+<div class="callout">
+  <div class="form-container">
+    <form class="form" [formGroup]="actForm" (ngSubmit)="save()">
+      <div class="row">
+        <div class="large-12 small-12 columns with-margin">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="note" class="right">Дата:</label>
+            </div>
+            <div class="large-5 small-5 columns non-editable">
+              <span>{{currentDate | date: 'dd.MM.yyyy'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="large-12 small-12 columns with-margin">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="note" class="right">Ответственное лицо:</label>
+            </div>
+            <div class="large-5 small-5 columns non-editable">
+              <span>{{user.lastName}} {{user.firstName}} {{user.patronymic}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 small-12 columns">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="actType" class="right">Тип акта:</label>
+            </div>
+            <div class="large-5 small-5 columns"
+                 [ngClass]="{'signal':  actForm.controls['actType'].hasError('required')}">
+              <select name="actType" id="actType" [formControl]="actForm.controls['actType']" required
+                      (change)="searchByActType()">
+                <option *ngFor="let type of actTypeNames" [value]="type.name">
+                  {{actTypeMessages.get(type.name)}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 small-12 columns">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              <label for="note" class="right">Примечание:</label>
+            </div>
+            <div class="large-5 small-5 columns">
+              <textarea name="note" id="note" cols="30" rows="10" required
+                        [formControl]="actForm.controls['note']"></textarea>
+              <div class="callout alert"
+                   *ngIf="actForm.controls['note'].hasError('required') && actForm.get('note').touched">
+                Поле "Примечание" не может быть пустым
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="large-12 small-12 columns">
+          <div class="row">
+            <div class="large-2 small-2 columns">
+              Выбранные товары:
+            </div>
+            <div class="large-10 small-10 columns">
+              <app-act-goods *ngIf="selectedGoodsList?.length > 0"
+                             [isEditable]="true"
+                             [goodsList]="selectedGoodsList"
+                             (onRemoved)="onRemoved($event)"></app-act-goods>
+              <div class="callout alert"
+                   *ngIf="actForm.controls['goods'].hasError('noSelectedGoods')">
+                Нет выбранных товаров. Чтобы выбрать товар, кликните на строке таблицы с товарами
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="large-12 small-12 columns">
+          <div class="row" *ngIf="!incomingInvoiceId && !outgoingInvoiceId && !actForm.controls['actType'].hasError('required')">
+            <div class="large-8 small-8 columns">
+              <ul class="accordion" id="accordion" data-accordion data-allow-all-closed="true">
+                <li class="accordion-item" data-accordion-item>
+                  <a class="accordion-title">Параметры поиска</a>
+                  <div class="accordion-content" data-tab-content>
+                    <app-goods-search
+                      [statusNames]="statusNames"
+                      [storageTypes]="storageTypes"
+                      [statusSearcheable]="true"
+                      [weightUnits]="weightUnits"
+                      [priceUnits]="priceUnits"
+                      [quantityUnits]="quantityUnits"></app-goods-search>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row" *ngIf="incomingInvoiceId || outgoingInvoiceId || !actForm.controls['actType'].hasError('required')">
+            <div class="large-12 small-12 columns">
+              <app-goods-list [isEditable]="false"
+                              [statusNames]="statusNames"
+                              [goodsList]="goodsList"
+                              [clickable]="false"
+                              [totalItemsCount]="totalGoodsCount"
+                              [pagination]="incomingInvoiceId || incomingInvoiceId ?false:true"
+                              (onGetPage)="getGoods($event)"
+                              (onSearch)="search($event)"
+                              (onAddToSelected)="onSelected($event)"></app-goods-list>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="large-12 small-12 columns button-right">
+          <button class="button" type="button" (click)="addGoods()" [disabled]="!hasSelected" *ngIf="false">
+            <span aria-hidden="true">
+              <i class="fi-plus"></i> Добавить выбранные
+            </span>
+          </button>
+          <input class="button" type="button" (click)="selectAll()" value="Выбрать все">
+          <input class="button" type="submit" [disabled]="!actForm.valid" value="Сохранить">
+          <input class="button" type="button" value="Отмена" (click)="close()">
+
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+

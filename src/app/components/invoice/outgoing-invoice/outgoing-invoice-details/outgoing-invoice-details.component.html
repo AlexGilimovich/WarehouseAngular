@@ -1,0 +1,83 @@
+<div class="form-container">
+  <h4>Описание накладной</h4>
+  <form [formGroup]="invoiceForm">
+    <label>
+      <b>Номер ТТН:</b> {{invoiceForm.controls['number'].value}}
+    </label>
+
+    <label>
+      <b>Дата выписки ТТН:</b> {{invoiceForm.controls['issueDate'].value}}
+    </label>
+
+    <label>
+      <b>Перевозчик:</b> {{invoiceForm.controls['transportCompany'].value.name}}
+    </label>
+
+    <label>
+      <b>Получатель:</b> {{invoiceForm.controls['receiverCompany'].value.name}}
+    </label>
+
+    <label>
+      <b>Номер транспортного средства:</b> {{invoiceForm.controls['transportNumber'].value}}
+    </label>
+
+    <label>
+      <b>Название транспортного средства:</b> {{invoiceForm.controls['transportName'].value}}
+    </label>
+
+    <label>
+      <b>Описание:</b> {{invoiceForm.controls['description'].value}}
+    </label>
+
+    <label>
+      <b>Общая цена:</b> {{invoiceForm.controls['goodsEntryCount'].value}}
+    </label>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="goods-container">
+          <div *ngIf="goodsList.length == 0; else hasGoods">
+            <h4>Нет товаров</h4>
+          </div>
+          <ng-template #hasGoods>
+            <h4>Товары</h4>
+            <table>
+              <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Вес</th>
+              </tr>
+              <tr *ngFor="let goods of goodsList">
+                <th>
+                  <div *ngIf="goodsHasWrongType(goods.currentStatus.name)">
+                    <i class="right fi-x red"></i>
+                  </div>
+                </th>
+                <th>{{goods.name}}</th>
+                <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+                <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+                <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+              </tr>
+            </table>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div [ngSwitch]="status">
+      <div *ngSwitchCase="invoiceStatus.REGISTERED_OUTGOING">
+        <div *ngIf="isController()">
+          <input type="button" class="button" (click)="allowRelease()" value="Разрешить выпуск">
+          <input type="button" class="button alert" (click)="createAct()" value="Оформить акт">
+        </div>
+      </div>
+      <div *ngSwitchCase="invoiceStatus.RELEASE_ALLOWED">
+        <div *ngIf="isDispatcher()">
+          <input type="button" class="button" (click)="allowMovingOut()" value="Разрешить вывоз">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

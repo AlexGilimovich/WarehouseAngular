@@ -1,0 +1,79 @@
+<div class="callout">
+<div class="form-container">
+  <h4>Сгенерировать отчет о поступлении товаров</h4>
+  <form class="form"  id="form" [formGroup]="receiptReportForm" (ngSubmit)="requestIsInProcess();getReceiptReport()">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="warehouse" class="right">Склад:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <select name="warehouse" id="warehouse" formControlName="idWarehouse">
+              <option selected></option>
+              <option *ngFor="let warehouse of warehouseList" [value]="warehouse.idWarehouse" >{{warehouse.name}}</option>
+            </select>
+            <div class="callout alert"
+             *ngIf="receiptReportForm.controls['idWarehouse'].hasError('required') && receiptReportForm.get('idWarehouse').touched">
+              Выберите склад
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="startDate" class="right">Начало периода:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="startDate" name="startDate" type="text" formControlName="startDate" class="span2"/>
+             <div class="callout alert"
+             *ngIf="receiptReportForm.controls['startDate'].hasError('required')">
+            Поле "Начало периода" не может быть пустым
+        </div>
+        <div class="callout alert"
+                   *ngIf="receiptReportForm.controls['startDate'].hasError('invalidStartDate')">
+                Дата начала периода не может быть больше даты окончания периода
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="endDate" class="right">Конец периода:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="endDate" name="endDate" type="text" formControlName="endDate" class="span2"/>
+            <div class="callout alert"
+             *ngIf="receiptReportForm.controls['endDate'].hasError('required')">
+            Поле "Конец периода" не может быть пустым
+        </div>
+        <div class="callout alert"
+                   *ngIf="receiptReportForm.controls['endDate'].hasError('invalidEndDate')">
+                Дата окончания периода не может быть меньше даты начала периода
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+</div>
+ <div class="row">
+      <div class="large-5 small-5 columns button-right" >
+        <input class="button" type="submit" value="Сгенерировать" form="form" [disabled]="!receiptReportForm.valid || requestInProcess">
+      </div>
+      <div class="large-4 small-4 columns">
+      <div class="spinner" *ngIf="requestInProcess">
+        <spinner [size]="20" [tickness]="4"></spinner> Запрос обрабатывается
+      </div>
+      </div>
+    </div>

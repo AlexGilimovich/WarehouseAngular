@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "book-discounter"
+    "name": "warehouse"
   },
   "apps": [
     {
@@ -9,7 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.png"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,11 +19,15 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/foundation-icons/foundation-icons.scss",
+        "../node_modules/foundation-datepicker/scss/foundation-datepicker.scss"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/foundation-sites/dist/js/foundation.min.js"
+        "../node_modules/foundation-sites/dist/js/foundation.min.js",
+        "../node_modules/chart.js/dist/Chart.bundle.min.js",
+        "../node_modules/foundation-datepicker/js/foundation-datepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

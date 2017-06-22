@@ -1,33 +1,20 @@
-<header>
-
-  <ul class="navigation-bar">
-    <li>
-      <a [routerLink]="['/home']" [routerLinkActive]="['active']">
-        Home
-      </a>
-    </li>
-    <li>
-      <a [routerLink]="['/book']" [routerLinkActive]="['active']">
-        Book List
-      </a>
-    </li>
-  </ul>
-
-  <div id="logo">
-    <img src="src/images/logo.jpg" alt="logo">
+<div class="top-bar header">
+  <div class="top-bar-title title">
+    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+      <button class="menu-icon dark" type="button" data-toggle></button>
+    </span>
+    <img src="./favicon.png" height="25px" width="25px" alt="">
+    <b>YOUR<br>
+      WAREHOUSE</b>
   </div>
-
-  <ul class="navigation-bar">
-    <li>
-      <a [routerLink]="['/cart']" [routerLinkActive]="['active']">
-        Shopping Cart {{cartItems}}
-      </a>
-    </li>
-    <li>
-      <a [routerLink]="['/about']" [routerLinkActive]="['active']">
-        About
-      </a>
-    </li>
-  </ul>
-
-</header>
+  <div class="top-bar-left welcome">
+    <span>Здравствуйте, <a (click)="goToUserDetails()">{{user?.lastName}} {{user?.firstName}} {{user?.patronymic}}</a>!</span>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li>
+        <button type="button" class="button" (click)="logout()">Выйти</button>
+      </li>
+    </ul>
+  </div>
+</div>

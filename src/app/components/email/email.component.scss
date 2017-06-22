@@ -1,0 +1,137 @@
+.container {
+  padding-top: 20px;
+}
+
+.button-right {
+  text-align: right;
+}
+
+.input-color {
+  padding: 0;
+  widht: 10%;
+}
+
+.configuration {
+  border: solid 1px lightgray;
+  margin: 20px;
+  padding: 20px;
+}
+
+.list {
+  list-style-type: none;
+  li {
+    cursor: -webkit-grab;
+  }
+}
+
+.email-body {
+  border: solid 1px lightgrey;
+  height: auto;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.button-signal {
+  animation-name: highlight;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes highlight {
+  0% {
+    border: solid 1px red;
+    color: red;
+  }
+  50% {
+    border: solid 1px #1779ba;
+    color: #1779ba;
+  }
+  100% {
+    border: solid 1px red;
+    color: red;
+  }
+}
+
+.bordered {
+  border: solid 1px lightgray;
+  padding: 10px;
+  margin-bottom: 30px;
+  background: #e7e7e7;
+}
+
+.reveal {
+  padding-top: 40px;
+  height: 190px;
+  width: 320px;
+}
+
+.spinner {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.text {
+  margin-bottom: 20px;
+}
+
+input.center {
+  display: block;
+  width: 100px;
+  margin: auto;
+}
+
+.text.center {
+  text-align: center;
+}
+
+.error {
+  border-color: red;
+}
+
+.attachment {
+  background: #e7e7e7;
+  height: 40px;
+  padding: 5px;
+  margin-bottom: 20px;
+  span {
+    display: inline-block;
+    padding-top: 4px;
+  }
+
+  .close {
+    display: inline-block;
+    float: right;
+    font-size: 2em;
+    line-height: 1;
+    span {
+      padding: 0;
+    }
+  }
+}
+
+.attach-button {
+  padding: 10px;
+  font-size: 1.4rem;
+}
+
+.background-button {
+  padding: 10px;
+}
+
+.dropdown-pane {
+  padding: 0;
+  border: none;
+  select {
+    margin: 0;
+  }
+  input {
+    padding: 0;
+    margin: 0;
+  }
+  input[type=color] {
+    padding: 0;
+    margin: 0;
+  }
+
+}

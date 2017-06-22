@@ -1,0 +1,129 @@
+<head>
+  <meta charset="UTF-8">
+  <title>Склады компании</title>
+  <style>
+    .icon {
+      font-size: 170%;
+      text-align: center;
+    }
+
+    .sebm-google-map-container {
+      height: 350px;
+    }
+
+    .switch {
+      color: black;
+    }
+  </style>
+</head>
+
+
+<div *ngIf="isAdmin">
+<h1 style="text-align: center">Компании</h1>
+
+<div class="input-group">
+  <input class="input-group-field" (keyup)="search()" name="name" [(ngModel)]="searchWarehouseCompany.name"
+         placeholder="Название компании...">
+  <div class="input-group-button">
+    <input type="submit" class="button" (click)="search()" value="Поиск">
+  </div>
+</div>
+<p class="help-text" id="passwordHelpText">Начните вводить название компании</p>
+
+<div class="switch">
+  <p>Показывать отключённые
+    <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch" [(ngModel)]="isShowDeleted">
+    <label class="switch-paddle" for="exampleSwitch">&nbsp; <small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+      <span class="show-for-sr">Download Kittens</span>
+    </label>
+  </p>
+</div>
+
+<table class="hover">
+  <thead>
+  <tr>
+    <th><i class="fi-checkbox icon"></i></th>
+    <th>Номер компании</th>
+    <th>Название компании</th>
+    <th><i class="fi-pencil icon"></i></th>
+    <th><i class="fi-x icon"></i></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let company of warehouseCompany">
+    <td *ngIf="company.status || isShowDeleted"><input type="checkbox" value="{{company?.idWarehouseCompany}}"></td>
+    <td *ngIf="company.status || isShowDeleted">{{company?.idWarehouseCompany}}</td>
+    <td *ngIf="company.status || isShowDeleted">
+      <!--<a (click)="findWarehouse(company.idWarehouseCompany)">-->{{company?.name}}<!--</a>-->
+    </td>
+    <td *ngIf="company.status || isShowDeleted">
+      <a (click)="edit(company?.idWarehouseCompany)"><i class="fi-pencil icon"></i></a>
+    </td>
+    <td *ngIf="company.status">
+      <a (click)="delete(company?.idWarehouseCompany)"><i class="fi-x icon"></i></a>
+    </td>
+    <td *ngIf="!company.status && isShowDeleted">
+      <a (click)="restore(company?.idWarehouseCompany)"><i class="fi-unlock icon"></i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ul class="pagination text-center" role="navigation" aria-label="Pagination">
+  <li *ngIf="page!=1" class="pagination-previous">
+    <a (click)="prevPage()" aria-label="Prev page"></a>
+  </li>
+  <li *ngIf="page==1" class="pagination-previous disabled" aria-label="Prev page"></li>
+  <li class="current"><span class="show-for-sr">Вы на странице</span>{{page}}</li>
+  <li *ngIf="!isLastPage" class="pagination-next"><a (click)="nextPage()" aria-label="Next page"></a></li>
+  <li *ngIf="isLastPage" class="pagination-next disabled" aria-label="Next page"></li>
+
+  <div class="item-counter">
+    <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getData(0)">
+      <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+    </select>
+  </div>
+  <h5 class="item-counter">Отображать по:</h5>
+</ul>
+
+</div>
+
+
+<div *ngIf="!isAdmin">
+  <h1>Компании:</h1>
+  <ul>
+    <li *ngFor="let company of warehouseCompany">
+      <p>Номер компании: {{company?.idWarehouseCompany}}</p>
+      <a (click)="delete(company?.idWarehouseCompany)">Удалить</a>
+      <a (click)="edit(company?.idWarehouseCompany)">Редактировать</a>
+      <p>Наименование: <a [routerLink]="['../warehouse']" [routerLinkActive]="['active']" (click)="findWarehouse(company.idWarehouseCompany)">{{company?.name}}</a></p>
+      <p>Статус: {{company?.status == true ? 'активен' : 'отключён'}}</p>
+    </li>
+
+  </ul>
+</div>
+
+<div id="map_container" *ngIf="map.isDataAvailable && isAdmin">
+  <!--MAP FROM ANGULAR2-->
+  <!--<google-map-view [isViewAction]="true" [data]="googleMapData" [isSmall]="true"></google-map-view>-->
+  <sebm-google-map
+    [latitude]="map.lat"
+    [longitude]="map.lng"
+    [zoom]="map.zoom"
+    [disableDefaultUI]=false
+    [zoomControl]=false
+    (mapClick)="mapClicked($event)">
+    <sebm-google-map-marker
+      *ngFor="let m of map.markers; let i = index"
+      [latitude]="m.lat"
+      [longitude]="m.lng"
+      [markerDraggable] = "m.draggable"
+    >
+      <sebm-google-map-info-window>
+        <strong>{{m.name}}</strong>
+      </sebm-google-map-info-window>
+    </sebm-google-map-marker>
+  </sebm-google-map>
+  <!--END OF MAP FROM ANGULAR2-->
+</div>
+<br>

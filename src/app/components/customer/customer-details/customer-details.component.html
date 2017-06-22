@@ -1,0 +1,69 @@
+<div class="form-container">
+  <form [formGroup]="customerForm"
+        (ngSubmit)="onSubmit(customerForm)">
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="name" class="right">Название:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <input id="name" type="text"
+                   [formControl]="customerForm.controls['name']" required/>
+            <div class="callout alert"
+                 *ngIf="customerForm.controls['name'].hasError('required') && customerForm.get('name').touched">
+              Поле "Название" не может быть пустым
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="row">
+          <div class="large-3 small-3 columns">
+            <label for="address" class="right">Адрес:</label>
+          </div>
+          <div class="large-9 small-9 columns">
+            <div class="input-group">
+              <input id="address" type="text" [formControl]="customerForm.controls['address']"
+                     placeholder="Введите адрес или укажите место на карте...">
+              <div class="input-group-button">
+                <button type="button" class="primary button" (click)="checkout()">
+                  Проверить
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-9 small-9 columns button-right">
+        <input class="button" type="submit"
+               [disabled]="!customerForm.valid" value="Сохранить">
+      </div>
+    </div>
+
+    <sebm-google-map
+      [latitude]="map.lat"
+      [longitude]="map.lng"
+      [zoom]="map.zoom"
+      [disableDefaultUI]=false
+      [zoomControl]=false
+      (mapClick)="map.mapClicked($event)">
+      <sebm-google-map-marker
+        *ngFor="let m of map.markers; let i = index"
+        [latitude]="m.lat"
+        [longitude]="m.lng"
+        [markerDraggable] = "m.draggable">
+        <sebm-google-map-info-window>
+          <strong>{{m.name}}</strong>
+        </sebm-google-map-info-window>
+      </sebm-google-map-marker>
+    </sebm-google-map>
+
+  </form>
+</div>

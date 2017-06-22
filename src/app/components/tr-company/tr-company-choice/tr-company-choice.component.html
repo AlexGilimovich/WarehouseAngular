@@ -1,0 +1,38 @@
+<div class="form-container">
+  <div class="row">
+    <div class="large-12 small-12 columns border-bottom">
+      <input #searchParams
+             type="text" placeholder="Введите название..."
+             (keydown)="refreshCompanies(searchParams.value)">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <table>
+        <tr>
+          <th>Название</th>
+        </tr>
+        <tr *ngFor="let company of companies"
+            [ngClass]="{'highlight': company == chosenCompany}"
+            (click)="onCompanyChosen(company)">
+          <td>
+            {{company.name}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 small-12 columns button-right">
+      <div class="button-left">
+        <input type="button" class="button secondary" value="Создать компанию" (click)="createCompany()">
+      </div>
+      <div class="button-right">
+        <input type="button" class="button" [disabled]="chosenCompany == null"
+               value="Сохранить" (click)="saveCompany()">
+      </div>
+    </div>
+  </div>
+</div>

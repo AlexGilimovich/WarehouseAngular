@@ -1,0 +1,20 @@
+.button-column {
+  background-color: white;
+  vertical-align: middle;
+  padding: 0;
+  input {
+    margin: 0 0 0 10px;
+  }
+}
+
+.column-aligned {
+  vertical-align: middle;
+  text-align: center;
+  input {
+    margin: 0;
+  }
+}
+
+.small{
+  width: 250px;
+}

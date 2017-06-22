@@ -1,0 +1,57 @@
+<style>
+  .sebm-google-map-container {
+    height: 350px;
+  }
+</style>
+
+<body>
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <ul class="list">
+      <li *ngFor="let customer of customers; let i = index">
+        <h2 class="customer-title">
+          <a class="clickable" (click)="goToDetails(customer.id)">
+            {{customer.name}}
+          </a>
+        </h2>
+        <span class="customer-desc">
+          Адрес: {{customer.address}}
+        </span>
+      </li>
+    </ul>
+
+    <!-- todo create pagination -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <input type="button" class="button" value="Создать"
+           (click)="createCustomer()">
+  </div>
+</div>
+
+<div id="map_container" *ngIf="mapView.isDataAvailable">
+  <!--MAP FROM ANGULAR2-->
+  <sebm-google-map
+    [latitude]="mapView.lat"
+    [longitude]="mapView.lng"
+    [zoom]="mapView.zoom"
+    [disableDefaultUI]=false
+    [zoomControl]=false>
+    <sebm-google-map-marker
+      *ngFor="let m of mapView.markers; let i = index"
+
+      [latitude]="m.lat"
+      [longitude]="m.lng"
+      [markerDraggable]="m.draggable"
+
+    >
+      <sebm-google-map-info-window>
+        <strong>{{m.name}}</strong>
+      </sebm-google-map-info-window>
+    </sebm-google-map-marker>
+  </sebm-google-map>
+  <!--END OF MAP FROM ANGULAR2-->
+</div>
+</body>

@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <ul class="list">
+      <li *ngFor="let company of companies">
+        <h2 class="company-title">
+          <a class="clickable" (click)="goToDetails(company.id)">
+            {{company.name}}
+          </a>
+        </h2>
+        <span *ngIf="company.isTrusted" class="company-desc">
+          Доверенный перевозчик
+        </span>
+      </li>
+    </ul>
+
+    <!-- todo create pagination -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <input type="button" class="button" value="Создать"
+           (click)="createCompany()">
+  </div>
+</div>

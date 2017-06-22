@@ -1,0 +1,80 @@
+<div class="callout" data-closable>
+  <button class="close-button" type="button" (click)="removeStatus()" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <div class="status-container">
+    <div class="row">
+      <div class="large-2 small-2 columns">
+        <label for="status" class="right">Статус:</label>
+      </div>
+      <div class="large-10 small-10 columns">
+        <select name="status" id="status" [(ngModel)]="status.name">
+          <option value=""></option>
+          <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+            {{statusMessages.get(statusName.name)}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 small-2 columns">
+        <label for="fromDate" class="right">Дата:</label>
+      </div>
+      <div class="large-1 small-1 columns">
+        <label for="fromDate" class="right">c</label>
+      </div>
+      <div class="large-4 small-4 columns">
+
+          <input type="text" id="fromDate" name="fromDate" #fromDate="ngModel" [(ngModel)]="status.fromDate"
+                 pattern="^\d{2}.\d{2}.\d{4}$" placeholder="ДД.ММ.ГГГГ" (change)="validateFromDate($event)">
+          <div class="callout alert"
+               *ngIf="fromDate.touched && !fromDate.valid">
+            Неверный формат даты.
+            Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
+          </div>
+
+      </div>
+
+      <div class="large-1 small-1 columns">
+        <label for="toDate" class="right">по</label>
+      </div>
+      <div class="large-4 small-4 columns">
+        <input type="text" id="toDate" name="toDate" #toDate="ngModel" pattern="^\d{2}.\d{2}.\d{4}$"
+               [(ngModel)]="status.toDate"
+               placeholder="ДД.ММ.ГГГГ" (change)="validateToDate($event)">
+        <div class="callout alert"
+             *ngIf="toDate.touched && !toDate.valid">
+          Неверный формат даты.
+          Пожалуйста, введите дату в формате ДД.ММ.ГГГГ
+        </div>
+      </div>
+
+    </div>
+    <p><b>Ответственное лицо:</b></p>
+    <div class="row">
+      <div class="large-2 small-2 columns">
+        <label for="lastName" class="right">Фамилия:</label>
+      </div>
+      <div class="large-10 small-10 columns">
+        <input type="text" id="lastName" name="lastName" [(ngModel)]="status.userLastName">
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 small-2 columns">
+        <label for="firstName" class="right">Имя:</label>
+      </div>
+      <div class="large-10 small-10 columns">
+        <input type="text" id="firstName" name="firstName" [(ngModel)]="status.userFirstName">
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-2 small-2 columns">
+        <label for="patronymic" class="right">Отчество:</label>
+      </div>
+      <div class="large-10 small-10 columns">
+        <input type="text" id="patronymic" name="patronymic" [(ngModel)]="status.userPatronymic">
+      </div>
+    </div>
+  </div>
+</div>

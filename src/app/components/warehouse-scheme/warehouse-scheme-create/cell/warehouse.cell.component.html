@@ -1,0 +1,36 @@
+<div class="translucent-form-overlay">
+  <form method="post">
+    <h3>Информация о ячейке</h3>
+    <div class="row columns" *ngIf="cell.idStorageCell != 0">
+      <label>В ячейке:
+        <b>{{goods != null ? goods.name : 'нету товара'}}</b>
+      </label>
+    </div>
+    <div class="row columns">
+      <label>Номер ячейки
+        <input type="text" name="number" placeholder="Номер ячейки..." [(ngModel)]="cell.number" #number="ngModel" required/>
+        <div [hidden]="number.valid || number.untouched" class="callout alert">
+          Не задан номер ячейки
+        </div>
+      </label>
+    </div>
+
+    <div class="row columns float-right">
+      <button [disabled] = "number.invalid" type="button" class="success button" (click)="createCell()">
+        Сохранить
+      </button>
+      <button (click)="back()" type="button" class="primary button">
+        Отмена
+      </button>
+      <button type="reset" class="secondary button">
+        Очистить
+      </button>
+      <button *ngIf="cell.status && cell.idStorageCell != 0 && goods == null" type="button" class="alert button" (click)="changeStatus(cell.idStorageCell)">
+        Удалить
+      </button>
+      <button *ngIf="!cell.status && cell.idStorageCell!=0" type="button" class="alert button" (click)="changeStatus(cell.idStorageCell)">
+        Восстановить
+      </button>
+    </div>
+  </form>
+</div>

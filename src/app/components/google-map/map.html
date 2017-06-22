@@ -1,0 +1,39 @@
+<sebm-google-map style="height: 350px;" *ngIf="isSmall && map.isDataAvailable"
+  [latitude]="map.lat"
+  [longitude]="map.lng"
+  [zoom]="map.zoom"
+  [disableDefaultUI]=false
+  [zoomControl]=false
+  (mapClick)="map.mapClicked($event)">
+  <sebm-google-map-marker
+    *ngFor="let m of map.markers; let i = index"
+    (markerClick)="clickedMarker(m, i)"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [markerDraggable] = "m.draggable"
+    (dragEnd) = "markerDragEnd(m , $event)">
+    <sebm-google-map-info-window>
+      <strong>{{m.name}}</strong>
+    </sebm-google-map-info-window>
+  </sebm-google-map-marker>
+</sebm-google-map>
+
+<sebm-google-map style="height: 600px;" *ngIf="!isSmall && map.isDataAvailable"
+                 [latitude]="map.lat"
+                 [longitude]="map.lng"
+                 [zoom]="map.zoom"
+                 [disableDefaultUI]=false
+                 [zoomControl]=false
+                 (mapClick)="map.mapClicked($event)">
+  <sebm-google-map-marker
+    *ngFor="let m of map.markers; let i = index"
+    (markerClick)="clickedMarker(m, i)"
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [markerDraggable] = "m.draggable"
+    (dragEnd) = "markerDragEnd(m , $event)">
+    <sebm-google-map-info-window>
+      <strong>{{m.name}}</strong>
+    </sebm-google-map-info-window>
+  </sebm-google-map-marker>
+</sebm-google-map>

@@ -1,0 +1,52 @@
+<div>
+  <table class="hover">
+    <tr>
+      <th>Дата</th>
+      <th>Тип</th>
+      <th>Фамилия</th>
+      <th>Имя</th>
+      <th>Отчество</th>
+      <th>Примечание</th>
+    </tr>
+    <tr class="clickable" *ngFor="let act of acts; let i=index;" (click)="goToDetails(act)">
+      <td>
+        {{act.date| date:'dd.MM.yyyy HH:mm:ss'}}
+      </td>
+      <td>
+        {{actTypeMessages.get(act.type.name)}}
+      </td>
+      <td>
+        {{act.user.lastName}}
+      </td>
+      <td>
+        {{act.user.firstName}}
+      </td>
+      <td>
+        {{act.user.patronymic}}
+      </td>
+      <td>
+        {{act.note}}
+      </td>
+
+    </tr>
+
+
+  </table>
+
+  <ul class="pagination text-center" *ngIf="acts?.length > 0">
+    <li [ngClass]="{'pagination-previous':true, 'disabled':currentPage==1}"><span
+      [ngClass]="{'show-for-sr':currentPage==1}"><a (click)="getPage(currentPage-1)"></a></span></li>
+    <li [ngClass]="{'page-current': currentPage==page}" *ngFor="let page of pageArray; let i=index;">
+      <a (click)="getPage(page)">{{page}}</a>
+    </li>
+    <li [ngClass]="{'pagination-next':true, 'disabled':currentPage==totalPageCount}"><span
+      [ngClass]="{'show-for-sr':currentPage==totalPageCount}"><a (click)="getPage(currentPage+1)"></a></span></li>
+    <div class="item-counter">
+      <select name="items-count-selector" id="items-count-selector" [(ngModel)]="itemsOnPage" (change)="getPage(1)">
+        <option *ngFor="let item of itemsOnPageArray; let i=index" [ngValue]=item>{{item}}</option>
+      </select>
+    </div>
+  </ul>
+
+
+</div>

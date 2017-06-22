@@ -1,0 +1,46 @@
+<table class="hover">
+  <tr>
+    <th (click)="sort('name')">Наименование</th>
+    <th (click)="sort('storageType')">Тип хранения</th>
+    <th (click)="sort('quantity')">Количество</th>
+    <th (click)="sort('quantityUnit')">Ед.изм.</th>
+    <th (click)="sort('price')">Цена</th>
+    <th (click)="sort('priceUnit')">Ед.изм.</th>
+    <th (click)="sort('weight')">Вес</th>
+    <th (click)="sort('weightUnit')">Ед.изм.</th>
+  </tr>
+  <tr *ngFor="let goods of goodsList;let i=index;">
+    <td>
+      <span (click)="goToDetails(goods.id)">{{goods.name}}</span>
+    </td>
+    <td>
+      {{goods.storageType.name}}
+    </td>
+    <td class="number-column">
+      <input #input type="number" [disabled]="!isEditable" [(ngModel)]="goods.quantity"
+             max="{{goodsInitialState[i].quantity}}" (input)="limitValue(input, i)">
+    </td>
+    <td>
+      {{goods.quantityUnit.name}}
+    </td>
+    <td class="number-column">
+      {{goods.price}}
+    </td>
+    <td>
+      {{goods.priceUnit.name}}
+    </td>
+    <td class="number-column">
+      {{goods.weight}}
+    </td>
+    <td>
+      {{goods.weightUnit.name}}
+    </td>
+    <td class="button-column">
+      <button class="button hollow" type="button" (click)="remove(goods)" [disabled]="!isEditable">
+        <span aria-hidden="true">
+          <i class="fi-x"></i>
+        </span>
+      </button>
+    </td>
+  </tr>
+</table>

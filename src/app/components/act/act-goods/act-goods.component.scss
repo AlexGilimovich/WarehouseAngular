@@ -1,0 +1,17 @@
+.button-column{
+  background-color: white;
+  vertical-align: middle;
+  padding: 0;
+  button{
+    margin: 0 0 0 10px;
+  }
+}
+
+.number-column{
+  padding: 6px 10px;
+  vertical-align: middle;
+
+  input{
+    margin: 0;
+  }
+}

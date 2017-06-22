@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Схема склада</title>
+
+  <style>
+    .switch {
+      color: black;
+    }
+  </style>
+
+</head>
+
+<body>
+<h1 align="center">Схема склада</h1>
+
+<input class="button" type="button" *ngIf="!isPutAction && isSupervisor" (click)="addSpace(id_warehouse)"
+       value="Добавить помещение для хранения">
+<div class="switch" *ngIf="!isPutAction && isSupervisor">
+  <p>Показывать удалённые ячейки
+    <input class="switch-input" id="exampleSwitch2" type="checkbox" name="exampleSwitch2"
+           [(ngModel)]="isShowDeletedCell">
+    <label class="switch-paddle" for="exampleSwitch2">&nbsp;<small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+    </label>
+    Показывать удалённые хранилища
+    <input class="switch-input" id="exampleSwitch" type="checkbox" name="exampleSwitch"
+           [(ngModel)]="isShowDeletedSpace">
+    <label class="switch-paddle" for="exampleSwitch">&nbsp;<small>On</small>&nbsp;&nbsp;&nbsp;<small>Off</small>
+    </label>
+  </p>
+</div>
+
+
+<div class="row">
+  <div class="columns" [ngClass]="{'large-9 small-9 medium-9 ': isReplaceAction, 'large-12 small-12 medium-12 ': !isReplaceAction}">
+
+    <div *ngFor="let space of storageSpace">
+      <div *ngIf="space.status || isShowDeletedSpace">
+        <div ngClass="{{getClassSpace(space)}}">
+          <h5 align="center" style="color: black;">{{space?.idStorageSpace}} - {{space?.storageSpaceType.name}}
+            <a style="color: #1779ba;" *ngIf="!isPutAction && (space.status || isShowDeletedSpace) && isSupervisor"
+               (click)="editSpace(space?.idStorageSpace)"><i
+              class="fi-pencil"></i></a>
+            <a style="color: #1779ba;" *ngIf="!isPutAction && space.status && isSupervisor"
+               (click)="deleteSpace(space?.idStorageSpace)"><i class="fi-x"></i></a>
+            <a style="color: #1779ba;" *ngIf="!isPutAction && !space.status && isShowDeletedSpace && isSupervisor"
+               (click)="restoreSpace(space?.idStorageSpace)"><i
+              class="fi-trash icon"></i></a>
+          </h5>
+
+          <div *ngFor="let cell of space.storageCellList">
+            <div *ngIf="cell.status || isShowDeletedCell">
+              <div [ngSwitch]="true">
+                <a *ngSwitchCase="cell?.goods == null && !isPutAction" class="cell-disable"
+                   ngClass="{{isDeleted(cell)}}"
+                   (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+                <a *ngSwitchCase="cell?.goods != null && !isPutAction" class="cell"
+                   (click)="editCell(space?.idStorageSpace, cell?.idStorageCell)">{{cell?.number}}</a>
+
+                <a
+                  *ngSwitchCase="cell?.goods == null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+                  ngClass="{{getClassCellSelected(cell)}}"
+                  (click)="putInCell(cell)">{{cell?.number}}</a>
+
+                <a
+                  *ngSwitchCase="cell?.goods != null && isPutAction && id_type==space?.storageSpaceType.idStorageSpaceType"
+                  class="cell-filled">{{cell?.number}}</a>
+
+                <a *ngSwitchDefault disabled="" class="cell">{{cell?.number}}</a>
+              </div>
+            </div>
+          </div>
+          <a *ngIf="!isPutAction && isSupervisor" class="cell" (click)="addCell(space?.idStorageSpace)"><i class="fi-plus"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="large-3 small-3 medium-3 columns" *ngIf="isReplaceAction">
+    <div class="list-container">
+      <button *ngIf="isPutAction && isReplaceAction" (click)="fixCurrentState()" class="button float-right">Далее
+      </button>
+      <app-scheme-goods-list class="list" [id_invoice]="id_invoice" *ngIf="isReplaceAction"></app-scheme-goods-list>
+    </div>
+  </div>
+</div>
+<button *ngIf="isPutAction && !isReplaceAction" (click)="submitPut()" class="button">Подтвердить</button>
+</body>
+</html>

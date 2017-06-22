@@ -1,0 +1,133 @@
+.list-container {
+  margin-top: 20.219px;
+  height: 100%;
+
+  button {
+    width: 100%;
+    //margin-bottom: 30px;
+  }
+}
+
+#space {
+  background-color: #66ffff;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.cell {
+  color: black;
+  text-align: center;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-disable {
+  text-align: center;
+  background-color: white;
+  color: black;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-delete {
+  text-align: center;
+  background-color: #F1F2F4;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-selected {
+  text-align: center;
+  background-color: red;
+  color: black;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.cell-filled {
+  text-align: center;
+  background-color: yellow;
+  color: black;
+  height: auto;
+  width: 20%;
+  float: left;
+  margin: 5px;
+  border-color: black;
+  border: solid;
+  align: center;
+}
+
+.icecamera {
+  background-color: #69D9FF;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.heated {
+  background-color: #FFE29A;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.open {
+  background-color: #FFA1B5;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.icedeepcamera {
+  background-color: #93D9D9;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.deleted {
+  background-color: lightgray;
+  float: left;
+  margin: 5px;
+  opacity: 0.9;
+}
+
+.noheated {
+  background-color: #86C7F3;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.default {
+  background-color: #BEEEFF;
+  float: left;
+  margin: 2%;
+  opacity: 0.9;
+}
+
+.row:not(.expanded) .row {
+  max-width: 250px;
+  min-width: 150px;
+}

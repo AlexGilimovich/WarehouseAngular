@@ -1,0 +1,41 @@
+<div class="window">
+  <div  [ngClass]="{'login-window': true}">
+    <button class="close-button" type="button" (click)="goBack()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="head">
+    </div>
+    <div [ngClass]="{'form-container': true}">
+      <form #loginForm="ngForm" (ngSubmit)="logIn()">
+        <div *ngIf="errors?.serverNotAvailableError" class="callout alert centered">
+          Не удалось войти...Cервер не доступен
+        </div>
+        <div *ngIf="errors?.invalidCredentialsError" class="callout alert centered">
+          Не удалось войти...Неверный логин или пароль
+        </div>
+        <label for="login">Логин:</label>
+        <input type="text" id="login" name="login" [(ngModel)]="loginName" required #login="ngModel"
+               (focus)="resetError()">
+        <div *ngIf="login.touched && !login.valid" class="callout alert">
+          Пожалуйста, введите логин
+        </div>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required
+               #pass="ngModel" (click)="resetError()">
+        <div *ngIf="pass.touched && !pass.valid" class="callout alert">
+          Пожалуйста, введите пароль
+        </div>
+        <div class="remember-me">
+          <input type="checkbox" id="rememberMe" name="rememberMe" [(ngModel)]="rememberMe"> <label for="rememberMe">
+          Запомнить меня</label>
+        </div>
+
+        <input type="submit" class="button expanded" value="Войти">
+      </form>
+
+      <div class="spinner" *ngIf="requestInProgress">
+        <spinner [size]="100" [tickness]="5"></spinner>
+      </div>
+    </div>
+  </div>
+</div>

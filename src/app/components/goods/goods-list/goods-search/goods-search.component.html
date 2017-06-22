@@ -1,0 +1,205 @@
+<form #searchForm="ngForm" (ngSubmit)="search()">
+
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="incomingInvoice" class="right">Ввозная накладная:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <select name="incomingInvoice" id="incomingInvoice" [(ngModel)]="searchDTO.incomingInvoiceId">
+            <option value=""></option>
+            <option *ngFor="let invoice of incomingInvoices" [value]="invoice.id">№ {{invoice.number}} от {{invoice.issueDate | date: 'dd.MM.yyyy'}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="incomingInvoice" class="right">Вывозная накладная:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <select name="outgoingInvoice" id="outgoingInvoice" [(ngModel)]="searchDTO.outgoingInvoiceId">
+            <option value=""></option>
+            <option value="" *ngFor="let invoice of outgoingInvoices" [value]="invoice.id">№ {{invoice.number}} от {{invoice.issueDate | date: 'dd.MM.yyyy'}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="name" class="right">Наименование:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <input type="text" id="name" name="name" [(ngModel)]="searchDTO.name">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-2 small-2 columns">
+      <label>Количество:</label>
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="minQuantity" class="right">от</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="minQuantity" name="minQuantity" [(ngModel)]="searchDTO.minQuantity">
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="maxQuantity" class="right">до</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="maxQuantity" name="maxQuantity" [(ngModel)]="searchDTO.maxQuantity">
+    </div>
+    <div class="large-2 small-2 columns">
+      <select name="quantityUnit" id="quantityUnit" [(ngModel)]="searchDTO.quantityUnit">
+        <option value=""></option>
+        <option *ngFor="let unit of quantityUnits" [value]="unit.name">
+          {{unit.name}}
+        </option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="large-2 small-2 columns">
+      <label>Цена:</label>
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="minPrice" class="right">от</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="minPrice" name="minPrice" [(ngModel)]="searchDTO.minPrice">
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="maxPrice" class="right">до</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="maxPrice" name="maxPrice" [(ngModel)]="searchDTO.maxPrice">
+    </div>
+    <div class="large-2 small-2 columns">
+      <select name="priceUnit" id="priceUnit" [(ngModel)]="searchDTO.priceUnit">
+        <option value=""></option>
+        <option *ngFor="let unit of priceUnits" [value]="unit.name">
+          {{unit.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="large-2 small-2 columns">
+      <label>Вес:</label>
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="minWeight" class="right">от</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="minWeight" name="minWeight" [(ngModel)]="searchDTO.minWeight">
+    </div>
+    <div class="large-1 small-1 columns">
+      <label for="maxWeight" class="right">до</label>
+    </div>
+    <div class="large-3 small-3 columns">
+      <input type="number" id="maxWeight" name="maxWeight" [(ngModel)]="searchDTO.maxWeight">
+    </div>
+    <div class="large-2 small-2 columns">
+      <select name="weightUnit" id="weightUnit" [(ngModel)]="searchDTO.weightUnit">
+        <option value=""></option>
+        <option *ngFor="let unit of weightUnits" [value]="unit.name">
+          {{unit.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="statusSearcheable">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="currentStatus" class="right">Текущий статус:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <select name="currentStatus" id="currentStatus" [(ngModel)]="searchDTO.currentStatus">
+            <option value=""></option>
+            <option *ngFor="let statusName of statusNames" [value]="statusName.name">
+              {{statusMessages.get(statusName.name)}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <div class="row">
+        <div class="large-2 small-2 columns">
+          <label for="storageType" class="right">Тип хранения:</label>
+        </div>
+        <div class="large-10 small-10 columns">
+          <select name="storageType" id="storageType" [(ngModel)]="searchDTO.storageType">
+            <option value=""></option>
+            <option *ngFor="let type of storageTypes" [value]="type.name">
+              {{type.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="statusSearcheable">
+    <div *ngFor="let status of searchDTO.statuses">
+      <app-goods-status-search [statusNames]="statusNames" [status]="status"></app-goods-status-search>
+    </div>
+  </div>
+  <div class="row" *ngIf="statusSearcheable">
+    <div class="large-12  small-12 columns">
+      <div class="add-status">
+
+        <button class="hollow button" type="button" (click)="addStatus()">
+        <span aria-hidden="true">
+          Статус
+          <i class="fi-plus"></i>
+        </span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12  small-12 columns button-right">
+      <button class="button" type="submit" [disabled]="!isValid">
+        <span aria-hidden="true">
+          <i class="fi-magnifying-glass"></i> Поиск
+        </span>
+      </button>
+      <input class="button" type="button" (click)="clear()" value="Очистить">
+
+    </div>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+

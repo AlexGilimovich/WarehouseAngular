@@ -1,69 +1,146 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { Routes, RouterModule } from "@angular/router";
-import { HashLocationStrategy, LocationStrategy, APP_BASE_HREF } from "@angular/common";
+import { Routes, RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy, APP_BASE_HREF } from '@angular/common';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { AboutComponent } from './components/about/about.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
-import { CartFormComponent } from './components/shopping-cart/cart-form/cart-form.component';
-import { bookServiceInjectables } from "./components/book/book-service-injectables";
-import { BookModule, routes as bookRoutes } from "./components/book/book.module";
-import { BookContainerComponent } from './components/book/book-container/book-container.component';
-import {ShoppingCartService} from "./components/shopping-cart/shopping-cart.service";
+import { LoginComponent } from './components/login/login.component';
+import { IndexComponent } from './components/index/index.component';
+import { LoginService } from './components/login/login.service';
+import { HttpAuthService } from './components/login/httpAuth.service';
+import { TransportCompanyModule, transportCompanyRoutes } from './components/tr-company/tr-company.module';
+import { WarehouseCompanyComponent } from './components/warehouse-company/warehouse-company-list/warehouse.company.component';
+import { customerRoutes, WarehouseCustomerCompanyModule } from './components/customer/customer.module';
+import { InvoiceModule, invoiceRoutes } from './components/invoice/invoice.module';
+import { warehouseCompanyRoutes } from './components/warehouse-company/warehouse-company.module';
+import { warehouseRoutes } from './components/warehouse/warehouse.module';
+import { warehouseSchemeRoutes } from './components/warehouse-scheme/warehouse-scheme.module';
+import { WarehouseCompanyCreateComponent } from './components/warehouse-company/warehouse-company-create/warehouse.company.create.component';
+import { WarehouseCreateComponent } from './components/warehouse/warehouse-create/warehouse.create.component';
+import { WarehouseComponent } from './components/warehouse/warehouse-list/warehouse.component';
+import { WarehouseService } from './components/warehouse/warehouse.service';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { FinanceModule } from './components/finance/finance.module';
+import { ChartsModule } from 'ng2-charts';
+import { SpinnerModule } from 'angular2-spinner/dist';
+import { DesktopComponent } from './components/desktop/desktop.component';
+import { DesktopModule, desktopRoutes } from './components/desktop/desktop.module';
+import { Ng2Webstorage } from 'ng2-webstorage/dist/app';
+import { EmailComponent } from './components/email/email.component';
+import { EmailService } from './components/email/email.service';
+import { Uploader } from 'angular2-http-file-upload';
+import { SettingsComponent } from './components/settings/settings.component';
+import { SettingsService } from './components/settings/settings.service';
+import { MapModule } from "./components/google-map/map.module";
+import { MapComponent } from "./components/google-map/map.component";
+import { CompaniesFinanceComponent } from './components/companies-finance/companies-finance.component';
+import { CompaniesFinanceService } from './components/companies-finance/companies-finance.service';
+import { WarehouseCompanyService } from './components/warehouse-company/warehouse-company.service';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MaxPipe, NotificationComponent, SimpleNotificationsComponent} from "angular2-notifications/dist";
+import {NotificationService} from "./components/notification/notification.service";
 
-const routes: Routes = [
+const globalRoutes: Routes = [
   {
     "path": "",
-    "redirectTo": "home",
+    "redirectTo": "index",
     "pathMatch": "full"
-  }, {
-    "path": "home",
-    "component": HomeComponent
-  }, {
-    "path": "book",
-    "component": BookContainerComponent,
-    "children": bookRoutes
   },
   {
-    "path": "cart",
-    "component": ShoppingCartComponent
+    "path": "login",
+    "component": LoginComponent
   }, {
-    "path": "about",
-    "component": AboutComponent
+    "path": "index",
+    "component": IndexComponent
+  }, {
+    path: 'tr-company',
+    children: transportCompanyRoutes
+  },
+  {
+    path: 'warehousecompany',
+    children: warehouseCompanyRoutes
+  },
+  {
+    path: 'warehousecompany/:id',
+    children: warehouseRoutes
+  },
+  {
+    path: 'warehousecompany/:id/warehouse/:id_warehouse/scheme',
+    children: warehouseSchemeRoutes
+  },
+  {
+    path: 'customer',
+    children: customerRoutes
+  },
+  {
+    path: 'invoice',
+    children: invoiceRoutes
+  },
+  {
+    path: "desktop",
+    component: DesktopComponent,
+    children: desktopRoutes
   }
+
+
 ];
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
-    HeaderComponent,
-    FooterComponent,
-    ShoppingCartComponent,
-    CartFormComponent,
-    BookContainerComponent
+    LoginComponent,
+    IndexComponent,
+    WarehouseCompanyComponent,
+    WarehouseCompanyCreateComponent,
+    WarehouseComponent,
+    WarehouseCreateComponent,
+    EmailComponent,
+    SettingsComponent,
+    MapComponent,
+    CompaniesFinanceComponent,
+    NotificationComponent, SimpleNotificationsComponent, MaxPipe
+    // WarehouseSchemeInfoComponent,
+    // WarehouseSpaceComponent,
+    // WarehouseCellComponent
+    //CustomerCreateComponent,
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB8C9_ZetYZUMduJ2TOXBkHr8yulXfo1WU'
+    }),
+    Ng2Webstorage,
+    ChartsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(routes),
-    BookModule
+    RouterModule.forRoot(globalRoutes),
+    //MapModule,
+    //WarehouseModule,
+    TransportCompanyModule,
+    WarehouseCustomerCompanyModule,
+    InvoiceModule,
+    FinanceModule,
+    SpinnerModule,
+    DesktopModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {"provide": APP_BASE_HREF, "useValue": "/"},
     {"provide": LocationStrategy, "useClass": HashLocationStrategy},
-    bookServiceInjectables,
-    ShoppingCartService
+    LoginService,
+    HttpAuthService,
+    WarehouseService,
+    EmailService,
+    Uploader,
+    SettingsService,
+    CompaniesFinanceService,
+    WarehouseCompanyService
   ],
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+}

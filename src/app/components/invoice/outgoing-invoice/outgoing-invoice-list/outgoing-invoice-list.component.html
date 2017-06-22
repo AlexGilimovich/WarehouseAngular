@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="large-12 small-12 columns">
+    <div *ngIf="invoices.length == 0; else hasInvoices">
+      <h4>Нет выходящих накладных</h4>
+    </div>
+    <ng-template #hasInvoices>
+      <table class="hover">
+        <thead>
+        <tr>
+          <th>Номер ТТН</th>
+          <th>Дата выписки</th>
+          <th>Отправитель</th>
+          <th>Перевозчик</th>
+          <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="clickable" *ngFor="let invoice of invoices" (click)="goToDetails(invoice.id)">
+          <td>
+            {{invoice.number}}
+          </td>
+          <td>
+            {{invoice.issueDate}}
+          </td>
+          <td>
+            {{invoice.receiverCompany.name}}
+          </td>
+          <td>
+            {{invoice.transportCompany.name}}
+          </td>
+          <td>
+            {{invoiceStatuses.get(invoice.status)}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-template>
+
+    <!-- todo create pagination -->
+  </div>
+</div>
+
+<div *ngIf="isManager()">
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <input class="button" type="button" (click)="createOutgoingInvoice()" value="Создать">
+    </div>
+  </div>
+</div>

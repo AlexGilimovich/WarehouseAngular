@@ -1,0 +1,63 @@
+<div class="content">
+  <div class="row">
+    <div class="large-9 small-9 columns">
+      <ul class="accordion" id="accordion" data-accordion data-allow-all-closed="true">
+        <li class="accordion-item" data-accordion-item>
+          <!-- Accordion tab title -->
+          <a class="accordion-title">Параметры поиска</a>
+          <div class="accordion-content" data-tab-content>
+            <app-goods-search [statusNames]="statusNames"
+                              [storageTypes]="storageTypes"
+                              [weightUnits]="weightUnits"
+                              [priceUnits]="priceUnits"
+                              [quantityUnits]="quantityUnits"></app-goods-search>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <app-goods-list [statusNames]="statusNames"
+                      [goodsList]="goodsList"
+                      [totalItemsCount]="totalGoodsCount"
+                      (onGetPage)="getGoods($event)"
+                      (onSearch)="search($event)"
+                      (onSelected)="onSelected($event)"
+                      [isEditable]="isEditable"></app-goods-list>
+    </div>
+  </div>
+
+  <app-list-controls *ngIf="isEditable" (onSaveChanges)="saveChanges()"
+                     (onCancelChanges)="cancelChanges()"
+                     (onOpenStatusModal)="batchStatusUpdate()"
+                     [hasChanged]="hasChanged"
+                     [hasSelected]="hasSelected"></app-list-controls>
+
+</div>
+
+<div class="row" style="height: 301px">
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable && goodsList?.length!=0">
+    <canvas baseChart
+            [data]="pieChartDataTypeStorage"
+            [labels]="pieChartLabelsTypeStorage"
+            [chartType]="pieChartType"
+            [options]="ChartOptions"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+
+  <div class="large-6 columns chart" style="display: block" *ngIf="isDataAvailable && goodsList?.length!=0">
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabelsStatus"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+</div>
+

@@ -1,0 +1,83 @@
+<div class="form-container">
+  <h4>Описание накладной</h4>
+  <form [formGroup]="invoiceForm">
+    <label>
+      <b>Номер ТТН:</b> {{invoiceForm.controls['number'].value}}
+    </label>
+
+    <label>
+      <b>Дата выписки ТТН:</b> {{invoiceForm.controls['issueDate'].value}}
+    </label>
+
+    <label>
+      <b>Перевозчик:</b> {{invoiceForm.controls['transportCompany'].value.name}}
+    </label>
+
+    <label>
+      <b>Отправитель:</b> {{invoiceForm.controls['supplierCompany'].value.name}}
+    </label>
+
+    <label>
+      <b>Номер транспортного средства:</b> {{invoiceForm.controls['transportNumber'].value}}
+    </label>
+
+    <label>
+      <b>Название транспортного средства:</b> {{invoiceForm.controls['transportName'].value}}
+    </label>
+
+    <label>
+      <b>Описание:</b> {{invoiceForm.controls['description'].value}}
+    </label>
+
+    <label>
+      <b>Общая цена:</b> {{invoiceForm.controls['goodsEntryCount'].value}}
+    </label>
+
+    <div class="row">
+      <div class="large-9 small-9 columns">
+        <div class="goods-container">
+          <div *ngIf="goodsList.length == 0; else hasGoods">
+            <h4>Нет товаров</h4>
+          </div>
+          <ng-template #hasGoods>
+            <h4>Товары</h4>
+            <table>
+              <tr>
+                <th></th>
+                <th>Название</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Вес</th>
+              </tr>
+              <tr *ngFor="let goods of goodsList">
+                <th>
+                  <div *ngIf="goods.currentStatus.name === 'TRANSPORT_COMPANY_MISMATCH'">
+                    <i class="right fi-x red"></i>
+                  </div>
+                </th>
+                <th>{{goods.name}}</th>
+                <th>{{goods.quantity}} {{goods.quantityUnit.name}}</th>
+                <th>{{goods.price}} {{goods.priceUnit.name}}</th>
+                <th>{{goods.weight}} {{goods.weightUnit.name}}</th>
+              </tr>
+            </table>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div [ngSwitch]="status">
+      <div *ngSwitchCase="invoiceStatus.REGISTERED_INCOMING">
+        <div *ngIf="isController()">
+          <input type="button" class="button" (click)="finishChecking()" value="Завершить проверку">
+          <input type="button" class="button alert" (click)="createMismatchAct()" value="Оформить акт несоответствия">
+        </div>
+      </div>
+      <div *ngSwitchCase="invoiceStatus.CHECKED">
+        <div *ngIf="isManager()">
+          <input type="button" class="button" (click)="finishCompleting()" value="Завершить оформление">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
